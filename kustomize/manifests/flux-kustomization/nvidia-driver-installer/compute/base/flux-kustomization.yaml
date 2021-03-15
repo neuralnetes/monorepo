@@ -8,5 +8,5 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: manifests
+    name: monorepo
   targetNamespace: kube-system

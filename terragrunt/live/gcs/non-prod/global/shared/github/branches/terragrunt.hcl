@@ -1,5 +1,5 @@
 terraform {
-  source = "git::git@github.com:neuralnetes/infra-modules.git//github/branches?ref=master"
+  source = "git::git@github.com:neuralnetes/monorepo.git//terraform/modules/github/branches?ref=main"
 }
 
 include {

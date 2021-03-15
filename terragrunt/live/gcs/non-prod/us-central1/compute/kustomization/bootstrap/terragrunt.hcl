@@ -1,5 +1,5 @@
 terraform {
-  source = "git::git@github.com:neuralnetes/infra-modules.git//kustomization/bootstrap?ref=master"
+  source = "git::git@github.com:neuralnetes/monorepo.git//terraform/modules/kustomization/bootstrap?ref=main"
 }
 
 include {

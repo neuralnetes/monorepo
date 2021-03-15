@@ -1,5 +1,5 @@
 terraform {
-  source = "git::git@github.com:neuralnetes/infra-modules.git//random/random-string?ref=master"
+  source = "git::git@github.com:neuralnetes/monorepo.git//terraform/modules/random/random-string?ref=main"
 }
 
 include {

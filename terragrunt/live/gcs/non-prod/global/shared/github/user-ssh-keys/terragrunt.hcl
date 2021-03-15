@@ -1,5 +1,5 @@
 terraform {
-  source = "git::git@github.com:neuralnetes/infra-modules.git//github/user-ssh-keys?ref=master"
+  source = "git::git@github.com:neuralnetes/monorepo.git//terraform/modules/github/user-ssh-keys?ref=main"
 }
 
 include {

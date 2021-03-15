@@ -9,7 +9,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: manifests
+    name: monorepo
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
@@ -23,7 +23,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: manifests
+    name: monorepo
   targetNamespace: kubeflow
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -55,7 +55,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: manifests
+    name: monorepo
   targetNamespace: istio-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -70,7 +70,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: manifests
+    name: monorepo
   targetNamespace: istio-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -85,7 +85,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: manifests
+    name: monorepo
   targetNamespace: cert-manager
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -100,7 +100,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: manifests
+    name: monorepo
   targetNamespace: kube-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -117,7 +117,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: manifests
+    name: monorepo
   targetNamespace: cert-manager
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -136,7 +136,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: manifests
+    name: monorepo
   targetNamespace: kubeflow
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -155,7 +155,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: manifests
+    name: monorepo
   targetNamespace: istio-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -174,7 +174,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: manifests
+    name: monorepo
   targetNamespace: auth
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -193,7 +193,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: manifests
+    name: monorepo
   targetNamespace: kubeflow
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -212,7 +212,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: manifests
+    name: monorepo
   targetNamespace: kubeflow
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -231,7 +231,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: manifests
+    name: monorepo
   targetNamespace: kubeflow
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -250,7 +250,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: manifests
+    name: monorepo
   targetNamespace: knative-serving
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -270,5 +270,5 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: manifests
+    name: monorepo
   targetNamespace: kubeflow

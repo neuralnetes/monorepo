@@ -1,5 +1,5 @@
 terraform {
-  source = "git::git@github.com:neuralnetes/infra-modules//gcp/cloud-storage-notifications?ref=master"
+  source = "git::git@github.com:neuralnetes/monorepo.git//terraform/modules/gcp/cloud-storage-notifications?ref=main"
 }
 
 include {

@@ -1,5 +1,5 @@
 terraform {
-  source = "git::git@github.com:neuralnetes/infra-modules//gcp/bigquery-dataset?ref=master"
+  source = "git::git@github.com:neuralnetes/monorepo.git//terraform/modules/gcp/bigquery-dataset?ref=main"
 }
 
 include {

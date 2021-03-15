@@ -1,5 +1,5 @@
 terraform {
-  source = "git::git@github.com:neuralnetes/infra-modules//gcp/workload-identity-users?ref=master"
+  source = "git::git@github.com:neuralnetes/monorepo.git//terraform/modules/gcp/workload-identity-users?ref=main"
 }
 
 include {

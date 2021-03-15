@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: GitRepository
 metadata:
-  name: manifests
+  name: monorepo
 spec:
   # The interval at which to check the upstream for updates
   interval: 1m
@@ -10,6 +10,6 @@ spec:
   # For all available options, see:
   # https://toolkit.fluxcd.io/components/source/api/#source.toolkit.fluxcd.io/v1beta1.GitRepositoryRef
   ref:
-    branch: master
+    branch: main
   # The repository URL, can be a HTTP/S or SSH address
-  url: https://github.com/neuralnetes/manifests
+  url: https://github.com/neuralnetes/monorepo

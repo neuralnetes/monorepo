@@ -1,5 +1,5 @@
 terraform {
-  source = "git::git@github.com:neuralnetes/infra-modules.git//github/repositories?ref=master"
+  source = "git::git@github.com:neuralnetes/monorepo.git//terraform/modules/github/repositories?ref=main"
 }
 
 include {
@@ -9,7 +9,7 @@ include {
 inputs = {
   repositories = [
     {
-      full_name = "neuralnetes/functions"
+      full_name = "neuralnetes/monorepo"
     }
   ]
 }
