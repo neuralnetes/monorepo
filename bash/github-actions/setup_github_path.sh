@@ -1,2 +1,3 @@
 #!/bin/bash
-echo "${HOME_BIN}" >> "${GITHUB_PATH}"
+mkdir -p "${HOMEBIN}"
+echo "${HOMEBIN}" >> "${GITHUB_PATH}"

@@ -1,0 +1,93 @@
+on:
+  workflow_dispatch:
+    inputs:
+      iam:
+        description: 'iam'
+        required: true
+      secret:
+        description: 'secret'
+        required: true
+      network:
+        description: 'network'
+        required: true
+      data:
+        description: 'data'
+        required: true
+      compute:
+        description: 'compute'
+        required: true
+      shared:
+        description: 'shared'
+        required: true
+      terragrunt_working_dir:
+        description: 'terragrunt_working_dir'
+        required: true
+      terragrunt_command:
+        description: 'terragrunt_command'
+        required: true
+defaults:
+  run:
+    shell: bash
+    working-directory: terragrunt
+jobs:
+  terragrunt_command:
+    runs-on: ubuntu-latest
+    steps:
+    - id: checkout
+      name: run checkout
+      uses: actions/checkout@v2
+    - id: github_env
+      name: run setup github env
+      working-directory: ./bash/github-actions
+      run: |
+        IAM=${{ github.event.inputs.iam }}
+        SECRET=${{ github.event.inputs.secret }}
+        NETWORK=${{ github.event.inputs.network }}
+        DATA=${{ github.event.inputs.data }}
+        COMPUTE=${{ github.event.inputs.compute }}
+        SHARED=${{ github.event.inputs.shared }}
+        TERRAGRUNT_WORKING_DIR=${{ github.event.inputs.terragrunt_working_dir }}
+        TERRAGRUNT_COMMAND=${{ github.event.inputs.terragrunt_command }}
+        GCP_BILLING_ACCOUNT=${{ secrets.GCP_BILLING_ACCOUNT }}
+        GCP_ORGANIZATION=${{ secrets.GCP_ORGANIZATION }}
+        GCP_ORGANIZATION_ID=${{ secrets.GCP_ORGANIZATION_ID }}
+        GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }}
+        GCP_SA_KEY=${{ secrets.GCP_SA_KEY }}
+        TERRAFORM_CLOUD_ORGANIZATION=${{ secrets.TERRAFORM_CLOUD_ORGANIZATION }}
+        TERRAFORM_CLOUD_TOKEN=${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+        TF_INPUT="false"
+        TF_IN_AUTOMATION="true"
+        TF_PROVIDER_GITHUB_VERSION="4.5.1"
+        TF_PROVIDER_GOOGLE_VERSION="3.59.0"
+        TF_PROVIDER_GOOGLE_BETA_VERSION="3.59.0"
+        TF_PROVIDER_KUSTOMIZATION_VERSION="0.4.2"
+        TF_PROVIDER_RANDOM_VERSION="3.1.0"
+        HOMEBIN="${HOME}/bin"
+        ./setup_github_env.sh
+    - id: setup_github_path
+      name: run setup github path
+      working-directory: ./bash/github-actions
+      run: ./setup_github_path
+    - id: setup_gcloud
+      name: run setup gcloud
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        service_account_key: ${{ env.GCP_SA_KEY }}
+        export_default_credentials: true
+    - id: setup_tfenv
+      name: run setup tfenv
+      working-directory: ./bash/terraform
+      run: ./setup_tfenv.sh
+    - id: setup_tgenv
+      name: run setup tgenv
+      working-directory: ./bash/terragrunt
+      run: ./setup_tgenv.sh
+    - id: setup_ssh_agent
+      name: run setup ssh agent
+      uses: webfactory/ssh-agent@v0.4.1
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - id: terragrunt_command
+      name: run terragrunt command
+      working-directory: ./bash/terragrunt
+      run: ./terragrunt_command.sh

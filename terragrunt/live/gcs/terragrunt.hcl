@@ -4,20 +4,6 @@ locals {
   environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
 }
 
-//remote_state {
-//  backend = "gcs"
-//  generate = {
-//    path      = "gcs_backend.tf"
-//    if_exists = "overwrite_terragrunt"
-//  }
-//  config = {
-//    project  = get_env("GCP_PROJECT_ID")
-//    location = get_env("GCS_TERRAFORM_REMOTE_STATE_LOCATION")
-//    bucket   = get_env("GCS_TERRAFORM_REMOTE_STATE_BUCKET")
-//    prefix   = "${path_relative_to_include()}/terraform.tfstate"
-//  }
-//}
-
 generate "remote_state" {
   path      = "terraform_cloud_remote_state.tf"
   if_exists = "overwrite_terragrunt"
@@ -30,6 +16,44 @@ terraform {
 
     workspaces {
       name = "${replace(path_relative_to_include(), "/", "-")}"
+    }
+  }
+}
+EOF
+}
+
+generate "required_providers" {
+  path      = "kustomization_provider.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = <<EOF
+terraform {
+  required_providers {
+    # https://registry.terraform.io/providers/integrations/github/latest
+    github = {
+      source = "integrations/github"
+      version = "${get_env("TF_PROVIDER_GITHUB_VERSION")}"
+    }
+    # https://registry.terraform.io/providers/hashicorp/google/latest
+    google = {
+      source = "hashicorp/google"
+      version = "${get_env("TF_PROVIDER_GOOGLE_VERSION")}"
+    }
+    # https://registry.terraform.io/providers/hashicorp/google-beta/latest
+    google-beta = {
+      source = "hashicorp/google-beta"
+      version = "${get_env("TF_PROVIDER_GOOGLE_BETA_VERSION")}"
+    }
+    kustomization = {
+      source = "kbst/kustomization"
+      version = "${get_env("TF_PROVIDER_KUSTOMIZATION_VERSION")}"
+    }
+    random = {
+      source = "kbst/kustomization"
+    }
+    # https://registry.terraform.io/providers/hashicorp/random/latest
+    random = {
+      source = "hashicorp/random"
+      version = "${get_env("TF_PROVIDER_RANDOM_VERSION")}"
     }
   }
 }

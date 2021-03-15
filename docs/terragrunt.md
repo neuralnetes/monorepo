@@ -19,9 +19,9 @@ brew install --cask google-cloud-sdk
 #### setup path
 
 ```
-export HOME_BIN="${HOME}/bin"
-mkdir -p "${HOME_BIN}"
-export PATH="${HOME_BIN}:${PATH}"
+export HOMEBIN="${HOME}/bin"
+mkdir -p "${HOMEBIN}"
+export PATH="${HOMEBIN}:${PATH}"
 ```
 
 
@@ -29,7 +29,7 @@ export PATH="${HOME_BIN}:${PATH}"
 
 ```
 git clone https://github.com/cunymatthieu/tgenv.git ~/.tgenv
-ln -s ~/.tgenv/bin/* "${HOME_BIN}"
+ln -s ~/.tgenv/bin/* "${HOMEBIN}"
 tgenv install
 ```
 
@@ -56,16 +56,16 @@ TERRAFORM_CLOUD_TOKEN
 ##### apply
 
 ```shell script
-./bash/github-actions/workflow_dispatch_infra_live_terragrunt_run_all.sh "$GH_USER_TOKEN" "master" "./live/gcs/non-prod" "apply" "true" "true" "true" "true" "true" "true"
+./bash/github-actions/workflow_dispatch_terragrunt.sh
 ```
 
 ##### destroy
 
 ```shell script
-./bash/github-actions/workflow_dispatch_infra_live_terragrunt_run_all.sh "$GH_USER_TOKEN" "master" "./live/gcs/non-prod" "destroy" "true" "true" "true" "true" "true" "true"
+./bash/github-actions/workflow_dispatch_terragrunt.sh
 ```
 
 ##### gcloud_delete_projects
 
 ```shell script
-./bash/github-actions/workflow_dispatch_gcloud_projects_delete.sh "$GH_USER_TOKEN" "master" "./live/gcs/non-prod" "destroy" "true" "true" "true" "true" "true" "true" "true"
+./bash/github-actions/workflow_dispatch_gcloud_projects_delete.sh
