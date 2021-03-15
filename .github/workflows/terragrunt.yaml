@@ -28,9 +28,8 @@ on:
 defaults:
   run:
     shell: bash
-    working-directory: terragrunt
 jobs:
-  terragrunt_command:
+  terragrunt:
     runs-on: ubuntu-latest
     steps:
     - id: checkout
