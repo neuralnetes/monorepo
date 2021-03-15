@@ -35,7 +35,7 @@ jobs:
     - id: checkout
       name: run checkout
       uses: actions/checkout@v2
-    - id: github_env
+    - id: setup_github_env
       name: run setup github env
       working-directory: ./bash/github-actions
       run: |
@@ -88,5 +88,4 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     - id: terragrunt_command
       name: run terragrunt command
-      working-directory: ./bash/terragrunt
-      run: ./terragrunt_command.sh
+      run: ./bash/terragrunt/terragrunt_command.sh
