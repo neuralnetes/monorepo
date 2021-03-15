@@ -30,12 +30,12 @@ env:
   TF_IN_AUTOMATION: true
   TF_PROVIDER_KUSTOMIZATION_VERSION: 0.4.2
   GCP_BILLING_ACCOUNT: ${{ secrets.GCP_BILLING_ACCOUNT }}
-  GCP_GSUITE_DOMAIN_NAME: ${{ secrets.GCP_GSUITE_DOMAIN_NAME }}
-  GCP_ORG: ${{ secrets.GCP_ORG }}
-  GCP_ORG_ID: ${{ secrets.GCP_ORG_ID }}
+  GCP_WORKSPACE_DOMAIN_NAME: ${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}
+  GCP_ORGANIZATION: ${{ secrets.GCP_ORGANIZATION }}
+  GCP_ORGANIZATION_ID: ${{ secrets.GCP_ORGANIZATION_ID }}
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-  GCS_TERRAFORM_REMOTE_STATE_BUCKET: ${{ secrets.GCS_TERRAFORM_REMOTE_STATE_BUCKET }}
-  GCS_TERRAFORM_REMOTE_STATE_LOCATION: ${{ secrets.GCS_TERRAFORM_REMOTE_STATE_LOCATION }}
+  TERRAFORM_CLOUD_ORGANIZATION: ${{ secrets.TERRAFORM_CLOUD_ORGANIZATION }}
+  TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
 jobs:
   terragrunt_run_all:
     runs-on: ubuntu-latest
@@ -43,7 +43,7 @@ jobs:
     - name: run checkout
       uses: actions/checkout@v2
     - name: run setup GITHUB_ENV
-      working-directory: ./hack/github-actions
+      working-directory: ./bash/github-actions
       run: |
         IAM=${{ github.event.inputs.iam }}
         SECRET=${{ github.event.inputs.secret }}
@@ -58,13 +58,13 @@ jobs:
         source github_env.sh
         source terragrunt_env.sh
     - name: run setup GITHUB_PATH
-      working-directory: ./hack/github-actions
+      working-directory: ./bash/github-actions
       run: source github_path.sh
     - name: run setup tfenv
-      working-directory: ./hack/github-actions
+      working-directory: ./bash/terraform
       run: source setup_tfenv.sh
     - name: run setup tgenv
-      working-directory: ./hack/github-actions
+      working-directory: ./bash/terragrunt
       run: source setup_tgenv.sh
     - name: run setup gcloud
       uses: google-github-actions/setup-gcloud@master

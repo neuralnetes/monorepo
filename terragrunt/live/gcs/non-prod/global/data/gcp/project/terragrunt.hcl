@@ -7,7 +7,7 @@ include {
 }
 
 locals {
-  gcp_gsuite_domain_name = get_env("GCP_GSUITE_DOMAIN_NAME")
+  gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
 }
 
 dependency "vpc" {
@@ -34,7 +34,7 @@ inputs = {
     "sqladmin.googleapis.com",
     "storage-api.googleapis.com"
   ]
-  domain             = local.gcp_gsuite_domain_name
+  domain             = local.gcp_workspace_domain_name
   shared_vpc         = dependency.vpc.outputs.project_id
   shared_vpc_subnets = [for subnet in values(dependency.subnetworks.outputs.subnets) : subnet["self_link"]]
 }

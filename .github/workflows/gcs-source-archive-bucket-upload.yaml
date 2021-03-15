@@ -1,17 +1,11 @@
 on:
   workflow_dispatch:
     inputs: {}
-  push:
-    branches:
-    - main
 jobs:
   gcs_source_archive_bucket_upload:
     runs-on: ubuntu-latest
     env:
-      # organization secrets
       GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-      GH_ORGANIZATION_TOKEN: ${{ secrets.GH_ORGANIZATION_TOKEN }}
-      # repository secrets
       DATA_PROJECT_ID: ${{ secrets.DATA_PROJECT_ID }}
       SOURCE_ARCHIVE_BUCKET_NAME: ${{ secrets.SOURCE_ARCHIVE_BUCKET_NAME }}
     steps:
@@ -59,11 +53,5 @@ jobs:
           path: ${{ env.PYTHON38_SOURCE_ARCHIVE_BUCKET_OBJECT_PATH }}
           destination: ${{ env.SOURCE_ARCHIVE_BUCKET_NAME }}/${{ github.sha }}
           gzip: false
-      - name: checkout infra-live
-        uses: actions/checkout@v2
-        with:
-          repository: neuralnetes/infra-live
-          path: infra-live
-      - name: run infra-live github_actions_workflow_dispatch_terragrunt_run_all_apply script
-        working-directory: infra-live
-        run: ./hack/github-actions/workflow_dispatch_infra_live_terragrunt_run_all_apply.sh "${GH_ORGANIZATION_TOKEN}" "master"
+      - name: run monorepo github_actions_workflow_dispatch_terragrunt_run_all_apply script
+        run: ./bash/github-actions/workflow_dispatch_terragrunt_run_all.sh "$GH_USER_TOKEN" "main" "./live/gcs/non-prod" "apply" "true" "true" "true" "true" "true"

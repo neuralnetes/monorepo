@@ -19,7 +19,7 @@ dependency "auth" {
 }
 
 locals {
-  gcp_gsuite_domain_name = get_env("GCP_GSUITE_DOMAIN_NAME")
+  gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
 }
 
 inputs = {
@@ -48,7 +48,7 @@ inputs = {
           "roles/editor",
         ] :
         project_role => [
-          "group:developers@${local.gcp_gsuite_domain_name}"
+          "group:developers@${local.gcp_workspace_domain_name}"
         ]
       }
       projects = [dependency.project.outputs.project_id]

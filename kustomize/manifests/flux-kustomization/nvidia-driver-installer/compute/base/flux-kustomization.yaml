@@ -3,7 +3,7 @@ kind: Kustomization
 metadata:
   name: nvidia-driver-installer
 spec:
-  path: apps/nvidia-driver-installer/compute/base
+  path: kustomize/manifests/nvidia-driver-installer/compute/base
   interval: 5m
   prune: true
   sourceRef:

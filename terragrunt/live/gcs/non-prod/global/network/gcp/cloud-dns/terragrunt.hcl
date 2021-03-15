@@ -15,7 +15,7 @@ dependency "random_string" {
 }
 
 locals {
-  gsuite_domain_name = get_env("GCP_GSUITE_DOMAIN_NAME")
+  gsuite_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
 }
 
 inputs = {

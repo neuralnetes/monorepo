@@ -1,6 +1,6 @@
 # terraform
 
-* [infra-live/modules](https://github.com/neuralnetes/infra-modules)
+* [monorepo/modules](https://github.com/neuralnetes/infra-modules)
 * [terraform-google-project-factory](https://github.com/terraform-google-modules/terraform-google-project-factory)
 * [terraform-google-kubernetes-engine](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine)
 * [terraform-google-network](https://github.com/gruntwork-io/terraform-google-network)

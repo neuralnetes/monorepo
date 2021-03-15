@@ -3,7 +3,7 @@ kind: Kustomization
 metadata:
   name: external-dns-namespace
 spec:
-  path: apps/namespace/external-dns/base
+  path: kustomize/manifests/namespace/external-dns/base
   interval: 5m
   prune: true
   sourceRef:

@@ -7,7 +7,7 @@ include {
 }
 
 locals {
-  gcp_gsuite_domain_name = get_env("GCP_GSUITE_DOMAIN_NAME")
+  gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
 }
 
 dependency "random_string" {
@@ -22,6 +22,6 @@ inputs = {
     "dns.googleapis.com",
     "iam.googleapis.com"
   ]
-  domain                         = local.gcp_gsuite_domain_name
+  domain                         = local.gcp_workspace_domain_name
   enable_shared_vpc_host_project = true
 }
