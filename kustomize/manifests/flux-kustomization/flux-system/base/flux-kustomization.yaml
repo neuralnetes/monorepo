@@ -1,0 +1,27 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: flux-system-namespace
+spec:
+  path: namespace/flux-system
+  interval: 5m
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: manifests
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: flux-system
+spec:
+  dependsOn:
+    - name: flux-system-namespace
+  path: flux-system/base
+  interval: 5m
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: manifests
+  targetNamespace: flux-system

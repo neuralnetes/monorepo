@@ -1,0 +1,7 @@
+resources:
+- ../../namespaces/compute/base
+- ../../flux-system/base
+- ../../nvidia-driver-installer/compute/base
+- ../../kubernetes-external-secrets/compute/base
+- ../../external-dns/compute/base
+- ../../kubeflow/1.2/overlays/compute

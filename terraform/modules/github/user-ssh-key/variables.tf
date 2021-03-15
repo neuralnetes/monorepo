@@ -1,0 +1,3 @@
+variable "title" {
+  type = string
+}

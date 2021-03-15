@@ -1,0 +1,15 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: manifests
+spec:
+  # The interval at which to check the upstream for updates
+  interval: 1m
+  # The Git reference to checkout and monitor for changes
+  # (defaults to master)
+  # For all available options, see:
+  # https://toolkit.fluxcd.io/components/source/api/#source.toolkit.fluxcd.io/v1beta1.GitRepositoryRef
+  ref:
+    branch: master
+  # The repository URL, can be a HTTP/S or SSH address
+  url: https://github.com/neuralnetes/manifests

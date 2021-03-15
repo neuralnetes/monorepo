@@ -1,0 +1,44 @@
+[
+  {
+    "description": "datetime",
+    "name": "datetime",
+    "type": "DATETIME",
+    "mode": "Required"
+  },
+  {
+    "description": "open",
+    "name": "open",
+    "type": "NUMERIC",
+    "mode": "Required"
+  },
+  {
+    "description": "high",
+    "name": "high",
+    "type": "NUMERIC",
+    "mode": "Required"
+  },
+  {
+    "description": "low",
+    "name": "low",
+    "type": "NUMERIC",
+    "mode": "Required"
+  },
+  {
+    "description": "close",
+    "name": "close",
+    "type": "NUMERIC",
+    "mode": "Required"
+  },
+  {
+    "description": "volume",
+    "name": "volume",
+    "type": "NUMERIC",
+    "mode": "Required"
+  },
+  {
+    "description": "ticker",
+    "name": "ticker",
+    "type": "STRING",
+    "mode": "Required"
+  }
+]

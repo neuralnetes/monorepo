@@ -1,0 +1,12 @@
+# https://github.com/fluxcd/flux2/releases/tag/v0.9.1
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- policies.yaml
+- rbac.yaml
+- source-controller.yaml
+- notification-controller.yaml
+- helm-controller.yaml
+- kustomize-controller.yaml
+- image-automation-controller.yaml
+- image-reflector-controller.yaml
