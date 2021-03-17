@@ -41,20 +41,18 @@ jobs:
       run: |
         COMPUTE=${{ github.event.inputs.compute }}
         DATA=${{ github.event.inputs.data }}
+        IAM=${{ github.event.inputs.iam }}
+        TERRAGRUNT_COMMAND=${{ github.event.inputs.terragrunt_command }}
+        TERRAGRUNT_WORKING_DIR=${{ github.event.inputs.terragrunt_working_dir }}
         GCP_BILLING_ACCOUNT=${{ secrets.GCP_BILLING_ACCOUNT }}
         GCP_ORGANIZATION=${{ secrets.GCP_ORGANIZATION }}
         GCP_ORGANIZATION_ID=${{ secrets.GCP_ORGANIZATION_ID }}
         GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }}
         GCP_SA_KEY=${{ secrets.GCP_SA_KEY }}
-        HOMEBIN="${HOME}/bin"
-        IAM=${{ github.event.inputs.iam }}
         NETWORK=${{ github.event.inputs.network }}
         SECRET=${{ github.event.inputs.secret }}
         SHARED=${{ github.event.inputs.shared }}
-        TERRAFORM_CLOUD_ORGANIZATION=${{ secrets.TERRAFORM_CLOUD_ORGANIZATION }}
-        TERRAFORM_CLOUD_TOKEN=${{ secrets.TERRAFORM_CLOUD_TOKEN }}
-        TERRAGRUNT_COMMAND=${{ github.event.inputs.terragrunt_command }}
-        TERRAGRUNT_WORKING_DIR=${{ github.event.inputs.terragrunt_working_dir }}
+        HOME_BIN="${HOME}/bin"
         TF_INPUT="false"
         TF_IN_AUTOMATION="true"
         TF_PROVIDER_GITHUB_VERSION="4.5.1"

@@ -19,9 +19,9 @@ brew install --cask google-cloud-sdk
 #### setup path
 
 ```
-export HOMEBIN="${HOME}/bin"
-mkdir -p "${HOMEBIN}"
-export PATH="${HOMEBIN}:${PATH}"
+export HOME_BIN="${HOME}/bin"
+mkdir -p "${HOME_BIN}"
+export PATH="${HOME_BIN}:${PATH}"
 ```
 
 
@@ -29,7 +29,7 @@ export PATH="${HOMEBIN}:${PATH}"
 
 ```
 git clone https://github.com/cunymatthieu/tgenv.git ~/.tgenv
-ln -s ~/.tgenv/bin/* "${HOMEBIN}"
+ln -s ~/.tgenv/bin/* "${HOME_BIN}"
 tgenv install
 ```
 

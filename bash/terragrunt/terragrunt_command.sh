@@ -7,13 +7,13 @@ if [[ -z "${TERRAGRUNT_COMMAND}" ]]; then
   echo "TERRAGRUNT_COMMAND must be set"
   exit 1
 fi
-if [[ "${SECRET}" == 'true' ]]; then
-  terragrunt "${TERRAGRUNT_COMMAND}" \
-    --terragrunt-include-dir "global/secret/**/**"
-fi
 if [[ "${IAM}" == 'true' ]]; then
   terragrunt "${TERRAGRUNT_COMMAND}" \
     --terragrunt-include-dir "global/iam/**/**"
+fi
+if [[ "${SECRET}" == 'true' ]]; then
+  terragrunt "${TERRAGRUNT_COMMAND}" \
+    --terragrunt-include-dir "global/secret/**/**"
 fi
 if [[ "${NETWORK}" == 'true' ]]; then
   terragrunt "${TERRAGRUNT_COMMAND}" \

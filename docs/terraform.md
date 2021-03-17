@@ -25,6 +25,6 @@
 
 ```
 git clone https://github.com/tfutils/tfenv.git ~/.tfenv
-ln -s ~/.tfenv/bin/* "${HOMEBIN}"
+ln -s ~/.tfenv/bin/* "${HOME_BIN}"
 tfenv install
 ```
