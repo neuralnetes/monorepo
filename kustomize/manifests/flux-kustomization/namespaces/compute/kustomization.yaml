@@ -1,0 +1,5 @@
+resources:
+- ../../../namespace/flux-system
+- ../../../namespace/kubernetes-external-secrets
+- ../../../namespace/external-dns
+- ../../../namespace/cert-manager

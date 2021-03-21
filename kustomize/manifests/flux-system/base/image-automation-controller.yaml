@@ -38,7 +38,7 @@ spec:
                 description: Checkout gives the parameters for cloning the git repository, ready to make changes.
                 properties:
                   branch:
-                    description: Branch gives the branch to clone from the git repository.
+                    description: Branch gives the branch to clone from the git repository. If `.spec.push` is not supplied, commits will also be pushed to this branch.
                     type: string
                   gitRepositoryRef:
                     description: GitRepositoryRef refers to the resource giving access details to a git repository to update files in.
@@ -54,7 +54,7 @@ spec:
                 - gitRepositoryRef
                 type: object
               commit:
-                description: Commit specifies how to commit to the git repo
+                description: Commit specifies how to commit to the git repository.
                 properties:
                   authorEmail:
                     description: AuthorEmail gives the email to provide when making a commit
@@ -72,6 +72,15 @@ spec:
               interval:
                 description: Interval gives an lower bound for how often the automation run should be attempted.
                 type: string
+              push:
+                description: Push specifies how and where to push commits made by the automation. If missing, commits are pushed (back) to `.spec.checkout.branch`.
+                properties:
+                  branch:
+                    description: Branch specifies that commits should be pushed to the branch named. The branch is created using `.spec.checkout.branch` as the starting point, if it doesn't already exist.
+                    type: string
+                required:
+                - branch
+                type: object
               suspend:
                 description: Suspend tells the controller to not run this automation, until it is unset (or set to false). Defaults to false.
                 type: boolean
@@ -80,6 +89,9 @@ spec:
                   strategy: Setters
                 description: Update gives the specification for how to update the files in the repository. This can be left empty, to use the default value.
                 properties:
+                  path:
+                    description: Path to the directory containing the manifests to be updated. Defaults to 'None', which translates to the root path of the GitRepositoryRef.
+                    type: string
                   strategy:
                     default: Setters
                     description: Strategy names the strategy to be used.
@@ -206,7 +218,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: fluxcd/image-automation-controller:v0.6.1
+        image: fluxcd/image-automation-controller:v0.7.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

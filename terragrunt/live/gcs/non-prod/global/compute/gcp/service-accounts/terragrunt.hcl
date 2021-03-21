@@ -58,6 +58,13 @@ inputs = {
     },
     {
       project_id = dependency.project.outputs.project_id
+      name       = "-${dependency.random_string.outputs.result}"
+      project_roles = [
+        "${dependency.data_project.outputs.project_id}=>roles/storage.admin"
+      ]
+    },
+    {
+      project_id = dependency.project.outputs.project_id
       name       = "cluster-${dependency.random_string.outputs.result}"
       project_roles = [
         "${dependency.project.outputs.project_id}=>roles/logging.logWriter",

@@ -6,8 +6,8 @@ REQUIRED_API_SERVICES=(
 SECRET_JSON=$(cat <<-EOF
   {
     "GOOGLE_APPLICATION_CREDENTIALS": "",
-    "GCP_BILLING_ACCOUNT": "",
-    "GCP_ORG": "",
+    "GCP_BILLING_ACCOUNT_ID": "",
+    "GCP_ORGANIZATION": "",
     "GCP_ORG_ID": "",
     "GCP_PROJECT_ID": "terraform-neuralnetes-admin-ec",
     "GCS_TERRAFORM_REMOTE_STATE_BUCKET": "terraform-neuralnetes-admin-ec-state",

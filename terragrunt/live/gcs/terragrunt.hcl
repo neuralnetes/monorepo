@@ -4,22 +4,16 @@ locals {
   environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
 }
 
-generate "remote_state" {
-  path      = "terraform_cloud_remote_state.tf"
-  if_exists = "overwrite_terragrunt"
-  contents  = <<EOF
-terraform {
-  backend "remote" {
-    hostname = "app.terraform.io"
-    organization = "${get_env("TERRAFORM_CLOUD_ORGANIZATION")}"
-    token = "${get_env("TERRAFORM_CLOUD_TOKEN")}"
-
-    workspaces {
-      name = "${replace(path_relative_to_include(), "/", "-")}"
-    }
+remote_state {
+  backend = "gcs"
+  generate = {
+    path      = "gcs_backend.tf"
+    if_exists = "overwrite_terragrunt"
   }
-}
-EOF
+  config = {
+    bucket   = get_env("GCP_TERRAFORM_REMOTE_STATE_BUCKET")
+    prefix   = "${path_relative_to_include()}/terraform.tfstate"
+  }
 }
 
 generate "required_providers" {
@@ -43,12 +37,10 @@ terraform {
       source = "hashicorp/google-beta"
       version = "${get_env("TF_PROVIDER_GOOGLE_BETA_VERSION")}"
     }
+    # https://registry.terraform.io/providers/kbst/kustomization/latest
     kustomization = {
       source = "kbst/kustomization"
       version = "${get_env("TF_PROVIDER_KUSTOMIZATION_VERSION")}"
-    }
-    random = {
-      source = "kbst/kustomization"
     }
     # https://registry.terraform.io/providers/hashicorp/random/latest
     random = {

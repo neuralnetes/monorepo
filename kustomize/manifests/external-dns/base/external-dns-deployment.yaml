@@ -3,8 +3,6 @@ kind: Deployment
 metadata:
   name: external-dns
 spec:
-  strategy:
-    type: Recreate
   selector:
     matchLabels:
       app: external-dns
@@ -15,9 +13,11 @@ spec:
     spec:
       serviceAccountName: external-dns
       containers:
-        - name: external-dns
-          image: k8s.gcr.io/external-dns/external-dns
-          args:
-            - --source=service
-            - --source=ingress
-            - --registry=txt
+      - name: external-dns
+        image: k8s.gcr.io/external-dns/external-dns
+        args:
+        - --source=service
+        - --source=ingress
+        - --registry=txt
+  strategy:
+    type: Recreate

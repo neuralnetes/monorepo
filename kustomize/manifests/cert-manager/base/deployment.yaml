@@ -1,0 +1,150 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager-cainjector
+  labels:
+    app: cainjector
+    app.kubernetes.io/component: cainjector
+    app.kubernetes.io/instance: cert-manager
+    app.kubernetes.io/name: cainjector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: cainjector
+      app.kubernetes.io/instance: cert-manager
+      app.kubernetes.io/name: cainjector
+  template:
+    metadata:
+      labels:
+        app: cainjector
+        app.kubernetes.io/component: cainjector
+        app.kubernetes.io/instance: cert-manager
+        app.kubernetes.io/name: cainjector
+    spec:
+      serviceAccountName: cert-manager-cainjector
+      containers:
+      - name: cert-manager
+        image: quay.io/jetstack/cert-manager-cainjector:v1.2.0
+        args:
+        - --v=2
+        - --leader-election-namespace=kube-system
+        env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        resources: {}
+        imagePullPolicy: IfNotPresent
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager
+  labels:
+    app: cert-manager
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: cert-manager
+    app.kubernetes.io/name: cert-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: controller
+      app.kubernetes.io/instance: cert-manager
+      app.kubernetes.io/name: cert-manager
+  template:
+    metadata:
+      labels:
+        app: cert-manager
+        app.kubernetes.io/component: controller
+        app.kubernetes.io/instance: cert-manager
+        app.kubernetes.io/name: cert-manager
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "9402"
+        prometheus.io/scrape: "true"
+    spec:
+      serviceAccountName: cert-manager
+      containers:
+      - name: cert-manager
+        image: quay.io/jetstack/cert-manager-controller:v1.2.0
+        args:
+        - --v=2
+        - --cluster-resource-namespace=$(POD_NAMESPACE)
+        - --leader-election-namespace=kube-system
+        ports:
+        - protocol: TCP
+          containerPort: 9402
+        env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        resources: {}
+        imagePullPolicy: IfNotPresent
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager-webhook
+  labels:
+    app: webhook
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/instance: cert-manager
+    app.kubernetes.io/name: webhook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: webhook
+      app.kubernetes.io/instance: cert-manager
+      app.kubernetes.io/name: webhook
+  template:
+    metadata:
+      labels:
+        app: webhook
+        app.kubernetes.io/component: webhook
+        app.kubernetes.io/instance: cert-manager
+        app.kubernetes.io/name: webhook
+    spec:
+      serviceAccountName: cert-manager-webhook
+      containers:
+      - name: cert-manager
+        image: quay.io/jetstack/cert-manager-webhook:v1.2.0
+        args:
+        - --v=2
+        - --secure-port=10250
+        - --dynamic-serving-ca-secret-namespace=$(POD_NAMESPACE)
+        - --dynamic-serving-ca-secret-name=cert-manager-webhook-ca
+        - --dynamic-serving-dns-names=cert-manager-webhook,cert-manager-webhook.cert-manager,cert-manager-webhook.cert-manager.svc
+        ports:
+        - name: https
+          containerPort: 10250
+        env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        resources: {}
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            port: 6080
+            path: /livez
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            port: 6080
+            path: /healthz
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 1
+        imagePullPolicy: IfNotPresent

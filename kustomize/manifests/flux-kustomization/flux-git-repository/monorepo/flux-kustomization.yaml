@@ -1,0 +1,14 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: monorepo
+spec:
+  dependsOn:
+    - name: flux-system-namespace
+  path: kustomize/manifests/flux-git-repository/monorepo
+  interval: 5m
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: monorepo
+  targetNamespace: flux-system

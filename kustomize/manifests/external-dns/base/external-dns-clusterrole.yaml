@@ -3,12 +3,12 @@ kind: ClusterRole
 metadata:
   name: external-dns
 rules:
-  - apiGroups: ['']
-    resources: ['endpoints', 'pods', 'services']
-    verbs: ['get', 'watch', 'list']
-  - apiGroups: ['extensions']
-    resources: ['ingresses']
-    verbs: ['get', 'watch', 'list']
-  - apiGroups: ['']
-    resources: ['nodes']
-    verbs: ['list']
+- resources: ['endpoints', 'pods', 'services']
+  apiGroups: ['']
+  verbs: ['get', 'watch', 'list']
+- resources: ['ingresses']
+  apiGroups: ['extensions']
+  verbs: ['get', 'watch', 'list']
+- resources: ['nodes']
+  apiGroups: ['']
+  verbs: ['list']

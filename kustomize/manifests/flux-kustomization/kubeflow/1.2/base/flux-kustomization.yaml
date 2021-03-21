@@ -76,53 +76,6 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: cert-manager-crds
-spec:
-  dependsOn:
-    - name: namespaces
-  interval: 5m
-  path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/cert-manager-crds
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: monorepo
-  targetNamespace: cert-manager
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: cert-manager-kube-system-resources
-spec:
-  dependsOn:
-    - name: namespaces
-  interval: 5m
-  path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/cert-manager-kube-system-resources
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: monorepo
-  targetNamespace: kube-system
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: cert-manager
-spec:
-  dependsOn:
-    - name: namespaces
-    - name: cert-manager-crds
-    - name: cert-manager-kube-system-resources
-  interval: 5m
-  path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/cert-manager
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: monorepo
-  targetNamespace: cert-manager
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
   name: metacontroller
 spec:
   dependsOn:

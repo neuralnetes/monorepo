@@ -5,8 +5,7 @@ jobs:
   gcs_source_archive_bucket_upload:
     runs-on: ubuntu-latest
     env:
-      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-      DATA_PROJECT_ID: ${{ secrets.DATA_PROJECT_ID }}
+      GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
       SOURCE_ARCHIVE_BUCKET_NAME: ${{ secrets.SOURCE_ARCHIVE_BUCKET_NAME }}
     steps:
       - name: checkout
@@ -14,8 +13,7 @@ jobs:
       - name: setup gcloud
         uses: google-github-actions/setup-gcloud@master
         with:
-          project_id: ${{ env.DATA_PROJECT_ID }}
-          service_account_key: ${{ env.GCP_SA_KEY }}
+          service_account_key: ${{ env.GCP_SERVICE_ACCOUNT_KEY }}
           export_default_credentials: true
       - name: zip nodejs12 cloud functions
         run: |

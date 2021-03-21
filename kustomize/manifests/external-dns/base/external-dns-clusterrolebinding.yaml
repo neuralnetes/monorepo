@@ -3,10 +3,10 @@ kind: ClusterRoleBinding
 metadata:
   name: external-dns-viewer
 roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
   name: external-dns
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
 subjects:
-  - kind: ServiceAccount
-    name: external-dns
-    namespace: default
+- name: external-dns
+  namespace: default
+  kind: ServiceAccount

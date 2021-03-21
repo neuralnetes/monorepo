@@ -41,18 +41,19 @@ jobs:
       run: |
         COMPUTE=${{ github.event.inputs.compute }}
         DATA=${{ github.event.inputs.data }}
-        IAM=${{ github.event.inputs.iam }}
-        TERRAGRUNT_COMMAND=${{ github.event.inputs.terragrunt_command }}
-        TERRAGRUNT_WORKING_DIR=${{ github.event.inputs.terragrunt_working_dir }}
-        GCP_BILLING_ACCOUNT=${{ secrets.GCP_BILLING_ACCOUNT }}
+        GCP_BILLING_ACCOUNT_ID=${{ secrets.GCP_BILLING_ACCOUNT_ID }}
         GCP_ORGANIZATION=${{ secrets.GCP_ORGANIZATION }}
         GCP_ORGANIZATION_ID=${{ secrets.GCP_ORGANIZATION_ID }}
         GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }}
-        GCP_SA_KEY=${{ secrets.GCP_SA_KEY }}
+        GCP_SERVICE_ACCOUNT_KEY=${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+        IAM=${{ github.event.inputs.iam }}
         NETWORK=${{ github.event.inputs.network }}
         SECRET=${{ github.event.inputs.secret }}
         SHARED=${{ github.event.inputs.shared }}
-        HOME_BIN="${HOME}/bin"
+        SSH_AUTH_SOCK="/tmp/ssh_agent.sock"
+        SSH_PRIVATE_KEY=${{ secrets.SSH_PRIVATE_KEY }}
+        TERRAGRUNT_COMMAND=${{ github.event.inputs.terragrunt_command }}
+        TERRAGRUNT_WORKING_DIR=${{ github.event.inputs.terragrunt_working_dir }}
         TF_INPUT="false"
         TF_IN_AUTOMATION="true"
         TF_PROVIDER_GITHUB_VERSION="4.5.1"
@@ -69,7 +70,7 @@ jobs:
       name: run setup gcloud
       uses: google-github-actions/setup-gcloud@master
       with:
-        service_account_key: ${{ env.GCP_SA_KEY }}
+        service_account_key: ${{ env.GCP_SERVICE_ACCOUNT_KEY }}
         export_default_credentials: true
     - id: setup_tfenv
       name: run setup tfenv
@@ -79,11 +80,9 @@ jobs:
       name: run setup tgenv
       working-directory: ./bash/terragrunt
       run: ./setup_tgenv.sh
-    - id: setup_ssh_agent
-      name: run setup ssh agent
-      uses: webfactory/ssh-agent@v0.4.1
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - id: setup_ssh
+      name: run setup ssh
+      run: ./bash/ssh/setup_ssh.sh
     - id: terragrunt_command
       name: run terragrunt command
       run: ./bash/terragrunt/terragrunt_command.sh

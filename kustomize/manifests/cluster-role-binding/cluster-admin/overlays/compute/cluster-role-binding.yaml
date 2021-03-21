@@ -7,6 +7,6 @@ roleRef:
   kind: ClusterRole
   apiGroup: rbac.authorization.k8s.io
 subjects:
-- name: "terraform@terraform-neuralnetes-admin-ec.iam.gserviceaccount.com"
+- name: "terraform@terraform-neuralnetes.iam.gserviceaccount.com"
   kind: User
   apiGroup: rbac.authorization.k8s.io

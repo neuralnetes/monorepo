@@ -1,4 +1,5 @@
 resources:
-- ../../../namespace/flux-system/base
-- ../../../namespace/kubernetes-external-secrets/base
-- ../../../namespace/external-dns/base
+- ../../../namespace/flux-system
+- ../../../namespace/kubernetes-external-secrets
+- ../../../namespace/external-dns
+- ../../../namespace/cert-manager

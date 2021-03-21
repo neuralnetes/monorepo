@@ -20,7 +20,7 @@ on:
         description: 'shared'
         required: true
 env:
-  GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+  GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
   GCS_TERRAFORM_REMOTE_STATE_BUCKET: ${{ secrets.GCP_TERRAFORM_REMOTE_STATE_BUCKET }}
 jobs:
   gcloud_projects_delete:
@@ -41,7 +41,7 @@ jobs:
       - name: run setup gcloud
         uses: google-github-actions/setup-gcloud@master
         with:
-          service_account_key: ${{ env.GCP_SA_KEY }}
+          service_account_key: ${{ env.GCP_SERVICE_ACCOUNT_KEY }}
           export_default_credentials: true
       - name: run gcloud components install
         run: gcloud components install alpha
