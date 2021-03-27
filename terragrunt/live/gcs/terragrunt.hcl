@@ -39,11 +39,6 @@ terraform {
       source = "hashicorp/google-beta"
       version = "${get_env("TF_PROVIDER_GOOGLE_BETA_VERSION")}"
     }
-    # https://registry.terraform.io/providers/kbst/kustomization/latest
-    kustomization = {
-      source = "kbst/kustomization"
-      version = "${get_env("TF_PROVIDER_KUSTOMIZATION_VERSION")}"
-    }
   }
 }
 EOF
