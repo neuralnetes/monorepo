@@ -5,7 +5,7 @@ metadata:
 spec:
   dependsOn:
     - name: flux-system-namespace
-  path: flux-system/base
+  path: kustomize/manifests/flux-system/base
   interval: 5m
   prune: true
   sourceRef:
