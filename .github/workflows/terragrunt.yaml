@@ -93,7 +93,7 @@ jobs:
       name: run setup gcloud
       uses: google-github-actions/setup-gcloud@master
       with:
-        service_account_key: ${{ env.GCP_SERVICE_ACCOUNT_KEY }}
+        service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
         export_default_credentials: true
     - id: setup_tfenv
       name: run setup tfenv
