@@ -13,6 +13,19 @@ DATA=true \
 COMPUTE=true \
 SHARED=true \
 TERRAGRUNT_WORKING_DIR=terragrunt/live/gcs/non-prod \
-TERRAGRUNT_COMMAND=apply \
+TERRAGRUNT_COMMAND='apply' \
 ./bash/github-actions/workflow_dispatch_terragrunt.sh
+{
+  "ref": "main",
+  "inputs": {
+    "network": "true",
+    "secret": "true",
+    "iam": "true",
+    "data": "true",
+    "compute": "true",
+    "shared": "true",
+    "terragrunt_working_dir": "terragrunt/live/gcs/non-prod",
+    "terragrunt_command": "apply"
+  }
+}
 ```
