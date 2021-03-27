@@ -19,7 +19,7 @@ remote_state {
 }
 
 generate "required_providers" {
-  path      = "kustomization_provider.tf"
+  path      = "required_providers.tf"
   if_exists = "overwrite_terragrunt"
   contents  = <<EOF
 terraform {
@@ -38,6 +38,11 @@ terraform {
     google-beta = {
       source = "hashicorp/google-beta"
       version = "${get_env("TF_PROVIDER_GOOGLE_BETA_VERSION")}"
+    }
+    # https://registry.terraform.io/providers/kbst/kustomization/latest
+    kustomization = {
+      source = "kbst/kustomization"
+      version = "${get_env("TF_PROVIDER_KUSTOMIZATION_VERSION")}"
     }
   }
 }
