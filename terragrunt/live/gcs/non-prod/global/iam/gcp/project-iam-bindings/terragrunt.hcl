@@ -134,7 +134,6 @@ inputs = {
         key = "${dependency.network_project.outputs.project_id}-01"
         bindings = {
           for project_role in [
-            "roles/storage.admin",
             "roles/dns.admin"
           ] :
           project_role => [

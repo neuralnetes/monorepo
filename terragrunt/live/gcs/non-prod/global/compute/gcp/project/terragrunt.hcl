@@ -31,7 +31,6 @@ inputs = {
     "compute.googleapis.com",
     "container.googleapis.com",
     "dataflow.googleapis.com",
-    "iam.googleapis.com",
     "ml.googleapis.com",
     "servicemanagement.googleapis.com",
   ]

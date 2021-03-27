@@ -1,4 +1,0 @@
-resources:
-  - role.yaml
-  - role-binding.yaml
-namespace: kube-system

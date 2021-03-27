@@ -1,0 +1,5 @@
+namespace: cert-manager
+resources:
+- ../../../../../../../../kubeflow/1.2/base/stacks/kubernetes/application/cert-manager
+patchesStrategicMerge:
+- patch-service-accounts.yaml
