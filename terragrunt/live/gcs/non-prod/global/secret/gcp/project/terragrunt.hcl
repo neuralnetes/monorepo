@@ -23,7 +23,7 @@ dependency "random_string" {
 }
 
 inputs = {
-  name                 = "secrets-${dependency.random_string.outputs.result}"
+  name                 = "secret-${dependency.random_string.outputs.result}"
   random_project_id    = false
   skip_gcloud_download = true
   activate_apis = [

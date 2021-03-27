@@ -103,7 +103,7 @@ inputs = {
     # iam
     [
       {
-        key = "${dependency.project.outputs.project_id}-01"
+        key = "${dependency.iam_project.outputs.project_id}-01"
         bindings = {
           for project_role in [
             "roles/iam.serviceAccountAdmin",

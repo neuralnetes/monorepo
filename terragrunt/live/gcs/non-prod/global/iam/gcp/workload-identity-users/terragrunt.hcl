@@ -30,20 +30,16 @@ dependency "secret_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/secret/gcp/project"
 }
 
+dependency "random_string" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/shared/random/random-string"
+}
+
 dependency "container_clusters" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/gcp/container-clusters"
 }
 
 dependency "kustomization" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/kustomization/bootstrap"
-}
-
-dependency "service_accounts" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/gcp/service-accounts"
-}
-
-dependency "random_string" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/shared/random/random-string"
 }
 
 inputs = {
