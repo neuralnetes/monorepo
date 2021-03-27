@@ -10,6 +10,14 @@ locals {
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
 }
 
+dependency "vpc" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/vpc"
+}
+
+dependency "subnetworks" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/subnetworks"
+}
+
 dependency "random_string" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/shared/random/random-string"
 }
@@ -24,6 +32,6 @@ inputs = {
     "iam.googleapis.com"
   ]
   domain             = local.gcp_workspace_domain_name
-  shared_vpc         = null
-  shared_vpc_subnets = []
+  shared_vpc         = dependency.vpc.outputs.project_id
+  shared_vpc_subnets = [for subnet in values(dependency.subnetworks.outputs.subnets) : subnet["self_link"]]
 }
