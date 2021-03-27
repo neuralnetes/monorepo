@@ -27,6 +27,7 @@ inputs = {
   random_project_id    = false
   skip_gcloud_download = true
   activate_apis = [
+    "compute.googleapis.com",
     "bigquery.googleapis.com",
     "pubsub.googleapis.com",
     "sqladmin.googleapis.com",

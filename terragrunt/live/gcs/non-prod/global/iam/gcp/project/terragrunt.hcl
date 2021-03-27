@@ -19,6 +19,7 @@ inputs = {
   random_project_id    = false
   skip_gcloud_download = true
   activate_apis = [
+    "compute.googleapis.com",
     "cloudresourcemanager.googleapis.com",
     "iam.googleapis.com"
   ]
