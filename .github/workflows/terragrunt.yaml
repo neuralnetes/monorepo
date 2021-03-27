@@ -69,11 +69,14 @@ jobs:
         TF_PROVIDER_GOOGLE_VERSION="3.59.0"
         TF_PROVIDER_KUSTOMIZATION_VERSION="0.4.2"
         TF_PROVIDER_RANDOM_VERSION="3.1.0"
+        chmod +x ./setup_github_env.sh
         ./setup_github_env.sh
     - id: setup_github_path
       name: run setup github path
       working-directory: ./bash/github-actions
-      run: ./setup_github_path.sh
+      run: |
+        chmod +x ./setup_github_path.sh
+        ./setup_github_path.sh
     - id: setup_gcloud
       name: run setup gcloud
       uses: google-github-actions/setup-gcloud@master
@@ -83,11 +86,15 @@ jobs:
     - id: setup_tfenv
       name: run setup tfenv
       working-directory: ./bash/terraform
-      run: ./setup_tfenv.sh
+      run: |
+        chmod +x ./setup_tfenv.sh
+        ./setup_tfenv.sh
     - id: setup_tgenv
       name: run setup tgenv
       working-directory: ./bash/terragrunt
-      run: ./setup_tgenv.sh
+      run: |
+        chmod +x ./setup_tgenv.sh
+        ./setup_tgenv.sh
     - id: setup_ssh_agent
       name: run setup ssh agent
       uses: webfactory/ssh-agent@v0.5.1
