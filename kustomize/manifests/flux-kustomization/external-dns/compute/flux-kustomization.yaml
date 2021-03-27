@@ -5,7 +5,7 @@ metadata:
 spec:
   dependsOn:
     - name: external-dns-namespace
-  path: external-dns/overlays/compute
+  path: kustomize/manifests/external-dns/overlays/compute
   interval: 5m
   prune: true
   sourceRef:

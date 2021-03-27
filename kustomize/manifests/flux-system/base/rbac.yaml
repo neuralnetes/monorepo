@@ -3,56 +3,56 @@ kind: ClusterRole
 metadata:
   name: crd-controller
 rules:
-- apiGroups:
+- resources:
+  - '*'
+  apiGroups:
   - source.toolkit.fluxcd.io
-  resources:
-  - '*'
   verbs:
   - '*'
-- apiGroups:
+- resources:
+  - '*'
+  apiGroups:
   - kustomize.toolkit.fluxcd.io
-  resources:
-  - '*'
   verbs:
   - '*'
-- apiGroups:
+- resources:
+  - '*'
+  apiGroups:
   - helm.toolkit.fluxcd.io
-  resources:
-  - '*'
   verbs:
   - '*'
-- apiGroups:
+- resources:
+  - '*'
+  apiGroups:
   - notification.toolkit.fluxcd.io
-  resources:
-  - '*'
   verbs:
   - '*'
-- apiGroups:
+- resources:
+  - '*'
+  apiGroups:
   - image.toolkit.fluxcd.io
-  resources:
-  - '*'
   verbs:
   - '*'
-- apiGroups:
-  - ""
-  resources:
+- resources:
   - secrets
+  apiGroups:
+  - ""
   verbs:
   - get
   - list
   - watch
-- apiGroups:
-  - ""
-  resources:
+- resources:
   - events
+  apiGroups:
+  - ""
   verbs:
   - create
   - patch
-- apiGroups:
-  - ""
-  resources:
+- resources:
   - configmaps
   - configmaps/status
+  apiGroups:
+  - ""
   verbs:
   - get
   - list
@@ -61,10 +61,10 @@ rules:
   - update
   - patch
   - delete
-- apiGroups:
-  - coordination.k8s.io
-  resources:
+- resources:
   - leases
+  apiGroups:
+  - coordination.k8s.io
   verbs:
   - get
   - list
@@ -79,41 +79,41 @@ kind: ClusterRoleBinding
 metadata:
   name: cluster-reconciler
 roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
   name: cluster-admin
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
 subjects:
-- kind: ServiceAccount
-  name: kustomize-controller
+- name: kustomize-controller
   namespace: flux-system
-- kind: ServiceAccount
-  name: helm-controller
+  kind: ServiceAccount
+- name: helm-controller
   namespace: flux-system
+  kind: ServiceAccount
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: crd-controller
 roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
   name: crd-controller
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
 subjects:
-- kind: ServiceAccount
-  name: kustomize-controller
+- name: kustomize-controller
   namespace: flux-system
-- kind: ServiceAccount
-  name: helm-controller
+  kind: ServiceAccount
+- name: helm-controller
   namespace: flux-system
-- kind: ServiceAccount
-  name: source-controller
+  kind: ServiceAccount
+- name: source-controller
   namespace: flux-system
-- kind: ServiceAccount
-  name: notification-controller
+  kind: ServiceAccount
+- name: notification-controller
   namespace: flux-system
-- kind: ServiceAccount
-  name: image-reflector-controller
+  kind: ServiceAccount
+- name: image-reflector-controller
   namespace: flux-system
-- kind: ServiceAccount
-  name: image-automation-controller
+  kind: ServiceAccount
+- name: image-automation-controller
   namespace: flux-system
+  kind: ServiceAccount

@@ -1,9 +1,0 @@
-resources:
-- ../../namespaces/compute
-- ../../flux-system/base
-- ../../cluster-role-binding/terraform
-- ../../nvidia-driver-installer/gcp
-- ../../external-dns/network
-- ../../kubernetes-external-secrets/iam
-- ../../cert-manager/iam
-- ../../kubeflow/1.2/compute

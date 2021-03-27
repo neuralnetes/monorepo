@@ -4,11 +4,11 @@ metadata:
   name: allow-scraping
 spec:
   ingress:
-  - from:
+  - ports:
+    - protocol: TCP
+      port: 8080
+    from:
     - namespaceSelector: {}
-    ports:
-    - port: 8080
-      protocol: TCP
   podSelector: {}
   policyTypes:
   - Ingress

@@ -1,0 +1,9 @@
+resources:
+- ../../namespaces/compute
+- ../../cluster-role-binding/overlays/compute
+- ../../flux-system/base
+- ../../nvidia-driver-installer/gcp
+- ../../kubernetes-external-secrets/overlays/compute
+- ../../external-dns/compute
+- ../../cert-manager/overlays/compute
+- ../../kubeflow/1.2/base

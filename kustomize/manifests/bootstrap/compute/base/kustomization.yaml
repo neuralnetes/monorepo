@@ -1,4 +1,0 @@
-resources:
-  - ../../../namespaces/compute/base
-  - ../../../flux-system/base
-  - ../../../flux-kustomization/compute/base

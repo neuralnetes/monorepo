@@ -1,10 +1,10 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
+  name: imageupdateautomations.image.toolkit.fluxcd.io
   annotations:
     controller-gen.kubebuilder.io/version: v0.4.1
   creationTimestamp: null
-  name: imageupdateautomations.image.toolkit.fluxcd.io
 spec:
   group: image.toolkit.fluxcd.io
   names:
@@ -14,163 +14,216 @@ spec:
     singular: imageupdateautomation
   scope: Namespaced
   versions:
-  - additionalPrinterColumns:
-    - jsonPath: .status.lastAutomationRunTime
-      name: Last run
+  - name: v1alpha1
+    additionalPrinterColumns:
+    - name: Last run
       type: string
-    name: v1alpha1
+      jsonPath: .status.lastAutomationRunTime
     schema:
       openAPIV3Schema:
-        description: ImageUpdateAutomation is the Schema for the imageupdateautomations API
+        type: object
+        description: ImageUpdateAutomation is the Schema for the imageupdateautomations
+          API
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
             type: string
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           kind:
-            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
             type: string
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           metadata:
             type: object
           spec:
+            type: object
             description: ImageUpdateAutomationSpec defines the desired state of ImageUpdateAutomation
             properties:
               checkout:
-                description: Checkout gives the parameters for cloning the git repository, ready to make changes.
+                type: object
+                description: Checkout gives the parameters for cloning the git repository,
+                  ready to make changes.
                 properties:
                   branch:
-                    description: Branch gives the branch to clone from the git repository. If `.spec.push` is not supplied, commits will also be pushed to this branch.
                     type: string
+                    description: Branch gives the branch to clone from the git repository.
+                      If `.spec.push` is not supplied, commits will also be pushed
+                      to this branch.
                   gitRepositoryRef:
-                    description: GitRepositoryRef refers to the resource giving access details to a git repository to update files in.
+                    type: object
+                    description: GitRepositoryRef refers to the resource giving access
+                      details to a git repository to update files in.
                     properties:
                       name:
-                        description: Name of the referent
                         type: string
+                        description: Name of the referent
                     required:
                     - name
-                    type: object
                 required:
                 - branch
                 - gitRepositoryRef
-                type: object
               commit:
+                type: object
                 description: Commit specifies how to commit to the git repository.
                 properties:
                   authorEmail:
-                    description: AuthorEmail gives the email to provide when making a commit
                     type: string
+                    description: AuthorEmail gives the email to provide when making
+                      a commit
                   authorName:
-                    description: AuthorName gives the name to provide when making a commit
                     type: string
+                    description: AuthorName gives the name to provide when making
+                      a commit
                   messageTemplate:
-                    description: MessageTemplate provides a template for the commit message, into which will be interpolated the details of the change made.
                     type: string
+                    description: MessageTemplate provides a template for the commit
+                      message, into which will be interpolated the details of the
+                      change made.
                 required:
                 - authorEmail
                 - authorName
-                type: object
               interval:
-                description: Interval gives an lower bound for how often the automation run should be attempted.
                 type: string
+                description: Interval gives an lower bound for how often the automation
+                  run should be attempted.
               push:
-                description: Push specifies how and where to push commits made by the automation. If missing, commits are pushed (back) to `.spec.checkout.branch`.
+                type: object
+                description: Push specifies how and where to push commits made by
+                  the automation. If missing, commits are pushed (back) to `.spec.checkout.branch`.
                 properties:
                   branch:
-                    description: Branch specifies that commits should be pushed to the branch named. The branch is created using `.spec.checkout.branch` as the starting point, if it doesn't already exist.
                     type: string
+                    description: Branch specifies that commits should be pushed to
+                      the branch named. The branch is created using `.spec.checkout.branch`
+                      as the starting point, if it doesn't already exist.
                 required:
                 - branch
-                type: object
               suspend:
-                description: Suspend tells the controller to not run this automation, until it is unset (or set to false). Defaults to false.
                 type: boolean
+                description: Suspend tells the controller to not run this automation,
+                  until it is unset (or set to false). Defaults to false.
               update:
+                type: object
                 default:
                   strategy: Setters
-                description: Update gives the specification for how to update the files in the repository. This can be left empty, to use the default value.
+                description: Update gives the specification for how to update the
+                  files in the repository. This can be left empty, to use the default
+                  value.
                 properties:
-                  path:
-                    description: Path to the directory containing the manifests to be updated. Defaults to 'None', which translates to the root path of the GitRepositoryRef.
-                    type: string
                   strategy:
+                    type: string
                     default: Setters
                     description: Strategy names the strategy to be used.
                     enum:
                     - Setters
+                  path:
                     type: string
+                    description: Path to the directory containing the manifests to
+                      be updated. Defaults to 'None', which translates to the root
+                      path of the GitRepositoryRef.
                 required:
                 - strategy
-                type: object
             required:
             - checkout
             - commit
             - interval
-            type: object
           status:
-            description: ImageUpdateAutomationStatus defines the observed state of ImageUpdateAutomation
+            type: object
+            description: ImageUpdateAutomationStatus defines the observed state of
+              ImageUpdateAutomation
             properties:
               conditions:
+                type: array
                 items:
-                  description: "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }"
+                  type: object
+                  description: "Condition contains details for one aspect of the current
+                    state of this API Resource. --- This struct is intended for direct
+                    use as an array at the field path .status.conditions.  For example,
+                    type FooStatus struct{     // Represents the observations of a
+                    foo's current state.     // Known .status.conditions.type are:
+                    \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type
+                    \    // +patchStrategy=merge     // +listType=map     // +listMapKey=type
+                    \    Conditions []metav1.Condition `json:\"conditions,omitempty\"
+                    patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`
+                    \n     // other fields }"
                   properties:
-                    lastTransitionTime:
-                      description: lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.
-                      format: date-time
+                    type:
                       type: string
-                    message:
-                      description: message is a human readable message indicating details about the transition. This may be an empty string.
-                      maxLength: 32768
-                      type: string
-                    observedGeneration:
-                      description: observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.
-                      format: int64
-                      minimum: 0
-                      type: integer
-                    reason:
-                      description: reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty.
-                      maxLength: 1024
-                      minLength: 1
-                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
-                      type: string
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                        --- Many .condition.type values are consistent across resources
+                        like Available, but because arbitrary conditions can be useful
+                        (see .node.status.conditions), the ability to deconflict is
+                        important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
                     status:
+                      type: string
                       description: status of the condition, one of True, False, Unknown.
                       enum:
                       - "True"
                       - "False"
                       - Unknown
+                    lastTransitionTime:
                       type: string
-                    type:
-                      description: type of condition in CamelCase or in foo.example.com/CamelCase. --- Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be useful (see .node.status.conditions), the ability to deconflict is important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
-                      maxLength: 316
-                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                      description: lastTransitionTime is the last time the condition
+                        transitioned from one status to another. This should be when
+                        the underlying condition changed.  If that is not known, then
+                        using the time when the API field changed is acceptable.
+                      format: date-time
+                    message:
                       type: string
+                      description: message is a human readable message indicating
+                        details about the transition. This may be an empty string.
+                      maxLength: 32768
+                    observedGeneration:
+                      type: integer
+                      description: observedGeneration represents the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.conditions[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      minimum: 0
+                    reason:
+                      type: string
+                      description: reason contains a programmatic identifier indicating
+                        the reason for the condition's last transition. Producers
+                        of specific condition types may define expected values and
+                        meanings for this field, and whether the values are considered
+                        a guaranteed API. The value should be a CamelCase string.
+                        This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
                   required:
                   - lastTransitionTime
                   - message
                   - reason
                   - status
                   - type
-                  type: object
-                type: array
               lastAutomationRunTime:
-                description: LastAutomationRunTime records the last time the controller ran this automation through to completion (even if no updates were made).
+                type: string
+                description: LastAutomationRunTime records the last time the controller
+                  ran this automation through to completion (even if no updates were
+                  made).
                 format: date-time
-                type: string
               lastHandledReconcileAt:
-                description: LastHandledReconcileAt holds the value of the most recent reconcile request value, so a change can be detected.
                 type: string
+                description: LastHandledReconcileAt holds the value of the most recent
+                  reconcile request value, so a change can be detected.
               lastPushCommit:
-                description: LastPushCommit records the SHA1 of the last commit made by the controller, for this automation object
                 type: string
+                description: LastPushCommit records the SHA1 of the last commit made
+                  by the controller, for this automation object
               lastPushTime:
+                type: string
                 description: LastPushTime records the time of the last pushed change.
                 format: date-time
-                type: string
               observedGeneration:
-                format: int64
                 type: integer
-            type: object
-        type: object
+                format: int64
     served: true
     storage: true
     subresources:
@@ -190,9 +243,9 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: image-automation-controller
   labels:
     control-plane: controller
-  name: image-automation-controller
 spec:
   replicas: 1
   selector:
@@ -200,41 +253,34 @@ spec:
       app: image-automation-controller
   template:
     metadata:
+      labels:
+        app: image-automation-controller
       annotations:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
-      labels:
-        app: image-automation-controller
     spec:
+      terminationGracePeriodSeconds: 10
+      serviceAccountName: image-automation-controller
       containers:
-      - args:
+      - name: manager
+        image: fluxcd/image-automation-controller:v0.7.0
+        args:
         - --events-addr=http://notification-controller/
         - --watch-all-namespaces
         - --log-level=info
         - --log-encoding=json
         - --enable-leader-election
+        ports:
+        - name: http-prom
+          containerPort: 8080
+        - name: healthz
+          protocol: TCP
+          containerPort: 9440
         env:
         - name: RUNTIME_NAMESPACE
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: fluxcd/image-automation-controller:v0.7.0
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: healthz
-        name: manager
-        ports:
-        - containerPort: 8080
-          name: http-prom
-        - containerPort: 9440
-          name: healthz
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /readyz
-            port: healthz
         resources:
           limits:
             cpu: 1000m
@@ -242,16 +288,23 @@ spec:
           requests:
             cpu: 100m
             memory: 64Mi
+        volumeMounts:
+        - name: temp
+          mountPath: /tmp
+        livenessProbe:
+          httpGet:
+            port: healthz
+            path: /healthz
+        readinessProbe:
+          httpGet:
+            port: healthz
+            path: /readyz
+        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
-        volumeMounts:
-        - mountPath: /tmp
-          name: temp
+      volumes:
+      - name: temp
+        emptyDir: {}
       securityContext:
         fsGroup: 1337
-      serviceAccountName: image-automation-controller
-      terminationGracePeriodSeconds: 10
-      volumes:
-      - emptyDir: {}
-        name: temp

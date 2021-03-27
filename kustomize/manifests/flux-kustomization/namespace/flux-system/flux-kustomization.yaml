@@ -3,7 +3,7 @@ kind: Kustomization
 metadata:
   name: flux-system-namespace
 spec:
-  path: kustomize/manifests/namespace/flux-system/base
+  path: kustomize/manifests/namespace/flux-system
   interval: 5m
   prune: true
   sourceRef:

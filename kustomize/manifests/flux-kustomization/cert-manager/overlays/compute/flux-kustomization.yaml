@@ -5,7 +5,7 @@ metadata:
 spec:
   dependsOn:
     - name: cert-manager-namespace
-  path: cert-manager/base
+  path: kustomize/manifests/cert-manager/overlays/compute
   interval: 5m
   prune: true
   sourceRef:

@@ -3,7 +3,7 @@ kind: Kustomization
 metadata:
   name: cert-manager-namespace
 spec:
-  path: kustomize/manifests/namespace/cert-manager/base
+  path: kustomize/manifests/namespace/cert-manager
   interval: 5m
   prune: true
   sourceRef:

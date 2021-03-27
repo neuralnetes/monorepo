@@ -1,4 +1,4 @@
 resources:
-  - ../../base
+- ../../base
 patchesStrategicMerge:
-  - service-account-patch.yaml
+- service-account-patch.yaml
