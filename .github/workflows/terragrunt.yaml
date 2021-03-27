@@ -50,7 +50,7 @@ jobs:
         SECRET=${{ github.event.inputs.secret }}
         SHARED=${{ github.event.inputs.shared }}
         TERRAGRUNT_COMMAND="${{ github.event.inputs.terragrunt_command }}"
-        TERRAGRUNT_WORKING_DIR="${{ github.event.inputs.terragrunt_working_dir }}"
+        TERRAGRUNT_WORKING_DIR="$(pwd)/${{ github.event.inputs.terragrunt_working_dir }}"
         TF_INPUT="false"
         TF_IN_AUTOMATION="true"
         TF_PROVIDER_GITHUB_VERSION="4.5.1"
@@ -117,31 +117,31 @@ jobs:
       name: run terragrunt command iam
       run: |
         terragrunt "${TERRAGRUNT_COMMAND}" \
-          --terragrunt-include-dir "./global/iam/**/**"
+          --terragrunt-include-dir "global/iam/**/**"
     - id: terragrunt_command_secret
       if: env.SECRET == 'true'
       name: run terragrunt command secret
       run: |
         terragrunt "${TERRAGRUNT_COMMAND}" \
-          --terragrunt-include-dir "./global/secret/**/**"
+          --terragrunt-include-dir "global/secret/**/**"
     - id: terragrunt_command_network
       if: env.NETWORK == 'true'
       name: run terragrunt command network
       run: |
         terragrunt "${TERRAGRUNT_COMMAND}" \
-          --terragrunt-include-dir "./global/network/**/**" \
-          --terragrunt-include-dir "./us-central1/network/**/**"
+          --terragrunt-include-dir "global/network/**/**" \
+          --terragrunt-include-dir "us-central1/network/**/**"
     - id: terragrunt_command_data
       if: env.DATA == 'true'
       name: run terragrunt command data
       run: |
         terragrunt "${TERRAGRUNT_COMMAND}" \
-          --terragrunt-include-dir "./global/data/**/**" \
-          --terragrunt-include-dir "./us-central1/data/**/**"
+          --terragrunt-include-dir "global/data/**/**" \
+          --terragrunt-include-dir "us-central1/data/**/**"
     - id: terragrunt_command_compute
       if: env.COMPUTE == 'true'
       name: run terragrunt command compute
       run: |
         terragrunt "${TERRAGRUNT_COMMAND}" \
-          --terragrunt-include-dir "./global/compute/**/**" \
-          --terragrunt-include-dir "./us-central1/compute/**/**"
+          --terragrunt-include-dir "global/compute/**/**" \
+          --terragrunt-include-dir "us-central1/compute/**/**"
