@@ -9,5 +9,5 @@ output "private_key_pem" {
 }
 
 output "title" {
-  value = GH_USER_ssh_key.ssh_key.title
+  value = github_user_ssh_key.ssh_key.title
 }

@@ -47,6 +47,9 @@ jobs:
         GCP_SERVICE_ACCOUNT_KEY=${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
         GCS_TERRAFORM_REMOTE_STATE_BUCKET=${{ secrets.GCS_TERRAFORM_REMOTE_STATE_BUCKET }}
         GCS_TERRAFORM_REMOTE_STATE_LOCATION=${{ secrets.GCS_TERRAFORM_REMOTE_STATE_LOCATION }}
+        GCP_WORKSPACE_DOMAIN_NAME=${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}
+        GH_ORGANIZATION=${{ secrets.GH_ORGANIZATION }}
+        GCP_WORKSPACE_DOMAIN_NAME=${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}
         IAM=${{ github.event.inputs.iam }}
         NETWORK=${{ github.event.inputs.network }}
         SECRET=${{ github.event.inputs.secret }}
@@ -68,7 +71,6 @@ jobs:
         echo "GCP_ORGANIZATION_ID=$GCP_ORGANIZATION_ID" >> "${GITHUB_ENV}"
         echo "GCP_WORKSPACE_DOMAIN_NAME=$GCP_WORKSPACE_DOMAIN_NAME" >> "${GITHUB_ENV}"
         echo "GH_ORGANIZATION=$GH_ORGANIZATION" >> "${GITHUB_ENV}"
-        echo "GH_USER=$GH_USER" >> "${GITHUB_ENV}"
         echo "HOME_BIN=$HOME_BIN" >> "${GITHUB_ENV}"
         echo "IAM=$IAM" >> "${GITHUB_ENV}"
         echo "NETWORK=$NETWORK" >> "${GITHUB_ENV}"
@@ -116,32 +118,32 @@ jobs:
       name: run terragrunt command iam
       run: |
         ls
-        terragrunt "${TERRAGRUNT_COMMAND}" \
+        terragrunt run-all "${TERRAGRUNT_COMMAND}" \
           --terragrunt-include-dir "global/iam/**/**"
     - id: terragrunt_command_secret
       if: env.SECRET == 'true'
       name: run terragrunt command secret
       run: |
-        terragrunt "${TERRAGRUNT_COMMAND}" \
+        terragrunt run-all "${TERRAGRUNT_COMMAND}" \
           --terragrunt-include-dir "global/secret/**/**"
     - id: terragrunt_command_network
       if: env.NETWORK == 'true'
       name: run terragrunt command network
       run: |
-        terragrunt "${TERRAGRUNT_COMMAND}" \
+        terragrunt run-all "${TERRAGRUNT_COMMAND}" \
           --terragrunt-include-dir "global/network/**/**" \
           --terragrunt-include-dir "us-central1/network/**/**"
     - id: terragrunt_command_data
       if: env.DATA == 'true'
       name: run terragrunt command data
       run: |
-        terragrunt "${TERRAGRUNT_COMMAND}" \
+        terragrunt run-all "${TERRAGRUNT_COMMAND}" \
           --terragrunt-include-dir "global/data/**/**" \
           --terragrunt-include-dir "us-central1/data/**/**"
     - id: terragrunt_command_compute
       if: env.COMPUTE == 'true'
       name: run terragrunt command compute
       run: |
-        terragrunt "${TERRAGRUNT_COMMAND}" \
+        terragrunt run-all "${TERRAGRUNT_COMMAND}" \
           --terragrunt-include-dir "global/compute/**/**" \
           --terragrunt-include-dir "us-central1/compute/**/**"
