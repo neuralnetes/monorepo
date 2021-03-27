@@ -49,6 +49,7 @@ jobs:
         GCS_TERRAFORM_REMOTE_STATE_LOCATION=${{ secrets.GCS_TERRAFORM_REMOTE_STATE_LOCATION }}
         GCP_WORKSPACE_DOMAIN_NAME=${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}
         GH_ORGANIZATION=${{ secrets.GH_ORGANIZATION }}
+        GH_TOKEN=${{ secrets.GH_TOKEN }}
         IAM=${{ github.event.inputs.iam }}
         NETWORK=${{ github.event.inputs.network }}
         SECRET=${{ github.event.inputs.secret }}
