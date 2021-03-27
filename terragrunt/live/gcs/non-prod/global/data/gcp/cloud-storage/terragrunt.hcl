@@ -10,9 +10,7 @@ dependency "project" {
   config_path = "${get_terragrunt_dir()}/../project"
 }
 
-dependency "project_iam_bindings" {
-  config_path = "${get_terragrunt_dir()}/../project-iam-bindings"
-}
+
 
 dependency "random_string" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/shared/random/random-string"

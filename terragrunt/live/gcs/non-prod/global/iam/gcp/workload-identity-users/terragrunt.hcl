@@ -11,7 +11,7 @@ dependency "iam_project" {
 }
 
 dependency "service_accounts" {
-  config_path = "${get_terragrunt_dir()}/../service-accounts"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/gcp/service-accounts"
 }
 
 dependency "compute_project" {

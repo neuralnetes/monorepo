@@ -11,8 +11,8 @@ remote_state {
     if_exists = "overwrite_terragrunt"
   }
   config = {
-    bucket   = get_env("GCP_TERRAFORM_REMOTE_STATE_BUCKET")
-    prefix   = "${path_relative_to_include()}/terraform.tfstate"
+    bucket = get_env("GCP_TERRAFORM_REMOTE_STATE_BUCKET")
+    prefix = "${path_relative_to_include()}/terraform.tfstate"
   }
 }
 

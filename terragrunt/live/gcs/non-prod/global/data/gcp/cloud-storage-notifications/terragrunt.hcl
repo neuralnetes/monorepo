@@ -10,9 +10,7 @@ dependency "project" {
   config_path = "${get_terragrunt_dir()}/../project"
 }
 
-dependency "project_iam_bindings" {
-  config_path = "${get_terragrunt_dir()}/../project-iam-bindings"
-}
+
 
 dependency "cloud_storage" {
   config_path = "${get_terragrunt_dir()}/../cloud-storage"

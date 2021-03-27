@@ -10,10 +10,6 @@ dependency "iam_project" {
   config_path = "${get_terragrunt_dir()}/../project"
 }
 
-dependency "service_accounts" {
-  config_path = "${get_terragrunt_dir()}/../service-accounts"
-}
-
 dependency "compute_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/gcp/project"
 }
