@@ -1,6 +1,6 @@
 # monorepo
 
-![.github/workflows/terragrunt-run-all.yaml](https://github.com/neuralnetes/monorepo/workflows/.github/workflows/terragrunt-run-all.yaml/badge.svg?branch=master)
+[![.github/workflows/terragrunt.yaml](https://github.com/neuralnetes/monorepo/actions/workflows/terragrunt.yaml/badge.svg?branch=main)](https://github.com/neuralnetes/monorepo/actions/workflows/terragrunt.yaml)
 
 #### [terragrunt/live/gcs/non-prod](./terragrunt/live/gcs/non-prod)
 
