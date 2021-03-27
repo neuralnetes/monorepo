@@ -4,11 +4,11 @@ metadata:
   name: external-dns
 spec:
   dependsOn:
-    - name: external-dns-namespace
-  path: kustomize/manifests/external-dns/overlays/compute
+  - name: namespaces
   interval: 5m
+  path: kustomize/manifests/external-dns/overlays/compute
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository
   targetNamespace: external-dns

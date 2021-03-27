@@ -3,9 +3,9 @@ kind: Kustomization
 metadata:
   name: flux-system-namespace
 spec:
-  path: kustomize/manifests/namespace/flux-system
   interval: 5m
+  path: kustomize/manifests/namespace/flux-system
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository

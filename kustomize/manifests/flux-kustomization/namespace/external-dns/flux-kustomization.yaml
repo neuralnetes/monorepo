@@ -3,9 +3,9 @@ kind: Kustomization
 metadata:
   name: external-dns-namespace
 spec:
-  path: kustomize/manifests/namespace/external-dns
   interval: 5m
+  path: kustomize/manifests/namespace/external-dns
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository

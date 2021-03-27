@@ -3,10 +3,10 @@ kind: Kustomization
 metadata:
   name: nvidia-driver-installer
 spec:
-  path: kustomize/manifests/nvidia-driver-installer/gcp
   interval: 5m
+  path: kustomize/manifests/nvidia-driver-installer/gcp
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository
   targetNamespace: kube-system

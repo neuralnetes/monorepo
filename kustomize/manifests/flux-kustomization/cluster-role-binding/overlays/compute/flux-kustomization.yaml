@@ -3,9 +3,9 @@ kind: Kustomization
 metadata:
   name: cluster-admin
 spec:
-  path: kustomize/manifests/cluster-role-binding/cluster-admin/overlays/compute
   interval: 5m
+  path: kustomize/manifests/cluster-role-binding/cluster-admin/overlays/compute
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository

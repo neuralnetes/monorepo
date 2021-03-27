@@ -4,11 +4,11 @@ metadata:
   name: kubernetes-external-secrets
 spec:
   dependsOn:
-    - name: kubernetes-external-secrets-namespace
-  path: kustomize/manifests/kubernetes-external-secrets/overlays/compute
+  - name: namespaces
   interval: 5m
+  path: kustomize/manifests/kubernetes-external-secrets/overlays/compute
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository
   targetNamespace: kubernetes-external-secrets

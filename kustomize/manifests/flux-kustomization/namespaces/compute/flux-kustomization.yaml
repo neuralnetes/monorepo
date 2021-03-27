@@ -3,9 +3,9 @@ kind: Kustomization
 metadata:
   name: namespaces
 spec:
-  path: kustomize/manifests/flux-kustomization/namespaces/compute/base
   interval: 5m
+  path: kustomize/manifests/flux-kustomization/namespaces/compute/base
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository

@@ -3,9 +3,9 @@ kind: Kustomization
 metadata:
   name: kubeflow-namespace
 spec:
-  path: kustomize/manifests/namespace/kubeflow
   interval: 5m
+  path: kustomize/manifests/namespace/kubeflow
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository

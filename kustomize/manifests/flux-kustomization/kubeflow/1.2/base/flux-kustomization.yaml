@@ -1,3 +1,16 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: namespaces
+spec:
+  dependsOn:
+  - name: namespaces
+  interval: 5m
+  path: kustomize/manifests/kubeflow/1.2/namespaces/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
@@ -5,13 +18,13 @@ metadata:
   name: application
 spec:
   dependsOn:
-    - name: namespaces
+  - name: namespaces
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/application/v3
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository
   targetNamespace: kubeflow
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -20,13 +33,13 @@ metadata:
   name: istio-stack
 spec:
   dependsOn:
-    - name: namespaces
+  - name: namespaces
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/istio-1-3-1-stack
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository
   targetNamespace: istio-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -35,15 +48,15 @@ metadata:
   name: cluster-local-gateway
 spec:
   dependsOn:
-    - name: namespaces
-    - name: istio-stack
-    - name: istio
+  - name: namespaces
+  - name: istio-stack
+  - name: istio
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/cluster-local-gateway-1-3-1
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository
   targetNamespace: istio-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -52,14 +65,62 @@ metadata:
   name: istio
 spec:
   dependsOn:
-    - name: namespaces
+  - name: namespaces
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/istio/istio/base
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository
   targetNamespace: istio-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: cert-manager-crds
+spec:
+  dependsOn:
+  - name: namespaces
+  interval: 5m
+  path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/cert-manager-crds
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+  targetNamespace: cert-manager
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: cert-manager-kube-system-resources
+spec:
+  dependsOn:
+  - name: namespaces
+  - name: cert-manager-crds
+  interval: 5m
+  path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/cert-manager-kube-system-resources
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+  targetNamespace: kube-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: cert-manager
+spec:
+  dependsOn:
+  - name: namespaces
+  - name: cert-manager-crds
+  - name: cert-manager-kube-system-resources
+  interval: 5m
+  path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/cert-manager
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+  targetNamespace: cert-manager
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
@@ -67,17 +128,17 @@ metadata:
   name: metacontroller
 spec:
   dependsOn:
-    - name: namespaces
-    - name: cert-manager
-    - name: istio-stack
-    - name: istio
-    - name: cluster-local-gateway
+  - name: namespaces
+  - name: cert-manager
+  - name: istio-stack
+  - name: istio
+  - name: cluster-local-gateway
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/metacontroller/base
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository
   targetNamespace: kubeflow
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -86,17 +147,17 @@ metadata:
   name: oidc-authservice
 spec:
   dependsOn:
-    - name: namespaces
-    - name: cert-manager
-    - name: istio-stack
-    - name: istio
-    - name: cluster-local-gateway
+  - name: namespaces
+  - name: cert-manager
+  - name: istio-stack
+  - name: istio
+  - name: cluster-local-gateway
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/oidc-authservice
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository
   targetNamespace: istio-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -105,17 +166,17 @@ metadata:
   name: dex
 spec:
   dependsOn:
-    - name: namespaces
-    - name: cert-manager
-    - name: istio-stack
-    - name: istio
-    - name: cluster-local-gateway
+  - name: namespaces
+  - name: cert-manager
+  - name: istio-stack
+  - name: istio
+  - name: cluster-local-gateway
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/dex-auth
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository
   targetNamespace: auth
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -124,17 +185,17 @@ metadata:
   name: bootstrap
 spec:
   dependsOn:
-    - name: namespaces
-    - name: cert-manager
-    - name: istio-stack
-    - name: istio
-    - name: cluster-local-gateway
+  - name: namespaces
+  - name: cert-manager
+  - name: istio-stack
+  - name: istio
+  - name: cluster-local-gateway
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/admission-webhook/bootstrap/overlays/application
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository
   targetNamespace: kubeflow
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -143,17 +204,17 @@ metadata:
   name: spark-operator
 spec:
   dependsOn:
-    - name: namespaces
-    - name: cert-manager
-    - name: istio-stack
-    - name: istio
-    - name: cluster-local-gateway
+  - name: namespaces
+  - name: cert-manager
+  - name: istio-stack
+  - name: istio
+  - name: cluster-local-gateway
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/spark/spark-operator/overlays/application
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository
   targetNamespace: kubeflow
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -162,17 +223,17 @@ metadata:
   name: kubeflow-apps
 spec:
   dependsOn:
-    - name: namespaces
-    - name: cert-manager
-    - name: istio-stack
-    - name: istio
-    - name: cluster-local-gateway
+  - name: namespaces
+  - name: cert-manager
+  - name: istio-stack
+  - name: istio
+  - name: cluster-local-gateway
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository
   targetNamespace: kubeflow
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -181,17 +242,17 @@ metadata:
   name: knative
 spec:
   dependsOn:
-    - name: namespaces
-    - name: cert-manager
-    - name: istio-stack
-    - name: istio
-    - name: cluster-local-gateway
+  - name: namespaces
+  - name: cert-manager
+  - name: istio-stack
+  - name: istio
+  - name: cluster-local-gateway
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/knative/installs/generic
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository
   targetNamespace: knative-serving
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -200,16 +261,16 @@ metadata:
   name: kfserving
 spec:
   dependsOn:
-    - name: namespaces
-    - name: cert-manager
-    - name: istio-stack
-    - name: istio
-    - name: cluster-local-gateway
-    - name: knative
+  - name: namespaces
+  - name: cert-manager
+  - name: istio-stack
+  - name: istio
+  - name: cluster-local-gateway
+  - name: knative
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/kfserving/installs/generic
   prune: true
   sourceRef:
-    kind: GitRepository
     name: monorepo
+    kind: GitRepository
   targetNamespace: kubeflow
