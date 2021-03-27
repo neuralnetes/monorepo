@@ -117,7 +117,7 @@ jobs:
       name: run terragrunt command iam
       run: |
         terragrunt "${TERRAGRUNT_COMMAND}" \
-          --terragrunt-include-dir "global/iam/**/**"
+          --terragrunt-include-dir "${TERRAGRUNT_WORKING_DIR}/global/iam/**/**"
     - id: terragrunt_command_secret
       if: env.SECRET == 'true'
       name: run terragrunt command secret
