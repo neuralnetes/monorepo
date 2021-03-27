@@ -50,7 +50,7 @@ jobs:
         SECRET=${{ github.event.inputs.secret }}
         SHARED=${{ github.event.inputs.shared }}
         TERRAGRUNT_COMMAND="${{ github.event.inputs.terragrunt_command }}"
-        TERRAGRUNT_WORKING_DIR=${{ github.event.inputs.terragrunt_working_dir }}
+        TERRAGRUNT_WORKING_DIR="${{ github.event.inputs.terragrunt_working_dir }}"
         TF_INPUT="false"
         TF_IN_AUTOMATION="true"
         TF_PROVIDER_GITHUB_VERSION="4.5.1"
