@@ -37,7 +37,6 @@ jobs:
       uses: actions/checkout@v2
     - id: setup_github_env
       name: run setup github env
-      working-directory: ./bash/github-actions
       run: |
         COMPUTE=${{ github.event.inputs.compute }}
         DATA=${{ github.event.inputs.data }}
@@ -60,14 +59,41 @@ jobs:
         TF_PROVIDER_KUSTOMIZATION_VERSION="0.4.2"
         TF_PROVIDER_RANDOM_VERSION="3.1.0"
         HOME_BIN="${HOME}/bin"
-        chmod +x ./setup_github_env.sh
-        ./setup_github_env.sh
+        echo "COMPUTE=$COMPUTE" >> "${GITHUB_ENV}"
+        echo "DATA=$DATA" >> "${GITHUB_ENV}"
+        echo "GCP_BILLING_ACCOUNT_ID=$GCP_BILLING_ACCOUNT_ID" >> "${GITHUB_ENV}"
+        echo "GCP_ORGANIZATION=$GCP_ORGANIZATION" >> "${GITHUB_ENV}"
+        echo "GCP_ORGANIZATION_ID=$GCP_ORGANIZATION_ID" >> "${GITHUB_ENV}"
+        echo "GCP_WORKSPACE_DOMAIN_NAME=$GCP_WORKSPACE_DOMAIN_NAME" >> "${GITHUB_ENV}"
+        echo "GITHUB_ORGANIZATION=$GITHUB_ORGANIZATION" >> "${GITHUB_ENV}"
+        echo "GITHUB_REF=$GITHUB_REF" >> "${GITHUB_ENV}"
+        echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY" >> "${GITHUB_ENV}"
+        echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> "${GITHUB_ENV}"
+        echo "GITHUB_USER=$GITHUB_USER" >> "${GITHUB_ENV}"
+        echo "GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS" >> "${GITHUB_ENV}"
+        echo "HOME_BIN=$HOME_BIN" >> "${GITHUB_ENV}"
+        echo "IAM=$IAM" >> "${GITHUB_ENV}"
+        echo "NETWORK=$NETWORK" >> "${GITHUB_ENV}"
+        echo "SECRET=$SECRET" >> "${GITHUB_ENV}"
+        echo "SHARED=$SHARED" >> "${GITHUB_ENV}"
+        echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> "${GITHUB_ENV}"
+        echo "SSH_PRIVATE_KEY=$SSH_PRIVATE_KEY" >> "${GITHUB_ENV}"
+        echo "TERRAFORM_CLOUD_ORGANIZATION=$TERRAFORM_CLOUD_ORGANIZATION" >> "${GITHUB_ENV}"
+        echo "TERRAFORM_CLOUD_TOKEN=$TERRAFORM_CLOUD_TOKEN" >> "${GITHUB_ENV}"
+        echo "TERRAGRUNT_COMMAND=$TERRAGRUNT_COMMAND" >> "${GITHUB_ENV}"
+        echo "TERRAGRUNT_WORKING_DIR=$TERRAGRUNT_WORKING_DIR" >> "${GITHUB_ENV}"
+        echo "TF_INPUT=$TF_INPUT" >> "${GITHUB_ENV}"
+        echo "TF_IN_AUTOMATION=$TF_IN_AUTOMATION" >> "${GITHUB_ENV}"
+        echo "TF_PROVIDER_GITHUB_VERSION=$TF_PROVIDER_GITHUB_VERSION" >> "${GITHUB_ENV}"
+        echo "TF_PROVIDER_GOOGLE_BETA_VERSION=$TF_PROVIDER_GOOGLE_BETA_VERSION" >> "${GITHUB_ENV}"
+        echo "TF_PROVIDER_GOOGLE_VERSION=$TF_PROVIDER_GOOGLE_VERSION" >> "${GITHUB_ENV}"
+        echo "TF_PROVIDER_KUSTOMIZATION_VERSION=$TF_PROVIDER_KUSTOMIZATION_VERSION" >> "${GITHUB_ENV}"
+        echo "TF_PROVIDER_RANDOM_VERSION=$TF_PROVIDER_RANDOM_VERSION" >> "${GITHUB_ENV}"
     - id: setup_github_path
       name: run setup github path
-      working-directory: ./bash/github-actions
       run: |
-        chmod +x ./setup_github_path.sh
-        ./setup_github_path.sh
+        mkdir -p "${HOME_BIN}"
+        echo "${HOME_BIN}" >> "${GITHUB_PATH}"
     - id: setup_gcloud
       name: run setup gcloud
       uses: google-github-actions/setup-gcloud@master
