@@ -115,6 +115,7 @@ jobs:
       if: env.IAM == 'true'
       name: run terragrunt command iam
       run: |
+        ls
         terragrunt "${TERRAGRUNT_COMMAND}" \
           --terragrunt-include-dir "global/iam/**/**"
     - id: terragrunt_command_secret
