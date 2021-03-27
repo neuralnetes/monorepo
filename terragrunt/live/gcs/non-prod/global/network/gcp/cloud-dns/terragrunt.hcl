@@ -7,7 +7,7 @@ include {
 }
 
 dependency "vpc" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/vpc"
+  config_path = "${get_terragrunt_dir()}/../vpc"
 }
 
 dependency "random_string" {

@@ -6,7 +6,7 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "project" {
+dependency "compute_project" {
   config_path = "${get_terragrunt_dir()}/../project"
 }
 
@@ -25,7 +25,7 @@ locals {
 inputs = {
   bindings = [
     {
-      service_account = "${dependency.project.outputs.project_id}@appspot.gserviceaccount.com"
+      service_account = "${dependency.compute_project.outputs.project_id}@appspot.gserviceaccount.com"
       bindings = {
         for role in [
           "roles/iam.serviceAccountUser",

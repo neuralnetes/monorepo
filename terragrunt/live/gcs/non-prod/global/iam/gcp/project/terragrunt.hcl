@@ -27,10 +27,7 @@ inputs = {
   random_project_id    = false
   skip_gcloud_download = true
   activate_apis = [
-    "bigquery.googleapis.com",
-    "pubsub.googleapis.com",
-    "sqladmin.googleapis.com",
-    "storage-api.googleapis.com"
+    "iam.googleapis.com"
   ]
   domain             = local.gcp_workspace_domain_name
   shared_vpc         = dependency.vpc.outputs.project_id

@@ -6,8 +6,28 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "project" {
+dependency "iam_project" {
   config_path = "${get_terragrunt_dir()}/../project"
+}
+
+dependency "service_accounts" {
+  config_path = "${get_terragrunt_dir()}/../service-accounts"
+}
+
+dependency "compute_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/gcp/project"
+}
+
+dependency "data_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/gcp/project"
+}
+
+dependency "network_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/project"
+}
+
+dependency "secret_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/secret/gcp/project"
 }
 
 dependency "random_string" {
@@ -24,34 +44,145 @@ locals {
 
 inputs = {
   bindings = [
-    {
-      key = "bindings-${dependency.random_string.outputs.result}-01"
-      bindings = {
-        for project_role in [
-          "roles/iam.serviceAccountAdmin",
-          "roles/iam.serviceAccountKeyAdmin",
-          "roles/storage.admin",
-          "roles/bigquery.admin",
-          "roles/pubsub.admin",
-          "roles/cloudfunctions.admin"
-        ] :
-        project_role => [
-          "serviceAccount:${dependency.auth.outputs.email}"
-        ]
+    # compute
+    [
+      {
+        key = "${dependency.compute_project.outputs.project_id}-01"
+        bindings = {
+          for project_role in [
+            "roles/compute.admin",
+          ] :
+          project_role => [
+            "serviceAccount:${dependency.auth.outputs.email}"
+          ]
+        }
+        projects = [dependency.compute_project.outputs.project_id]
+      },
+      {
+        key = "${dependency.compute_project.outputs.project_id}-02"
+        bindings = {
+          for project_role in [
+            "roles/viewer",
+          ] :
+          project_role => [
+            "group:engineering@${local.gcp_workspace_domain_name}"
+          ]
+        }
+        projects = [dependency.compute_project.outputs.project_id]
       }
-      projects = [dependency.project.outputs.project_id]
-    },
-    {
-      key = "bindings-${dependency.random_string.outputs.result}-02"
-      bindings = {
-        for project_role in [
-          "roles/editor",
-        ] :
-        project_role => [
-          "group:developers@${local.gcp_workspace_domain_name}"
-        ]
+    ],
+    # data
+    [
+      {
+        key = "${dependency.data_project.outputs.project_id}-01"
+        bindings = {
+          for project_role in [
+            "roles/storage.admin",
+            "roles/bigquery.admin",
+            "roles/pubsub.admin",
+          ] :
+          project_role => [
+            "serviceAccount:${dependency.auth.outputs.email}"
+          ]
+        }
+        projects = [dependency.data_project.outputs.project_id]
+      },
+      {
+        key = "${dependency.data_project.outputs.project_id}-02"
+        bindings = {
+          for project_role in [
+            "roles/viewer",
+          ] :
+          project_role => [
+            "group:engineering@${local.gcp_workspace_domain_name}"
+          ]
+        }
+        projects = [dependency.data_project.outputs.project_id]
       }
-      projects = [dependency.project.outputs.project_id]
-    }
+    ],
+    # iam
+    [
+      {
+        key = "${dependency.project.outputs.project_id}-01"
+        bindings = {
+          for project_role in [
+            "roles/iam.serviceAccountAdmin",
+            "roles/iam.serviceAccountKeyAdmin",
+          ] :
+          project_role => [
+            "serviceAccount:${dependency.auth.outputs.email}"
+          ]
+        }
+        projects = [dependency.iam_project.outputs.project_id]
+      },
+      {
+        key = "${dependency.iam_project.outputs.project_id}-02"
+        bindings = {
+          for project_role in [
+            "roles/viewer",
+          ] :
+          project_role => [
+            "group:engineering@${local.gcp_workspace_domain_name}"
+          ]
+        }
+        projects = [dependency.iam_project.outputs.project_id]
+      }
+    ],
+    # network
+    [
+      {
+        key = "${dependency.network_project.outputs.project_id}-01"
+        bindings = {
+          for project_role in [
+            "roles/storage.admin",
+            "roles/dns.admin"
+          ] :
+          project_role => [
+            "serviceAccount:${dependency.auth.outputs.email}"
+          ]
+        }
+        projects = [dependency.network_project.outputs.project_id]
+      },
+      {
+        key = "${dependency.network_project.outputs.project_id}-02"
+        bindings = {
+          for project_role in [
+            "roles/editor",
+          ] :
+          project_role => [
+            "group:engineering@${local.gcp_workspace_domain_name}"
+          ]
+        }
+        projects = [dependency.network_project.outputs.project_id]
+      }
+
+    ],
+    # secret
+    [
+      {
+        key = "${dependency.secret_project.outputs.project_id}-01"
+        bindings = {
+          for project_role in [
+            "roles/secretmanager.admin"
+          ] :
+          project_role => [
+            "serviceAccount:${dependency.auth.outputs.email}"
+          ]
+        }
+        projects = [dependency.secret_project.outputs.project_id]
+      },
+      {
+        key = "${dependency.secret_project.outputs.project_id}-02"
+        bindings = {
+          for project_role in [
+            "roles/viewer",
+          ] :
+          project_role => [
+            "group:engineering@${local.gcp_workspace_domain_name}"
+          ]
+        }
+        projects = [dependency.secret_project.outputs.project_id]
+      }
+    ],
   ]
 }

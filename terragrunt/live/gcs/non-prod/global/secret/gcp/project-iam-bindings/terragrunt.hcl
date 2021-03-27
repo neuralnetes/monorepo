@@ -43,7 +43,7 @@ inputs = {
           "roles/editor",
         ] :
         project_role => [
-          "group:developers@${local.gcp_workspace_domain_name}"
+          "group:engineering@${local.gcp_workspace_domain_name}"
         ]
       }
       projects = [dependency.project.outputs.project_id]
