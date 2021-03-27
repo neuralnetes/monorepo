@@ -6,6 +6,6 @@ INPUTS="${2}"
 curl -s \
   -X POST \
   -H "Accept: application/vnd.github.v3+json" \
-  -H "Authorization: token ${GITHUB_TOKEN}" \
+  -H "Authorization: token ${GH_TOKEN}" \
   "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/${WORKFLOW_ID}/dispatches" \
   -d "${INPUTS}"
