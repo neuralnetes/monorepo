@@ -28,6 +28,6 @@ request_json=$(
     '
 )
 echo "${request_json}" | jq
-workflow=$(./find_workflow_by_path.sh  ".github/workflows/terragrunt-run-all.yaml")
+workflow=$(./find_workflow_by_path.sh  ".github/workflows/terragrunt.yaml")
 workflow_id=$(echo "${workflow}" | jq '.id')
 ./workflow_dispatch.sh "${workflow_id}" "${request_json}"

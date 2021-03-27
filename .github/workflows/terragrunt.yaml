@@ -54,6 +54,14 @@ jobs:
         SSH_PRIVATE_KEY=${{ secrets.SSH_PRIVATE_KEY }}
         TERRAGRUNT_COMMAND=${{ github.event.inputs.terragrunt_command }}
         TERRAGRUNT_WORKING_DIR=${{ github.event.inputs.terragrunt_working_dir }}
+        if [[ -z "${TERRAGRUNT_WORKING_DIR}" ]]; then
+          echo "TERRAGRUNT_WORKING_DIR must be set"
+          exit 1
+        fi
+        if [[ -z "${TERRAGRUNT_COMMAND}" ]]; then
+          echo "TERRAGRUNT_COMMAND must be set"
+          exit 1
+        fi
         TF_INPUT="false"
         TF_IN_AUTOMATION="true"
         TF_PROVIDER_GITHUB_VERSION="4.5.1"
@@ -80,9 +88,41 @@ jobs:
       name: run setup tgenv
       working-directory: ./bash/terragrunt
       run: ./setup_tgenv.sh
-    - id: setup_ssh
-      name: run setup ssh
-      run: ./bash/ssh/setup_ssh.sh
-    - id: terragrunt_command
-      name: run terragrunt command
-      run: ./bash/terragrunt/terragrunt_command.sh
+    - id: setup_ssh_agent
+      name: run setup ssh agent
+      uses: webfactory/ssh-agent@v0.5.1
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - id: terragrunt_command_iam
+      if: env.IAM == 'true'
+      name: run terragrunt command iam
+      run: |
+        terragrunt "${TERRAGRUNT_COMMAND}" \
+          --terragrunt-include-dir "global/iam/**/**"
+    - id: terragrunt_command_secret
+      if: env.SECRET == 'true'
+      name: run terragrunt command secret
+      run: |
+        terragrunt "${TERRAGRUNT_COMMAND}" \
+          --terragrunt-include-dir "global/secret/**/**"
+    - id: terragrunt_command_network
+      if: env.NETWORK == 'true'
+      name: run terragrunt command network
+      run: |
+        terragrunt "${TERRAGRUNT_COMMAND}" \
+          --terragrunt-include-dir "global/network/**/**" \
+          --terragrunt-include-dir "us-central1/network/**/**"
+    - id: terragrunt_command_data
+      if: env.DATA == 'true'
+      name: run terragrunt command data
+      run: |
+        terragrunt "${TERRAGRUNT_COMMAND}" \
+          --terragrunt-include-dir "global/data/**/**" \
+          --terragrunt-include-dir "us-central1/data/**/**"
+    - id: terragrunt_command_compute
+      if: env.COMPUTE == 'true'
+      name: run terragrunt command compute
+      run: |
+        terragrunt "${TERRAGRUNT_COMMAND}" \
+          --terragrunt-include-dir "global/compute/**/**" \
+          --terragrunt-include-dir "us-central1/compute/**/**"
