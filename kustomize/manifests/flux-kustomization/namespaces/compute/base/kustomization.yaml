@@ -1,6 +1,6 @@
 resources:
 - ../../../namespace/flux-system
-- ../../../namespace/kubernetes-external-secrets
+- ../../../namespace/external-secrets
 - ../../../namespace/cert-manager
 - ../../../namespace/external-dns
 - ../../../namespace/kubeflow

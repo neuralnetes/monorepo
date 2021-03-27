@@ -4,4 +4,4 @@ resources:
 - service.yaml
 - deployment.yaml
 commonLabels:
-  app.kubernetes.io/name: kubernetes-external-secrets
+  app.kubernetes.io/name: external-secrets
