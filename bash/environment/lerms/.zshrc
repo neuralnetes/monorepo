@@ -110,8 +110,5 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-direnv allow
-
-alias kb="kustomize build --load_restrictor LoadRestrictionsNone ."
-alias kbaf="kb | kubectl apply -f -"
-alias kbdelf="kb | kubectl delete -f -"
+direnv allow "${HOME}/.envrc"
+source "${HOME}/.alias"

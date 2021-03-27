@@ -1,0 +1,2 @@
+#!/bin/bash
+alias kb="kustomize build --load_restrictor LoadRestrictionsNone"
