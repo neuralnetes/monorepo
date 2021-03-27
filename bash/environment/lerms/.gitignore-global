@@ -1,0 +1,6 @@
+tmp
+.idea
+.iml
+.envrc
+.terraform
+.terragrunt
