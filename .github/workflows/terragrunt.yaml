@@ -73,7 +73,7 @@ jobs:
     - id: setup_github_path
       name: run setup github path
       working-directory: ./bash/github-actions
-      run: ./setup_github_path
+      run: ./setup_github_path.sh
     - id: setup_gcloud
       name: run setup gcloud
       uses: google-github-actions/setup-gcloud@master
