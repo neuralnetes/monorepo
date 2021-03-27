@@ -11,7 +11,9 @@ remote_state {
     if_exists = "overwrite_terragrunt"
   }
   config = {
-    bucket = get_env("GCP_TERRAFORM_REMOTE_STATE_BUCKET")
+    project = get_env("GCP_PROJECT_ID")
+    bucket = get_env("GCS_TERRAFORM_REMOTE_STATE_BUCKET")
+    location = get_env("GCS_TERRAFORM_REMOTE_STATE_LOCATION")
     prefix = "${path_relative_to_include()}/terraform.tfstate"
   }
 }
@@ -42,11 +44,6 @@ terraform {
       source = "kbst/kustomization"
       version = "${get_env("TF_PROVIDER_KUSTOMIZATION_VERSION")}"
     }
-    # https://registry.terraform.io/providers/hashicorp/random/latest
-    random = {
-      source = "hashicorp/random"
-      version = "${get_env("TF_PROVIDER_RANDOM_VERSION")}"
-    }
   }
 }
 EOF
@@ -72,7 +69,10 @@ generate "github_provider" {
   path      = "github_provider.tf"
   if_exists = "overwrite_terragrunt"
   contents  = <<EOF
-provider "github" {}
+provider "github" {
+  organization = "${get_env("GH_ORGANIZATION")}"
+  token = "${get_env("GITHUB_TOKEN")}"
+}
 EOF
 }
 
