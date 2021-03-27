@@ -18,27 +18,6 @@ remote_state {
   }
 }
 
-generate "required_providers" {
-  path      = "required_providers.tf"
-  if_exists = "overwrite_terragrunt"
-  contents  = <<EOF
-terraform {
-  required_providers {
-    # https://registry.terraform.io/providers/integrations/github/latest
-    github = {
-      source = "integrations/github"
-      version = "${get_env("TF_PROVIDER_GITHUB_VERSION")}"
-    }
-    # https://registry.terraform.io/providers/kbst/kustomization/latest
-    kustomization = {
-      source = "kbst/kustomization"
-      version = "${get_env("TF_PROVIDER_KUSTOMIZATION_VERSION")}"
-    }
-  }
-}
-EOF
-}
-
 generate "google_provider" {
   path      = "google_provider.tf"
   if_exists = "overwrite_terragrunt"
