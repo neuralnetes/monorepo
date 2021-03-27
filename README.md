@@ -15,6 +15,11 @@ SHARED=true \
 TERRAGRUNT_WORKING_DIR=terragrunt/live/gcs/non-prod \
 TERRAGRUNT_COMMAND='apply' \
 ./bash/github-actions/workflow_dispatch_terragrunt.sh
+```
+
+will trigger a `workflow_dispatch` event with this request
+
+```
 {
   "ref": "main",
   "inputs": {
