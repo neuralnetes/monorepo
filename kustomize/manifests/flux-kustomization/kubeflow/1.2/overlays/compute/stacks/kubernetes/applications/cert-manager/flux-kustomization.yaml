@@ -4,11 +4,11 @@ metadata:
   name: cert-manager
 spec:
   dependsOn:
-    - name: cert-manager-namespace
+    - name: namespaces
   path: kustomize/manifests/kubeflow/1.2/overlays/compute/stacks/kubernetes/applications/cert-manager
   interval: 5m
   prune: true
   sourceRef:
     kind: GitRepository
     name: monorepo
-  targetNamespace: flux-system
+  targetNamespace: cert-manager

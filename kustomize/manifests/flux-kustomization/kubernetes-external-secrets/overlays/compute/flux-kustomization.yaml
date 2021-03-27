@@ -5,7 +5,7 @@ metadata:
 spec:
   dependsOn:
     - name: kubernetes-external-secrets-namespace
-  path: kubernetes-external-secrets/overlays/compute
+  path: kustomize/manifests/kubernetes-external-secrets/overlays/compute
   interval: 5m
   prune: true
   sourceRef:
