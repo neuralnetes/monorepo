@@ -10,13 +10,9 @@
 .gitignore-global
 .idea
 .ignore
-.nvmrc
-.python-version
 .terraform
-.terraform-version
 .terraform.lock.hcl
 .terragrunt-cache
-.terragrunt-version
 .tfenv
 .tgenv
 .venv
