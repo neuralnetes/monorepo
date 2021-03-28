@@ -76,8 +76,7 @@ variable "create_service_account" {
 variable "node_pools_tags" {
   type = map(list(string))
   default = {
-    all               = []
-    default-node-pool = []
+    all = ["private"]
   }
 }
 
@@ -87,16 +86,6 @@ variable "master_authorized_networks" {
 }
 
 variable "remove_default_node_pool" {
-  type    = bool
-  default = true
-}
-
-variable "autoscaling" {
-  type    = bool
-  default = true
-}
-
-variable "http_load_balancing" {
   type    = bool
   default = true
 }

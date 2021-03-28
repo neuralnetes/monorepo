@@ -2,12 +2,12 @@ module "container-clusters" {
   for_each                   = local.container_clusters_map
   source                     = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/container-cluster?ref=main"
   add_cluster_firewall_rules = each.value["add_cluster_firewall_rules"]
-  autoscaling                = each.value["autoscaling"]
   create_service_account     = each.value["create_service_account"]
   enable_private_nodes       = each.value["enable_private_nodes"]
   firewall_inbound_ports     = each.value["firewall_inbound_ports"]
   ip_range_pods              = each.value["ip_range_pods"]
   ip_range_services          = each.value["ip_range_services"]
+  kubernetes_version         = each.value["kubernetes_version"]
   master_authorized_networks = each.value["master_authorized_networks"]
   master_ipv4_cidr_block     = each.value["master_ipv4_cidr_block"]
   name                       = each.value["name"]
