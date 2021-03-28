@@ -1,6 +1,6 @@
 module "container-clusters" {
-  for_each           = local.container_clusters_map
-  source             = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/container-cluster?ref=main"
+  for_each                   = local.container_clusters_map
+  source                     = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/container-cluster?ref=main"
   add_cluster_firewall_rules = each.value["add_cluster_firewall_rules"]
   autoscaling                = each.value["autoscaling"]
   create_service_account     = each.value["create_service_account"]
