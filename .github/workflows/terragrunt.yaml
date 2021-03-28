@@ -50,9 +50,6 @@ jobs:
         TF_IN_AUTOMATION: true
         TF_PROVIDER_KUSTOMIZATION_VERSION: 0.4.3
       run: |
-        TERRAGRUNT_CLI_FLAGS=<<EOF
-        ${{ github.event.inputs.terragrunt_cli_flags }}
-        EOF
         echo "$TERRAGRUNT_CLI_FLAGS"
         echo "GCP_BILLING_ACCOUNT_ID=$GCP_BILLING_ACCOUNT_ID" >> "${GITHUB_ENV}"
         echo "GCP_ORGANIZATION=$GCP_ORGANIZATION" >> "${GITHUB_ENV}"
@@ -64,7 +61,7 @@ jobs:
         echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> "${GITHUB_ENV}"
         echo "TERRAGRUNT_COMMAND=$TERRAGRUNT_COMMAND" >> "${GITHUB_ENV}"
         echo "TERRAGRUNT_WORKING_DIR=$TERRAGRUNT_WORKING_DIR" >> "${GITHUB_ENV}"
-        echo "TERRAGRUNT_CLI_FLAGS=$TERRAGRUNT_CLI_FLAGS" >> "${GITHUB_ENV}"
+        echo "TERRAGRUNT_CLI_FLAGS=${{ github.event.inputs.terragrunt_cli_flags }}" >> "${GITHUB_ENV}"
         echo "HOME_BIN=$HOME_BIN" >> "${GITHUB_ENV}"
         echo "TF_INPUT=$TF_INPUT" >> "${GITHUB_ENV}"
         echo "TF_IN_AUTOMATION=$TF_IN_AUTOMATION" >> "${GITHUB_ENV}"
