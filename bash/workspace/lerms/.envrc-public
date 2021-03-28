@@ -1,22 +1,38 @@
 #!/bin/bash
-export GCP_BILLING_ACCOUNT_ID=""
-export GCP_ORGANIZATION=""
-export GCP_ORGANIZATION_ID=""
-export GCP_PROJECT_ID=""
-export GCP_WORKSPACE_DOMAIN_NAME=""
-export GCS_TERRAFORM_REMOTE_STATE_BUCKET=""
-export GCS_TERRAFORM_REMOTE_STATE_LOCATION=""
-export GITHUB_CLIENT_ID=""
-export GITHUB_CLIENT_SECRET=""
-export GITHUB_REF=""
-export GITHUB_SHA=""
-export GITHUB_TOKEN=""
-export GITHUB_USER=""
-export GITHUB_USER_WORKSPACE=""
-export GOOGLE_APPLICATION_CREDENTIALS=""
-export TERRAGRUNT_CLI_FLAGS=""
-export TERRAGRUNT_COMMAND=""
-export TERRAGRUNT_WORKING_DIR=""
-export TF_INPUT=""
-export TF_IN_AUTOMATION=""
-export TF_PROVIDER_KUSTOMIZATION_VERSION=""
+export EDITOR="code --wait"
+export KUBE_EDITOR="${EDITOR}"
+export GOPATH="${HOME}/go"
+export GOBIN="${GOPATH}/bin"
+export GCP_ORGANIZATION="neuralnetes"
+export GCP_PROJECT_ID="terraform-${GCP_ORGANIZATION}"
+export GCP_WORKSPACE_DOMAIN_NAME="${GCP_ORGANIZATION}.com"
+export GCS_TERRAFORM_REMOTE_STATE_BUCKET="terraform-${GCP_ORGANIZATION}"
+export GCS_TERRAFORM_REMOTE_STATE_LOCATION="US"
+export GITHUB_ORGANIZATION="neuralnetes"
+export GITHUB_REPOSITORY="${GITHUB_ORGANIZATION}/monorepo"
+export GITHUB_WORKSPACE="${GOPATH}/src/github.com/${GITHUB_REPOSITORY}"
+export GITHUB_REF=$(cd "${GITHUB_WORKSPACE}" && git branch --show-current)
+export GITHUB_SHA=$(cd "${GITHUB_WORKSPACE}" && git rev-parse HEAD)
+export GITHUB_USER="lerms"
+export GITHUB_WORKSPACE_BIN="${GITHUB_WORKSPACE}/bin"
+export GITHUB_USER_WORKSPACE="${GITHUB_WORKSPACE}/bash/workspace/${GITHUB_USER}"
+export GOOGLE_APPLICATION_CREDENTIALS="${HOME}/.config/gcloud/application_default_credentials.json"
+export KUBE_EDITOR="${EDITOR}"
+read -r -d '' TERRAGRUNT_CLI_FLAGS <<-'EOF'
+  --terragrunt-include-dir "global/compute/**/**" \
+  --terragrunt-include-dir "global/data/**/**" \
+  --terragrunt-include-dir "global/iam/**/**" \
+  --terragrunt-include-dir "global/network/**/**" \
+  --terragrunt-include-dir "global/secret/**/**" \
+  --terragrunt-include-dir "global/terraform/**/**" \
+  --terragrunt-include-dir "us-central1/compute/**/**" \
+  --terragrunt-include-dir "us-central1/data/**/**" \
+  --terragrunt-include-dir "us-central1/network/**/**"
+EOF
+export TERRAGRUNT_CLI_FLAGS="${TERRAGRUNT_CLI_FLAGS}"
+export TERRAGRUNT_COMMAND="run-all apply"
+export TERRAGRUNT_WORKING_DIR="terragrunt/live/gcs/non-prod"
+export TF_INPUT="false"
+export TF_IN_AUTOMATION="true"
+export TF_PROVIDER_KUSTOMIZATION_VERSION="0.4.3"
+export PATH="${GITHUB_WORKSPACE_BIN}:${GOBIN}:${PATH}"
