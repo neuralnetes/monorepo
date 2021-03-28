@@ -8,6 +8,7 @@ variable "container_clusters" {
     http_load_balancing        = bool
     ip_range_pods              = string
     ip_range_services          = string
+    kubernetes_version         = string
     master_authorized_networks = list(object({
       cidr_block   = string,
       display_name = string
