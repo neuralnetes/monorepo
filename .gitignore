@@ -27,3 +27,5 @@ keyboard.json
 .terraform-version
 .terragrunt-version
 bin
+.tgenv
+.tfenv
