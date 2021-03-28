@@ -3,7 +3,7 @@ output "name" {
 }
 
 output "project_id" {
-  value = module.container-cluster["project_id"]
+  value = var.project_id
 }
 
 output "region" {
