@@ -50,7 +50,7 @@ jobs:
         TF_IN_AUTOMATION: true
         TF_PROVIDER_KUSTOMIZATION_VERSION: 0.4.3
       run: |
-        TERRAGRUNT_CLI_FLAGS=$(echo ${{ github.event.inputs.terragrunt_cli_flags }})
+        TERRAGRUNT_CLI_FLAGS=${{ github.event.inputs.terragrunt_cli_flags }}
         echo "$TERRAGRUNT_CLI_FLAGS"
         echo "GCP_BILLING_ACCOUNT_ID=$GCP_BILLING_ACCOUNT_ID" >> "${GITHUB_ENV}"
         echo "GCP_ORGANIZATION=$GCP_ORGANIZATION" >> "${GITHUB_ENV}"
