@@ -1,5 +1,6 @@
 output "container_cluster" {
-  value = module.container-cluster
+  sensitive = true
+  value     = module.container-cluster
 }
 
 output "name" {
