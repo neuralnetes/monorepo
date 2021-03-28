@@ -34,19 +34,13 @@ variable "subnetwork" {
   type = string
 }
 
-variable "description" {
-  type    = string
-  default = "cluster"
-}
-
 variable "regional" {
-  type    = string
+  type    = bool
   default = false
 }
 
 variable "region" {
-  type    = string
-  default = "us-central1"
+  type = string
 }
 
 variable "zones" {
@@ -103,5 +97,6 @@ variable "http_load_balancing" {
 }
 
 variable "enable_private_nodes" {
+  type    = bool
   default = true
 }
