@@ -18,16 +18,16 @@ export GITHUB_WORKSPACE_BIN="${GITHUB_WORKSPACE}/bin"
 export GITHUB_USER_WORKSPACE="${GITHUB_WORKSPACE}/bash/workspace/${GITHUB_USER}"
 export GOOGLE_APPLICATION_CREDENTIALS="${HOME}/.config/gcloud/application_default_credentials.json"
 export KUBE_EDITOR="${EDITOR}"
-read -r -d '' TERRAGRUNT_CLI_FLAGS <<-'EOF'
-  --terragrunt-include-dir "global/compute/**/**" \
-  --terragrunt-include-dir "global/data/**/**" \
-  --terragrunt-include-dir "global/iam/**/**" \
-  --terragrunt-include-dir "global/network/**/**" \
-  --terragrunt-include-dir "global/secret/**/**" \
-  --terragrunt-include-dir "global/terraform/**/**" \
-  --terragrunt-include-dir "us-central1/compute/**/**" \
-  --terragrunt-include-dir "us-central1/data/**/**" \
-  --terragrunt-include-dir "us-central1/network/**/**"
+read -r -d '' TERRAGRUNT_CLI_FLAGS <<'EOF'
+--terragrunt-include-dir global/compute/**/**
+--terragrunt-include-dir global/data/**/**
+--terragrunt-include-dir global/iam/**/**
+--terragrunt-include-dir global/network/**/**
+--terragrunt-include-dir global/secret/**/**
+--terragrunt-include-dir global/terraform/**/**
+--terragrunt-include-dir us-central1/compute/**/**
+--terragrunt-include-dir us-central1/data/**/**
+--terragrunt-include-dir us-central1/network/**/**
 EOF
 export TERRAGRUNT_CLI_FLAGS="${TERRAGRUNT_CLI_FLAGS}"
 export TERRAGRUNT_COMMAND="run-all apply"
