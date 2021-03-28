@@ -61,7 +61,7 @@ jobs:
         echo "TERRAGRUNT_COMMAND=$TERRAGRUNT_COMMAND" >> "${GITHUB_ENV}"
         echo "TERRAGRUNT_WORKING_DIR=$TERRAGRUNT_WORKING_DIR" >> "${GITHUB_ENV}"
         echo 'TERRAGRUNT_CLI_FLAGS<<EOF' >> "${GITHUB_ENV}"
-        echo ${{ github.event.inputs.terragrunt_cli_flags }} >>  "${GITHUB_ENV}"
+        echo "${{ github.event.inputs.terragrunt_cli_flags }}" >>  "${GITHUB_ENV}"
         echo 'EOF' >> "${GITHUB_ENV}"
         echo "HOME_BIN=$HOME_BIN" >> "${GITHUB_ENV}"
         echo "TF_INPUT=$TF_INPUT" >> "${GITHUB_ENV}"
