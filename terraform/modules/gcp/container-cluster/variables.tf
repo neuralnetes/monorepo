@@ -43,6 +43,11 @@ variable "region" {
   type = string
 }
 
+variable "kubernetes_version" {
+  type    = string
+  default = "latest"
+}
+
 variable "zones" {
   type    = list(string)
   default = []

@@ -154,14 +154,7 @@ locals {
     enable_binary_authorization = false
     add_cluster_firewall_rules  = true
     firewall_priority           = 1000
-    firewall_inbound_ports = [
-      "443",
-      "10250",
-      "6443",
-      "15014",
-      "15017",
-      "8080"
-    ]
+    firewall_inbound_ports =
     gcloud_upgrade                 = false
     add_shadow_firewall_rules      = false
     shadow_firewall_rules_priority = 999
@@ -176,6 +169,38 @@ inputs = {
   container_clusters = [
     for container_cluster in [
       {
+        add_cluster_firewall_rules = true
+        autoscaling                = true
+        create_service_account     = false
+        enable_private_nodes       = true
+        firewall_inbound_ports     =  [
+          "443",
+          "10250",
+          "6443",
+          "15014",
+          "15017",
+          "8080"
+        ]
+        kubernetes_version = "latest"
+        master_authorized_networks = [
+          {
+            cidr_block   = "0.0.0.0/0"
+            display_name = "all-for-testing"
+          }
+        ]
+        master_ipv4_cidr_block   = string
+        name                     = string
+        network                  = string
+        network_project_id       = string
+        node_pools               = list(map(string))
+        node_pools_tags          = map(list(string))
+        project_id               = string
+        region                   = string
+        regional                 = bool
+        remove_default_node_pool = bool
+        service_account          = string
+        subnetwork               = string
+        zones                    = list(string)
         project_id         = dependency.compute_project.outputs.project_id
         name               = "cluster-${dependency.random_string.outputs.result}"
         network            = dependency.vpc.outputs.network_name

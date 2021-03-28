@@ -7,6 +7,7 @@ module "container-cluster" {
   firewall_inbound_ports     = var.firewall_inbound_ports
   ip_range_pods              = var.ip_range_pods
   ip_range_services          = var.ip_range_services
+  kubernetes_version         = var.kubernetes_version
   master_authorized_networks = var.master_authorized_networks
   master_ipv4_cidr_block     = var.master_ipv4_cidr_block
   name                       = var.name
