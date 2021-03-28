@@ -9,13 +9,14 @@ include {
 inputs = {
   project_id = get_env("GCP_PROJECT_ID")
   activate_apis = [
-    "cloudresourcemanager.googleapis.com",
+    "admin.googleapis.com",
     "cloudbilling.googleapis.com",
+    "cloudresourcemanager.googleapis.com",
     "compute.googleapis.com",
     "container.googleapis.com",
+    "iam.googleapis.com",
     "servicemanagement.googleapis.com",
     "serviceusage.googleapis.com",
-    "iam.googleapis.com",
-    "admin.googleapis.com",
+    "sqladmin.googleapis.com"
   ]
 }
