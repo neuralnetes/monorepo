@@ -3,9 +3,10 @@ on:
     inputs:
       terragrunt_working_dir:
         description: 'terragrunt_working_dir'
-        required: true
+        required: false
+        default: terragrunt/live/gcs/non-prod
       terragrunt_cli_flags:
-        description: 'terragrunt_working_dir'
+        description: 'terragrunt_cli_flags'
         required: false
         default: |
           --terragrunt-include-dir "global/terraform/**/**" \
@@ -19,7 +20,8 @@ on:
           --terragrunt-include-dir "us-central1/compute/**/**"
       terragrunt_run_all_command:
         description: 'terragrunt_run_all_command'
-        required: true
+        required: false
+        default: plan
 defaults:
   run:
     shell: bash
@@ -33,7 +35,6 @@ jobs:
     - id: setup_github_env
       name: run setup github env
       env:
-        # secrets
         GCP_BILLING_ACCOUNT_ID: "${{ secrets.GCP_BILLING_ACCOUNT_ID }}"
         GCP_ORGANIZATION: "${{ secrets.GCP_ORGANIZATION }}"
         GCP_ORGANIZATION_ID: "${{ secrets.GCP_ORGANIZATION_ID }}"
@@ -41,11 +42,9 @@ jobs:
         GCS_TERRAFORM_REMOTE_STATE_BUCKET: "${{ secrets.GCS_TERRAFORM_REMOTE_STATE_BUCKET }}"
         GCS_TERRAFORM_REMOTE_STATE_LOCATION: "${{ secrets.GCS_TERRAFORM_REMOTE_STATE_LOCATION }}"
         GCP_WORKSPACE_DOMAIN_NAME: "${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}"
-        # inputs
         TERRAGRUNT_RUN_ALL_COMMAND: "${{ github.event.inputs.terragrunt_run_all_command }}"
         TERRAGRUNT_WORKING_DIR: "${{ github.workspace }}/${{ github.event.inputs.terragrunt_working_dir }}"
         TERRAGRUNT_CLI_FLAGS: "${{ github.event.inputs.terragrunt_cli_flags }}"
-        # hardcoded
         HOME_BIN: "${{ github.workspace }}/bin"
         TF_INPUT: false
         TF_IN_AUTOMATION: true
@@ -102,7 +101,6 @@ jobs:
       run: |
         chmod +x ./setup_tgenv.sh
         ./setup_tgenv.sh
-    - id: terragrunt_command_iam
-      name: run terragrunt command iam
-      run: |
-        terragrunt run-all "${TERRAGRUNT_RUN_ALL_COMMAND}" "${TERRAGRUNT_CLI_FLAGS}"
+    - id: terragrunt_run_all
+      name: run terragrunt run all
+      run: terragrunt run-all ${{ env.TERRAGRUNT_RUN_ALL_COMMAND }} ${{ env.TERRAGRUNT_CLI_FLAGS }}
