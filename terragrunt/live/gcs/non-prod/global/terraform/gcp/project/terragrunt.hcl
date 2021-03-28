@@ -16,6 +16,7 @@ inputs = {
     "container.googleapis.com",
     "iam.googleapis.com",
     "servicemanagement.googleapis.com",
+    "servicenetworking.googleapis.com",
     "serviceusage.googleapis.com",
     "sqladmin.googleapis.com"
   ]

@@ -24,7 +24,8 @@ inputs = {
   skip_gcloud_download = true
   activate_apis = [
     "compute.googleapis.com",
-    "dns.googleapis.com"
+    "dns.googleapis.com",
+    "servicenetworking.googleapis.com"
   ]
   domain                         = local.gcp_workspace_domain_name
   enable_shared_vpc_host_project = true
