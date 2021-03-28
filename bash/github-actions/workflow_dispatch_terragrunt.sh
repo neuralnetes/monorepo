@@ -8,7 +8,7 @@ request_json=$(
     --arg network "${NETWORK}" \
     --arg data "${DATA}" \
     --arg compute "${COMPUTE}" \
-    --arg shared "${SHARED}" \
+    --arg shared "${TERRAFORM}" \
     --arg terragrunt_working_dir "${TERRAGRUNT_WORKING_DIR}" \
     --arg terragrunt_run_all_command "${TERRAGRUNT_RUN_ALL_COMMAND}" \
     '

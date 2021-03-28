@@ -52,6 +52,6 @@ if [[ "${IAM}" == "true" ]]; then
   gsutil -m -q  rm -rf  "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/global/iam/**/*"
 fi
 
-if [[ "${SHARED}" == "true" ]]; then
-  gsutil -m -q  rm -rf  "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/global/shared/**/*"
+if [[ "${TERRAFORM}" == "true" ]]; then
+  gsutil -m -q  rm -rf  "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/global/terraform/**/*"
 fi

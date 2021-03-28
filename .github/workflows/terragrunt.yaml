@@ -1,27 +1,22 @@
 on:
   workflow_dispatch:
     inputs:
-      iam:
-        description: 'iam'
-        required: true
-      secret:
-        description: 'secret'
-        required: true
-      network:
-        description: 'network'
-        required: true
-      data:
-        description: 'data'
-        required: true
-      compute:
-        description: 'compute'
-        required: true
-      shared:
-        description: 'shared'
-        required: true
       terragrunt_working_dir:
         description: 'terragrunt_working_dir'
         required: true
+      terragrunt_cli_flags:
+        description: 'terragrunt_working_dir'
+        required: false
+        default: |
+          --terragrunt-include-dir "global/terraform/**/**" \
+          --terragrunt-include-dir "global/iam/**/**" \
+          --terragrunt-include-dir "global/secret/**/**"
+          --terragrunt-include-dir "global/network/**/**" \
+          --terragrunt-include-dir "us-central1/network/**/**" \
+          --terragrunt-include-dir "global/data/**/**" \
+          --terragrunt-include-dir "us-central1/data/**/**" \
+          --terragrunt-include-dir "global/compute/**/**" \
+          --terragrunt-include-dir "us-central1/compute/**/**"
       terragrunt_run_all_command:
         description: 'terragrunt_run_all_command'
         required: true
@@ -37,42 +32,41 @@ jobs:
       uses: actions/checkout@v2
     - id: setup_github_env
       name: run setup github env
+      env:
+        # secrets
+        GCP_BILLING_ACCOUNT_ID: "${{ secrets.GCP_BILLING_ACCOUNT_ID }}"
+        GCP_ORGANIZATION: "${{ secrets.GCP_ORGANIZATION }}"
+        GCP_ORGANIZATION_ID: "${{ secrets.GCP_ORGANIZATION_ID }}"
+        GCP_PROJECT_ID: "${{ secrets.GCP_PROJECT_ID }}"
+        GCS_TERRAFORM_REMOTE_STATE_BUCKET: "${{ secrets.GCS_TERRAFORM_REMOTE_STATE_BUCKET }}"
+        GCS_TERRAFORM_REMOTE_STATE_LOCATION: "${{ secrets.GCS_TERRAFORM_REMOTE_STATE_LOCATION }}"
+        GCP_WORKSPACE_DOMAIN_NAME: "${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}"
+        # inputs
+        TERRAGRUNT_RUN_ALL_COMMAND: "${{ github.event.inputs.terragrunt_run_all_command }}"
+        TERRAGRUNT_WORKING_DIR: "${{ github.workspace }}/${{ github.event.inputs.terragrunt_working_dir }}"
+        TERRAGRUNT_CLI_FLAGS: "${{ github.event.inputs.terragrunt_cli_flags }}"
+        # hardcoded
+        HOME_BIN: "${{ github.workspace }}/bin"
+        TF_INPUT: false
+        TF_IN_AUTOMATION: true
+        TF_PROVIDER_KUSTOMIZATION_VERSION: 0.4.3
       run: |
-        COMPUTE=${{ github.event.inputs.compute }}
-        DATA=${{ github.event.inputs.data }}
-        GCP_BILLING_ACCOUNT_ID=${{ secrets.GCP_BILLING_ACCOUNT_ID }}
-        GCP_ORGANIZATION=${{ secrets.GCP_ORGANIZATION }}
-        GCP_ORGANIZATION_ID=${{ secrets.GCP_ORGANIZATION_ID }}
-        GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }}
-        GCS_TERRAFORM_REMOTE_STATE_BUCKET=${{ secrets.GCS_TERRAFORM_REMOTE_STATE_BUCKET }}
-        GCS_TERRAFORM_REMOTE_STATE_LOCATION=${{ secrets.GCS_TERRAFORM_REMOTE_STATE_LOCATION }}
-        GCP_WORKSPACE_DOMAIN_NAME=${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}
-        IAM=${{ github.event.inputs.iam }}
-        NETWORK=${{ github.event.inputs.network }}
-        SECRET=${{ github.event.inputs.secret }}
-        SHARED=${{ github.event.inputs.shared }}
-        TERRAGRUNT_RUN_ALL_COMMAND="${{ github.event.inputs.terragrunt_run_all_command }}"
-        TERRAGRUNT_WORKING_DIR="${GITHUB_WORKSPACE}/${{ github.event.inputs.terragrunt_working_dir }}"
-        TF_INPUT="false"
-        TF_IN_AUTOMATION="true"
-        TF_PROVIDER_KUSTOMIZATION_VERSION="0.4.2"
-        HOME_BIN="${HOME}/bin"
-        echo "COMPUTE=$COMPUTE" >> "${GITHUB_ENV}"
-        echo "DATA=$DATA" >> "${GITHUB_ENV}"
         echo "GCP_BILLING_ACCOUNT_ID=$GCP_BILLING_ACCOUNT_ID" >> "${GITHUB_ENV}"
         echo "GCP_ORGANIZATION=$GCP_ORGANIZATION" >> "${GITHUB_ENV}"
         echo "GCP_ORGANIZATION_ID=$GCP_ORGANIZATION_ID" >> "${GITHUB_ENV}"
         echo "GCP_PROJECT_ID=$GCP_PROJECT_ID" >> "${GITHUB_ENV}"
-        echo "GCP_WORKSPACE_DOMAIN_NAME=$GCP_WORKSPACE_DOMAIN_NAME" >> "${GITHUB_ENV}"
         echo "GCS_TERRAFORM_REMOTE_STATE_BUCKET=$GCS_TERRAFORM_REMOTE_STATE_BUCKET" >> "${GITHUB_ENV}"
         echo "GCS_TERRAFORM_REMOTE_STATE_LOCATION=$GCS_TERRAFORM_REMOTE_STATE_LOCATION" >> "${GITHUB_ENV}"
-        echo "HOME_BIN=$HOME_BIN" >> "${GITHUB_ENV}"
+        echo "GCP_WORKSPACE_DOMAIN_NAME=$GCP_WORKSPACE_DOMAIN_NAME" >> "${GITHUB_ENV}"
+        echo "TERRAFORM=$TERRAFORM" >> "${GITHUB_ENV}"
         echo "IAM=$IAM" >> "${GITHUB_ENV}"
-        echo "NETWORK=$NETWORK" >> "${GITHUB_ENV}"
         echo "SECRET=$SECRET" >> "${GITHUB_ENV}"
-        echo "SHARED=$SHARED" >> "${GITHUB_ENV}"
-        echo "TERRAGRUNT_RUN_ALL_COMMAND=$TERRAGRUNT_COMMAND" >> "${GITHUB_ENV}"
+        echo "NETWORK=$NETWORK" >> "${GITHUB_ENV}"
+        echo "DATA=$DATA" >> "${GITHUB_ENV}"
+        echo "COMPUTE=$COMPUTE" >> "${GITHUB_ENV}"
+        echo "TERRAGRUNT_RUN_ALL_COMMAND=$TERRAGRUNT_RUN_ALL_COMMAND" >> "${GITHUB_ENV}"
         echo "TERRAGRUNT_WORKING_DIR=$TERRAGRUNT_WORKING_DIR" >> "${GITHUB_ENV}"
+        echo "HOME_BIN=$HOME_BIN" >> "${GITHUB_ENV}"
         echo "TF_INPUT=$TF_INPUT" >> "${GITHUB_ENV}"
         echo "TF_IN_AUTOMATION=$TF_IN_AUTOMATION" >> "${GITHUB_ENV}"
         echo "TF_PROVIDER_KUSTOMIZATION_VERSION=$TF_PROVIDER_KUSTOMIZATION_VERSION" >> "${GITHUB_ENV}"
@@ -81,6 +75,15 @@ jobs:
       run: |
         mkdir -p "${HOME_BIN}"
         echo "${HOME_BIN}" >> "${GITHUB_PATH}"
+    - id: meta_linter
+      name: run meta linter
+      # You can override Mega-Linter flavor used to have faster performances
+      # More info at https://nvuillam.github.io/mega-linter/flavors/
+      uses: nvuillam/mega-linter@v4
+      env:
+        # All available variables are described in documentation
+        # https://nvuillam.github.io/mega-linter/configuration/
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - id: setup_gcloud
       name: run setup gcloud
       uses: google-github-actions/setup-gcloud@master
@@ -102,12 +105,4 @@ jobs:
     - id: terragrunt_command_iam
       name: run terragrunt command iam
       run: |
-        terragrunt run-all "${TERRAGRUNT_RUN_ALL_COMMAND}" \
-          --terragrunt-include-dir "global/iam/**/**" \
-          --terragrunt-include-dir "global/secret/**/**"
-          --terragrunt-include-dir "global/network/**/**" \
-          --terragrunt-include-dir "us-central1/network/**/**" \
-          --terragrunt-include-dir "global/data/**/**" \
-          --terragrunt-include-dir "us-central1/data/**/**" \
-          --terragrunt-include-dir "global/compute/**/**" \
-          --terragrunt-include-dir "us-central1/compute/**/**"
+        terragrunt run-all "${TERRAGRUNT_RUN_ALL_COMMAND}" "${TERRAGRUNT_CLI_FLAGS}"

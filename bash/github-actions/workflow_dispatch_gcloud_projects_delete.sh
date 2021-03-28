@@ -8,7 +8,7 @@ request_json=$(
     --arg network "${NETWORK:-true}" \
     --arg data "${DATA:-true}" \
     --arg compute "${COMPUTE:-true}" \
-    --arg shared "${SHARED:-true}" \
+    --arg shared "${TERRAFORM:-true}" \
     '
       {
         "ref": $ref,

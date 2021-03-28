@@ -1,5 +1,5 @@
 terraform {
-  source = "https://github.com/terraform-google-modules/terraform-google-project-factory.git//modules/svpc_service_project?ref=v10.2.1"
+  source = "https://github.com/terraform-google-modules/terraform-google-project-factory.git//ref=v10.2.1"
 }
 
 include {
@@ -23,9 +23,7 @@ dependency "random_string" {
 }
 
 inputs = {
-  name                 = "compute-${dependency.random_string.outputs.result}"
-  random_project_id    = false
-  skip_gcloud_download = true
+  name                 = "terraform-${get_env("GCP_ORGANIZATION")}"
   activate_apis = [
     "cloudresourcemanager.googleapis.com",
     "compute.googleapis.com",
@@ -34,7 +32,4 @@ inputs = {
     "ml.googleapis.com",
     "servicemanagement.googleapis.com",
   ]
-  domain             = local.gcp_workspace_domain_name
-  shared_vpc         = dependency.vpc.outputs.project_id
-  shared_vpc_subnets = [for subnet in values(dependency.subnetworks.outputs.subnets) : subnet["self_link"]]
 }

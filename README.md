@@ -11,7 +11,7 @@ SECRET=true \
 NETWORK=true \
 DATA=true \
 COMPUTE=true \
-SHARED=true \
+TERRAFORM=true \
 TERRAGRUNT_WORKING_DIR=terragrunt/live/gcs/non-prod \
 TERRAGRUNT_RUN_ALL_COMMAND='apply' \
 ./bash/github-actions/workflow_dispatch_terragrunt.sh

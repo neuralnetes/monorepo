@@ -27,7 +27,7 @@ dependency "firewall" {
 }
 
 dependency "random_string" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/shared/random/random-string"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
 }
 
 locals {
