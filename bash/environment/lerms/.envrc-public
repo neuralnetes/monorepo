@@ -21,14 +21,14 @@ export GOOGLE_APPLICATION_CREDENTIALS="${HOME}/.config/gcloud/application_defaul
 export TERRAGRUNT_COMMAND="run-all apply"
 export TERRAGRUNT_WORKING_DIR="terragrunt/live/gcs/non-prod"
 read -r -d '' TERRAGRUNT_CLI_FLAGS <<'EOF'
---terragrunt-include-dir "global/terraform/**/**"
---terragrunt-include-dir "global/iam/**/**"
---terragrunt-include-dir "global/secret/**/**"
---terragrunt-include-dir "global/network/**/**"
---terragrunt-include-dir "us-central1/network/**/**"
---terragrunt-include-dir "global/data/**/**"
---terragrunt-include-dir "us-central1/data/**/**"
---terragrunt-include-dir "global/compute/**/**"
+--terragrunt-include-dir "global/terraform/**/**" \
+--terragrunt-include-dir "global/iam/**/**" \
+--terragrunt-include-dir "global/secret/**/**" \
+--terragrunt-include-dir "global/network/**/**" \
+--terragrunt-include-dir "us-central1/network/**/**" \
+--terragrunt-include-dir "global/data/**/**" \
+--terragrunt-include-dir "us-central1/data/**/**" \
+--terragrunt-include-dir "global/compute/**/**" \
 --terragrunt-include-dir "us-central1/compute/**/**"
 EOF
 export TERRAGRUNT_CLI_FLAGS="${TERRAGRUNT_CLI_FLAGS}"
