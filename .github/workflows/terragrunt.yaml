@@ -3,25 +3,13 @@ on:
     inputs:
       terragrunt_cli_flags:
         description: 'terragrunt_cli_flags'
-        required: false
-        default: |
-          --terragrunt-include-dir "global/terraform/**/**" \
-          --terragrunt-include-dir "global/iam/**/**" \
-          --terragrunt-include-dir "global/secret/**/**" \
-          --terragrunt-include-dir "global/network/**/**" \
-          --terragrunt-include-dir "us-central1/network/**/**" \
-          --terragrunt-include-dir "global/data/**/**" \
-          --terragrunt-include-dir "us-central1/data/**/**" \
-          --terragrunt-include-dir "global/compute/**/**" \
-          --terragrunt-include-dir "us-central1/compute/**/**"
+        required: true
       terragrunt_command:
         description: 'terragrunt_command'
-        required: false
-        default: run-all plan
+        required: true
       terragrunt_working_dir:
         description: 'terragrunt_working_dir'
-        required: false
-        default: terragrunt/live/gcs/non-prod
+        required: true
 defaults:
   run:
     shell: bash
