@@ -11,7 +11,7 @@ dependency "network_project" {
 }
 
 dependency "vpc" {
-  config_path = "${get_terragrunt_dir()}/../vpc"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/vpc"
 }
 
 dependency "random_string" {

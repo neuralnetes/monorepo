@@ -11,7 +11,7 @@ dependency "random_string" {
 }
 
 dependency "container_clusters" {
-  config_path = "${get_terragrunt_dir()}/../../gcp/container-clusters"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/gcp/container-clusters"
 }
 
 generate "kustomization_provider" {
