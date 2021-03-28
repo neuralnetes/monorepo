@@ -1,4 +1,0 @@
-#!/bin/bash
-alias kb="kustomize build --load_restrictor LoadRestrictionsNone"
-alias kcfr="kustomize cfg fmt -R"
-alias lower="tr '[:upper:]' '[:lower:]'"

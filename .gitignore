@@ -26,3 +26,4 @@ keyboard.json
 .python-version
 .terraform-version
 .terragrunt-version
+bin
