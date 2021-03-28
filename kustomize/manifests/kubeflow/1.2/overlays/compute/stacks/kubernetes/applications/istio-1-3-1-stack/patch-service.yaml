@@ -3,6 +3,6 @@ kind: Service
 metadata:
   name: istio-ingressgateway
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: compute-1234.neuralnetes.com.
+    external-dns.alpha.kubernetes.io/hostname: compute-kdrx.neuralnetes.com.
 spec:
   type: LoadBalancer

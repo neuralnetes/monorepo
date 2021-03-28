@@ -11,6 +11,6 @@ spec:
         args:
         - --source=service
         - --provider=gooprojectgle
-        - --google-=network-1234
+        - --google-=network-kdrx
         - --registry=txt
-        - --txt-owner-id=external-dns-compute-1234
+        - --txt-owner-id=external-dns-compute-kdrx
