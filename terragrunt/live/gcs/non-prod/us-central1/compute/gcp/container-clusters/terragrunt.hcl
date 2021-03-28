@@ -37,10 +37,6 @@ dependency "random_string" {
 inputs = {
   container_clusters = [
     {
-      add_cluster_firewall_rules = true
-      autoscaling                = true
-      create_service_account     = false
-      enable_private_nodes       = true
       firewall_inbound_ports = [
         "443",
         "10250",
