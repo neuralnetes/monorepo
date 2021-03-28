@@ -43,7 +43,7 @@ locals {
 }
 
 inputs = {
-  bindings = [
+  bindings = flatten([
     # compute
     [
       {
@@ -183,5 +183,5 @@ inputs = {
         projects = [dependency.secret_project.outputs.project_id]
       }
     ],
-  ]
+  ])
 }
