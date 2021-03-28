@@ -2,13 +2,13 @@ on:
   workflow_dispatch:
     inputs:
       terragrunt_cli_flags:
-        description: 'terragrunt_cli_flags'
+        description: terragrunt_cli_flags
         required: true
       terragrunt_command:
-        description: 'terragrunt_command'
+        description: terragrunt_command
         required: true
       terragrunt_working_dir:
-        description: 'terragrunt_working_dir'
+        description: terragrunt_working_dir
         required: true
 defaults:
   run:
@@ -17,21 +17,21 @@ jobs:
   terragrunt:
     runs-on: ubuntu-latest
     env:
-      GCP_BILLING_ACCOUNT_ID: "${{ secrets.GCP_BILLING_ACCOUNT_ID }}"
-      GCP_ORGANIZATION: "${{ secrets.GCP_ORGANIZATION }}"
-      GCP_ORGANIZATION_ID: "${{ secrets.GCP_ORGANIZATION_ID }}"
-      GCP_PROJECT_ID: "${{ secrets.GCP_PROJECT_ID }}"
-      GCP_WORKSPACE_DOMAIN_NAME: "${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}"
-      GCS_TERRAFORM_REMOTE_STATE_BUCKET: "${{ secrets.GCS_TERRAFORM_REMOTE_STATE_BUCKET }}"
-      GCS_TERRAFORM_REMOTE_STATE_LOCATION: "${{ secrets.GCS_TERRAFORM_REMOTE_STATE_LOCATION }}"
-      GITHUB_CLIENT_ID: "${{ secrets.GH_CLIENT_ID }}"
-      GITHUB_CLIENT_SECRET: "${{ secrets.GH_CLIENT_SECRET }}"
-      GITHUB_ORGANIZATION: "${{ secrets.GH_ORGANIZATION }}"
-      GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
-      GITHUB_USER: "${{ secrets.GH_USER }}"
-      TF_INPUT: "false"
-      TF_IN_AUTOMATION: "true"
-      TF_PROVIDER_KUSTOMIZATION_VERSION: "0.4.3"
+      GCP_BILLING_ACCOUNT_ID: ${{ secrets.GCP_BILLING_ACCOUNT_ID }}
+      GCP_ORGANIZATION: ${{ secrets.GCP_ORGANIZATION }}
+      GCP_ORGANIZATION_ID: ${{ secrets.GCP_ORGANIZATION_ID }}
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_WORKSPACE_DOMAIN_NAME: ${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}
+      GCS_TERRAFORM_REMOTE_STATE_BUCKET: ${{ secrets.GCS_TERRAFORM_REMOTE_STATE_BUCKET }}
+      GCS_TERRAFORM_REMOTE_STATE_LOCATION: ${{ secrets.GCS_TERRAFORM_REMOTE_STATE_LOCATION }}
+      GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
+      GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
+      GITHUB_ORGANIZATION: ${{ secrets.GH_ORGANIZATION }}
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      GITHUB_USER: ${{ secrets.GH_USER }}
+      TF_INPUT: false
+      TF_IN_AUTOMATION: true
+      TF_PROVIDER_KUSTOMIZATION_VERSION: 0.4.3
     steps:
     - id: checkout
       name: run checkout
@@ -41,9 +41,9 @@ jobs:
       run: |
         echo "GITHUB_WORKSPACE_BIN=${GITHUB_WORKSPACE}/bin" >> "${GITHUB_ENV}"
         echo "TERRAGRUNT_CLI_FLAGS<<EOF" >> "${GITHUB_ENV}"
-        echo "${{ github.event.inputs.terragrunt_cli_flags }}" >>  "${GITHUB_ENV}"
+        echo "${{ github.event.inputs.terragrunt_cli_flags }}" >> "${GITHUB_ENV}"
         echo "EOF" >> "${GITHUB_ENV}"
-        echo "TERRAGRUNT_COMMAND=${{ github.event.inputs.terragrunt_command }}" >> "${GITHUB_ENV}"
+        echo "TERRAGRUNT_COMMAND${{ github.event.inputs.terragrunt_command }}" >> "${GITHUB_ENV}
         echo "TERRAGRUNT_WORKING_DIR=${GITHUB_WORKSPACE}/${{ github.event.inputs.terragrunt_working_dir }}" >> "${GITHUB_ENV}"
     - id: setup_github_path
       name: run setup github path
@@ -59,15 +59,11 @@ jobs:
     - id: setup_tfenv
       name: run setup tfenv
       working-directory: ./bash/terraform
-      run: |
-        chmod +x ./setup_tfenv.sh
-        ./setup_tfenv.sh
+      run: chmod +x ./setup_tfenv.sh && ./setup_tfenv.sh
     - id: setup_tgenv
       name: run setup tgenv
       working-directory: ./bash/terragrunt
-      run: |
-        chmod +x ./setup_tgenv.sh
-        ./setup_tgenv.sh
+      run: chmod +x ./setup_tgenv.sh && ./setup_tgenv.sh
     - id: terragrunt_command
       name: run terragrunt command
       run: terragrunt ${{ env.TERRAGRUNT_COMMAND }} ${{ env.TERRAGRUNT_CLI_FLAGS }}

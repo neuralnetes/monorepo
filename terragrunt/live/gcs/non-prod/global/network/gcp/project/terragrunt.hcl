@@ -24,6 +24,7 @@ inputs = {
   skip_gcloud_download = true
   activate_apis = [
     "compute.googleapis.com",
+    "container.googleapis.com",
     "dns.googleapis.com",
     "servicenetworking.googleapis.com"
   ]
