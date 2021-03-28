@@ -2,7 +2,6 @@ tmp
 .idea
 .iml
 .envrc
-.envrc*
 .terraform
 .terragrunt
 .DS_Store
