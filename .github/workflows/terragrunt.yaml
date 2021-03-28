@@ -7,7 +7,7 @@ on:
         default: |
           --terragrunt-include-dir "global/terraform/**/**" \
           --terragrunt-include-dir "global/iam/**/**" \
-          --terragrunt-include-dir "global/secret/**/**"
+          --terragrunt-include-dir "global/secret/**/**" \
           --terragrunt-include-dir "global/network/**/**" \
           --terragrunt-include-dir "us-central1/network/**/**" \
           --terragrunt-include-dir "global/data/**/**" \
@@ -45,7 +45,7 @@ jobs:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         TERRAGRUNT_COMMAND: "${{ github.event.inputs.terragrunt_command }}"
         TERRAGRUNT_WORKING_DIR: "${{ github.workspace }}/${{ github.event.inputs.terragrunt_working_dir }}"
-        TERRAGRUNT_CLI_FLAGS: ${{ github.event.inputs.terragrunt_cli_flags }}
+        TERRAGRUNT_CLI_FLAGS: "${{ github.event.inputs.terragrunt_cli_flags }}"
         HOME_BIN: "${{ github.workspace }}/bin"
         TF_INPUT: false
         TF_IN_AUTOMATION: true

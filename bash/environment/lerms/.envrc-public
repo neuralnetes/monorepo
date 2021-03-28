@@ -23,7 +23,7 @@ export TERRAGRUNT_WORKING_DIR="terragrunt/live/gcs/non-prod"
 read -r -d '' TERRAGRUNT_CLI_FLAGS <<-'EOF'
   --terragrunt-include-dir "global/terraform/**/**" \
   --terragrunt-include-dir "global/iam/**/**" \
-  --terragrunt-include-dir "global/secret/**/**"
+  --terragrunt-include-dir "global/secret/**/**" \
   --terragrunt-include-dir "global/network/**/**" \
   --terragrunt-include-dir "us-central1/network/**/**" \
   --terragrunt-include-dir "global/data/**/**" \
