@@ -7,7 +7,7 @@ include {
 }
 
 inputs = {
-  project = get_env("GCP_PROJECT_ID")
+  project_id = get_env("GCP_PROJECT_ID")
   activate_apis = [
     "cloudresourcemanager.googleapis.com",
     "cloudbilling.googleapis.com",
