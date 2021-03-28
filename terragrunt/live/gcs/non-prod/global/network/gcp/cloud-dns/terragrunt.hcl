@@ -6,6 +6,10 @@ include {
   path = find_in_parent_folders()
 }
 
+dependency "network_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/project"
+}
+
 dependency "vpc" {
   config_path = "${get_terragrunt_dir()}/../vpc"
 }

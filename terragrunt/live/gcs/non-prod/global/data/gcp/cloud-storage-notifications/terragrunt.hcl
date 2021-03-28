@@ -6,8 +6,8 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "project" {
-  config_path = "${get_terragrunt_dir()}/../project"
+dependency "data_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/gcp/project"
 }
 
 dependency "project_iam_bindings" {
@@ -26,7 +26,7 @@ inputs = {
   notifications = [
     for bucket_name in keys(dependency.cloud_storage.outputs.buckets_map) :
     {
-      project_id        = dependency.project.outputs.project_id
+      project_id        = dependency.data_project.outputs.project_id
       bucket_name       = bucket_name
       pubsub_topic_name = dependency.pubsub.outputs.topics_map[bucket_name].topic
       custom_attributes = {

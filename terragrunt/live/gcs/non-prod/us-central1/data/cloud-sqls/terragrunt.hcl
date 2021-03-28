@@ -6,7 +6,7 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "project" {
+dependency "data_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/gcp/project"
 }
 
@@ -40,7 +40,7 @@ inputs = {
     {
       database_version = "MYSQL_8_0"
       name             = "mysql-${dependency.random_string.outputs.result}"
-      project_id       = dependency.random_string.outputs.result
+      project_id       = dependency.data_project.outputs.project_id
       region           = local.region
       zone             = local.zone
       ip_configuration = {

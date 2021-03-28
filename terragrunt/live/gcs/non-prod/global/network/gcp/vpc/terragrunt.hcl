@@ -6,8 +6,8 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "project" {
-  config_path = "${get_terragrunt_dir()}/../project"
+dependency "network_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/project"
 }
 
 dependency "random_string" {
@@ -15,7 +15,7 @@ dependency "random_string" {
 }
 
 inputs = {
-  project_id      = dependency.project.outputs.project_id
+  project_id      = dependency.network_project.outputs.project_id
   network_name    = "vpc-${dependency.random_string.outputs.result}"
   shared_vpc_host = true
   routing_mode    = "REGIONAL"

@@ -6,8 +6,8 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "project" {
-  config_path = "${get_terragrunt_dir()}/../project"
+dependency "data_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/gcp/project"
 }
 
 dependency "project_iam_bindings" {
@@ -24,7 +24,7 @@ inputs = {
     //      dataset_id   = "first_rate_data"
     //      dataset_name = "first_rate_data"
     //      description  = "first_rate_data"
-    //      project_id   = dependency.project.outputs.project_id
+    //      project_id   = dependency.data_project.outputs.project_id
     //      location     = "US"
     //      tables = [
     //        {

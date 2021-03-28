@@ -6,7 +6,7 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "project" {
+dependency "compute_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/gcp/project"
 }
 
@@ -174,10 +174,9 @@ locals {
 
 inputs = {
   container_clusters = [
-    merge(
-      local.container_cluster_defaults,
+    for container_cluster in [
       {
-        project_id         = dependency.project.outputs.project_id
+        project_id         = dependency.compute_project.outputs.project_id
         name               = "cluster-${dependency.random_string.outputs.result}"
         network            = dependency.vpc.outputs.network_name
         network_project_id = dependency.vpc.outputs.project_id
@@ -210,6 +209,10 @@ inputs = {
         ]
         service_account = dependency.service_accounts.outputs.service_accounts_map["cluster-${dependency.random_string.outputs.result}"].email
       }
+    ] :
+    merge(
+      local.container_cluster_defaults,
+      container_cluster
     )
   ]
 }

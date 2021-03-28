@@ -7,7 +7,7 @@ include {
 }
 
 dependency "iam_project" {
-  config_path = "${get_terragrunt_dir()}/../project"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/gcp/project"
 }
 
 dependency "service_accounts" {
