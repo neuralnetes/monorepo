@@ -40,7 +40,7 @@ generate "github_provider" {
   contents  = <<EOF
 provider "github" {
   organization = "${split("/", get_env("GITHUB_REPOSITORY"))[0]}"
-  token = "${get_env("GITHUB_TOKEN")}"
+  token = "${get_env("TF_GITHUB_TOKEN")}"
 }
 EOF
 }
