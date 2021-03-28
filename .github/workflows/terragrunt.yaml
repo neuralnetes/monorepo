@@ -1,10 +1,6 @@
 on:
   workflow_dispatch:
     inputs:
-      terragrunt_working_dir:
-        description: 'terragrunt_working_dir'
-        required: false
-        default: terragrunt/live/gcs/non-prod
       terragrunt_cli_flags:
         description: 'terragrunt_cli_flags'
         required: false
@@ -22,6 +18,10 @@ on:
         description: 'terragrunt_command'
         required: false
         default: run-all plan
+      terragrunt_working_dir:
+        description: 'terragrunt_working_dir'
+        required: false
+        default: terragrunt/live/gcs/non-prod
 defaults:
   run:
     shell: bash
@@ -88,6 +88,6 @@ jobs:
       run: |
         chmod +x ./setup_tgenv.sh
         ./setup_tgenv.sh
-    - id: terragrunt_run_all
-      name: run terragrunt run all
-      run: terragrunt run-all ${{ env.TERRAGRUNT_COMMAND }} ${{ env.TERRAGRUNT_CLI_FLAGS }}
+    - id: terragrunt_command
+      name: run terragrunt command
+      run: terragrunt ${{ env.TERRAGRUNT_COMMAND }} ${{ env.TERRAGRUNT_CLI_FLAGS }}
