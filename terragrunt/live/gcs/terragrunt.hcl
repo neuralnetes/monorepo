@@ -38,10 +38,7 @@ generate "github_provider" {
   path      = "github_provider.tf"
   if_exists = "overwrite_terragrunt"
   contents  = <<EOF
-provider "github" {
-  organization = "${split("/", get_env("GITHUB_REPOSITORY"))[0]}"
-  token = "${get_env("TF_GITHUB_TOKEN")}"
-}
+provider "github" {}
 EOF
 }
 

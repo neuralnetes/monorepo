@@ -1,10 +1,4 @@
 #!/bin/bash
-export GOPATH="${HOME}/go"
-export GOBIN="${GOPATH}/bin"
-export HOME_BIN="${HOME}/bin"
-export EDITOR="code --wait"
-export KUBE_EDITOR="${EDITOR}"
-export PATH="${HOME_BIN}:${GOBIN}:${PATH}"
 export GCP_BILLING_ACCOUNT_ID=""
 export GCP_ORGANIZATION_ID=""
 export GCP_ORGANIZATION="neuralnetes"
@@ -12,29 +6,21 @@ export GCP_WORKSPACE_DOMAIN_NAME="${GCP_ORGANIZATION}.com"
 export GCP_PROJECT_ID="terraform-${GCP_ORGANIZATION}"
 export GCS_TERRAFORM_REMOTE_STATE_BUCKET="terraform-${GCP_ORGANIZATION}"
 export GCS_TERRAFORM_REMOTE_STATE_LOCATION="US"
-export GITHUB_REPOSITORY="neuralnetes/monorepo"
-export GITHUB_WORKSPACE="${GOPATH}/src/github.com/${GITHUB_REPOSITORY}"
-export GITHUB_SHA=$(cd "${GITHUB_WORKSPACE}" && git rev-parse HEAD)
-export GITHUB_REF=$(cd "${GITHUB_WORKSPACE}" && git branch --show-current)
-export GITHUB_TOKEN=""
 export GOOGLE_APPLICATION_CREDENTIALS="${HOME}/.config/gcloud/application_default_credentials.json"
 export TERRAGRUNT_COMMAND="run-all apply"
 export TERRAGRUNT_WORKING_DIR="terragrunt/live/gcs/non-prod"
 read -r -d '' TERRAGRUNT_CLI_FLAGS <<'EOF'
---terragrunt-include-dir "global/terraform/**/**" \
---terragrunt-include-dir "global/iam/**/**" \
---terragrunt-include-dir "global/secret/**/**" \
---terragrunt-include-dir "global/network/**/**" \
---terragrunt-include-dir "us-central1/network/**/**" \
---terragrunt-include-dir "global/data/**/**" \
---terragrunt-include-dir "us-central1/data/**/**" \
---terragrunt-include-dir "global/compute/**/**" \
+--terragrunt-include-dir "global/terraform/**/**"
+--terragrunt-include-dir "global/iam/**/**"
+--terragrunt-include-dir "global/secret/**/**"
+--terragrunt-include-dir "global/network/**/**"
+--terragrunt-include-dir "us-central1/network/**/**"
+--terragrunt-include-dir "global/data/**/**"
+--terragrunt-include-dir "us-central1/data/**/**"
+--terragrunt-include-dir "global/compute/**/**"
 --terragrunt-include-dir "us-central1/compute/**/**"
 EOF
 export TERRAGRUNT_CLI_FLAGS="${TERRAGRUNT_CLI_FLAGS}"
 export TF_INPUT="false"
 export TF_IN_AUTOMATION="true"
 export TF_PROVIDER_KUSTOMIZATION_VERSION="0.4.3"
-mkdir -p "${GOPATH}"
-mkdir -p "${HOME_BIN}"
-mkdir -p "${GITHUB_WORKSPACE}"

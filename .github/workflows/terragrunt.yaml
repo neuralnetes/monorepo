@@ -16,50 +16,36 @@ defaults:
 jobs:
   terragrunt:
     runs-on: ubuntu-latest
+    env:
+      GCP_BILLING_ACCOUNT_ID: "${{ secrets.GCP_BILLING_ACCOUNT_ID }}"
+      GCP_ORGANIZATION: "${{ secrets.GCP_ORGANIZATION }}"
+      GCP_ORGANIZATION_ID: "${{ secrets.GCP_ORGANIZATION_ID }}"
+      GCP_PROJECT_ID: "${{ secrets.GCP_PROJECT_ID }}"
+      GCS_TERRAFORM_REMOTE_STATE_BUCKET: "${{ secrets.GCS_TERRAFORM_REMOTE_STATE_BUCKET }}"
+      GCS_TERRAFORM_REMOTE_STATE_LOCATION: "${{ secrets.GCS_TERRAFORM_REMOTE_STATE_LOCATION }}"
+      GCP_WORKSPACE_DOMAIN_NAME: "${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}"
+      GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
+      GITHUB_WORKSPACE_BIN: "${{ github.workspace }}/bin"
+      TERRAGRUNT_COMMAND: "${{ github.event.inputs.terragrunt_command }}"
+      TERRAGRUNT_WORKING_DIR: "${{ github.workspace }}/${{ github.event.inputs.terragrunt_working_dir }}"
+      TF_INPUT: "false"
+      TF_IN_AUTOMATION: "true"
+      TF_PROVIDER_KUSTOMIZATION_VERSION: "0.4.3"
     steps:
     - id: checkout
       name: run checkout
       uses: actions/checkout@v2
     - id: setup_github_env
       name: run setup github env
-      env:
-        GCP_BILLING_ACCOUNT_ID: "${{ secrets.GCP_BILLING_ACCOUNT_ID }}"
-        GCP_ORGANIZATION: "${{ secrets.GCP_ORGANIZATION }}"
-        GCP_ORGANIZATION_ID: "${{ secrets.GCP_ORGANIZATION_ID }}"
-        GCP_PROJECT_ID: "${{ secrets.GCP_PROJECT_ID }}"
-        GCS_TERRAFORM_REMOTE_STATE_BUCKET: "${{ secrets.GCS_TERRAFORM_REMOTE_STATE_BUCKET }}"
-        GCS_TERRAFORM_REMOTE_STATE_LOCATION: "${{ secrets.GCS_TERRAFORM_REMOTE_STATE_LOCATION }}"
-        GCP_WORKSPACE_DOMAIN_NAME: "${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}"
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        TERRAGRUNT_COMMAND: "${{ github.event.inputs.terragrunt_command }}"
-        TERRAGRUNT_WORKING_DIR: "${{ github.workspace }}/${{ github.event.inputs.terragrunt_working_dir }}"
-        HOME_BIN: "${{ github.workspace }}/bin"
-        TF_INPUT: false
-        TF_IN_AUTOMATION: true
-        TF_PROVIDER_KUSTOMIZATION_VERSION: 0.4.3
       run: |
-        echo "GCP_BILLING_ACCOUNT_ID=$GCP_BILLING_ACCOUNT_ID" >> "${GITHUB_ENV}"
-        echo "GCP_ORGANIZATION=$GCP_ORGANIZATION" >> "${GITHUB_ENV}"
-        echo "GCP_ORGANIZATION_ID=$GCP_ORGANIZATION_ID" >> "${GITHUB_ENV}"
-        echo "GCP_PROJECT_ID=$GCP_PROJECT_ID" >> "${GITHUB_ENV}"
-        echo "GCS_TERRAFORM_REMOTE_STATE_BUCKET=$GCS_TERRAFORM_REMOTE_STATE_BUCKET" >> "${GITHUB_ENV}"
-        echo "GCS_TERRAFORM_REMOTE_STATE_LOCATION=$GCS_TERRAFORM_REMOTE_STATE_LOCATION" >> "${GITHUB_ENV}"
-        echo "GCP_WORKSPACE_DOMAIN_NAME=$GCP_WORKSPACE_DOMAIN_NAME" >> "${GITHUB_ENV}"
-        echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> "${GITHUB_ENV}"
-        echo "TERRAGRUNT_COMMAND=$TERRAGRUNT_COMMAND" >> "${GITHUB_ENV}"
-        echo "TERRAGRUNT_WORKING_DIR=$TERRAGRUNT_WORKING_DIR" >> "${GITHUB_ENV}"
         echo 'TERRAGRUNT_CLI_FLAGS<<EOF' >> "${GITHUB_ENV}"
         echo "${{ github.event.inputs.terragrunt_cli_flags }}" >>  "${GITHUB_ENV}"
         echo 'EOF' >> "${GITHUB_ENV}"
-        echo "HOME_BIN=$HOME_BIN" >> "${GITHUB_ENV}"
-        echo "TF_INPUT=$TF_INPUT" >> "${GITHUB_ENV}"
-        echo "TF_IN_AUTOMATION=$TF_IN_AUTOMATION" >> "${GITHUB_ENV}"
-        echo "TF_PROVIDER_KUSTOMIZATION_VERSION=$TF_PROVIDER_KUSTOMIZATION_VERSION" >> "${GITHUB_ENV}"
     - id: setup_github_path
       name: run setup github path
       run: |
-        mkdir -p "${HOME_BIN}"
-        echo "${HOME_BIN}" >> "${GITHUB_PATH}"
+        mkdir -p "${GITHUB_WORKSPACE_BIN}"
+        echo "${GITHUB_WORKSPACE_BIN}" >> "${GITHUB_PATH}"
     - id: setup_gcloud
       name: run setup gcloud
       uses: google-github-actions/setup-gcloud@master
