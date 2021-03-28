@@ -11,7 +11,7 @@ request_json=$(
         "ref": $ref,
         "inputs": {
           "terragrunt_working_dir": $terragrunt_working_dir,
-          "terragrunt_command": $terragrunt_run_all_command,
+          "terragrunt_command": $terragrunt_command,
           "terragrunt_cli_flags": $terragrunt_cli_flags
         }
       }
