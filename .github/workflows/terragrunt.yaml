@@ -21,13 +21,14 @@ jobs:
       GCP_ORGANIZATION: "${{ secrets.GCP_ORGANIZATION }}"
       GCP_ORGANIZATION_ID: "${{ secrets.GCP_ORGANIZATION_ID }}"
       GCP_PROJECT_ID: "${{ secrets.GCP_PROJECT_ID }}"
+      GCP_WORKSPACE_DOMAIN_NAME: "${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}"
       GCS_TERRAFORM_REMOTE_STATE_BUCKET: "${{ secrets.GCS_TERRAFORM_REMOTE_STATE_BUCKET }}"
       GCS_TERRAFORM_REMOTE_STATE_LOCATION: "${{ secrets.GCS_TERRAFORM_REMOTE_STATE_LOCATION }}"
-      GCP_WORKSPACE_DOMAIN_NAME: "${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}"
+      GITHUB_CLIENT_ID: "${{ secrets.GH_CLIENT_ID }}"
+      GITHUB_CLIENT_SECRET: "${{ secrets.GH_CLIENT_SECRET }}"
+      GITHUB_ORGANIZATION: "${{ secrets.GH_ORGANIZATION }}"
       GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
-      GITHUB_WORKSPACE_BIN: "${{ github.workspace }}/bin"
-      TERRAGRUNT_COMMAND: "${{ github.event.inputs.terragrunt_command }}"
-      TERRAGRUNT_WORKING_DIR: "${{ github.workspace }}/${{ github.event.inputs.terragrunt_working_dir }}"
+      GITHUB_USER: "${{ secrets.GH_USER }}"
       TF_INPUT: "false"
       TF_IN_AUTOMATION: "true"
       TF_PROVIDER_KUSTOMIZATION_VERSION: "0.4.3"
@@ -38,9 +39,12 @@ jobs:
     - id: setup_github_env
       name: run setup github env
       run: |
-        echo 'TERRAGRUNT_CLI_FLAGS<<EOF' >> "${GITHUB_ENV}"
+        echo "GITHUB_WORKSPACE_BIN=${GITHUB_WORKSPACE}/bin" >> "${GITHUB_ENV}"
+        echo "TERRAGRUNT_CLI_FLAGS<<EOF" >> "${GITHUB_ENV}"
         echo "${{ github.event.inputs.terragrunt_cli_flags }}" >>  "${GITHUB_ENV}"
-        echo 'EOF' >> "${GITHUB_ENV}"
+        echo "EOF" >> "${GITHUB_ENV}"
+        echo "TERRAGRUNT_COMMAND=${{ github.event.inputs.terragrunt_command }}" >> "${GITHUB_ENV}"
+        echo "TERRAGRUNT_WORKING_DIR=${GITHUB_WORKSPACE}/${{ github.event.inputs.terragrunt_working_dir }}" >> "${GITHUB_ENV}"
     - id: setup_github_path
       name: run setup github path
       run: |
