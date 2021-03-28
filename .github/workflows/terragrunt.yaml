@@ -10,9 +10,6 @@ on:
       terragrunt_working_dir:
         description: terragrunt_working_dir
         required: true
-defaults:
-  run:
-    shell: bash
 jobs:
   terragrunt:
     runs-on: ubuntu-latest

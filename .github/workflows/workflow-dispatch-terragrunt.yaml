@@ -1,0 +1,36 @@
+on:
+  push:
+    branches:
+      - main
+jobs:
+  workflow_dispatch_terragrunt:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      TERRAGRUNT_COMMAND: run-all apply
+      TERRAGRUNT_WORKING_DIR: terragrunt/live/gcs/non-prod
+    steps:
+      - id: checkout
+        name: run checkout
+        uses: actions/checkout@v2
+      - id: setup_github_env
+        name: run setup github env
+        run: |
+          read -r -d '' TERRAGRUNT_CLI_FLAGS <<-'EOF'
+            --terragrunt-include-dir "global/compute/**/**" \
+            --terragrunt-include-dir "global/data/**/**" \
+            --terragrunt-include-dir "global/iam/**/**" \
+            --terragrunt-include-dir "global/network/**/**" \
+            --terragrunt-include-dir "global/secret/**/**" \
+            --terragrunt-include-dir "global/terraform/**/**" \
+            --terragrunt-include-dir "us-central1/compute/**/**" \
+            --terragrunt-include-dir "us-central1/data/**/**" \
+            --terragrunt-include-dir "us-central1/network/**/**"
+          EOF
+          echo "TERRAGRUNT_CLI_FLAGS<<EOF" >> "${GITHUB_ENV}"
+          echo "$TERRAGRUNT_CLI_FLAGS" >> "${GITHUB_ENV}"
+          echo "EOF" >> "${GITHUB_ENV}"
+      - id: workflow_dispatch_terragrunt
+        name: run workflow dispatch terragrunt
+        working-directory: ./bash/github-actions
+        run: chmod +x ./workflow_dispatch_terragrunt.sh && ./workflow_dispatch_terragrunt.sh
