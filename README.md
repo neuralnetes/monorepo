@@ -4,33 +4,21 @@
 
 #### [terragrunt/live/gcs/non-prod](./terragrunt/live/gcs/non-prod)
 
-```
-GITHUB_REF=main \
-IAM=true \
-SECRET=true \
-NETWORK=true \
-DATA=true \
-COMPUTE=true \
-TERRAFORM=true \
-TERRAGRUNT_WORKING_DIR=terragrunt/live/gcs/non-prod \
-TERRAGRUNT_RUN_ALL_COMMAND='apply' \
+running
+
+```shell script
 ./bash/github-actions/workflow_dispatch_terragrunt.sh
 ```
 
-will trigger a `workflow_dispatch` event with this request
+would trigger a `workflow_dispatch` event with this request
 
-```
+```json
 {
   "ref": "main",
   "inputs": {
-    "network": "true",
-    "secret": "true",
-    "iam": "true",
-    "data": "true",
-    "compute": "true",
-    "shared": "true",
     "terragrunt_working_dir": "terragrunt/live/gcs/non-prod",
-    "terragrunt_run_all_command": "apply"
+    "terragrunt_run_all_command": "plan",
+    "terragrunt_cli_flags": "--terragrunt-include-dir \"global/terraform/**/**\" \\\n  --terragrunt-include-dir \"global/iam/**/**\" \\\n  --terragrunt-include-dir \"global/secret/**/**\"\n  --terragrunt-include-dir \"global/network/**/**\" \\\n  --terragrunt-include-dir \"us-central1/network/**/**\" \\\n  --terragrunt-include-dir \"global/data/**/**\" \\\n  --terragrunt-include-dir \"us-central1/data/**/**\" \\\n  --terragrunt-include-dir \"global/compute/**/**\" \\\n  --terragrunt-include-dir \"us-central1/compute/**/**\""
   }
 }
 ```
