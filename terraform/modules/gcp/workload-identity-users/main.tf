@@ -1,6 +1,6 @@
 module "workload-identity-users" {
   for_each                   = local.workload_identity_users_map
-  source                     = "https://github.com/neuralnetes/monorepo.git//terraform/modules/gcp/workload-identity-user?ref=main"
+  source                     = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/workload-identity-user?ref=main"
   project_id                 = each.value["project_id"]
   service_account_id         = each.value["service_account_id"]
   kubernetes_service_account = each.value["kubernetes_service_account"]

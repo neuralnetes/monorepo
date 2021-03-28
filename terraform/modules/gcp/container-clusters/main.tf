@@ -1,6 +1,6 @@
 module "container-clusters" {
   for_each                              = local.container_clusters_map
-  source                                = "https://github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/beta-private-cluster?ref=v14.0.0"
+  source                                = "github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/beta-private-cluster?ref=v14.0.0"
   project_id                            = each.value["project_id"]
   name                                  = each.value["name"]
   description                           = each.value["description"]
@@ -96,7 +96,7 @@ module "container-clusters" {
 
 module "container-cluster-auths" {
   for_each     = module.container-clusters
-  source       = "https://github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/auth?ref=v14.0.0"
+  source       = "github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/auth?ref=v14.0.0"
   project_id   = each.value["project_id"]
   cluster_name = each.value["name"]
   location     = each.value["region"]

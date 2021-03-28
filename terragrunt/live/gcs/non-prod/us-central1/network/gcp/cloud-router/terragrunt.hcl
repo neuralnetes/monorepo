@@ -1,5 +1,5 @@
 terraform {
-  source = "https://github.com/terraform-google-modules/terraform-google-cloud-router.git?ref=v0.4.0"
+  source = "github.com/terraform-google-modules/terraform-google-cloud-router.git?ref=v0.4.0"
 }
 
 include {

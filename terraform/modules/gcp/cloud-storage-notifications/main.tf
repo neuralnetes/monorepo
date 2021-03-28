@@ -1,6 +1,6 @@
 module "notifications" {
   for_each          = local.notifications_map
-  source            = "https://github.com/neuralnetes/monorepo.git//terraform/modules/gcp/cloud-storage-notification?ref=main"
+  source            = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/cloud-storage-notification?ref=main"
   project_id        = each.value["project_id"]
   bucket_name       = each.value["bucket_name"]
   pubsub_topic_name = each.value["pubsub_topic_name"]

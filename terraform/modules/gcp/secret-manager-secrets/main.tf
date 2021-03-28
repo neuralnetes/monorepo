@@ -1,6 +1,6 @@
 module "secret-manager-secrets" {
   for_each    = local.secret_manager_secrets_map
-  source      = "https://github.com/neuralnetes/monorepo.git//terraform/modules/gcp/secret-manager-secret?ref=main"
+  source      = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/secret-manager-secret?ref=main"
   project_id  = each.value["project_id"]
   secret_id   = each.value["secret_id"]
   secret_data = each.value["secret_data"]

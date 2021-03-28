@@ -1,5 +1,5 @@
 terraform {
-  source = "https://github.com/neuralnetes/monorepo.git//terraform/modules/github/repository-secrets?ref=main"
+  source = "github.com/neuralnetes/monorepo.git//terraform/modules/github/repository-secrets?ref=main"
 }
 
 include {

@@ -1,6 +1,6 @@
 module "service_accounts" {
   for_each      = local.service_accounts_map
-  source        = "https://github.com/terraform-google-modules/terraform-google-service-accounts.git?ref=v3.0.1"
+  source        = "github.com/terraform-google-modules/terraform-google-service-accounts.git?ref=v3.0.1"
   project_id    = each.value["project_id"]
   prefix        = ""
   names         = [each.value["name"]]

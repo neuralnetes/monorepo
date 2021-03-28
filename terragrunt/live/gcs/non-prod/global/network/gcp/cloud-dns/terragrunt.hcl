@@ -1,5 +1,5 @@
 terraform {
-  source = "https://github.com/neuralnetes/monorepo.git//terraform/modules/gcp/cloud-dns?ref=main"
+  source = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/cloud-dns?ref=main"
 }
 
 include {

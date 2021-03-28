@@ -1,5 +1,5 @@
 terraform {
-  source = "https://github.com/neuralnetes/monorepo.git//terraform/modules/gcp/pubsub?ref=main"
+  source = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/pubsub?ref=main"
 }
 
 include {

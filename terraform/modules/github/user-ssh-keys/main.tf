@@ -1,6 +1,6 @@
 module "user_ssh_keys" {
   for_each = local.user_ssh_keys_map
-  source   = "https://github.com/neuralnetes/monorepo.git//terraform/modules/github/user-ssh-key?ref=main"
+  source   = "github.com/neuralnetes/monorepo.git//terraform/modules/github/user-ssh-key?ref=main"
   title    = each.value["title"]
 }
 

@@ -1,6 +1,6 @@
 module "datasets" {
   for_each                   = local.datasets_map
-  source                     = "https://github.com/terraform-google-modules/terraform-google-bigquery.git//?ref=v4.5.0"
+  source                     = "github.com/terraform-google-modules/terraform-google-bigquery.git//?ref=v4.5.0"
   dataset_id                 = each.value["dataset_id"]
   project_id                 = each.value["project_id"]
   location                   = each.value["location"]
