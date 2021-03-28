@@ -17,7 +17,7 @@ would trigger a `workflow_dispatch` event with this request
   "ref": "main",
   "inputs": {
     "terragrunt_working_dir": "terragrunt/live/gcs/non-prod",
-    "terragrunt_command": "plan",
+    "terragrunt_command": "run-all apply",
     "terragrunt_cli_flags": "--terragrunt-include-dir \"global/terraform/**/**\" \\\n  --terragrunt-include-dir \"global/iam/**/**\" \\\n  --terragrunt-include-dir \"global/secret/**/**\"\n  --terragrunt-include-dir \"global/network/**/**\" \\\n  --terragrunt-include-dir \"us-central1/network/**/**\" \\\n  --terragrunt-include-dir \"global/data/**/**\" \\\n  --terragrunt-include-dir \"us-central1/data/**/**\" \\\n  --terragrunt-include-dir \"global/compute/**/**\" \\\n  --terragrunt-include-dir \"us-central1/compute/**/**\""
   }
 }
