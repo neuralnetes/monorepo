@@ -3,6 +3,5 @@ output "container_clusters_map" {
 }
 
 output "container_cluster_auths_map" {
-  sensitive = true
   value     = module.container-cluster-auths
 }
