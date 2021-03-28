@@ -12,3 +12,12 @@ node_modules
 .venv
 .ignore
 .envrc
+./.alias
+./.envrc
+./.envrc-public
+./.function
+./.gitconfig
+./.gitignore-global
+./.zshrc
+./Brewfile
+./keyboard.json
