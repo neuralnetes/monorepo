@@ -23,7 +23,7 @@ dependency "random_string" {
 }
 
 inputs = {
-  name                 = "terraform-${get_env("GCP_ORGANIZATION")}"
+  name = "terraform-${get_env("GCP_ORGANIZATION")}"
   activate_apis = [
     "cloudresourcemanager.googleapis.com",
     "compute.googleapis.com",
