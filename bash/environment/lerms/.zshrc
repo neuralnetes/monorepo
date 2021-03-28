@@ -1,4 +1,6 @@
 #!/bin/bash
+export EDITOR="code --wait"
+export KUBE_EDITOR="${EDITOR}"
 export ZSH="${HOME}/.oh-my-zsh"
 export ZSH_THEME="robbyrussell"
 export plugins=(
@@ -13,10 +15,9 @@ export plugins=(
     fzf
     nvm
 )
+source "${ZSH}/oh-my-zsh.sh"
 export GOPATH="${HOME}/go"
 export GOBIN="${GOPATH}/bin"
-export EDITOR="code --wait"
-export KUBE_EDITOR="${EDITOR}"
 export HOME_BIN="${HOME}/bin"
 export GITHUB_ORGANIZATION="neuralnetes"
 export GITHUB_REPOSITORY="${GITHUB_ORGANIZATION}/monorepo"
@@ -33,7 +34,6 @@ ln -fs "${GITHUB_WORKSPACE}/bash/environment/lerms"/* "${GITHUB_WORKSPACE}"
 ln -fs "${GITHUB_WORKSPACE}"/.* "${HOME}"
 ln rm -rf "${HOME}/.git"
 ln -fs "${GITHUB_WORKSPACE}"/* "${HOME}"
-source "${ZSH}/oh-my-zsh.sh"
 source "${GITHUB_WORKSPACE}/.function"
 source "${GITHUB_WORKSPACE}/.alias"
 direnv allow "${GITHUB_WORKSPACE}/.envrc-secret"
