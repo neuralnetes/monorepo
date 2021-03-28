@@ -18,10 +18,10 @@ on:
           --terragrunt-include-dir "us-central1/data/**/**" \
           --terragrunt-include-dir "global/compute/**/**" \
           --terragrunt-include-dir "us-central1/compute/**/**"
-      terragrunt_run_all_command:
-        description: 'terragrunt_run_all_command'
+      terragrunt_command:
+        description: 'terragrunt_command'
         required: false
-        default: plan
+        default: run-all plan
 defaults:
   run:
     shell: bash
@@ -43,7 +43,7 @@ jobs:
         GCS_TERRAFORM_REMOTE_STATE_LOCATION: "${{ secrets.GCS_TERRAFORM_REMOTE_STATE_LOCATION }}"
         GCP_WORKSPACE_DOMAIN_NAME: "${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}"
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        TERRAGRUNT_RUN_ALL_COMMAND: "${{ github.event.inputs.terragrunt_run_all_command }}"
+        TERRAGRUNT_COMMAND: "${{ github.event.inputs.terragrunt_command }}"
         TERRAGRUNT_WORKING_DIR: "${{ github.workspace }}/${{ github.event.inputs.terragrunt_working_dir }}"
         TERRAGRUNT_CLI_FLAGS: "${{ github.event.inputs.terragrunt_cli_flags }}"
         HOME_BIN: "${{ github.workspace }}/bin"
@@ -59,7 +59,7 @@ jobs:
         echo "GCS_TERRAFORM_REMOTE_STATE_LOCATION=$GCS_TERRAFORM_REMOTE_STATE_LOCATION" >> "${GITHUB_ENV}"
         echo "GCP_WORKSPACE_DOMAIN_NAME=$GCP_WORKSPACE_DOMAIN_NAME" >> "${GITHUB_ENV}"
         echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> "${GITHUB_ENV}"
-        echo "TERRAGRUNT_RUN_ALL_COMMAND=$TERRAGRUNT_RUN_ALL_COMMAND" >> "${GITHUB_ENV}"
+        echo "TERRAGRUNT_COMMAND=$TERRAGRUNT_COMMAND" >> "${GITHUB_ENV}"
         echo "TERRAGRUNT_WORKING_DIR=$TERRAGRUNT_WORKING_DIR" >> "${GITHUB_ENV}"
         echo "HOME_BIN=$HOME_BIN" >> "${GITHUB_ENV}"
         echo "TF_INPUT=$TF_INPUT" >> "${GITHUB_ENV}"
@@ -90,4 +90,4 @@ jobs:
         ./setup_tgenv.sh
     - id: terragrunt_run_all
       name: run terragrunt run all
-      run: terragrunt run-all ${{ env.TERRAGRUNT_RUN_ALL_COMMAND }} ${{ env.TERRAGRUNT_CLI_FLAGS }}
+      run: terragrunt run-all ${{ env.TERRAGRUNT_COMMAND }} ${{ env.TERRAGRUNT_CLI_FLAGS }}

@@ -18,7 +18,7 @@ export GITHUB_SHA=$(cd "${GITHUB_WORKSPACE}" && git rev-parse HEAD)
 export GITHUB_REF=$(cd "${GITHUB_WORKSPACE}" && git branch --show-current)
 export GITHUB_TOKEN=""
 export GOOGLE_APPLICATION_CREDENTIALS="${HOME}/.config/gcloud/application_default_credentials.json"
-export TERRAGRUNT_RUN_ALL_COMMAND="plan"
+export TERRAGRUNT_COMMAND="plan"
 export TERRAGRUNT_WORKING_DIR="terragrunt/live/gcs/non-prod"
 read -r -d '' TERRAGRUNT_CLI_FLAGS <<-'EOF'
   --terragrunt-include-dir "global/terraform/**/**" \
