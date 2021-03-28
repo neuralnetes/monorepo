@@ -154,7 +154,6 @@ inputs = {
         }
         projects = [dependency.network_project.outputs.project_id]
       }
-
     ],
     # secret
     [
