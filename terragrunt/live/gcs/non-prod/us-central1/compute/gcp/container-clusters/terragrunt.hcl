@@ -173,7 +173,7 @@ locals {
 }
 
 inputs = {
-  clusters = [
+  container_clusters = [
     merge(
       local.container_cluster_defaults,
       {
