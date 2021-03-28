@@ -11,11 +11,11 @@ dependency "vpc" {
 }
 
 dependency "cloud_router" {
-  config_path = "${get_terragrunt_dir()}/../cloud-router"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/cloud-router"
 }
 
 dependency "subnetworks" {
-  config_path = "${get_terragrunt_dir()}/../subnetworks"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/subnetworks"
 }
 
 dependency "random_string" {

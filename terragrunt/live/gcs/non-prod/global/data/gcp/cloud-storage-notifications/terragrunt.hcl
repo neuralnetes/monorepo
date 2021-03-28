@@ -19,7 +19,7 @@ dependency "cloud_storage" {
 }
 
 dependency "pubsub" {
-  config_path = "${get_terragrunt_dir()}/../pubsub"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/gcp/pubsub"
 }
 
 inputs = {

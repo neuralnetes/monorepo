@@ -7,7 +7,7 @@ include {
 }
 
 dependency "repositories" {
-  config_path = "${get_terragrunt_dir()}/../repositories"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/github/repositories"
 }
 
 inputs = {
