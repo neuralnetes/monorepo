@@ -45,8 +45,7 @@ jobs:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         TERRAGRUNT_COMMAND: "${{ github.event.inputs.terragrunt_command }}"
         TERRAGRUNT_WORKING_DIR: "${{ github.workspace }}/${{ github.event.inputs.terragrunt_working_dir }}"
-        TERRAGRUNT_CLI_FLAGS: |
-          ${{ github.event.inputs.terragrunt_cli_flags }}
+        TERRAGRUNT_CLI_FLAGS: "${{ github.event.inputs.terragrunt_cli_flags }}"
         HOME_BIN: "${{ github.workspace }}/bin"
         TF_INPUT: false
         TF_IN_AUTOMATION: true
