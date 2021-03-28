@@ -1,6 +1,6 @@
 module "cloud-dns" {
   for_each                           = local.cloud_dns_map
-  source                             = "github.com/terraform-google-modules/terraform-google-cloud-dns.git?ref=v3.1.0"
+  source                             = "github.com/terraform-google-modules/terraform-google-cloud-dns.git//?ref=v3.1.0"
   project_id                         = each.value["project_id"]
   type                               = each.value["type"]
   name                               = each.value["name"]

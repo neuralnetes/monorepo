@@ -1,6 +1,6 @@
 module "cloud-functions" {
   for_each                           = local.cloud_functions_map
-  source                             = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/cloud-function?ref=main"
+  source                             = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/cloud-function//?ref=main"
   name                               = each.value["name"]
   region                             = each.value["region"]
   project_id                         = each.value["project_id"]
