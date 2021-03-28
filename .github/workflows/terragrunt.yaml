@@ -36,12 +36,12 @@ jobs:
     - id: setup_github_env
       name: run setup github env
       run: |
-        echo "GITHUB_WORKSPACE_BIN=${GITHUB_WORKSPACE}/bin" >> "${GITHUB_ENV}"
-        echo "TERRAGRUNT_CLI_FLAGS<<EOF" >> "${GITHUB_ENV}"
-        echo "${{ github.event.inputs.terragrunt_cli_flags }}" >> "${GITHUB_ENV}"
+        echo "GITHUB_WORKSPACE_BIN=${GITHUB_WORKSPACE}/bin" >> $GITHUB_ENV
+        echo "TERRAGRUNT_COMMAND=${{ github.event.inputs.terragrunt_command }}" >> $GITHUB_ENV
+        echo "TERRAGRUNT_WORKING_DIR=${GITHUB_WORKSPACE}/${{ github.event.inputs.terragrunt_working_dir }}" >> $GITHUB_ENV
+        echo "TERRAGRUNT_CLI_FLAGS<<EOF" >> $GITHUB_ENV
+        echo "${{ github.event.inputs.terragrunt_cli_flags }}" >> $GITHUB_ENV
         echo "EOF" >> "${GITHUB_ENV}"
-        echo "TERRAGRUNT_COMMAND${{ github.event.inputs.terragrunt_command }}" >> "${GITHUB_ENV}
-        echo "TERRAGRUNT_WORKING_DIR=${GITHUB_WORKSPACE}/${{ github.event.inputs.terragrunt_working_dir }}" >> "${GITHUB_ENV}"
     - id: setup_github_path
       name: run setup github path
       run: |
