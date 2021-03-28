@@ -10,7 +10,7 @@ request_json=$(
     --arg compute "${COMPUTE}" \
     --arg shared "${SHARED}" \
     --arg terragrunt_working_dir "${TERRAGRUNT_WORKING_DIR}" \
-    --arg terragrunt_command "${TERRAGRUNT_COMMAND}" \
+    --arg terragrunt_run_all_command "${TERRAGRUNT_RUN_ALL_COMMAND}" \
     '
       {
         "ref": $ref,
@@ -22,7 +22,7 @@ request_json=$(
           "compute": $compute,
           "shared": $shared,
           "terragrunt_working_dir": $terragrunt_working_dir,
-          "terragrunt_command": $terragrunt_command
+          "terragrunt_run_all_command": $terragrunt_command
         }
       }
     '

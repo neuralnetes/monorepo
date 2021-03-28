@@ -1,6 +1,6 @@
 module "topics" {
   for_each           = local.topics_map
-  source             = "git::git@github.com:terraform-google-modules/terraform-google-pubsub.git?ref=v1.8.0"
+  source             = "https://github.com/terraform-google-modules/terraform-google-pubsub.git?ref=v1.8.0"
   topic              = each.value["topic"]
   project_id         = each.value["project_id"]
   push_subscriptions = each.value["push_subscriptions"]

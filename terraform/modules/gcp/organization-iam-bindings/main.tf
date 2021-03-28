@@ -1,6 +1,6 @@
 module "organization-iam-bindings" {
   for_each      = local.organization_iam_bindings_map
-  source        = "git::git@github.com:terraform-google-modules/terraform-google-iam.git//modules/organizations_iam?ref=v6.4.0"
+  source        = "https://github.com/terraform-google-modules/terraform-google-iam.git//modules/organizations_iam?ref=v6.4.0"
   bindings      = each.value["bindings"]
   organizations = [each.value["organization"]]
 }

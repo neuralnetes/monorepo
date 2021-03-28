@@ -1,5 +1,5 @@
 terraform {
-  source = "git::git@github.com:terraform-google-modules/terraform-google-cloud-storage.git?ref=v1.7.2"
+  source = "https://github.com/terraform-google-modules/terraform-google-cloud-storage.git?ref=v1.7.2"
 }
 
 include {

@@ -1,0 +1,14 @@
+#!/bin/bash
+function lower() {
+    tr '[:upper:]' '[:lower:]'
+}
+
+function ip_address() {
+  curl -sS ifconfig.me
+}
+
+function weather() {
+    current_ip_address=$(ip_address)
+    echo "current ip address: ${current_ip_address}"
+    curl -sS "wttr.in/@${current_ip_address}" | lower
+}

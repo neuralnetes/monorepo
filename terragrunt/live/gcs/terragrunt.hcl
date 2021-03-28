@@ -39,8 +39,8 @@ generate "github_provider" {
   if_exists = "overwrite_terragrunt"
   contents  = <<EOF
 provider "github" {
-  organization = "${get_env("GH_ORGANIZATION")}"
-  token = "${get_env("GH_TOKEN")}"
+  organization = "${split("/", get_env("GITHUB_REPOSITORY"))[0]}"
+  token = "${get_env("GITHUB_TOKEN")}"
 }
 EOF
 }

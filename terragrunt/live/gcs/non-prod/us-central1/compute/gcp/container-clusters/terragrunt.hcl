@@ -1,5 +1,5 @@
 terraform {
-  source = "git::git@github.com:neuralnetes/monorepo.git//terraform/modules/gcp/container-clusters?ref=main"
+  source = "https://github.com/neuralnetes/monorepo.git//terraform/modules/gcp/container-clusters?ref=main"
 }
 
 include {

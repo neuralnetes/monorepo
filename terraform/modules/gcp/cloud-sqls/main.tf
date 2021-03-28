@@ -1,6 +1,6 @@
 module "mysqls" {
   for_each         = local.mysqls_map
-  source           = "git::git@github.com:terraform-google-modules/terraform-google-sql-db.git//modules/mysql?ref=v4.5.0"
+  source           = "https://github.com/terraform-google-modules/terraform-google-sql-db.git//modules/mysql?ref=v4.5.0"
   database_version = each.value["database_version"]
   name             = each.value["name"]
   project_id       = each.value["project_id"]
@@ -11,7 +11,7 @@ module "mysqls" {
 
 module "postgresqls" {
   for_each         = local.postgresqls_map
-  source           = "git::git@github.com:terraform-google-modules/terraform-google-sql-db.git//modules/postgresql?ref=v4.5.0"
+  source           = "https://github.com/terraform-google-modules/terraform-google-sql-db.git//modules/postgresql?ref=v4.5.0"
   database_version = each.value["database_version"]
   name             = each.value["name"]
   project_id       = each.value["project_id"]

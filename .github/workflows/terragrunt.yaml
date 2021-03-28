@@ -22,8 +22,8 @@ on:
       terragrunt_working_dir:
         description: 'terragrunt_working_dir'
         required: true
-      terragrunt_command:
-        description: 'terragrunt_command'
+      terragrunt_run_all_command:
+        description: 'terragrunt_run_all_command'
         required: true
 defaults:
   run:
@@ -47,21 +47,15 @@ jobs:
         GCS_TERRAFORM_REMOTE_STATE_BUCKET=${{ secrets.GCS_TERRAFORM_REMOTE_STATE_BUCKET }}
         GCS_TERRAFORM_REMOTE_STATE_LOCATION=${{ secrets.GCS_TERRAFORM_REMOTE_STATE_LOCATION }}
         GCP_WORKSPACE_DOMAIN_NAME=${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}
-        GH_ORGANIZATION=${{ secrets.GH_ORGANIZATION }}
-        GH_TOKEN=${{ secrets.GH_TOKEN }}
         IAM=${{ github.event.inputs.iam }}
         NETWORK=${{ github.event.inputs.network }}
         SECRET=${{ github.event.inputs.secret }}
         SHARED=${{ github.event.inputs.shared }}
-        TERRAGRUNT_COMMAND="${{ github.event.inputs.terragrunt_command }}"
-        TERRAGRUNT_WORKING_DIR="${{ github.workspace }}/${{ github.event.inputs.terragrunt_working_dir }}"
+        TERRAGRUNT_RUN_ALL_COMMAND="${{ github.event.inputs.terragrunt_run_all_command }}"
+        TERRAGRUNT_WORKING_DIR="${GITHUB_WORKSPACE}/${{ github.event.inputs.terragrunt_working_dir }}"
         TF_INPUT="false"
         TF_IN_AUTOMATION="true"
-        TF_PROVIDER_GITHUB_VERSION="4.5.1"
-        TF_PROVIDER_GOOGLE_BETA_VERSION="3.59.0"
-        TF_PROVIDER_GOOGLE_VERSION="3.59.0"
         TF_PROVIDER_KUSTOMIZATION_VERSION="0.4.2"
-        TF_PROVIDER_RANDOM_VERSION="3.1.0"
         HOME_BIN="${HOME}/bin"
         echo "COMPUTE=$COMPUTE" >> "${GITHUB_ENV}"
         echo "DATA=$DATA" >> "${GITHUB_ENV}"
@@ -72,22 +66,16 @@ jobs:
         echo "GCP_WORKSPACE_DOMAIN_NAME=$GCP_WORKSPACE_DOMAIN_NAME" >> "${GITHUB_ENV}"
         echo "GCS_TERRAFORM_REMOTE_STATE_BUCKET=$GCS_TERRAFORM_REMOTE_STATE_BUCKET" >> "${GITHUB_ENV}"
         echo "GCS_TERRAFORM_REMOTE_STATE_LOCATION=$GCS_TERRAFORM_REMOTE_STATE_LOCATION" >> "${GITHUB_ENV}"
-        echo "GH_ORGANIZATION=$GH_ORGANIZATION" >> "${GITHUB_ENV}"
-        echo "GH_TOKEN=$GH_TOKEN" >> "${GITHUB_ENV}"
         echo "HOME_BIN=$HOME_BIN" >> "${GITHUB_ENV}"
         echo "IAM=$IAM" >> "${GITHUB_ENV}"
         echo "NETWORK=$NETWORK" >> "${GITHUB_ENV}"
         echo "SECRET=$SECRET" >> "${GITHUB_ENV}"
         echo "SHARED=$SHARED" >> "${GITHUB_ENV}"
-        echo "TERRAGRUNT_COMMAND=$TERRAGRUNT_COMMAND" >> "${GITHUB_ENV}"
+        echo "TERRAGRUNT_RUN_ALL_COMMAND=$TERRAGRUNT_COMMAND" >> "${GITHUB_ENV}"
         echo "TERRAGRUNT_WORKING_DIR=$TERRAGRUNT_WORKING_DIR" >> "${GITHUB_ENV}"
         echo "TF_INPUT=$TF_INPUT" >> "${GITHUB_ENV}"
         echo "TF_IN_AUTOMATION=$TF_IN_AUTOMATION" >> "${GITHUB_ENV}"
-        echo "TF_PROVIDER_GITHUB_VERSION=$TF_PROVIDER_GITHUB_VERSION" >> "${GITHUB_ENV}"
-        echo "TF_PROVIDER_GOOGLE_BETA_VERSION=$TF_PROVIDER_GOOGLE_BETA_VERSION" >> "${GITHUB_ENV}"
-        echo "TF_PROVIDER_GOOGLE_VERSION=$TF_PROVIDER_GOOGLE_VERSION" >> "${GITHUB_ENV}"
         echo "TF_PROVIDER_KUSTOMIZATION_VERSION=$TF_PROVIDER_KUSTOMIZATION_VERSION" >> "${GITHUB_ENV}"
-        echo "TF_PROVIDER_RANDOM_VERSION=$TF_PROVIDER_RANDOM_VERSION" >> "${GITHUB_ENV}"
     - id: setup_github_path
       name: run setup github path
       run: |
@@ -111,41 +99,15 @@ jobs:
       run: |
         chmod +x ./setup_tgenv.sh
         ./setup_tgenv.sh
-    - id: setup_ssh_agent
-      name: run setup ssh agent
-      uses: webfactory/ssh-agent@v0.5.1
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     - id: terragrunt_command_iam
-      if: env.IAM == 'true'
       name: run terragrunt command iam
       run: |
-        terragrunt run-all "${TERRAGRUNT_COMMAND}" \
-          --terragrunt-include-dir "global/iam/**/**"
-    - id: terragrunt_command_secret
-      if: env.SECRET == 'true'
-      name: run terragrunt command secret
-      run: |
-        terragrunt run-all "${TERRAGRUNT_COMMAND}" \
+        terragrunt run-all "${TERRAGRUNT_RUN_ALL_COMMAND}" \
+          --terragrunt-include-dir "global/iam/**/**" \
           --terragrunt-include-dir "global/secret/**/**"
-    - id: terragrunt_command_network
-      if: env.NETWORK == 'true'
-      name: run terragrunt command network
-      run: |
-        terragrunt run-all "${TERRAGRUNT_COMMAND}" \
           --terragrunt-include-dir "global/network/**/**" \
-          --terragrunt-include-dir "us-central1/network/**/**"
-    - id: terragrunt_command_data
-      if: env.DATA == 'true'
-      name: run terragrunt command data
-      run: |
-        terragrunt run-all "${TERRAGRUNT_COMMAND}" \
+          --terragrunt-include-dir "us-central1/network/**/**" \
           --terragrunt-include-dir "global/data/**/**" \
-          --terragrunt-include-dir "us-central1/data/**/**"
-    - id: terragrunt_command_compute
-      if: env.COMPUTE == 'true'
-      name: run terragrunt command compute
-      run: |
-        terragrunt run-all "${TERRAGRUNT_COMMAND}" \
+          --terragrunt-include-dir "us-central1/data/**/**" \
           --terragrunt-include-dir "global/compute/**/**" \
           --terragrunt-include-dir "us-central1/compute/**/**"

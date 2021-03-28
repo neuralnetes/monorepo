@@ -1,5 +1,5 @@
 terraform {
-  source = "git::git@github.com:terraform-google-modules/terraform-google-network.git//modules/subnets-beta?ref=v3.0.0"
+  source = "https://github.com/terraform-google-modules/terraform-google-network.git//modules/subnets-beta?ref=v3.0.0"
 }
 
 include {

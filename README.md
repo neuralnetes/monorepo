@@ -13,7 +13,7 @@ DATA=true \
 COMPUTE=true \
 SHARED=true \
 TERRAGRUNT_WORKING_DIR=terragrunt/live/gcs/non-prod \
-TERRAGRUNT_COMMAND='apply' \
+TERRAGRUNT_RUN_ALL_COMMAND='apply' \
 ./bash/github-actions/workflow_dispatch_terragrunt.sh
 ```
 
@@ -30,7 +30,7 @@ will trigger a `workflow_dispatch` event with this request
     "compute": "true",
     "shared": "true",
     "terragrunt_working_dir": "terragrunt/live/gcs/non-prod",
-    "terragrunt_command": "apply"
+    "terragrunt_run_all_command": "apply"
   }
 }
 ```

@@ -7,8 +7,8 @@ bazel-*
 *.tfstate.*
 .terraform.lock.hcl
 .terragrunt-cache
-.envrc
 .DS_Store
 node_modules
 .venv
 .ignore
+.envrc
