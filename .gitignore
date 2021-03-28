@@ -20,3 +20,9 @@ keyboard.json
 .gitconfig
 .gitignore-global
 .zshrc
+.envrc-secret
+.envrc
+.nvmrc
+.python-version
+.terraform-version
+.terragrunt-version
