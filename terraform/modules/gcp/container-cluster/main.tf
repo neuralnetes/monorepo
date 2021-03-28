@@ -1,21 +1,24 @@
-
 module "container-cluster" {
-  source                                = "github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/beta-private-cluster?ref=v14.0.1"
-  description                = var.description
-  regional                   = var.regional
-  region                     = var.region
-  zones                      = var.zones
-  master_ipv4_cidr_block     = var.master_ipv4_cidr_block
-  add_cluster_firewall_rules  = var.add_cluster_firewall_rules
-  firewall_inbound_ports  = var.firewall_inbound_ports
+  source                     = "github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/beta-private-cluster?ref=v14.0.1"
+  add_cluster_firewall_rules = var.add_cluster_firewall_rules
   autoscaling                = var.autoscaling
-  http_load_balancing        = var.http_load_balancing
-  horizontal_pod_autoscaling = var.horizontal_pod_autoscaling
-  network_policy             = var.network_policy
-  enable_private_endpoint    = var.enable_private_endpoint
-  enable_private_nodes       = var.enable_private_nodes
-  remove_default_node_pool   = var.remove_default_node_pool
   create_service_account     = var.create_service_account
-  node_metadata              = var.node_metadata
+  enable_private_nodes       = var.enable_private_nodes
+  firewall_inbound_ports     = var.firewall_inbound_ports
+  ip_range_pods              = var.ip_range_pods
+  ip_range_services          = var.ip_range_services
+  master_authorized_networks = var.master_authorized_networks
+  master_ipv4_cidr_block     = var.master_ipv4_cidr_block
+  name                       = var.name
+  network                    = var.network
+  network_project_id         = var.network_project_id
+  node_pools                 = var.node_pools
+  node_pools_tags            = var.node_pools_tags
+  project_id                 = var.project_id
+  region                     = var.region
+  regional                   = var.regional
+  remove_default_node_pool   = var.remove_default_node_pool
+  service_account            = var.service_account
+  subnetwork                 = var.subnetwork
+  zones                      = var.zones
 }
-

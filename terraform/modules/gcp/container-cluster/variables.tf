@@ -19,16 +19,7 @@ variable "network_project_id" {
 }
 
 variable "node_pools" {
-  type = list(object({
-    name         = string
-    machine_type = string
-    min_count    = number
-    max_count    = number
-    disk_size_gb = number
-    disk_type    = string
-    image_type   = string
-    preemptible  = bool
-  }))
+  type = list(map(string))
 }
 
 variable "project_id" {
@@ -42,29 +33,75 @@ variable "service_account" {
 variable "subnetwork" {
   type = string
 }
+
 variable "description" {
-  type = string
+  type    = string
+  default = "cluster"
 }
+
 variable "regional" {
-  type = string
+  type    = string
+  default = false
 }
+
 variable "region" {
-  type = string
+  type    = string
+  default = "us-central1"
 }
+
 variable "zones" {
-  type = list(string)
+  type    = list(string)
+  default = []
 }
+
 variable "master_ipv4_cidr_block" {
-  type = string
+  type    = string
+  default = "192.168.0.0/28"
 }
+
 variable "add_cluster_firewall_rules" {
-  type = bool
+  type    = bool
+  default = true
 }
+
 variable "firewall_inbound_ports" {
-  type = list(string)
+  type    = list(string)
+  default = []
 }
+
 variable "create_service_account" {
-  type = bool
+  type    = bool
+  default = false
 }
-variable "node_pools_tags" {}
-variable "master_authorized_networks" {}
+
+variable "node_pools_tags" {
+  type = map(list(string))
+  default = {
+    all               = []
+    default-node-pool = []
+  }
+}
+
+variable "master_authorized_networks" {
+  type    = list(object({ cidr_block = string, display_name = string }))
+  default = []
+}
+
+variable "remove_default_node_pool" {
+  type    = bool
+  default = true
+}
+
+variable "autoscaling" {
+  type    = bool
+  default = true
+}
+
+variable "http_load_balancing" {
+  type    = bool
+  default = true
+}
+
+variable "enable_private_nodes" {
+  default = true
+}
