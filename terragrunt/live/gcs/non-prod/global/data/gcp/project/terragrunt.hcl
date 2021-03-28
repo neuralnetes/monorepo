@@ -10,6 +10,10 @@ locals {
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
 }
 
+dependency "terraform_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/gcp/project"
+}
+
 dependency "vpc" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/vpc"
 }
@@ -31,6 +35,7 @@ inputs = {
     "bigquery.googleapis.com",
     "pubsub.googleapis.com",
     "sqladmin.googleapis.com",
+    "storage.googleapis.com",
     "storage-api.googleapis.com"
   ]
   domain             = local.gcp_workspace_domain_name
