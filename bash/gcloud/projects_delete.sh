@@ -36,7 +36,6 @@ if [[ "${SECRET}" == "true" ]]; then
   projects=$(echo "${projects}" | jq -rc 'select(.projectId | contains("secret"))')
   project_ids=$(echo "${projects}" | jq -rc '.projectId')
   for project_id in ${project_ids}; do
-    ./gcloud_resource_manager_liens_delete.sh "${project_id}"
     gcloud projects delete "${project_id}" -q
   done
   gsutil -m -q  rm -rf  "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/global/secret/**/*"
@@ -46,7 +45,6 @@ if [[ "${IAM}" == "true" ]]; then
   projects=$(echo "${projects}" | jq -rc 'select(.projectId | contains("iam"))')
   project_ids=$(echo "${projects}" | jq -rc '.projectId')
   for project_id in ${project_ids}; do
-    ./gcloud_resource_manager_liens_delete.sh "${project_id}"
     gcloud projects delete "${project_id}" -q
   done
   gsutil -m -q  rm -rf  "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/global/iam/**/*"
