@@ -31,7 +31,7 @@ read -r -d '' TERRAGRUNT_CLI_FLAGS <<-'EOF'
   --terragrunt-include-dir "global/compute/**/**" \
   --terragrunt-include-dir "us-central1/compute/**/**"
 EOF
-export TERRAGRUNT_CLI_FLAG="${TERRAGRUNT_CLI_FLAGS}"
+export TERRAGRUNT_CLI_FLAGS="${TERRAGRUNT_CLI_FLAGS}"
 export TF_INPUT="false"
 export TF_IN_AUTOMATION="true"
 export TF_PROVIDER_KUSTOMIZATION_VERSION="0.4.3"

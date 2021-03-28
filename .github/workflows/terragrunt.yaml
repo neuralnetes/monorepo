@@ -74,15 +74,6 @@ jobs:
       run: |
         mkdir -p "${HOME_BIN}"
         echo "${HOME_BIN}" >> "${GITHUB_PATH}"
-    - id: meta_linter
-      name: run meta linter
-      # You can override Mega-Linter flavor used to have faster performances
-      # More info at https://nvuillam.github.io/mega-linter/flavors/
-      uses: nvuillam/mega-linter@v4
-      env:
-        # All available variables are described in documentation
-        # https://nvuillam.github.io/mega-linter/configuration/
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - id: setup_gcloud
       name: run setup gcloud
       uses: google-github-actions/setup-gcloud@master
