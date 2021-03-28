@@ -1,3 +1,4 @@
+#!/bin/bash
 export GCP_BILLING_ACCOUNT_ID=""
 export GCP_ORGANIZATION=""
 export GCP_ORGANIZATION_ID=""
