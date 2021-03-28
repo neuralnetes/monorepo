@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/terraform-google-modules/terraform-google-cloud-nat.git?ref=v1.3.0"
+  source = "github.com/terraform-google-modules/terraform-google-cloud-nat.git//?ref=v1.3.0"
 }
 
 include {
