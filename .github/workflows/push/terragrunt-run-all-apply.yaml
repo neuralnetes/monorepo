@@ -2,8 +2,10 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'terragrunt/**'
 jobs:
-  workflow_dispatch_terragrunt:
+  terragrunt_live_gcs_non_prod:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
