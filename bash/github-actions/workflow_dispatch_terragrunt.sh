@@ -5,7 +5,7 @@ request_json=$(
     --arg ref "${GITHUB_REF}" \
     --arg terragrunt_working_dir "${TERRAGRUNT_WORKING_DIR}" \
     --arg terragrunt_command "${TERRAGRUNT_COMMAND}" \
-    --argjson terragrunt_cli_flags "${TERRAGRUNT_CLI_FLAGS}" \
+    --arg terragrunt_cli_flags "${TERRAGRUNT_CLI_FLAGS}" \
     '
       {
         "ref": $ref,
