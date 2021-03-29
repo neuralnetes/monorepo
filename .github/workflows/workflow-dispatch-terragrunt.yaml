@@ -54,7 +54,7 @@ jobs:
         terragrunt_working_dir="${GITHUB_WORKSPACE}/${{ github.event.inputs.terragrunt_working_dir }}"
         terragrunt_cli_flags=($(echo '${{ github.event.inputs.terragrunt_cli_flags }}' | jq -rc '@sh'))
         terragrunt_cli_flags+=(
+          '--terragrunt-working-dir ${terragrunt_working_dir}'
           '--terragrunt-non-interactive'
-          "--terragrunt-working-dir ${terragrunt_working_dir}"
         )
         terragrunt "${terragrunt_command}" "${terragrunt_cli_flags[@]}"
