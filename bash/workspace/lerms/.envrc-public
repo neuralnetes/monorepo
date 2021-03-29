@@ -6,7 +6,7 @@ export GOBIN="${GOPATH}/bin"
 export PATH="${HOME}/.local/bin:${GOBIN}:${PATH}"
 TERRAGRUNT_CLI_FLAGS="$(
   jq -nrc '[
-    "--terragrunt-includde-dir global/terraform/**/**",
+    "--terragrunt-include-dir global/terraform/**/**",
     "--terragrunt-include-dir global/iam/**/**",
     "--terragrunt-include-dir global/secret/**/**",
     "--terragrunt-include-dir global/network/**/**",
