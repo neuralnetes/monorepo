@@ -26,27 +26,13 @@ jobs:
       GITHUB_ORGANIZATION: ${{ secrets.GH_ORGANIZATION }}
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       GITHUB_USER: ${{ secrets.GH_USER }}
-      TF_INPUT: false
-      TF_IN_AUTOMATION: true
-      TF_PROVIDER_KUSTOMIZATION_VERSION: 0.4.3
     steps:
     - id: checkout
       name: run checkout
       uses: actions/checkout@v2
-    - id: setup_github_env
-      name: run setup github env
-      run: |
-        echo "GITHUB_WORKSPACE_BIN=${GITHUB_WORKSPACE}/bin" >> $GITHUB_ENV
-        echo "TERRAGRUNT_COMMAND=${{ github.event.inputs.terragrunt_command }}" >> $GITHUB_ENV
-        echo "TERRAGRUNT_WORKING_DIR=${GITHUB_WORKSPACE}/${{ github.event.inputs.terragrunt_working_dir }}" >> $GITHUB_ENV
-        echo "TERRAGRUNT_CLI_FLAGS<<EOF" >> $GITHUB_ENV
-        echo "${{ github.event.inputs.terragrunt_cli_flags }}" >> $GITHUB_ENV
-        echo "EOF" >> "${GITHUB_ENV}"
     - id: setup_github_path
       name: run setup github path
-      run: |
-        mkdir -p "${GITHUB_WORKSPACE_BIN}"
-        echo "${GITHUB_WORKSPACE_BIN}" >> "${GITHUB_PATH}"
+      run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH
     - id: setup_tfenv
       name: run setup tfenv
       working-directory: ./bash/terraform
@@ -54,6 +40,7 @@ jobs:
     - id: setup_tgenv
       name: run setup tgenv
       working-directory: ./bash/terragrunt
+      run: chmod +x ./setup_tgenv.sh && ./setup_tgenv.sh
     - id: setup_gcloud
       name: run setup gcloud
       uses: google-github-actions/setup-gcloud@master
@@ -63,4 +50,12 @@ jobs:
       run: chmod +x ./setup_tgenv.sh && ./setup_tgenv.sh
     - id: terragrunt_command
       name: run terragrunt command
-      run: terragrunt ${{ env.TERRAGRUNT_COMMAND }} ${{ env.TERRAGRUNT_CLI_FLAGS }}
+      run: |
+        terragrunt_command="${{ github.event.inputs.terragrunt_command }}"
+        terragrunt_working_dir="${GITHUB_WORKSPACE}/${{ github.event.inputs.terragrunt_working_dir }}"
+        terragrunt_cli_flags=($(echo ${{ github.event.inputs.terragrunt_cli_flags }} | jq -rc '@sh'))
+        terragrunt_cli_flags+=(
+          '--terragrunt-non-interactive'
+          "--terragrunt-working-dir ${terragrunt_working_dir}"
+        )
+        terragrunt "${terragrunt_command}" "${terragrunt_cli_flags[@]}"

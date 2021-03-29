@@ -23,7 +23,7 @@ terraform {
     # https://registry.terraform.io/providers/kbst/kustomization/latest
     kustomization = {
       source = "kbst/kustomization"
-      version = "${get_env("TF_PROVIDER_KUSTOMIZATION_VERSION")}"
+      version = "0.4.3"
     }
   }
 }

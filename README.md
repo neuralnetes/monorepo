@@ -2,9 +2,7 @@
 
 [![.github/workflows/terragrunt.yaml](https://github.com/neuralnetes/monorepo/actions/workflows/terragrunt.yaml/badge.svg?branch=main)](https://github.com/neuralnetes/monorepo/actions/workflows/terragrunt.yaml)
 
-#### [terragrunt/live/gcs/non-prod](./terragrunt/live/gcs/non-prod)
-
-running
+#### github actions
 
 ```shell script
 ./bash/github-actions/workflow_dispatch_terragrunt.sh

@@ -19,12 +19,3 @@
 * [kbst/terraform-provider-kustomize](https://registry.terraform.io/providers/kbst/kustomization/latest/docs)
 * [github](https://registry.terraform.io/providers/hashicorp/github/latest)
 * [terragrunt-integration-with-tfc-tfe](https://gruntwork.io/guides/foundations/how-to-use-gruntwork-infrastructure-as-code-library#integration_with_tfc_tfe)
-
-
-#### install
-
-```
-git clone https://github.com/tfutils/tfenv.git ~/.tfenv
-ln -s ~/.tfenv/bin/* "${GITHUB_WORKSPACE_BIN}"
-tfenv install
-```
