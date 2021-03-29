@@ -47,7 +47,6 @@ jobs:
       with:
         service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
         export_default_credentials: true
-      run: chmod +x ./setup_tgenv.sh && ./setup_tgenv.sh
     - id: terragrunt_command
       name: run terragrunt command
       run: |
