@@ -18,17 +18,17 @@ jobs:
       - id: setup_github_env
         name: run setup github env
         run: |
-          echo "TERRAGRUNT_CLI_FLAGS<<EOF" >> $GITHUB_ENV
-          echo "--terragrunt-include-dir global/terraform/**/**" >> $GITHUB_ENV
-          echo "--terragrunt-include-dir global/iam/**/**" >> $GITHUB_ENV
-          echo "--terragrunt-include-dir global/secret/**/**" >> $GITHUB_ENV
-          echo "--terragrunt-include-dir global/network/**/**" >> $GITHUB_ENV
-          echo "--terragrunt-include-dir global/data/**/**" >> $GITHUB_ENV
-          echo "--terragrunt-include-dir global/compute/**/**" >> $GITHUB_ENV
-          echo "--terragrunt-include-dir us-central1/network/**/**" >> $GITHUB_ENV
-          echo "--terragrunt-include-dir us-central1/data/**/**" >> $GITHUB_ENV
-          echo "--terragrunt-include-dir us-central1/compute/**/**" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          echo 'TERRAGRUNT_CLI_FLAGS<<EOF' >> $GITHUB_ENV
+          echo '--terragrunt-include-dir global/terraform/**/**' >> $GITHUB_ENV
+          echo '--terragrunt-include-dir global/iam/**/**' >> $GITHUB_ENV
+          echo '--terragrunt-include-dir global/secret/**/**' >> $GITHUB_ENV
+          echo '--terragrunt-include-dir global/network/**/**' >> $GITHUB_ENV
+          echo '--terragrunt-include-dir global/data/**/**' >> $GITHUB_ENV
+          echo '--terragrunt-include-dir global/compute/**/**' >> $GITHUB_ENV
+          echo '--terragrunt-include-dir us-central1/network/**/**' >> $GITHUB_ENV
+          echo '--terragrunt-include-dir us-central1/data/**/**' >> $GITHUB_ENV
+          echo '--terragrunt-include-dir us-central1/compute/**/**' >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
       - id: workflow_dispatch_terragrunt
         name: run workflow dispatch terragrunt
         working-directory: ./bash/github-actions

@@ -47,12 +47,6 @@ jobs:
       run: |
         mkdir -p "${GITHUB_WORKSPACE_BIN}"
         echo "${GITHUB_WORKSPACE_BIN}" >> "${GITHUB_PATH}"
-    - id: setup_gcloud
-      name: run setup gcloud
-      uses: google-github-actions/setup-gcloud@master
-      with:
-        service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
-        export_default_credentials: true
     - id: setup_tfenv
       name: run setup tfenv
       working-directory: ./bash/terraform
@@ -60,6 +54,12 @@ jobs:
     - id: setup_tgenv
       name: run setup tgenv
       working-directory: ./bash/terragrunt
+    - id: setup_gcloud
+      name: run setup gcloud
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+        export_default_credentials: true
       run: chmod +x ./setup_tgenv.sh && ./setup_tgenv.sh
     - id: terragrunt_command
       name: run terragrunt command
