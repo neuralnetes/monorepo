@@ -53,7 +53,7 @@ jobs:
         terragrunt_command="${{ github.event.inputs.terragrunt_command }}"
         terragrunt_working_dir="${GITHUB_WORKSPACE}/${{ github.event.inputs.terragrunt_working_dir }}"
         terragrunt_cli_flags=$(
-          jq -nrc "{{ github.event.inputs.terragrunt_cli_flags }}"
+          jq -nrc "{{ toJSON(github.event.inputs.terragrunt_cli_flags) }}"
         )
         echo "${terragrunt_cli_flags}" | jq -rc '@sh'
         echo "terragrunt_command=${terragrunt_command}"
