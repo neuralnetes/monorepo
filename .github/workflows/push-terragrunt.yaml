@@ -4,9 +4,6 @@ on:
       - main
     paths:
       - 'terragrunt/**'
-      - '.githhub/workflows/push-terragrunt.yaml'
-      - '.githhub/workflows/workflow-dispatch-terragrunt.yaml'
-      - '.githhub/workflows/**'
 jobs:
   terragrunt:
     runs-on: ubuntu-latest
