@@ -49,12 +49,12 @@ jobs:
         export_default_credentials: true
     - id: terragrunt_command
       name: run terragrunt command
+      env:
+        TERRAGRUNT_CLI_FLAGS: ${{toJSON(fromJSON(github.event.inputs.terragrunt_cli_flags))}}
       run: |
         terragrunt_command="${{ github.event.inputs.terragrunt_command }}"
         terragrunt_working_dir="${GITHUB_WORKSPACE}/${{ github.event.inputs.terragrunt_working_dir }}"
-        terragrunt_cli_flags=(
-          $(echo "${{toJSON(fromJSON(github.event.inputs.terragrunt_cli_flags))}}" | jq -rc '@sh')
-        )
+        terragrunt_cli_flags=($(echo "${TERRAGRUNT_CLI_FLAGS}" | jq -rc '@sh'))
         echo "terragrunt_command=${terragrunt_command}"
         echo "terragrunt_working_dir=${terragrunt_working_dir}"
         echo "terragrunt_cli_flags=${terragrunt_cli_flags}"
