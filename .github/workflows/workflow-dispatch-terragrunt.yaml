@@ -60,5 +60,6 @@ jobs:
         echo "terragrunt_cli_flags=${terragrunt_cli_flags}"
         echo "terragrunt_cli_flags=${terragrunt_cli_flags[@]}"
         export TF_INPUT=false
+        export TF_LOG=TRACE
         export TERRAGRUNT_WORKING_DIR="${terragrunt_working_dir}"
-        terragrunt "${terragrunt_command}" "${terragrunt_cli_flags[@]}"
+        terragrunt "${terragrunt_command}" "${terragrunt_cli_flags[@]}" --terragrunt-debug
