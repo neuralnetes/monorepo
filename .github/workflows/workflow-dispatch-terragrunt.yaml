@@ -59,7 +59,6 @@ jobs:
         echo "terragrunt_working_dir=${terragrunt_working_dir}"
         echo "terragrunt_cli_flags=${terragrunt_cli_flags}"
         echo "terragrunt_cli_flags=${terragrunt_cli_flags[@]}"
-        terragrunt "${terragrunt_command}" \
-          --terragrunt-working-dir ${terragrunt_working_dir} \
-          --terragrunt-non-interactive \
-          ${terragrunt_cli_flags[@]} \
+        export TF_INPUT=false
+        export TERRAGRUNT_WORKING_DIR="${terragrunt_working_dir}"
+        terragrunt "${terragrunt_command}" "${terragrunt_cli_flags[@]}"
