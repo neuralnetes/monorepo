@@ -19,17 +19,18 @@ jobs:
         working-directory: ./bash/github-actions
         run: |
           export TERRAGRUNT_COMMAND='run-all apply'
+          export TERRAGRUNT_WORKING_DIR="terragrunt/live/gcs"
           TERRAGRUNT_CLI_FLAGS="$(
             jq -nrc '[
-              "--terragrunt-include-dir global/terraform/**/**",
-              "--terragrunt-include-dir global/iam/**/**",
-              "--terragrunt-include-dir global/secret/**/**",
-              "--terragrunt-include-dir global/network/**/**",
-              "--terragrunt-include-dir global/data/**/**",
-              "--terragrunt-include-dir global/compute/**/**",
-              "--terragrunt-include-dir us-central1/network/**/**",
-              "--terragrunt-include-dir us-central1/data/**/**",
-              "--terragrunt-include-dir us-central1/compute/**/**"
+              "--terragrunt-include-dir non-prod/global/terraform/**/**",
+              "--terragrunt-include-dir non-prod/global/iam/**/**",
+              "--terragrunt-include-dir non-prod/global/secret/**/**",
+              "--terragrunt-include-dir non-prod/global/network/**/**",
+              "--terragrunt-include-dir non-prod/global/data/**/**",
+              "--terragrunt-include-dir non-prod/global/compute/**/**",
+              "--terragrunt-include-dir non-prod/us-central1/network/**/**",
+              "--terragrunt-include-dir non-prod/us-central1/data/**/**",
+              "--terragrunt-include-dir non-prod/us-central1/compute/**/**"
             ]'
           )"
           export TERRAGRUNT_CLI_FLAGS

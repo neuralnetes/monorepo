@@ -33,7 +33,7 @@ jobs:
     - id: setup_github_path
       name: run setup github path
       run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH
-    - id: setup_tfenv
+    - id: setup_tfenvTERRAGRUNT_WORKING_DIR
       name: run setup tfenv
       working-directory: ./bash/terraform
       run: chmod +x ./setup_tfenv.sh && ./setup_tfenv.sh
