@@ -60,7 +60,4 @@ jobs:
           ${TERRAGRUNT_COMMAND}
           ${terragrunt_cli_flags[@]}
         )
-        printf 'Proposing to run: '
-        printf '%q ' "${command[@]}"
-        printf '\n'
         "${command[@]}"
