@@ -51,15 +51,8 @@ jobs:
       name: run terragrunt command
       env:
         TERRAGRUNT_CLI_FLAGS: ${{toJSON(fromJSON(github.event.inputs.terragrunt_cli_flags))}}
+        TERRAGRUNT_WORKING_DIR: ${{ github.workspace }}/${{ github.event.inputs.terragrunt_working_dir }}
+        TF_INPUT: false
       run: |
-        terragrunt_command="${{ github.event.inputs.terragrunt_command }}"
-        terragrunt_working_dir="${GITHUB_WORKSPACE}/${{ github.event.inputs.terragrunt_working_dir }}"
         terragrunt_cli_flags=($(echo "${TERRAGRUNT_CLI_FLAGS}" | jq -rc '@sh'))
-        echo command="
-          terragrunt ${terragrunt_command} \
-            --terragrunt-working-dir ${terragrunt_working_dir} \
-            --terragrunt-non-interactive true \
-            $(echo ${terragrunt_cli_flags[@]} | tr -d \'\")
-        "
-        echo "${command}"
-        /bin/bash -c ${command}
+        terragrunt ${terragrunt_command} $(echo ${terragrunt_cli_flags[@]} | tr -d \'\")
