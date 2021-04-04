@@ -54,4 +54,12 @@ jobs:
         TF_INPUT: false
       run: |
         terragrunt_cli_flags=($(echo "${TERRAGRUNT_CLI_FLAGS}" | jq -rc '@sh'))
-        terragrunt "${terragrunt_command}" "$(echo ${terragrunt_cli_flags[@]} | tr -d \'\")"
+        echo "terragrunt ${terragrunt_command} $(echo ${terragrunt_cli_flags[@]} | tr -d \'\")"
+        command=(
+          terragrunt
+          ${terragrunt_command}
+          ${terragrunt_cli_flags[@]}
+        )
+        echo "${command[@]}"
+        echo "${command[@]}" | tr -d \'\"
+        "${command[@]}"
