@@ -61,5 +61,5 @@ jobs:
         export TF_INPUT=false
         export TF_LOG=TRACE
         export TERRAGRUNT_WORKING_DIR="${terragrunt_working_dir}"
-        echo "terragrunt ${terragrunt_command} $(echo ${terragrunt_cli_flags[@]} | tr -d \'\") --terragrunt-debug"
-#        terragrunt "${terragrunt_command}" "${terragrunt_cli_flags[@]}"
+        echo "terragrunt ${terragrunt_command} $(echo ${terragrunt_cli_flags[@]} | tr -d \'\")"
+        terragrunt ${terragrunt_command} $(echo ${terragrunt_cli_flags[@]} | tr -d \'\")
