@@ -19,7 +19,7 @@ jobs:
         working-directory: ./bash/github-actions
         run: |
           export TERRAGRUNT_COMMAND='run-all apply'
-          export TERRAGRUNT_WORKING_DIR="terragrunt/live/gcs/non-prod"
+          export TERRAGRUNT_WORKING_DIR='terragrunt/live/gcs/non-prod'
           TERRAGRUNT_CLI_FLAGS="$(
             jq -nrc '[
               "--terragrunt-include-dir global/terraform/**/**",
