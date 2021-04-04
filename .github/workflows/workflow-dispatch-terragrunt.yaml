@@ -57,10 +57,9 @@ jobs:
         terragrunt_cli_flags=($(echo "${TERRAGRUNT_CLI_FLAGS}" | jq -rc '@sh'))
         echo "terragrunt_command=${terragrunt_command}"
         echo "terragrunt_working_dir=${terragrunt_working_dir}"
-        echo "terragrunt_cli_flags=${terragrunt_cli_flags}"
         echo "terragrunt_cli_flags=${terragrunt_cli_flags[@]}"
         export TF_INPUT=false
         export TF_LOG=TRACE
         export TERRAGRUNT_WORKING_DIR="${terragrunt_working_dir}"
-        echo "terragrunt ${terragrunt_command} ${terragrunt_cli_flags[@]} --terragrunt-debug"
-#        terragrunt "${terragrunt_command}" "${terragrunt_cli_flags[@]}" --terragrunt-debug
+        echo "terragrunt ${terragrunt_command} $(echo ${terragrunt_cli_flags[@]} | tr -d \'\") --terragrunt-debug"
+#        terragrunt "${terragrunt_command}" "${terragrunt_cli_flags[@]}"
