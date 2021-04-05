@@ -20,3 +20,4 @@ TERRAGRUNT_CLI_FLAGS="$(
 export TERRAGRUNT_CLI_FLAGS
 export TERRAGRUNT_COMMAND="run-all apply"
 export TERRAGRUNT_WORKING_DIR="terragrunt/live/gcs/non-prod"
+export TF_INPUT="false"
