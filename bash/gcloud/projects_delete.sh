@@ -26,14 +26,14 @@ done
 gsutil -m -q  rm -rf  "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/global/network/**/*"
 gsutil -m -q  rm -rf  "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/us-central1/network/**/*"
 
-projects=$(echo "${projects}" | jq -rc 'select(.projectId | contains("secret"))')
+projects=$(echo "${PROJECTS}" | jq -rc 'select(.projectId | contains("secret"))')
 project_ids=$(echo "${projects}" | jq -rc '.projectId')
 for project_id in ${project_ids}; do
   gcloud projects delete "${project_id}" -q
 done
 gsutil -m -q  rm -rf  "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/global/secret/**/*"
 
-projects=$(echo "${projects}" | jq -rc 'select(.projectId | contains("iam"))')
+projects=$(echo "${PROJECTS}" | jq -rc 'select(.projectId | contains("iam"))')
 project_ids=$(echo "${projects}" | jq -rc '.projectId')
 for project_id in ${project_ids}; do
   gcloud projects delete "${project_id}" -q
