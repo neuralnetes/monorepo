@@ -60,5 +60,5 @@ jobs:
           ${TERRAGRUNT_COMMAND}
           ${terragrunt_cli_flags[@]}
         )
-        echo "run: ${command[@]}"
+        echo "command: ${command[@]}"
         "${command[@]}"
