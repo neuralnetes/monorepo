@@ -54,7 +54,7 @@ inputs = {
             "roles/iam.serviceAccountAdmin"
           ] :
           project_role => [
-            "serviceAccount:${dependency.auth.outputs.email}"
+            "group:terraform@${local.gcp_workspace_domain_name}"
           ]
         }
         projects = [dependency.compute_project.outputs.project_id]
@@ -83,7 +83,7 @@ inputs = {
             "roles/pubsub.admin",
           ] :
           project_role => [
-            "serviceAccount:${dependency.auth.outputs.email}"
+            "group:terraform@${local.gcp_workspace_domain_name}"
           ]
         }
         projects = [dependency.data_project.outputs.project_id]
@@ -111,7 +111,7 @@ inputs = {
             "roles/iam.serviceAccountKeyAdmin",
           ] :
           project_role => [
-            "serviceAccount:${dependency.auth.outputs.email}"
+            "group:terraform@${local.gcp_workspace_domain_name}"
           ]
         }
         projects = [dependency.iam_project.outputs.project_id]
@@ -138,7 +138,7 @@ inputs = {
             "roles/dns.admin"
           ] :
           project_role => [
-            "serviceAccount:${dependency.auth.outputs.email}"
+            "group:terraform@${local.gcp_workspace_domain_name}"
           ]
         }
         projects = [dependency.network_project.outputs.project_id]
@@ -165,7 +165,7 @@ inputs = {
             "roles/secretmanager.admin"
           ] :
           project_role => [
-            "serviceAccount:${dependency.auth.outputs.email}"
+            "group:terraform@${local.gcp_workspace_domain_name}"
           ]
         }
         projects = [dependency.secret_project.outputs.project_id]
