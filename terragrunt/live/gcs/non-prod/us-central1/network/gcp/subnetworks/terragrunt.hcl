@@ -48,7 +48,7 @@ inputs = {
       subnet_ip = cidrsubnet(
         local.cidr_block,
         local.cidr_subnetwork_width_delta,
-        2 * (1 + local.cidr_subnetwork_spacing)
+        1 * (1 + local.cidr_subnetwork_spacing)
       )
       subnet_region             = local.subnet_region
       subnet_private_access     = "true"
@@ -82,7 +82,7 @@ inputs = {
         ip_cidr_range = cidrsubnet(
           local.secondary_cidr_block,
           local.secondary_cidr_subnetwork_width_delta,
-          3 * (1 + local.secondary_cidr_subnetwork_spacing)
+          2 * (1 + local.secondary_cidr_subnetwork_spacing)
         )
       }
     ]
