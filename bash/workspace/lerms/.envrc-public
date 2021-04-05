@@ -4,6 +4,7 @@ export KUBE_EDITOR="${EDITOR}"
 export GOPATH="${HOME}/go"
 export GOBIN="${GOPATH}/bin"
 export PATH="${HOME}/.local/bin:${GOBIN}:${PATH}"
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 TERRAGRUNT_CLI_FLAGS="$(
   jq -nrc '[
     "--terragrunt-include-dir global/terraform/**/**",

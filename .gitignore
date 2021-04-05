@@ -23,3 +23,4 @@ keyboard.json
 node_modules
 terragrunt-debug.tfvars.json
 tmp
+google-cloud-sdk*

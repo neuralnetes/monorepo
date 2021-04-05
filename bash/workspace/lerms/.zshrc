@@ -25,3 +25,9 @@ ln -fs "${GITHUB_USER_WORKSPACE}"/.envrc* "${GITHUB_WORKSPACE}"
 source "${ZSH}/oh-my-zsh.sh"
 source "${HOME}/.function"
 source "${HOME}/.alias"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/alexanderlerma/go/src/github.com/neuralnetes/monorepo/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/alexanderlerma/go/src/github.com/neuralnetes/monorepo/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/alexanderlerma/go/src/github.com/neuralnetes/monorepo/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/alexanderlerma/go/src/github.com/neuralnetes/monorepo/google-cloud-sdk/completion.zsh.inc'; fi
