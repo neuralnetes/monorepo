@@ -54,7 +54,6 @@ inputs = {
       subnet_private_access     = "true"
       subnet_flow_logs          = "true"
       subnet_flow_logs_metadata = "INCLUDE_ALL_METADATA"
-      subnet_private_access = "true"
       description               = "cloud-sql-${dependency.random_string.outputs.result}"
     },
     {
