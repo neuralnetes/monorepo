@@ -51,6 +51,7 @@ inputs = {
         bindings = {
           for project_role in [
             "roles/compute.admin",
+            "roles/iam.serviceAccountAdmin"
           ] :
           project_role => [
             "serviceAccount:${dependency.auth.outputs.email}"
