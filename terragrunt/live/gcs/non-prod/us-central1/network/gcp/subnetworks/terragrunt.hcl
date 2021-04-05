@@ -44,19 +44,6 @@ inputs = {
       description               = "cluster-${dependency.random_string.outputs.result}"
     },
     {
-      subnet_name = "cloud-sql-${dependency.random_string.outputs.result}"
-      subnet_ip = cidrsubnet(
-        local.cidr_block,
-        local.cidr_subnetwork_width_delta,
-        1 * (1 + local.cidr_subnetwork_spacing)
-      )
-      subnet_region             = local.subnet_region
-      subnet_private_access     = "true"
-      subnet_flow_logs          = "true"
-      subnet_flow_logs_metadata = "INCLUDE_ALL_METADATA"
-      description               = "cloud-sql-${dependency.random_string.outputs.result}"
-    },
-    {
       subnet_name = "dataflow-${dependency.random_string.outputs.result}"
       subnet_ip = cidrsubnet(
         local.cidr_block,
@@ -86,16 +73,6 @@ inputs = {
           local.secondary_cidr_block,
           local.secondary_cidr_subnetwork_width_delta,
           1 * (1 + local.secondary_cidr_subnetwork_spacing)
-        )
-      }
-    ]
-    "cloud-sql-${dependency.random_string.outputs.result}" = [
-      {
-        range_name = "cloud-sql-${dependency.random_string.outputs.result}-secondary-01"
-        ip_cidr_range = cidrsubnet(
-          local.secondary_cidr_block,
-          local.secondary_cidr_subnetwork_width_delta,
-          2 * (1 + local.secondary_cidr_subnetwork_spacing)
         )
       }
     ]
