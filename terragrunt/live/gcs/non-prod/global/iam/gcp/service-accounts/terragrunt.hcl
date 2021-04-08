@@ -38,12 +38,12 @@ inputs = {
         project_id = dependency.compute_project.outputs.project_id
         name       = "cluster-${dependency.random_string.outputs.result}"
         project_roles = [
-          "${dependency.iam_project.outputs.project_id}=>roles/logging.logWriter",
-          "${dependency.iam_project.outputs.project_id}=>roles/monitoring.metricWriter",
-          "${dependency.iam_project.outputs.project_id}=>roles/monitoring.viewer",
-          "${dependency.iam_project.outputs.project_id}=>roles/stackdriver.resourceMetadata.writer",
-          "${dependency.iam_project.outputs.project_id}=>roles/storage.objectViewer",
-          "${dependency.iam_project.outputs.project_id}=>roles/artifactregistry.reader"
+          "${dependency.compute_project.outputs.project_id}=>roles/logging.logWriter",
+          "${dependency.compute_project.outputs.project_id}=>roles/monitoring.metricWriter",
+          "${dependency.compute_project.outputs.project_id}=>roles/monitoring.viewer",
+          "${dependency.compute_project.outputs.project_id}=>roles/stackdriver.resourceMetadata.writer",
+          "${dependency.compute_project.outputs.project_id}=>roles/storage.objectViewer",
+          "${dependency.compute_project.outputs.project_id}=>roles/artifactregistry.reader"
         ]
       },
       {
