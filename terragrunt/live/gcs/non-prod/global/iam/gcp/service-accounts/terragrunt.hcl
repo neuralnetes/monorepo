@@ -35,7 +35,7 @@ inputs = {
     # compute
     [
       {
-        project_id = dependency.iam_project.outputs.project_id
+        project_id = dependency.compute_project.outputs.project_id
         name       = "cluster-${dependency.random_string.outputs.result}"
         project_roles = [
           "${dependency.iam_project.outputs.project_id}=>roles/logging.logWriter",
