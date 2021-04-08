@@ -45,11 +45,26 @@ inputs = {
       zone             = local.zone
       ip_configuration = {
         authorized_networks = [
-          dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].ip_cidr_range,
-          dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[0].ip_cidr_range,
-          dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[1].ip_cidr_range,
-          dependency.subnetworks.outputs.subnets["us-central1/dataflow-${dependency.random_string.outputs.result}"].ip_cidr_range,
-          dependency.subnetworks.outputs.subnets["us-central1/dataflow-${dependency.random_string.outputs.result}"].secondary_ip_range[0].ip_cidr_range,
+          {
+            name  = "${dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"]}-01"
+            value = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].ip_cidr_range
+          },
+          {
+            name  = "${dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"]}-02"
+            value = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[0].ip_cidr_range,
+          },
+          {
+            name  = "${dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"]}-03"
+            value = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[1].ip_cidr_range,
+          },
+          {
+            name  = "${dependency.subnetworks.outputs.subnets["us-central1/dataflow-${dependency.random_string.outputs.result}"]}-01"
+            value = dependency.subnetworks.outputs.subnets["us-central1/dataflow-${dependency.random_string.outputs.result}"].ip_cidr_range,
+          },
+          {
+            name  = "${dependency.subnetworks.outputs.subnets["us-central1/dataflow-${dependency.random_string.outputs.result}"]}-02"
+            value = dependency.subnetworks.outputs.subnets["us-central1/dataflow-${dependency.random_string.outputs.result}"].secondary_ip_range[0].ip_cidr_range,
+          }
         ]
         ipv4_enabled    = true
         private_network = dependency.vpc.outputs.network_self_link
