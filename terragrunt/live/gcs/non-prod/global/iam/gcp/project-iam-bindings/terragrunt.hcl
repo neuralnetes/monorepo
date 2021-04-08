@@ -51,7 +51,6 @@ inputs = {
         bindings = {
           for project_role in [
             "roles/compute.admin",
-            "roles/iam.serviceAccountAdmin"
           ] :
           project_role => [
             "group:terraform@${local.gcp_workspace_domain_name}"
