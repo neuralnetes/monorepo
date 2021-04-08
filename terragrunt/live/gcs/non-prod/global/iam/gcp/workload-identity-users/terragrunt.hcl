@@ -43,7 +43,7 @@ dependency "container_clusters" {
 }
 
 dependency "kustomization" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/kustomization/bootstrap"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/kustomization/deploy"
 }
 
 inputs = {
