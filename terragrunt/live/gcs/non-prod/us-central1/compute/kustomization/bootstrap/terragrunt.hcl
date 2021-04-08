@@ -19,7 +19,7 @@ generate "kustomization_provider" {
   if_exists = "overwrite_terragrunt"
   contents  = <<EOF
 terraform {
-  required_providers = {
+  required_providers {
     # https://registry.terraform.io/providers/kbst/kustomization/latest
     kustomization = {
       source = "kbst/kustomization"
