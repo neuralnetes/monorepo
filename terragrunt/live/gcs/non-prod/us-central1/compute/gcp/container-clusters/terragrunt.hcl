@@ -80,7 +80,6 @@ inputs = {
           min_count         = 0
           name              = "cluster-${dependency.random_string.outputs.result}-gpu-01"
           preemptible       = true
-
         }
       ]
       node_pools_tags = {
