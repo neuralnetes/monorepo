@@ -34,5 +34,5 @@ EOF
 }
 
 inputs = {
-  path           = "${get_terragrunt_dir()}"
+  path = "${get_terragrunt_dir()}"
 }
