@@ -28,7 +28,7 @@ terraform {
   }
 }
 provider "kustomization" {
-  kubeconfig_raw = "${dependency.container_cluster.outputs.container_cluster_auths_map["cluster-${dependency.random_string.outputs.result}"].kubeconfig_raw}"
+  kubeconfig_raw = "${dependency.container_clusters.outputs.container_cluster_auths_map["cluster-${dependency.random_string.outputs.result}"].kubeconfig_raw}"
 }
 EOF
 }
