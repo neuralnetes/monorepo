@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: external-secrets
+  name: kubernetes-external-secrets
 rules:
 - resources: ["secrets"]
   apiGroups: [""]
@@ -28,26 +28,26 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: external-secrets
+  name: kubernetes-external-secrets
 roleRef:
-  name: external-secrets
+  name: kubernetes-external-secrets
   kind: ClusterRole
   apiGroup: rbac.authorization.k8s.io
 subjects:
-- name: external-secrets
-  namespace: external-secrets
+- name: kubernetes-external-secrets
+  namespace: kubernetes-external-secrets
   kind: ServiceAccount
 ---
 # Source: kubernetes-external-secrets/templates/rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: external-secrets-auth
+  name: kubernetes-external-secrets-auth
 roleRef:
   name: system:auth-delegator
   kind: ClusterRole
   apiGroup: rbac.authorization.k8s.io
 subjects:
-- name: external-secrets
-  namespace: external-secrets
+- name: kubernetes-external-secrets
+  namespace: kubernetes-external-secrets
   kind: ServiceAccount

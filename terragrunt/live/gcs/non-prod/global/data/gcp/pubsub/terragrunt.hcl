@@ -35,12 +35,6 @@ inputs = {
     ],
     [
       {
-        topic              = "test-${dependency.random_string.outputs.result}"
-        project_id         = dependency.data_project.outputs.project_id
-        push_subscriptions = []
-        pull_subscriptions = []
-      },
-      {
         topic              = "first-rate-data-${dependency.random_string.outputs.result}"
         project_id         = dependency.data_project.outputs.project_id
         push_subscriptions = []

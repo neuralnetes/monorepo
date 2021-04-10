@@ -23,8 +23,7 @@ inputs = {
   location   = "US"
   names = [
     for name_prefix in [
-      "datasets",
-      "functions"
+      "datasets"
     ] : "${name_prefix}-${dependency.random_string.outputs.result}"
   ]
   prefix = ""

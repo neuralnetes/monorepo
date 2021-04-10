@@ -62,7 +62,7 @@ inputs = {
       },
       {
         project_id = dependency.secret_project.outputs.project_id
-        name       = "external-secrets-${dependency.random_string.outputs.result}"
+        name       = "kubernetes-external-secrets-${dependency.random_string.outputs.result}"
         project_roles = [
           "${dependency.secret_project.outputs.project_id}=>roles/secretmanager.admin"
         ]

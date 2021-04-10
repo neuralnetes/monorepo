@@ -146,7 +146,7 @@ inputs = {
         key = "${dependency.network_project.outputs.project_id}-02"
         bindings = {
           for project_role in [
-            "roles/editor",
+            "roles/viewer",
           ] :
           project_role => [
             "group:engineering@${local.gcp_workspace_domain_name}"

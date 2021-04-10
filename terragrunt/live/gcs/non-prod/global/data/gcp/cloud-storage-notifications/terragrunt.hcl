@@ -29,9 +29,7 @@ inputs = {
       project_id        = dependency.data_project.outputs.project_id
       bucket_name       = bucket_name
       pubsub_topic_name = dependency.pubsub.outputs.topics_map[bucket_name].topic
-      custom_attributes = {
-        test = "test"
-      }
+      custom_attributes = {}
     }
     if contains(keys(dependency.pubsub.outputs.topics_map), bucket_name)
   ]

@@ -2,7 +2,7 @@ resources:
 - ../../../namespaces/compute
 - ../../../cluster-role-binding/overlays/compute
 - ../../../flux-system/base
-- ../../../external-secrets/overlays/compute
+- ../../../kubernetes-external-secrets/overlays/compute
 - ../../../external-dns/overlays/compute
 - ../../../nvidia-driver-installer/gcp
 - ../../../kubeflow/1.2/overlays/compute
