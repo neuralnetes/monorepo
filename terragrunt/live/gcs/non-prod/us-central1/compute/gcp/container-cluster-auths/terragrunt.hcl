@@ -12,11 +12,11 @@ dependency "container_clusters" {
 
 inputs = {
   container_cluster_auths = [
-    for container_cluster_name, container_cluster in container_clusters :
+    for container_cluster in values(dependency.container_clusters.outputs.container_clusters_map) :
     {
-      project_id   = container_cluster.project_id
-      cluster_name = container_cluster_name
-      location     = string
+      project_id   = container_cluster["project_id"]
+      cluster_name = container_cluster["cluster_name"]
+      location     = container_cluster["location"]
     }
   ]
 }
