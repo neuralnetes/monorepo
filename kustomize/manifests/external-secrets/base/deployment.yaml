@@ -1,24 +1,24 @@
-# Source: kubernetes-external-secrets/templates/deployment.yaml
+# Source: external-secrets/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kubernetes-external-secrets
+  name: external-secrets
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/instance: kubernetes-external-secrets
-      app.kubernetes.io/name: kubernetes-external-secrets
+      app.kubernetes.io/instance: external-secrets
+      app.kubernetes.io/name: external-secrets
   template:
     metadata:
       labels:
-        app.kubernetes.io/instance: kubernetes-external-secrets
-        app.kubernetes.io/name: kubernetes-external-secrets
+        app.kubernetes.io/instance: external-secrets
+        app.kubernetes.io/name: external-secrets
     spec:
-      serviceAccountName: kubernetes-external-secrets
+      serviceAccountName: external-secrets
       containers:
       - name: kubernetes-external-secrets
-        image: "ghcr.io/kubernetes-external-secrets/kubernetes-external-secrets:6.4.0"
+        image: "ghcr.io/external-secrets/kubernetes-external-secrets:7.0.1"
         ports:
         - name: prometheus
           containerPort: 3001

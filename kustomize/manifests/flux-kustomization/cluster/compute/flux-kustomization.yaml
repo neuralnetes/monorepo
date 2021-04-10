@@ -9,4 +9,4 @@ spec:
   sourceRef:
     name: monorepo
     kind: GitRepository
-  targetNamespace: kubernetes-external-secrets
+  targetNamespace: external-secrets

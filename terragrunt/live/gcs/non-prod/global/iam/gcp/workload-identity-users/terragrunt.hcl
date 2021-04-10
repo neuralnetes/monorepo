@@ -68,9 +68,9 @@ inputs = {
     },
     {
       project_id                 = dependency.iam_project.outputs.project_id
-      service_account_id         = dependency.service_accounts.outputs.service_accounts_map["kubernetes-external-secrets-${dependency.random_string.outputs.result}"].email
-      kubernetes_namespace       = "kubernetes-external-secrets"
-      kubernetes_service_account = "kubernetes-external-secrets"
+      service_account_id         = dependency.service_accounts.outputs.service_accounts_map["external-secrets-${dependency.random_string.outputs.result}"].email
+      kubernetes_namespace       = "external-secrets"
+      kubernetes_service_account = "external-secrets"
     }
   ]
 }

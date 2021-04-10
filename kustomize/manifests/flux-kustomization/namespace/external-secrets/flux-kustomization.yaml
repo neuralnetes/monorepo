@@ -1,10 +1,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: kubernetes-external-secrets-namespace
+  name: external-secrets-namespace
 spec:
   interval: 5m
-  path: kustomize/manifests/namespace/kubernetes-external-secrets
+  path: kustomize/manifests/namespace/external-secrets
   prune: true
   sourceRef:
     name: monorepo
