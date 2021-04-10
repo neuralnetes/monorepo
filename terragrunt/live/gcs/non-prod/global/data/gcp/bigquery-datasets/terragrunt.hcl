@@ -34,14 +34,13 @@ inputs = {
             require_partition_filter = false,
             expiration_ms            = null
           },
-          expiration_time = null,
-          clustering      = [],
-          labels          = {}
+          range_partitioning = null
+          expiration_time    = null,
+          clustering         = [],
+          labels             = {}
         }
       ]
-      views                      = []
-      delete_contents_on_destroy = true
-      dataset_labels             = {}
+      dataset_labels = {}
     }
   ]
 }

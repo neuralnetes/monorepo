@@ -1,9 +1,8 @@
 variable "bigquery_datasets" {
   type = list(object({
-    dataset_id                 = string
-    location                   = string
-    project_id                 = string
-    delete_contents_on_destroy = bool
+    dataset_id = string
+    location   = string
+    project_id = string
     tables = list(object({
       table_id   = string,
       schema     = string,
@@ -14,14 +13,16 @@ variable "bigquery_datasets" {
         type                     = string,
         require_partition_filter = bool,
       }),
+      range_partitioning = object({
+        field = string,
+        range = object({
+          start    = string,
+          end      = string,
+          interval = string,
+        }),
+      }),
       expiration_time = string,
       labels          = map(string),
-    }))
-    views = list(object({
-      view_id        = string,
-      query          = string,
-      use_legacy_sql = bool,
-      labels         = map(string),
     }))
   }))
 }
