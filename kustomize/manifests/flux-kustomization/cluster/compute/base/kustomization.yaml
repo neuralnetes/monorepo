@@ -1,4 +1,5 @@
 resources:
+- ../../../flux-git-repository/monorepo
 - ../../../namespaces/compute
 - ../../../cluster-role-binding/overlays/compute
 - ../../../flux-system/base
