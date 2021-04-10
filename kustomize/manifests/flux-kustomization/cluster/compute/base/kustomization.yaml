@@ -7,3 +7,4 @@ resources:
 - ../../../external-dns/overlays/compute
 - ../../../nvidia-driver-installer/gcp
 - ../../../kubeflow/1.2/overlays/compute
+- flux-kustomization.yaml
