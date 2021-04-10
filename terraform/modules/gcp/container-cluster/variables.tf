@@ -1,8 +1,3 @@
-variable "add_cluster_firewall_rules" {
-  type    = bool
-  default = true
-}
-
 variable "create_service_account" {
   type    = bool
   default = false
@@ -11,11 +6,6 @@ variable "create_service_account" {
 variable "enable_private_nodes" {
   type    = bool
   default = true
-}
-
-variable "firewall_inbound_ports" {
-  type    = list(string)
-  default = []
 }
 
 variable "ip_range_pods" {

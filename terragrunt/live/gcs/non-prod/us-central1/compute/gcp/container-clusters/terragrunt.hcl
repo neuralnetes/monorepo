@@ -37,14 +37,6 @@ dependency "random_string" {
 inputs = {
   container_clusters = [
     {
-      firewall_inbound_ports = [
-        "443",
-        "10250",
-        "6443",
-        "15014",
-        "15017",
-        "8080"
-      ]
       ip_range_services  = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[0].range_name
       ip_range_pods      = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[1].range_name
       kubernetes_version = "latest"

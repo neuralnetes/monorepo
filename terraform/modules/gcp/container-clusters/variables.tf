@@ -1,9 +1,8 @@
 variable "container_clusters" {
   type = list(object({
-    firewall_inbound_ports = list(string)
-    ip_range_pods          = string
-    ip_range_services      = string
-    kubernetes_version     = string
+    ip_range_pods      = string
+    ip_range_services  = string
+    kubernetes_version = string
     master_authorized_networks = list(object({
       cidr_block   = string,
       display_name = string
