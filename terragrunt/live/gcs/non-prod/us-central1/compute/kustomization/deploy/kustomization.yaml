@@ -2,4 +2,4 @@ namespace: flux-system
 resources:
 - github.com/neuralnetes/monorepo//kustomize/manifests/namespace/flux-system?ref=main
 - github.com/neuralnetes/monorepo//kustomize/manifests/flux-system/base?ref=main
-- github.com/neuralnetes/monorepo//kustomize/manifests/flux-kustomization/cluster/compute?ref=main
+- github.com/neuralnetes/monorepo//kustomize/manifests/flux-kustomization/cluster/compute/base?ref=main
