@@ -1,10 +1,10 @@
 resources:
-- ../../../namespaces/overlays/compute
-- ../../../flux-system/base
-- ../../../flux-git-repository/monorepo
-- ../../../cluster-role-binding/overlays/compute
-- ../../../external-secrets/overlays/compute
-- ../../../external-dns/overlays/compute
-- ../../../nvidia-driver-installer/gcp
-- ../../../kubeflow/1.2/overlays/compute
+- https://github.com/neuralnetes/monorepo//kustomize/manifests/flux-kustomization/namespaces/overlays/compute
+- https://github.com/neuralnetes/monorepo//kustomize/manifests/flux-kustomization/flux-system/base
+- https://github.com/neuralnetes/monorepo//kustomize/manifests/flux-kustomization/flux-git-repository/monorepo
+- https://github.com/neuralnetes/monorepo//kustomize/manifests/flux-kustomization/cluster-role-binding/overlays/compute
+- https://github.com/neuralnetes/monorepo//kustomize/manifests/flux-kustomization/external-secrets/overlays/compute
+- https://github.com/neuralnetes/monorepo//kustomize/manifests/flux-kustomization/external-dns/overlays/compute
+- https://github.com/neuralnetes/monorepo//kustomize/manifests/flux-kustomization/nvidia-driver-installer/gcp
+- https://github.com/neuralnetes/monorepo//kustomize/manifests/flux-kustomization/kubeflow/1.2/overlays/compute
 - flux-kustomization.yaml
