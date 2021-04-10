@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/terraform-google-modules/terraform-google-cloud-storage.git//?ref=v1.7.2"
+  source = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/cloud-storages?ref=main"
 }
 
 include {
@@ -19,12 +19,12 @@ dependency "random_string" {
 }
 
 inputs = {
-  project_id = dependency.data_project.outputs.project_id
-  location   = "US"
-  names = [
-    for name_prefix in [
-      "datasets"
-    ] : "${name_prefix}-${dependency.random_string.outputs.result}"
+  cloud_storages = [
+    {
+      location   = "US"
+      name       = "datasets-${dependency.random_string.outputs.result}"
+      project_id = dependency.data_project.outputs.project_id
+      versioning = true
+    }
   ]
-  prefix = ""
 }
