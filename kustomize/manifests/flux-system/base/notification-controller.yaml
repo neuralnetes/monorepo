@@ -189,6 +189,10 @@ spec:
                   - reason
                   - status
                   - type
+              observedGeneration:
+                type: integer
+                description: ObservedGeneration is the last observed generation.
+                format: int64
     served: true
     storage: true
     subresources:
@@ -262,6 +266,8 @@ spec:
                 - bitbucket
                 - azuredevops
                 - googlechat
+                - webex
+                - sentry
               secretRef:
                 type: object
                 description: Secret reference containing the provider webhook URL
@@ -568,6 +574,10 @@ spec:
                   - reason
                   - status
                   - type
+              observedGeneration:
+                type: integer
+                description: ObservedGeneration is the last observed generation.
+                format: int64
               url:
                 type: string
                 description: Generated webhook URL in the format of '/hook/sha256sum(token+name+namespace)'.
@@ -642,7 +652,7 @@ spec:
       serviceAccountName: notification-controller
       containers:
       - name: manager
-        image: fluxcd/notification-controller:v0.10.0
+        image: fluxcd/notification-controller:v0.12.0
         args:
         - --watch-all-namespaces
         - --log-level=info

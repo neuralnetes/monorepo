@@ -304,6 +304,11 @@ spec:
               interval:
                 type: string
                 description: The interval at which to check for repository updates.
+              recurseSubmodules:
+                type: boolean
+                description: When enabled, after the clone is created, initializes
+                  all submodules within, using their default settings. This option
+                  is available only when using the 'go-git' GitImplementation.
               ref:
                 type: object
                 description: The Git reference to checkout and monitor for changes,
@@ -963,7 +968,7 @@ spec:
       serviceAccountName: source-controller
       containers:
       - name: manager
-        image: fluxcd/source-controller:v0.9.1
+        image: fluxcd/source-controller:v0.11.0
         args:
         - --events-addr=http://notification-controller/
         - --watch-all-namespaces

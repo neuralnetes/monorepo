@@ -519,7 +519,7 @@ spec:
       serviceAccountName: kustomize-controller
       containers:
       - name: manager
-        image: fluxcd/kustomize-controller:v0.9.3
+        image: fluxcd/kustomize-controller:v0.11.0
         args:
         - --events-addr=http://notification-controller/
         - --watch-all-namespaces

@@ -1,4 +1,4 @@
-# https://github.com/fluxcd/flux2/releases/tag/v0.10.0
+# https://github.com/fluxcd/flux2/releases/tag/v0.12.1
 resources:
 - policies.yaml
 - rbac.yaml

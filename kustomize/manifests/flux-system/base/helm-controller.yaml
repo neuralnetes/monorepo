@@ -710,7 +710,7 @@ spec:
       serviceAccountName: helm-controller
       containers:
       - name: manager
-        image: fluxcd/helm-controller:v0.8.2
+        image: fluxcd/helm-controller:v0.9.0
         args:
         - --events-addr=http://notification-controller/
         - --watch-all-namespaces

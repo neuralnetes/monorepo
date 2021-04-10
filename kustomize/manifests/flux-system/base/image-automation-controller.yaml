@@ -81,6 +81,23 @@ spec:
                     description: MessageTemplate provides a template for the commit
                       message, into which will be interpolated the details of the
                       change made.
+                  signingKey:
+                    type: object
+                    description: SigningKey provides the option to sign commits with
+                      a GPG key
+                    properties:
+                      secretRef:
+                        type: object
+                        description: SecretRef holds the name to a secret that contains
+                          a 'git.asc' key corresponding to the ASCII Armored file
+                          containing the GPG signing keypair as the value. It must
+                          be in the same namespace as the ImageUpdateAutomation.
+                        properties:
+                          name:
+                            type: string
+                            description: Name of the referent
+                        required:
+                        - name
                 required:
                 - authorEmail
                 - authorName
@@ -263,7 +280,7 @@ spec:
       serviceAccountName: image-automation-controller
       containers:
       - name: manager
-        image: fluxcd/image-automation-controller:v0.7.0
+        image: fluxcd/image-automation-controller:v0.8.0
         args:
         - --events-addr=http://notification-controller/
         - --watch-all-namespaces
