@@ -15,7 +15,7 @@ dependency "project_iam_bindings" {
 }
 
 dependency "cloud_storage" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/gcp/cloud-storage"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/gcp/cloud-storages"
 }
 
 dependency "pubsub" {

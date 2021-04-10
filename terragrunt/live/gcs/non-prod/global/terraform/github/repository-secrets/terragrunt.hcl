@@ -15,7 +15,7 @@ dependency "data_project" {
 }
 
 dependency "cloud_storage" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/gcp/cloud-storage"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/gcp/cloud-storages"
 }
 
 dependency "random_string" {
