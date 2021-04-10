@@ -4,7 +4,7 @@ metadata:
   name: namespaces
 spec:
   interval: 5m
-  path: kustomize/manifests/flux-kustomization/namespaces/compute
+  path: kustomize/manifests/flux-kustomization/namespaces/overlays/compute
   prune: true
   sourceRef:
     name: monorepo

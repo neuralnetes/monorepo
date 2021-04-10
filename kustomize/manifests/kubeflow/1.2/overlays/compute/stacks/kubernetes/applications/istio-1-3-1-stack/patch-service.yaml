@@ -4,5 +4,6 @@ metadata:
   name: istio-ingressgateway
   annotations:
     external-dns.alpha.kubernetes.io/hostname: compute-meuf.neuralnetes.com.
+    networking.gke.io/load-balancer-type: "Internal"
 spec:
   type: LoadBalancer

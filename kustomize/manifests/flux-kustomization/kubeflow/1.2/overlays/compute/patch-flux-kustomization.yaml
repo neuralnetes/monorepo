@@ -2,6 +2,20 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
+  name: cert-manager
+spec:
+  path: kustomize/manifests/kubeflow/1.2/overlays/compute/stacks/kubernetes/applications/cert-manager
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: dex-auth
+spec:
+  path: kustomize/manifests/kubeflow/1.2/overlays/compute/stacks/kubernetes/applications/dex-auth
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
   name: istio-stack
 spec:
   path: kustomize/manifests/kubeflow/1.2/overlays/compute/stacks/kubernetes/applications/istio-1-3-1-stack
@@ -9,6 +23,6 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: cert-manager
+  name: oidc-authservice
 spec:
-  path: kustomize/manifests/kubeflow/1.2/overlays/compute/stacks/kubernetes/applications/cert-manager
+  path: kustomize/manifests/kubeflow/1.2/overlays/compute/stacks/kubernetes/applications/oidc-authservice

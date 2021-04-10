@@ -4,7 +4,7 @@ metadata:
   name: cluster
 spec:
   interval: 5m
-  path: kustomize/manifests/cluster/overlays/compute/base
+  path: kustomize/manifests/flux-kustomization/cluster/overlays/compute
   prune: true
   sourceRef:
     name: monorepo

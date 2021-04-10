@@ -1,6 +1,6 @@
 resources:
 - ../../../flux-git-repository/monorepo
-- ../../../namespaces/compute
+- ../../../namespaces/overlays/compute
 - ../../../cluster-role-binding/overlays/compute
 - ../../../flux-system/base
 - ../../../external-secrets/overlays/compute
