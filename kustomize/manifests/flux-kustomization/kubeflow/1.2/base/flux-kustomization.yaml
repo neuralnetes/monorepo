@@ -1,12 +1,12 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: namespaces
+  name: kubeflow-namespaces
 spec:
   dependsOn:
-  - name: namespaces
+  - name: kubeflow-namespaces
   interval: 5m
-  path: kustomize/manifests/kubeflow/1.2/namespaces/base
+  path: kustomize/manifests/kubeflow/1.2/kubeflow-namespaces/base
   prune: true
   sourceRef:
     name: monorepo
@@ -18,7 +18,7 @@ metadata:
   name: application
 spec:
   dependsOn:
-  - name: namespaces
+  - name: kubeflow-namespaces
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/application/v3
   prune: true
@@ -33,7 +33,7 @@ metadata:
   name: istio-stack
 spec:
   dependsOn:
-  - name: namespaces
+  - name: kubeflow-namespaces
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/istio-1-3-1-stack
   prune: true
@@ -48,7 +48,7 @@ metadata:
   name: cluster-local-gateway
 spec:
   dependsOn:
-  - name: namespaces
+  - name: kubeflow-namespaces
   - name: istio-stack
   - name: istio
   interval: 5m
@@ -65,7 +65,7 @@ metadata:
   name: istio
 spec:
   dependsOn:
-  - name: namespaces
+  - name: kubeflow-namespaces
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/istio/istio/base
   prune: true
@@ -80,7 +80,7 @@ metadata:
   name: cert-manager-crds
 spec:
   dependsOn:
-  - name: namespaces
+  - name: kubeflow-namespaces
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/cert-manager-crds
   prune: true
@@ -95,7 +95,7 @@ metadata:
   name: cert-manager-kube-system-resources
 spec:
   dependsOn:
-  - name: namespaces
+  - name: kubeflow-namespaces
   - name: cert-manager-crds
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/cert-manager-kube-system-resources
@@ -111,7 +111,7 @@ metadata:
   name: cert-manager
 spec:
   dependsOn:
-  - name: namespaces
+  - name: kubeflow-namespaces
   - name: cert-manager-crds
   - name: cert-manager-kube-system-resources
   interval: 5m
@@ -128,7 +128,7 @@ metadata:
   name: metacontroller
 spec:
   dependsOn:
-  - name: namespaces
+  - name: kubeflow-namespaces
   - name: cert-manager
   - name: istio-stack
   - name: istio
@@ -147,7 +147,7 @@ metadata:
   name: oidc-authservice
 spec:
   dependsOn:
-  - name: namespaces
+  - name: kubeflow-namespaces
   - name: cert-manager
   - name: istio-stack
   - name: istio
@@ -166,7 +166,7 @@ metadata:
   name: dex
 spec:
   dependsOn:
-  - name: namespaces
+  - name: kubeflow-namespaces
   - name: cert-manager
   - name: istio-stack
   - name: istio
@@ -185,7 +185,7 @@ metadata:
   name: bootstrap
 spec:
   dependsOn:
-  - name: namespaces
+  - name: kubeflow-namespaces
   - name: cert-manager
   - name: istio-stack
   - name: istio
@@ -204,7 +204,7 @@ metadata:
   name: spark-operator
 spec:
   dependsOn:
-  - name: namespaces
+  - name: kubeflow-namespaces
   - name: cert-manager
   - name: istio-stack
   - name: istio
@@ -223,7 +223,7 @@ metadata:
   name: kubeflow-apps
 spec:
   dependsOn:
-  - name: namespaces
+  - name: kubeflow-namespaces
   - name: cert-manager
   - name: istio-stack
   - name: istio
@@ -242,7 +242,7 @@ metadata:
   name: knative
 spec:
   dependsOn:
-  - name: namespaces
+  - name: kubeflow-namespaces
   - name: cert-manager
   - name: istio-stack
   - name: istio
@@ -261,7 +261,7 @@ metadata:
   name: kfserving
 spec:
   dependsOn:
-  - name: namespaces
+  - name: kubeflow-namespaces
   - name: cert-manager
   - name: istio-stack
   - name: istio
