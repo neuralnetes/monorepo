@@ -14,7 +14,7 @@ dependency "project_iam_bindings" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/gcp/project-iam-bindings"
 }
 
-dependency "cloud_storage" {
+dependency "cloud_storages" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/gcp/cloud-storages"
 }
 
@@ -25,17 +25,9 @@ dependency "random_string" {
 inputs = {
   topics = flatten([
     [
-      for bucket_name in keys(dependency.cloud_storage.outputs.buckets_map) :
+      for cloud_storage in values(dependency.cloud_storages.outputs.cloud_storages_map) :
       {
-        topic              = bucket_name
-        project_id         = dependency.data_project.outputs.project_id
-        push_subscriptions = []
-        pull_subscriptions = []
-      }
-    ],
-    [
-      {
-        topic              = "first-rate-data-${dependency.random_string.outputs.result}"
+        topic              = cloud_storage["bucket"]
         project_id         = dependency.data_project.outputs.project_id
         push_subscriptions = []
         pull_subscriptions = []
