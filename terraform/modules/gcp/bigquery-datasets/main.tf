@@ -7,7 +7,6 @@ module "biquery-datasets" {
   delete_contents_on_destroy = each.value["delete_contents_on_destroy"]
   tables                     = each.value["tables"]
   views                      = each.value["views"]
-  external_tables            = each.value["external_tables"]
 }
 
 locals {

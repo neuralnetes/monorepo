@@ -42,11 +42,9 @@ inputs = {
         }
       ]
       views                       = []
-      external_tables             = []
       delete_contents_on_destroy  = true
       default_table_expiration_ms = null
       dataset_labels              = {}
-      access                      = []
     }
   ]
 }
