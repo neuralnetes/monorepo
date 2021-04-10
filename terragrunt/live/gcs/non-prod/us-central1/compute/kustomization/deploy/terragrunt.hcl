@@ -32,7 +32,7 @@ terraform {
   }
 }
 provider "kustomization" {
-  kubeconfig_raw = "${replace(dependency.container_clusters.outputs.container_cluster_auths_map["cluster-${dependency.random_string.outputs.result}"].kubeconfig_raw, "\n", "\\n")}"
+  kubeconfig_raw = "${replace(dependency.container_cluster_auths.outputs.container_cluster_auths_map["cluster-${dependency.random_string.outputs.result}"].kubeconfig_raw, "\n", "\\n")}"
 }
 EOF
 }
