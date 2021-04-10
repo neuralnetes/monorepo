@@ -11,6 +11,6 @@ spec:
         args:
         - --source=service
         - --provider=gooprojectgle
-        - --google-=network-meuf
+        - --google-project=network-meuf
         - --registry=txt
         - --txt-owner-id=external-dns-compute-meuf
