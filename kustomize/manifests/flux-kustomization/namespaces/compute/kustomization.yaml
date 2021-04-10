@@ -1,2 +1,7 @@
 resources:
+- ../../../namespace/flux-system
+- ../../../namespace/external-secrets
+- ../../../namespace/cert-manager
+- ../../../namespace/external-dns
+- ../../../namespace/kubeflow
 - flux-kustomization.yaml
