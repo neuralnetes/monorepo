@@ -3,7 +3,7 @@ output "cluster_name" {
 }
 
 output "project_id" {
-  value = data.google_project.project
+  value = var.project_id
 }
 
 output "location" {
