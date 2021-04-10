@@ -1,5 +1,6 @@
 namespace: flux-system
 resources:
+#- namespace.yaml
 - ../../../namespace/flux-system
 - ../../../flux-system/base
 - ../../../flux-git-repository/monorepo
