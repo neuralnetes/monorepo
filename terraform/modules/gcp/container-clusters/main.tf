@@ -19,14 +19,6 @@ module "container-clusters" {
   zones                      = each.value["zones"]
 }
 
-module "container-cluster-auths" {
-  for_each     = module.container-clusters
-  source       = "github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/auth?ref=v14.0.1"
-  project_id   = each.value["project_id"]
-  cluster_name = each.value["name"]
-  location     = each.value["region"]
-}
-
 locals {
   container_clusters_map = {
     for container_cluster in var.container_clusters :

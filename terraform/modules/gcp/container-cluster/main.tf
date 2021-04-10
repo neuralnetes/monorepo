@@ -1,5 +1,9 @@
+data "google_project" "project" {
+  project_id = var.project_id
+}
+
 module "container-cluster" {
-  source                     = "github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/beta-private-cluster?ref=v14.0.1"
+  source                     = "github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/beta-private-cluster?ref=v14.1.0"
   create_service_account     = var.create_service_account
   enable_private_nodes       = var.enable_private_nodes
   ip_range_pods              = var.ip_range_pods
@@ -12,7 +16,7 @@ module "container-cluster" {
   network_project_id         = var.network_project_id
   node_pools                 = var.node_pools
   node_pools_tags            = var.node_pools_tags
-  project_id                 = var.project_id
+  project_id                 = data.google_project.project
   region                     = var.region
   regional                   = var.regional
   remove_default_node_pool   = var.remove_default_node_pool

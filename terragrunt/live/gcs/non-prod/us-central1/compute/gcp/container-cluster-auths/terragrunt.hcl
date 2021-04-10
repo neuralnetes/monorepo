@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/container-clusters?ref=main"
+  source = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/container-cluster-auths?ref=main"
 }
 
 include {
@@ -11,9 +11,12 @@ dependency "container_clusters" {
 }
 
 inputs = {
-  container_clusters = [
+  container_cluster_auths = [
+    for container_cluster_name, container_cluster in container_clusters :
     {
-
+      project_id   = container_cluster.project_id
+      cluster_name = container_cluster_name
+      location     = string
     }
   ]
 }

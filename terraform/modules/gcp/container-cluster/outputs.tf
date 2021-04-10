@@ -1,11 +1,11 @@
-output "name" {
+output "cluster_name" {
   value = module.container-cluster.name
 }
 
 output "project_id" {
-  value = var.project_id
+  value = data.google_project.project
 }
 
-output "region" {
-  value = module.container-cluster.region
+output "location" {
+  value = module.container-cluster.location
 }
