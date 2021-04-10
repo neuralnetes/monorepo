@@ -14,6 +14,10 @@ dependency "container_clusters" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/gcp/container-clusters"
 }
 
+dependency "container_cluster_auths" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/gcp/container-cluster-auths"
+}
+
 generate "kustomization_provider" {
   path      = "kustomization_provider.tf"
   if_exists = "overwrite_terragrunt"
