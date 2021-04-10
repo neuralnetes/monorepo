@@ -1,3 +1,2 @@
-namespace: flux-system
 resources:
-- https://github.com/neuralnetes/monorepo//kustomize/manifests/deploy/overlays/compute?ref=main
+- github.com/neuralnetes/monorepo//kustomize/manifests/deploy/overlays/compute?ref=main

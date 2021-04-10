@@ -1,3 +1,4 @@
+namespace: flux-system
 resources:
 - ../../../namespace/flux-system
 - ../../../flux-system/base
