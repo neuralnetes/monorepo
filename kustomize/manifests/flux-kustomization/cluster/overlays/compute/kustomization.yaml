@@ -1,8 +1,8 @@
 resources:
-- ../../../flux-git-repository/monorepo
 - ../../../namespaces/overlays/compute
-- ../../../cluster-role-binding/overlays/compute
 - ../../../flux-system/base
+- ../../../flux-git-repository/monorepo
+- ../../../cluster-role-binding/overlays/compute
 - ../../../external-secrets/overlays/compute
 - ../../../external-dns/overlays/compute
 - ../../../nvidia-driver-installer/gcp

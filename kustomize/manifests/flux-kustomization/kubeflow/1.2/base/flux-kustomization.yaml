@@ -6,7 +6,7 @@ spec:
   dependsOn:
   - name: kubeflow-namespaces
   interval: 5m
-  path: kustomize/manifests/kubeflow/1.2/kubeflow-namespaces/base
+  path: kustomize/manifests/kubeflow/1.2/namespaces/base
   prune: true
   sourceRef:
     name: monorepo
