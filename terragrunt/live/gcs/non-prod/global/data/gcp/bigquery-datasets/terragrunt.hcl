@@ -21,11 +21,9 @@ dependency "random_string" {
 inputs = {
   bigquery_datasets = [
     {
-      dataset_id   = "first_rate_data"
-      dataset_name = "first_rate_data"
-      description  = "first_rate_data"
-      project_id   = dependency.data_project.outputs.project_id
-      location     = "US"
+      dataset_id = "first_rate_data"
+      project_id = dependency.data_project.outputs.project_id
+      location   = "US"
       tables = [
         {
           table_id = "most_liquid_us_stocks_1500",
@@ -41,10 +39,9 @@ inputs = {
           labels          = {}
         }
       ]
-      views                       = []
-      delete_contents_on_destroy  = true
-      default_table_expiration_ms = null
-      dataset_labels              = {}
+      views                      = []
+      delete_contents_on_destroy = true
+      dataset_labels             = {}
     }
   ]
 }
