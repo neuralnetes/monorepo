@@ -1,5 +1,5 @@
-module "datasets" {
-  for_each                   = local.datasets_map
+module "biquery-datasets" {
+  for_each                   = local.bigquery_datasets_map
   source                     = "github.com/terraform-google-modules/terraform-google-bigquery.git//?ref=v4.5.0"
   dataset_id                 = each.value["dataset_id"]
   project_id                 = each.value["project_id"]
@@ -11,8 +11,8 @@ module "datasets" {
 }
 
 locals {
-  datasets_map = {
-    for dataset in var.datasets :
+  bigquery_datasets_map = {
+    for dataset in var.bigquery_datasets :
     dataset["dataset_id"] => dataset
   }
 }

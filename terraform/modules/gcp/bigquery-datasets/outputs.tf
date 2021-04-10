@@ -1,3 +1,3 @@
-output "datasets_map" {
-  value = module.datasets
+output "bigquery_datasets_map" {
+  value = module.biquery-datasets
 }

@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/bigquery-dataset?ref=main"
+  source = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/bigquery-datasets?ref=main"
 }
 
 include {
@@ -19,7 +19,7 @@ dependency "random_string" {
 }
 
 inputs = {
-  datasets = [
+  bigquery_datasets = [
     {
       dataset_id   = "first_rate_data"
       dataset_name = "first_rate_data"

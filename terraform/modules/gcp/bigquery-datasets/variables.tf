@@ -1,4 +1,4 @@
-variable "datasets" {
+variable "bigquery_datasets" {
   type = list(object({
     dataset_id                 = string
     dataset_name               = string
