@@ -46,7 +46,7 @@ jobs:
         GCS_TERRAFORM_REMOTE_STATE_LOCATION: ${{ secrets.GCS_TERRAFORM_REMOTE_STATE_LOCATION }}
         GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
         GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
-        GITHUB_ORGANIZATION: ${{ secrets.GH_ORGANIZATION }}
+        GITHUB_OWNER: ${{ github.repository_owner }}
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         GITHUB_USER: ${{ secrets.GH_USER }}
         TERRAGRUNT_CLI_FLAGS: ${{ toJSON(fromJSON(github.event.inputs.terragrunt_cli_flags)) }}

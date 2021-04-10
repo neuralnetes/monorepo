@@ -1,8 +1,8 @@
 #!/bin/bash
 export ZSH="${HOME}/.oh-my-zsh"
 export ZSH_THEME="robbyrussell"
-export GITHUB_ORGANIZATION="neuralnetes"
-export GITHUB_REPOSITORY="${GITHUB_ORGANIZATION}/monorepo"
+export GITHUB_OWNER="neuralnetes"
+export GITHUB_REPOSITORY="${GITHUB_OWNER}/monorepo"
 export GITHUB_WORKSPACE="${HOME}/go/src/github.com/${GITHUB_REPOSITORY}"
 export GITHUB_USER="lerms"
 export GITHUB_USER_WORKSPACE="${GITHUB_WORKSPACE}/bash/workspace/${GITHUB_USER}"
