@@ -1,5 +1,3 @@
 output "manifests_map" {
-  value = [
-    kustomization_resource.manifests,
-  ]
+  value = kustomization_resource.manifests
 }
