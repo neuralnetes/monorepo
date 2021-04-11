@@ -18,117 +18,116 @@ dependency "random_string" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
 }
 
-locals {
-  public_restricted_allow_network_inbound = {
-    description          = "tf managed - public - allow ingress from specific sources"
-    direction            = "INGRESS"
-    action               = "allow"
-    ranges               = local.allowed_public_restricted_subnetworks
-    use_service_accounts = false
-    targets              = [local.public_restricted]
-    sources              = null
-    rules = [
-      {
-        protocol = "all"
-        ports    = null
-      }
-    ]
-    extra_attributes = {
-      priority = 1000
-    }
-  }
+dependency "tags" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/gcp/tags"
 }
 
 inputs = {
-  project_id = dependency.vpc.outputs.project_id
-  network    = dependency.vpc.outputs.network_name
+  project_id   = dependency.vpc.outputs.project_id
+  network_name = dependency.vpc.outputs.network_name
   rules = [
-      {
-        name = "allow-ingress-public"
-        direction            = "INGRESS"
-        ranges               = ["0.0.0.0/0"]
-        target_tags              = [local.public]
-        allow = [
-          {
-            protocol = "all"
-            ports    = null
-          }
-        ]
-        log_config = {
-          metadata = "INCLUDE_ALL_METADATA"
+    {
+      name                    = "allow-ingress-public"
+      description             = "allow-ingress-public"
+      direction               = "INGRESS"
+      priority                = 1000
+      ranges                  = ["0.0.0.0/0"]
+      source_service_accounts = null
+      source_tags             = null
+      target_service_accounts = null
+      target_tags = [
+        dependency.tags.outputs.tags_map["public"]
+      ]
+      allow = [
+        {
+          protocol = "all"
+          ports    = null
         }
-      },
-      {
-        name = "allow-ingress-private"
-        direction            = "INGRESS"
-        ranges = [
-          dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].ip_cidr_range,
-          dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[0].ip_cidr_range,
-          dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[1].ip_cidr_range,
-          dependency.subnetworks.outputs.subnets["us-central1/dataflow-${dependency.random_string.outputs.result}"].ip_cidr_range,
-          dependency.subnetworks.outputs.subnets["us-central1/dataflow-${dependency.random_string.outputs.result}"].secondary_ip_range[0].ip_cidr_range
-          dependency.subnetworks.outputs.subnets["us-central1/cloud-sql-${dependency.random_string.outputs.result}"].ip_cidr_range,
-          dependency.subnetworks.outputs.subnets["us-central1/cloud-sql-${dependency.random_string.outputs.result}"].secondary_ip_range[0].ip_cidr_range
-        ]
-        target_tags              = [local.public]
-        allow = [
-          {
-            protocol = "all"
-            ports    = null
-          }
-        ]
-        log_config = {
-          metadata = "INCLUDE_ALL_METADATA"
-        }
-      },
-      private-allow-all-network-inbound = {
-        description = "tf managed - private - allow ingress from within this network"
-        direction   = "INGRESS"
-        action      = "allow"
-        ranges = [
-          dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].ip_cidr_range,
-          dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[0].ip_cidr_range,
-          dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[1].ip_cidr_range,
-          dependency.subnetworks.outputs.subnets["us-central1/dataflow-${dependency.random_string.outputs.result}"].ip_cidr_range,
-          dependency.subnetworks.outputs.subnets["us-central1/dataflow-${dependency.random_string.outputs.result}"].secondary_ip_range[0].ip_cidr_range
-        ]
-        use_service_accounts = false
-        targets              = [local.private]
-        sources              = null
-        rules = [
-          {
-            protocol = "all"
-            ports    = null
-          }
-        ]
-        extra_attributes = {
-          priority = 1000
-        }
-      }
-      private-allow-restricted-network-inbound = {
-        description          = "tf managed - private-persistence - allow ingress from `private` and `private-persistence` instances in this network"
-        direction            = "INGRESS"
-        action               = "allow"
-        ranges               = null
-        use_service_accounts = false
-        targets              = [local.private_persistence]
-        sources              = [local.private, local.private_persistence]
-        rules = [
-          {
-            protocol = "all"
-            ports    = null
-          }
-        ]
-        extra_attributes = {
-          priority = 1000
-        }
+      ]
+      deny = null
+      log_config = {
+        metadata = "INCLUDE_ALL_METADATA"
       }
     },
-
+    {
+      name        = "allow-ingress-private"
+      description = "allow-ingress-private"
+      direction   = "INGRESS"
+      priority    = 1000
+      ranges = [
+        dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].ip_cidr_range,
+        dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[0].ip_cidr_range,
+        dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[1].ip_cidr_range,
+        dependency.subnetworks.outputs.subnets["us-central1/dataflow-${dependency.random_string.outputs.result}"].ip_cidr_range,
+        dependency.subnetworks.outputs.subnets["us-central1/dataflow-${dependency.random_string.outputs.result}"].secondary_ip_range[0].ip_cidr_range,
+        dependency.subnetworks.outputs.subnets["us-central1/cloud-sql-${dependency.random_string.outputs.result}"].ip_cidr_range,
+        dependency.subnetworks.outputs.subnets["us-central1/cloud-sql-${dependency.random_string.outputs.result}"].secondary_ip_range[0].ip_cidr_range
+      ]
+      source_service_accounts = null
+      source_tags             = null
+      target_service_accounts = null
+      target_tags = [
+        dependency.tags.outputs.tags_map["private"]
+      ]
+      allow = [
+        {
+          protocol = "all"
+          ports    = null
+        }
+      ]
+      deny = null
+      log_config = {
+        metadata = "INCLUDE_ALL_METADATA"
+      }
+    },
+    {
+      name                    = "allow-ingress-private-restricted"
+      description             = "allow-ingress-private-restricted"
+      direction               = "INGRESS"
+      priority                = 1000
+      ranges                  = null
+      source_service_accounts = null
+      source_tags = [
+        dependency.tags.outputs.tags_map["private"],
+        dependency.tags.outputs.tags_map["private_persistence"],
+      ]
+      target_service_accounts = null
+      target_tags = [
+        dependency.tags.outputs.tags_map["private"]
+      ]
+      allow = [
+        {
+          protocol = "all"
+          ports    = null
+        }
+      ]
+      deny = null
+      log_config = {
+        metadata = "INCLUDE_ALL_METADATA"
+      }
+    },
+    {
+      name                    = "allow-ingress-public-restricted"
+      description             = "allow-ingress-public-restricted"
+      direction               = "INGRESS"
+      priority                = 1000
+      ranges                  = []
+      source_service_accounts = null
+      source_tags             = null
+      target_service_accounts = null
+      target_tags = [
+        dependency.tags.outputs.tags_map["public-restricted"]
+      ]
+      allow = [
+        {
+          protocol = "all"
+          ports    = null
+        }
+      ]
+      deny = null
+      log_config = {
+        metadata = "INCLUDE_ALL_METADATA"
+      }
+    }
   ]
-
-    length(local.allowed_public_restricted_subnetworks) > 0 ? {
-      public-restricted-allow-network-inbound = local.public_restricted_allow_network_inbound
-    } : {}
-  )
 }
