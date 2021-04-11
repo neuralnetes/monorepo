@@ -30,13 +30,13 @@ inputs = {
           schema   = file("${get_terragrunt_dir()}/schema/first_rate_data/most_liquid_us_stocks_1500.json"),
           time_partitioning = {
             type                     = "DAY",
-            field                    = null
+            field                    = "datetime"
             require_partition_filter = false,
             expiration_ms            = null
           },
           range_partitioning = null
           expiration_time    = null,
-          clustering         = [],
+          clustering         = ["ticker"],
           labels             = {}
         }
       ]
