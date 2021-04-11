@@ -19,4 +19,10 @@ module "container-cluster" {
   service_account            = var.service_account
   subnetwork                 = var.subnetwork
   zones                      = var.zones
+  node_pools_oauth_scopes = {
+    all = [
+      "https://www.googleapis.com/auth/cloud-platform",
+      "https://www.googleapis.com/auth/ndev.clouddns.readwrite"
+    ]
+  }
 }
