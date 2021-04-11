@@ -27,7 +27,7 @@ inputs = {
       tables = [
         {
           table_id = "most_liquid_us_stocks_1500",
-          schema   = "${get_terragrunt_dir()}/schema/first_rate_data/most_liquid_us_stocks_1500.json",
+          schema   = file("${get_terragrunt_dir()}/schema/first_rate_data/most_liquid_us_stocks_1500.json"),
           time_partitioning = {
             type                     = "DAY",
             field                    = null
