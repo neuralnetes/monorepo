@@ -4,7 +4,6 @@ resource "google_compute_address" "regional_addresses" {
   name         = each.value["name"]
   purpose      = each.value["purpose"]
   address_type = each.value["address_type"]
-  labels       = each.value["labels"]
   subnetwork   = each.value["subnetwork"]
 }
 

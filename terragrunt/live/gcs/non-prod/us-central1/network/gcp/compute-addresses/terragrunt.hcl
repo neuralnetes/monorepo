@@ -25,7 +25,6 @@ inputs = {
       purpose      = "VPC_PEERING"
       address_type = "INTERNAL"
       subnetwork   = dependency.subnetworks.outputs.subnets["us-central1/mysqls-${dependency.random_string.outputs.result}"].id
-      labels       = ["private-persistence"]
     }
   ]
   global_addresses = []
