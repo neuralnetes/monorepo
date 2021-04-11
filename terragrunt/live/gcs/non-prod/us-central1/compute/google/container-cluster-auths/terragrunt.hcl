@@ -7,7 +7,7 @@ include {
 }
 
 dependency "container_clusters" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/gcp/container-clusters"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/google/container-clusters"
 }
 
 inputs = {
