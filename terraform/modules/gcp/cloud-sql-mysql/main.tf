@@ -1,6 +1,5 @@
-resource "google_sql_database_instance" "instance" {
-  provider = google-beta
-
+resource "google_sql_database_instance" "mysql" {
+  provider         = google-beta
   name             = var.name
   region           = var.region
   database_version = var.database_version
