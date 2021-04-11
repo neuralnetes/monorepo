@@ -24,7 +24,7 @@ inputs = {
       network = dependency.vpc.outputs.network["id"]
       service = "servicenetworking.googleapis.com"
       reserved_peering_ranges = [
-        dependency.compute_addresses.outputs.regional_addresses_map["private-${dependency.vpc.outputs.name}-01"].name
+        dependency.compute_addresses.outputs.regional_addresses_map["private-${dependency.vpc.outputs.network["name"]}-01"].name
       ]
     }
   ]
