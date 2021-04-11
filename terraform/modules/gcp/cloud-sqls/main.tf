@@ -1,6 +1,6 @@
 module "mysqls" {
   for_each         = local.mysqls_map
-  source           = "github.com/terraform-google-modules/terraform-google-sql-db.git//modules/mysql?ref=v4.5.0"
+  source            = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/cloud-sql-mysql?ref=main"
   database_version = each.value["database_version"]
   name             = each.value["name"]
   project_id       = each.value["project_id"]

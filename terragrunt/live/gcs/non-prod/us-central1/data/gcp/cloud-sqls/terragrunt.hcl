@@ -26,6 +26,10 @@ dependency "firewall" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/firewall"
 }
 
+dependency "compute_addresses" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/compute-addresses"
+}
+
 dependency "random_string" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
 }
