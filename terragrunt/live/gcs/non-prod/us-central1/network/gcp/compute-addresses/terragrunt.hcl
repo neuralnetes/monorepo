@@ -6,6 +6,10 @@ include {
   path = find_in_parent_folders()
 }
 
+dependency "network_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/project"
+}
+
 dependency "vpc" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/vpc"
 }
@@ -25,6 +29,7 @@ locals {
 inputs = {
   regional_addresses = [
     {
+      project      = dependency.network_project.outputs.project_id
       name         = "mysqls-${dependency.random_string.outputs.result}"
       purpose      = "VPC_PEERING"
       address_type = "INTERNAL"
