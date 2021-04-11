@@ -26,8 +26,8 @@ dependency "subnetworks" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/subnetworks"
 }
 
-dependency "firewall" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/firewall"
+dependency "firewall_rules" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/firewall-rules"
 }
 
 dependency "random_string" {
