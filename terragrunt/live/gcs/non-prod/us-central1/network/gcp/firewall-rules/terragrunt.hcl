@@ -32,9 +32,9 @@ inputs = {
       direction               = "INGRESS"
       priority                = 1000
       ranges                  = ["0.0.0.0/0"]
-      source_service_accounts = []
-      source_tags             = []
-      target_service_accounts = []
+      source_service_accounts = null
+      source_tags             = null
+      target_service_accounts = null
       target_tags = [
         dependency.tags.outputs.tags_map["public"]
       ]
@@ -63,9 +63,9 @@ inputs = {
         dependency.subnetworks.outputs.subnets["us-central1/cloud-sql-${dependency.random_string.outputs.result}"].ip_cidr_range,
         dependency.subnetworks.outputs.subnets["us-central1/cloud-sql-${dependency.random_string.outputs.result}"].secondary_ip_range[0].ip_cidr_range
       ]
-      source_service_accounts = []
-      source_tags             = []
-      target_service_accounts = []
+      source_service_accounts = null
+      source_tags             = null
+      target_service_accounts = null
       target_tags = [
         dependency.tags.outputs.tags_map["private"]
       ]
@@ -85,13 +85,13 @@ inputs = {
       description             = "allow-ingress-private-restricted"
       direction               = "INGRESS"
       priority                = 1000
-      ranges                  = []
-      source_service_accounts = []
+      ranges                  = null
+      source_service_accounts = null
       source_tags = [
         dependency.tags.outputs.tags_map["private"],
         dependency.tags.outputs.tags_map["private_persistence"],
       ]
-      target_service_accounts = []
+      target_service_accounts = null
       target_tags = [
         dependency.tags.outputs.tags_map["private"]
       ]
@@ -111,10 +111,10 @@ inputs = {
       description             = "allow-ingress-public-restricted"
       direction               = "INGRESS"
       priority                = 1000
-      ranges                  = []
-      source_service_accounts = []
-      source_tags             = []
-      target_service_accounts = []
+      ranges                  = null
+      source_service_accounts = null
+      source_tags             = null
+      target_service_accounts = null
       target_tags = [
         dependency.tags.outputs.tags_map["public_restricted"]
       ]
