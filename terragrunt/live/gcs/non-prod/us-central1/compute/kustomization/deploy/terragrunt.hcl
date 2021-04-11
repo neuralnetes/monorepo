@@ -21,19 +21,18 @@ dependency "container_cluster_auths" {
 generate "kustomization_provider" {
   path      = "kustomization_provider.tf"
   if_exists = "overwrite_terragrunt"
-  contents  = <<EOF
-terraform {
-  required_providers {
-    # https://registry.terraform.io/providers/kbst/kustomization/latest
-    kustomization = {
-      source = "kbst/kustomization"
-      version = "0.4.3"
+  contents  = <<-EOF
+    terraform {
+      required_providers {
+        kustomization = {
+          source = "kbst/kustomization"
+          version = "0.4.3"
+        }
+      }
     }
-  }
-}
-provider "kustomization" {
-  kubeconfig_raw = "${dependency.container_cluster_auths.outputs.kubeconfig_raws_map["cluster-${dependency.random_string.outputs.result}"]}"
-}
+    provider "kustomization" {
+      kubeconfig_raw = "${dependency.container_cluster_auths.outputs.kubeconfig_raws_map["cluster-${dependency.random_string.outputs.result}"]}"
+    }
 EOF
 }
 

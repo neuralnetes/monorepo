@@ -17,5 +17,6 @@
 * [provider/google](https://registry.terraform.io/providers/hashicorp/google/latest)
 * [provider/google-beta](https://registry.terraform.io/providers/hashicorp/google/latest)
 * [kbst/terraform-provider-kustomize](https://registry.terraform.io/providers/kbst/kustomization/latest/docs)
+  * [latest](https://registry.terraform.io/providers/kbst/kustomization/latest)
 * [github](https://registry.terraform.io/providers/hashicorp/github/latest)
 * [terragrunt-integration-with-tfc-tfe](https://gruntwork.io/guides/foundations/how-to-use-gruntwork-infrastructure-as-code-library#integration_with_tfc_tfe)
