@@ -31,7 +31,7 @@ dependency "firewall_rules" {
 }
 
 dependency "compute_addresses" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/compute-addresses"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/compute-addresses"
 }
 
 dependency "service_networking_connections" {

@@ -15,7 +15,7 @@ dependency "vpc" {
 }
 
 dependency "compute_addresses" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/compute-addresses"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/compute-addresses"
 }
 
 dependency "random_string" {
@@ -28,7 +28,7 @@ inputs = {
       network = dependency.vpc.outputs.network["id"]
       service = "servicenetworking.googleapis.com"
       reserved_peering_ranges = [
-        dependency.compute_addresses.outputs.regional_addresses_map["cloud-sql-${dependency.random_string.outputs.result}-01"].name
+        dependency.compute_addresses.outputs.global_addresses_map["cloud-sql-${dependency.random_string.outputs.result}-01"].name
       ]
     }
   ]
