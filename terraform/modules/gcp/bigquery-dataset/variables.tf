@@ -61,3 +61,8 @@ variable "tables" {
     labels          = map(string),
   }))
 }
+
+variable "delete_contents_on_destroy" {
+  type = bool
+  default = true
+}

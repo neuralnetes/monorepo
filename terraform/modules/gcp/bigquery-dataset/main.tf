@@ -8,15 +8,15 @@ locals {
   }
 }
 
-resource "google_bigquery_dataset" "main" {
+
+resource "google_bigquery_dataset" "dataset" {
   dataset_id                  = var.dataset_id
   friendly_name               = var.dataset_id
   description                 = var.dataset_id
   location                    = var.location
-  delete_contents_on_destroy  = true
-  default_table_expiration_ms = null
   project                     = var.project_id
   labels                      = var.dataset_labels
+  delete_contents_on_destroy  = var.delete_contents_on_destroy
 
   dynamic "access" {
     for_each = var.access
@@ -34,10 +34,10 @@ resource "google_bigquery_dataset" "main" {
   }
 }
 
-resource "google_bigquery_table" "main" {
+resource "google_bigquery_table" "tables" {
   for_each            = local.tables
   deletion_protection = false
-  dataset_id          = google_bigquery_dataset.main.dataset_id
+  dataset_id          = google_bigquery_dataset.dataset.dataset_id
   friendly_name       = each.key
   table_id            = each.key
   labels              = each.value["labels"]
