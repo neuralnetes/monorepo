@@ -11,7 +11,7 @@ dependency "vpc" {
 }
 
 dependency "compute_addresses" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/subnetworks"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/compute-addresses"
 }
 
 dependency "random_string" {
