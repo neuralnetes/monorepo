@@ -11,11 +11,11 @@ dependency "repositories" {
 }
 
 dependency "data_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/gcp/project"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/google/project"
 }
 
 dependency "cloud_storage" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/gcp/cloud-storages"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/google/cloud-storages"
 }
 
 dependency "random_string" {
