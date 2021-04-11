@@ -14,6 +14,10 @@ dependency "service_accounts" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/gcp/service-accounts"
 }
 
+dependency "project_iam_bindings" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/gcp/project-iam-bindings"
+}
+
 dependency "vpc" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/vpc"
 }

@@ -1,2 +1,0 @@
-resources:
-- https://github.com/neuralnetes/monorepo//kustomize/manifests/deploy/overlays/compute?ref=main
