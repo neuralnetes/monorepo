@@ -30,7 +30,7 @@ inputs = {
   regional_addresses = [
     {
       project      = dependency.network_project.outputs.project_id
-      name         = "mysqls-${dependency.random_string.outputs.result}"
+      name         = "mysqls-${dependency.random_string.outputs.result}-01"
       purpose      = "VPC_PEERING"
       address_type = "INTERNAL"
       subnetwork   = dependency.subnetworks.outputs.subnets["${local.region}/mysqls-${dependency.random_string.outputs.result}"].id
