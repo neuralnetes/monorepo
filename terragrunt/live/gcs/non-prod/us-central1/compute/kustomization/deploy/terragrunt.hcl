@@ -40,3 +40,5 @@ EOF
 inputs = {
   path = "${get_terragrunt_dir()}"
 }
+
+skip = true
