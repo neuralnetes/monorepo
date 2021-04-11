@@ -1,6 +1,7 @@
 resource "google_compute_address" "regional_addresses" {
   provider     = google-beta
   for_each     = local.regional_addresses_map
+  project      = each.value["project"]
   name         = each.value["name"]
   purpose      = each.value["purpose"]
   address_type = each.value["address_type"]
@@ -11,6 +12,7 @@ resource "google_compute_address" "regional_addresses" {
 resource "google_compute_global_address" "global_addresses" {
   provider      = google-beta
   for_each      = local.global_addresses_map
+  project       = each.value["project"]
   name          = each.value["name"]
   purpose       = each.value["purpose"]
   address_type  = each.value["address_type"]

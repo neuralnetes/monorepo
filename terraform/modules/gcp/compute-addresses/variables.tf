@@ -1,5 +1,6 @@
 variable "regional_addresses" {
   type = list(object({
+    project      = string
     name         = string
     purpose      = string
     address_type = string
@@ -11,6 +12,7 @@ variable "regional_addresses" {
 
 variable "global_addresses" {
   type = list(object({
+    project       = string
     name          = string
     purpose       = string
     address_type  = string
