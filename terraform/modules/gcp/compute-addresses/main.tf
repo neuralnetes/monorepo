@@ -5,6 +5,7 @@ resource "google_compute_address" "regional_addresses" {
   purpose      = each.value["purpose"]
   address_type = each.value["address_type"]
   subnetwork   = each.value["subnetwork"]
+  region       = each.value["region"]
 }
 
 resource "google_compute_global_address" "global_addresses" {

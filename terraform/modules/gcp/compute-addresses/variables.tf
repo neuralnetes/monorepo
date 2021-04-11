@@ -4,6 +4,7 @@ variable "regional_addresses" {
     purpose      = string
     address_type = string
     subnetwork   = string
+    region       = string
   }))
   default = []
 }

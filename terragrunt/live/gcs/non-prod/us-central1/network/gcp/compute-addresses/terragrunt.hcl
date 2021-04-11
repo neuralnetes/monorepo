@@ -18,13 +18,18 @@ dependency "random_string" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
 }
 
+locals {
+  region = "us-central1"
+}
+
 inputs = {
   regional_addresses = [
     {
       name         = "mysqls-${dependency.random_string.outputs.result}"
       purpose      = "VPC_PEERING"
       address_type = "INTERNAL"
-      subnetwork   = dependency.subnetworks.outputs.subnets["us-central1/mysqls-${dependency.random_string.outputs.result}"].id
+      subnetwork   = dependency.subnetworks.outputs.subnets["${local.region}/mysqls-${dependency.random_string.outputs.result}"].id
+      region       = local.region
     }
   ]
   global_addresses = []
