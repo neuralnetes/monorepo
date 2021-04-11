@@ -25,9 +25,9 @@ dependency "random_string" {
 inputs = {
   topics = flatten([
     [
-      for cloud_storage in values(dependency.cloud_storages.outputs.cloud_storages_map) :
+      for bucket_name in values(dependency.cloud_storages.outputs.cloud_storages_map) :
       {
-        topic              = cloud_storage["bucket"]
+        topic              = bucket_name
         project_id         = dependency.data_project.outputs.project_id
         push_subscriptions = []
         pull_subscriptions = []
