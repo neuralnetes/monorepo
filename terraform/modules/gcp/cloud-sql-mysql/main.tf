@@ -1,8 +1,8 @@
 resource "google_sql_database_instance" "instance" {
   provider = google-beta
 
-  name   = var.name
-  region = var.region
+  name             = var.name
+  region           = var.region
   database_version = var.database_version
   settings {
     tier = var.tier
@@ -13,7 +13,7 @@ resource "google_sql_database_instance" "instance" {
         for_each = var.ip_configuration_authorized_networks
         content {
           value = authorized_networks.value["value"]
-          name = authorized_networks.value["name"]
+          name  = authorized_networks.value["name"]
         }
       }
       require_ssl = var.ip_configuration_require_ssl

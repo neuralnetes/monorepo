@@ -20,7 +20,7 @@ variable "ip_configuration_authorized_networks" {
   default = []
   type = list(object({
     value = string
-    name = string
+    name  = string
   }))
 }
 variable "ip_configuration_require_ssl" {
