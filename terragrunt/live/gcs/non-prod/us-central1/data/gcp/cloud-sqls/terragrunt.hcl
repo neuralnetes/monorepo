@@ -42,7 +42,7 @@ inputs = {
   mysqls = [
     {
       database_version                 = "MYSQL_8_0"
-      name                             = "mysql-${dependency.random_string.outputs.result}"
+      name                             = "cloud-sql-${dependency.random_string.outputs.result}"
       project_id                       = dependency.data_project.outputs.project_id
       region                           = local.region
       tier                             = "db-f1-micro"

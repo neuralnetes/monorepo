@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/terraform-google-modules/terraform-google-network.git//modules/subnets-beta?ref=v3.0.0"
+  source = "github.com/terraform-google-modules/terraform-google-network.git//modules/subnets-beta?ref=v3.2.0"
 }
 
 include {
@@ -57,7 +57,7 @@ inputs = {
       description               = "dataflow-${dependency.random_string.outputs.result}"
     },
     {
-      subnet_name = "mysqls-${dependency.random_string.outputs.result}"
+      subnet_name = "cloud-sql-${dependency.random_string.outputs.result}"
       subnet_ip = cidrsubnet(
         local.cidr_block,
         local.cidr_subnetwork_width_delta,
@@ -99,9 +99,9 @@ inputs = {
         )
       }
     ]
-    "mysqls-${dependency.random_string.outputs.result}" = [
+    "cloud-sql-${dependency.random_string.outputs.result}" = [
       {
-        range_name = "mysqls-${dependency.random_string.outputs.result}-secondary-01"
+        range_name = "cloud-sql-${dependency.random_string.outputs.result}-secondary-01"
         ip_cidr_range = cidrsubnet(
           local.secondary_cidr_block,
           local.secondary_cidr_subnetwork_width_delta,
