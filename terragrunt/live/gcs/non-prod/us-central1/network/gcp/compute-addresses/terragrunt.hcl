@@ -17,7 +17,7 @@ dependency "random_string" {
 inputs = {
   regional_addresses = [
     {
-      name          = "private-${dependency.vpc.outputs.name}-01"
+      name          = "private-${dependency.vpc.outputs.network["name"]}-01"
       purpose       = "VPC_PEERING"
       address_type  = "INTERNAL"
       prefix_length = 16
