@@ -1,11 +1,11 @@
 resource "google_compute_address" "regional_addresses" {
-  provider      = google-beta
-  for_each      = local.regional_addresses_map
-  name          = each.value["name"]
-  purpose       = each.value["purpose"]
-  address_type  = each.value["address_type"]
-  prefix_length = each.value["prefix_length"]
-  network       = each.value["network"]
+  provider     = google-beta
+  for_each     = local.regional_addresses_map
+  name         = each.value["name"]
+  purpose      = each.value["purpose"]
+  address_type = each.value["address_type"]
+  labels       = each.value["labels"]
+  subnetwork   = each.value["subnetwork"]
 }
 
 resource "google_compute_global_address" "global_addresses" {

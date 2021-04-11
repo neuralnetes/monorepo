@@ -10,8 +10,8 @@ variable "mysqls" {
       value = string
       name  = string
     }))
-    ip_configuration_ipv4_enabled    = bool
-    ip_configuration_require_ssl = bool
+    ip_configuration_ipv4_enabled = bool
+    ip_configuration_require_ssl  = bool
   }))
 }
 variable "postgresqls" {

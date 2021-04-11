@@ -10,6 +10,10 @@ dependency "vpc" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/vpc"
 }
 
+dependency "subnetworks" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/subnetworks"
+}
+
 dependency "random_string" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
 }
@@ -17,11 +21,11 @@ dependency "random_string" {
 inputs = {
   regional_addresses = [
     {
-      name          = "private-${dependency.vpc.outputs.network["name"]}-01"
-      purpose       = "VPC_PEERING"
-      address_type  = "INTERNAL"
-      prefix_length = 16
-      network       = dependency.vpc.outputs.network["id"]
+      name         = "mysqls-${dependency.random_string.outputs.result}"
+      purpose      = "VPC_PEERING"
+      address_type = "INTERNAL"
+      subnetwork   = dependency.subnetworks.outputs.subnets_map["mysqls-${dependency.random_string.outputs.result}"]
+      labels       = ["private-persistence"]
     }
   ]
   global_addresses = []

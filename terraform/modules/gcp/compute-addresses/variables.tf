@@ -3,8 +3,8 @@ variable "regional_addresses" {
     name          = string
     purpose       = string
     address_type  = string
-    prefix_length = number
-    network       = string
+    subnetwork    = string
+    labels        = map
   }))
   default = []
 }
