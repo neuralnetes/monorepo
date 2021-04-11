@@ -1,4 +1,4 @@
-resource "google_service_networking_connection" "private_vpc_connection" {
+resource "google_service_networking_connection" "service_networking_connections" {
   for_each                = local.service_networking_connections_map
   provider                = google-beta
   network                 = each.value["network"]
