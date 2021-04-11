@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/terraform-google-modules/terraform-google-network.git//modules/fabric-rules?ref=v3.2.0"
+  source = "github.com/terraform-google-modules/terraform-google-network.git//modules/firewall-rules?ref=v3.2.0"
 }
 
 include {
