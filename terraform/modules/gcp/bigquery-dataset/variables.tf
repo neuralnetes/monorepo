@@ -63,6 +63,6 @@ variable "tables" {
 }
 
 variable "delete_contents_on_destroy" {
-  type = bool
+  type    = bool
   default = true
 }

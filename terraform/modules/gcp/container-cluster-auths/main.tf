@@ -12,4 +12,8 @@ locals {
     for container_cluster_auth in var.container_cluster_auths :
     container_cluster_auth["cluster_name"] => container_cluster_auth
   }
+  kubeconfig_raws_map = {
+    for container_cluster_auth in module.container-cluster-auths :
+    container_cluster_auth["cluster_name"] => replace(dependency.container_cluster_auth.kubeconfig_raw, "\n", "\\n")
+  }
 }
