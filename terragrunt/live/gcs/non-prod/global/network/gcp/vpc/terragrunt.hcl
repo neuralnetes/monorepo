@@ -18,6 +18,6 @@ inputs = {
   project_id                             = dependency.network_project.outputs.project_id
   network_name                           = "vpc-${dependency.random_string.outputs.result}"
   shared_vpc_host                        = true
-  routing_mode                           = "REGIONAL"
+  routing_mode                           = "GLOBAL"
   delete_default_internet_gateway_routes = true
 }
