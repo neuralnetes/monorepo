@@ -27,11 +27,14 @@ inputs = {
   network_name = dependency.vpc.outputs.network_name
   rules = [
     {
-      name        = "allow-ingress-public"
-      description = "allow-ingress-public"
-      direction   = "INGRESS"
-      priority    = 1000
-      ranges      = ["0.0.0.0/0"]
+      name                    = "allow-ingress-public"
+      description             = "allow-ingress-public"
+      direction               = "INGRESS"
+      priority                = 1000
+      ranges                  = ["0.0.0.0/0"]
+      source_service_accounts = []
+      source_tags             = []
+      target_service_accounts = []
       target_tags = [
         dependency.tags.outputs.tags_map["public"]
       ]
@@ -41,6 +44,7 @@ inputs = {
           ports    = null
         }
       ]
+      deny = []
       log_config = {
         metadata = "INCLUDE_ALL_METADATA"
       }
@@ -59,6 +63,9 @@ inputs = {
         dependency.subnetworks.outputs.subnets["us-central1/cloud-sql-${dependency.random_string.outputs.result}"].ip_cidr_range,
         dependency.subnetworks.outputs.subnets["us-central1/cloud-sql-${dependency.random_string.outputs.result}"].secondary_ip_range[0].ip_cidr_range
       ]
+      source_service_accounts = []
+      source_tags             = []
+      target_service_accounts = []
       target_tags = [
         dependency.tags.outputs.tags_map["private"]
       ]
@@ -68,19 +75,23 @@ inputs = {
           ports    = null
         }
       ]
+      deny = []
       log_config = {
         metadata = "INCLUDE_ALL_METADATA"
       }
     },
     {
-      name        = "allow-ingress-private-restricted"
-      description = "allow-ingress-private-restricted"
-      direction   = "INGRESS"
-      priority    = 1000
+      name                    = "allow-ingress-private-restricted"
+      description             = "allow-ingress-private-restricted"
+      direction               = "INGRESS"
+      priority                = 1000
+      ranges                  = []
+      source_service_accounts = []
       source_tags = [
         dependency.tags.outputs.tags_map["private"],
         dependency.tags.outputs.tags_map["private_persistence"],
       ]
+      target_service_accounts = []
       target_tags = [
         dependency.tags.outputs.tags_map["private"]
       ]
@@ -90,16 +101,20 @@ inputs = {
           ports    = null
         }
       ]
+      deny = []
       log_config = {
         metadata = "INCLUDE_ALL_METADATA"
       }
     },
     {
-      name        = "allow-ingress-public-restricted"
-      description = "allow-ingress-public-restricted"
-      direction   = "INGRESS"
-      priority    = 1000
-      ranges      = []
+      name                    = "allow-ingress-public-restricted"
+      description             = "allow-ingress-public-restricted"
+      direction               = "INGRESS"
+      priority                = 1000
+      ranges                  = []
+      source_service_accounts = []
+      source_tags             = []
+      target_service_accounts = []
       target_tags = [
         dependency.tags.outputs.tags_map["public_restricted"]
       ]
@@ -109,6 +124,7 @@ inputs = {
           ports    = null
         }
       ]
+      deny = []
       log_config = {
         metadata = "INCLUDE_ALL_METADATA"
       }
