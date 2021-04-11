@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/pubsub?ref=main"
+  source = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/pubsubs?ref=main"
 }
 
 include {
@@ -25,7 +25,7 @@ dependency "random_string" {
 inputs = {
   topics = flatten([
     [
-      for bucket_name in values(dependency.cloud_storages.outputs.cloud_storages_map) :
+      for bucket_name in keys(dependency.cloud_storages.outputs.cloud_storages_map) :
       {
         topic              = bucket_name
         project_id         = dependency.data_project.outputs.project_id
