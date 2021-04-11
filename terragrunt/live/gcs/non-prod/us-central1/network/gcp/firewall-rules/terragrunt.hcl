@@ -116,7 +116,7 @@ inputs = {
       source_tags             = null
       target_service_accounts = null
       target_tags = [
-        dependency.tags.outputs.tags_map["public-restricted"]
+        dependency.tags.outputs.tags_map["public_restricted"]
       ]
       allow = [
         {
