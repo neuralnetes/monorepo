@@ -6,12 +6,12 @@ variable "mysqls" {
     database_version                 = string
     project                          = string
     ip_configuration_private_network = string
-    ip_configuration_ipv4_enabled    = string
     ip_configuration_authorized_networks = list(object({
       value = string
       name  = string
     }))
-    ip_configuration_require_ssl = string
+    ip_configuration_ipv4_enabled    = bool
+    ip_configuration_require_ssl = bool
   }))
 }
 variable "postgresqls" {
