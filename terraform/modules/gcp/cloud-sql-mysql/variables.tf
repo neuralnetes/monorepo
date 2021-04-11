@@ -27,3 +27,6 @@ variable "ip_configuration_require_ssl" {
   type    = bool
   default = true
 }
+variable "project" {
+  type = string
+}

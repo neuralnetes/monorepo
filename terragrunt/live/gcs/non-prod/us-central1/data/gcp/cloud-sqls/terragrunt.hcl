@@ -38,15 +38,40 @@ locals {
   region = "us-central1"
   zone   = "us-central1-a"
 }
+resource "google_sql_database_instance" "instance" {
+  provider = google-beta
 
+  name   = "private-instance-${random_id.db_name_suffix.hex}"
+  region = "us-central1"
+
+  depends_on = [google_service_networking_connection.private_vpc_connection]
+
+  settings {
+    tier = "db-f1-micro"
+    ip_configuration {
+      ipv4_enabled    = false
+      private_network = google_compute_network.private_network.id
+    }
+  }
+}
 inputs = {
   mysqls = [
     {
-      database_version = "MYSQL_8_0"
-      name             = "mysql-${dependency.random_string.outputs.result}"
-      project_id       = dependency.data_project.outputs.project_id
-      region           = local.region
-      zone             = local.zone
+      database_version                 = "MYSQL_8_0"
+      name                             = "mysql-${dependency.random_string.outputs.result}"
+      project_id                       = dependency.data_project.outputs.project_id
+      region                           = local.region
+      zone                             = local.zone
+      tier                             = string
+      region                           = string
+      database_version                 = string
+      ip_configuration_private_network = string
+      ip_configuration_ipv4_enabled    = string
+      ip_configuration_authorized_networks = list(object({
+        value = string
+        name  = string
+      }))
+      ip_configuration_require_ssl = string
       ip_configuration = {
         authorized_networks = [
           {

@@ -6,14 +6,6 @@ resource "google_service_networking_connection" "private_vpc_connection" {
   reserved_peering_ranges = each.value["reserved_peering_ranges"]
 }
 
-variable "service_networking_connections" {
-  default = []
-  type = list(object({
-    network                 = string
-    service                 = string
-    reserved_peering_ranges = list(string)
-  }))
-}
 
 locals {
   service_networking_connections_map = {

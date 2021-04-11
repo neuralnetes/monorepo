@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/terraform-google-modules/terraform-google-network.git//modules/fabric-net-firewall?ref=v3.0.0"
+  source = "github.com/neuralnetes/monorepo.git//terraform/modules/gcp/compute-addresses?ref=main"
 }
 
 include {
@@ -8,10 +8,6 @@ include {
 
 dependency "vpc" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/vpc"
-}
-
-dependency "subnetworks" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/subnetworks"
 }
 
 dependency "random_string" {
@@ -25,7 +21,7 @@ inputs = {
       purpose       = "VPC_PEERING"
       address_type  = "INTERNAL"
       prefix_length = 16
-      network       = dependency.vpc.outputs.id
+      network       = dependency.vpc.outputs.network["id"]
     }
   ]
   global_addresses = []
