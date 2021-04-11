@@ -7,11 +7,11 @@ include {
 }
 
 dependency "project_iam_bindings" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/gcp/project-iam-bindings"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project-iam-bindings"
 }
 
 dependency "vpc" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/vpc"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/vpc"
 }
 
 dependency "random_string" {

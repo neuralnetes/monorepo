@@ -7,27 +7,27 @@ include {
 }
 
 dependency "compute_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/gcp/project"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/google/project"
 }
 
 dependency "service_accounts" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/gcp/service-accounts"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
 }
 
 dependency "project_iam_bindings" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/gcp/project-iam-bindings"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project-iam-bindings"
 }
 
 dependency "vpc" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/vpc"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/vpc"
 }
 
 dependency "subnetworks" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/subnetworks"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/google/subnetworks"
 }
 
 dependency "firewall_rules" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/firewall-rules"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/google/firewall-rules"
 }
 
 dependency "random_string" {

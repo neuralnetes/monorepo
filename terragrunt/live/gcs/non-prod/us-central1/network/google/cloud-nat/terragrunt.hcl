@@ -7,19 +7,19 @@ include {
 }
 
 dependency "project_iam_bindings" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/gcp/project-iam-bindings"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project-iam-bindings"
 }
 
 dependency "vpc" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/gcp/vpc"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/vpc"
 }
 
 dependency "cloud_router" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/cloud-router"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/google/cloud-router"
 }
 
 dependency "subnetworks" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/gcp/subnetworks"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/google/subnetworks"
 }
 
 dependency "random_string" {
