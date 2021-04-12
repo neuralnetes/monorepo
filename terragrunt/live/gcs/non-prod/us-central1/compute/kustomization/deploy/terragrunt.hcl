@@ -11,11 +11,11 @@ dependency "random_string" {
 }
 
 dependency "container_clusters" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/gcp/container-clusters"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/google/container-clusters"
 }
 
 dependency "container_cluster_auths" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/gcp/container-cluster-auths"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/google/container-cluster-auths"
 }
 
 generate "kustomization_provider" {
