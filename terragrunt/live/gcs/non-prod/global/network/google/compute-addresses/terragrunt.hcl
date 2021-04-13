@@ -34,27 +34,18 @@ inputs = {
   regional_addresses = [
     {
       project      = dependency.network_project.outputs.project_id
-      name         = "cloud-sql-${local.region}-${dependency.random_string.outputs.result}-01"
+      name         = "cloud-sql-${local.region}-${dependency.random_string.outputs.result}"
       purpose      = "VPC_PEERING"
       address_type = "INTERNAL"
-      subnetwork   = dependency.subnetworks.outputs.subnets["us-central1/cloud-sql-${dependency.random_string.outputs.result}"]["id"]
+      subnetwork   = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"]["id"]
     },
     {
       project      = dependency.network_project.outputs.project_id
-      name         = "istio-ingressgateway-${local.region}-${dependency.random_string.outputs.result}-01"
+      name         = "istio-ingressgateway-${local.region}-${dependency.random_string.outputs.result}"
       purpose      = "SHARED_LOADBALANCER_VIP"
       address_type = "INTERNAL"
       subnetwork   = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"]["id"]
     }
   ]
-  global_addresses = [
-    {
-      project       = dependency.network_project.outputs.project_id
-      name          = "cloud-sql-global-${dependency.random_string.outputs.result}-01"
-      purpose       = "VPC_PEERING"
-      address_type  = "INTERNAL"
-      prefix_length = 16
-      network       = dependency.vpc.outputs.network["id"]
-    }
-  ]
+  global_addresses = []
 }

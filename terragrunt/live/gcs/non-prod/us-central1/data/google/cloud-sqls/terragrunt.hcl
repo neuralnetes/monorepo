@@ -56,24 +56,8 @@ inputs = {
       ip_configuration_ipv4_enabled    = true
       ip_configuration_authorized_networks = [
         {
-          name  = "${dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"]}-01"
+          name  = "us-central1/cluster-${dependency.random_string.outputs.result}"
           value = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].ip_cidr_range
-        },
-        {
-          name  = "${dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"]}-02"
-          value = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[0].ip_cidr_range,
-        },
-        {
-          name  = "${dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"]}-03"
-          value = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[1].ip_cidr_range,
-        },
-        {
-          name  = "${dependency.subnetworks.outputs.subnets["us-central1/dataflow-${dependency.random_string.outputs.result}"]}-01"
-          value = dependency.subnetworks.outputs.subnets["us-central1/dataflow-${dependency.random_string.outputs.result}"].ip_cidr_range,
-        },
-        {
-          name  = "${dependency.subnetworks.outputs.subnets["us-central1/dataflow-${dependency.random_string.outputs.result}"]}-02"
-          value = dependency.subnetworks.outputs.subnets["us-central1/dataflow-${dependency.random_string.outputs.result}"].secondary_ip_range[0].ip_cidr_range,
         }
       ]
       ip_configuration_require_ssl = true
