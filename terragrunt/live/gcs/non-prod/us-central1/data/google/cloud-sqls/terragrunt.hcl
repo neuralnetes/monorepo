@@ -58,7 +58,15 @@ inputs = {
         {
           name  = "us-central1/cluster-${dependency.random_string.outputs.result}"
           value = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].ip_cidr_range
-        }
+        },
+        {
+          name  = "us-central1/cluster-${dependency.random_string.outputs.result}-pods"
+          value = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[0].range_name
+        },
+        {
+          name  = "us-central1/cluster-${dependency.random_string.outputs.result}-services"
+          value = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[1].range_name
+        },
       ]
       ip_configuration_require_ssl = true
     }
