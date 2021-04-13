@@ -8,6 +8,10 @@ variable "enable_private_nodes" {
   default = true
 }
 
+variable "firewall_inbound_ports" {
+  type = list(string)
+}
+
 variable "ip_range_pods" {
   type = string
 }
@@ -45,6 +49,16 @@ variable "network_project_id" {
 
 variable "node_pools" {
   type = list(map(string))
+}
+
+variable "node_pools_oauth_scopes" {
+  type = map(list(string))
+  default = {
+    all = [
+      "https://www.googleapis.com/auth/cloud-platform",
+      "https://www.googleapis.com/auth/ndev.clouddns.readwrite"
+    ]
+  }
 }
 
 variable "node_pools_tags" {
