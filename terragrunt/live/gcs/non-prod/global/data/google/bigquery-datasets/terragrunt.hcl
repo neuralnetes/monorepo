@@ -26,17 +26,12 @@ inputs = {
       location   = "US"
       tables = [
         {
-          table_id = "most_liquid_us_stocks_1500",
-          schema   = file("${get_terragrunt_dir()}/schema/first_rate_data/most_liquid_us_stocks_1500.json"),
-          time_partitioning = {
-            type                     = "DAY",
-            field                    = "datetime"
-            require_partition_filter = false,
-            expiration_ms            = null
-          },
+          table_id           = "most_liquid_us_stocks_1500",
+          schema             = file("${get_terragrunt_dir()}/schema/first_rate_data/most_liquid_us_stocks_1500.json"),
+          time_partitioning  = null
           range_partitioning = null
           expiration_time    = null,
-          clustering         = ["ticker"],
+          clustering         = null,
           labels             = {}
         }
       ]

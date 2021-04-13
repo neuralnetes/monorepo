@@ -38,7 +38,6 @@ inputs = {
         0 * (1 + local.cidr_subnetwork_spacing)
       )
       subnet_region             = local.subnet_region
-      subnet_private_access     = "true"
       subnet_flow_logs          = "true"
       subnet_flow_logs_metadata = "INCLUDE_ALL_METADATA"
       description               = "internal-https-loadbalancer-${dependency.random_string.outputs.result}"
