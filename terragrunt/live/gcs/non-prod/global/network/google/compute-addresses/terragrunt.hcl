@@ -37,6 +37,7 @@ inputs = {
       name         = "cloud-sql-${local.region}-${dependency.random_string.outputs.result}"
       purpose      = "VPC_PEERING"
       address_type = "INTERNAL"
+      region       = local.region
       subnetwork   = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"]["id"]
     },
     {
@@ -44,6 +45,7 @@ inputs = {
       name         = "istio-ingressgateway-${local.region}-${dependency.random_string.outputs.result}"
       purpose      = "SHARED_LOADBALANCER_VIP"
       address_type = "INTERNAL"
+      region       = local.region
       subnetwork   = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"]["id"]
     }
   ]
