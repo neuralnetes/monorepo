@@ -27,7 +27,7 @@ inputs = {
     {
       project_id = dependency.vpc.outputs.project_id
       type       = "private"
-      name       = "private-${dependency.random_string.outputs.result}-01"
+      name       = replace("private-${dependency.vpc.outputs.project_id}-${local.gsuite_domain_name}", ".", "-")
       domain     = "${dependency.vpc.outputs.project_id}.${local.gsuite_domain_name}."
       private_visibility_config_networks = [
         dependency.vpc.outputs.network_self_link
@@ -36,7 +36,7 @@ inputs = {
     {
       project_id                         = dependency.vpc.outputs.project_id
       type                               = "public"
-      name                               = "public-${dependency.random_string.outputs.result}-01"
+      name                               = replace("public-${dependency.vpc.outputs.project_id}-${local.gsuite_domain_name}", ".", "-")
       domain                             = "${dependency.vpc.outputs.project_id}.${local.gsuite_domain_name}."
       private_visibility_config_networks = []
     }

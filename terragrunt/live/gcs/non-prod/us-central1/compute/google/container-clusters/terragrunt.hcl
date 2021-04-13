@@ -76,7 +76,7 @@ inputs = {
       ]
       node_pools_tags = {
         all = [
-          "private"
+          "private",
         ]
       }
       project_id      = dependency.compute_project.outputs.project_id

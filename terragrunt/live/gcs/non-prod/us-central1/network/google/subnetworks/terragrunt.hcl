@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/terraform-google-modules/terraform-google-network.git//modules/subnets-beta?ref=v3.2.0"
+  source = "github.com/terraform-google-modules/terraform-google-network.git//modules/subnets-beta?ref=v3.2.1"
 }
 
 include {
@@ -31,11 +31,26 @@ inputs = {
   network_name = dependency.vpc.outputs.network_name
   subnets = [
     {
+      subnet_name = "internal-https-loadbalancer-${dependency.random_string.outputs.result}"
+      subnet_ip = cidrsubnet(
+        local.cidr_block,
+        local.cidr_subnetwork_width_delta,
+        0 * (1 + local.cidr_subnetwork_spacing)
+      )
+      subnet_region             = local.subnet_region
+      subnet_private_access     = "true"
+      subnet_flow_logs          = "true"
+      subnet_flow_logs_metadata = "INCLUDE_ALL_METADATA"
+      description               = "internal-https-loadbalancer-${dependency.random_string.outputs.result}"
+      purpose                   = "INTERNAL_HTTPS_LOAD_BALANCER"
+      role                      = "ACTIVE"
+    },
+    {
       subnet_name = "cluster-${dependency.random_string.outputs.result}"
       subnet_ip = cidrsubnet(
         local.cidr_block,
         local.cidr_subnetwork_width_delta,
-        0
+        1
       )
       subnet_region             = local.subnet_region
       subnet_private_access     = "true"
@@ -48,7 +63,7 @@ inputs = {
       subnet_ip = cidrsubnet(
         local.cidr_block,
         local.cidr_subnetwork_width_delta,
-        1 * (1 + local.cidr_subnetwork_spacing)
+        2 * (1 + local.cidr_subnetwork_spacing)
       )
       subnet_region             = local.subnet_region
       subnet_private_access     = "true"
@@ -61,19 +76,19 @@ inputs = {
       subnet_ip = cidrsubnet(
         local.cidr_block,
         local.cidr_subnetwork_width_delta,
-        2 * (1 + local.cidr_subnetwork_spacing)
+        3 * (1 + local.cidr_subnetwork_spacing)
       )
       subnet_region             = local.subnet_region
       subnet_private_access     = "true"
       subnet_flow_logs          = "true"
       subnet_flow_logs_metadata = "INCLUDE_ALL_METADATA"
-      description               = "dataflow-${dependency.random_string.outputs.result}"
-    },
+      description               = "cloud-sql-${dependency.random_string.outputs.result}"
+    }
   ]
   secondary_ranges = {
     "cluster-${dependency.random_string.outputs.result}" = [
       {
-        range_name = "cluster-${dependency.random_string.outputs.result}-secondary-01"
+        range_name = "cluster-${dependency.random_string.outputs.result}-pods"
         ip_cidr_range = cidrsubnet(
           local.secondary_cidr_block,
           local.secondary_cidr_subnetwork_width_delta,
@@ -81,7 +96,7 @@ inputs = {
         )
       },
       {
-        range_name = "cluster-${dependency.random_string.outputs.result}-secondary-02"
+        range_name = "cluster-${dependency.random_string.outputs.result}-services"
         ip_cidr_range = cidrsubnet(
           local.secondary_cidr_block,
           local.secondary_cidr_subnetwork_width_delta,

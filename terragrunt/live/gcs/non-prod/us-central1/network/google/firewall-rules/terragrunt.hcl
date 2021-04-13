@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/terraform-google-modules/terraform-google-network.git//modules/firewall-rules?ref=v3.2.0"
+  source = "github.com/terraform-google-modules/terraform-google-network.git//modules/firewall-rules?ref=v3.2.1"
 }
 
 include {
@@ -115,7 +115,7 @@ inputs = {
       description             = "allow-ingress-public-restricted"
       direction               = "INGRESS"
       priority                = 1000
-      ranges                  = null
+      ranges                  = []
       source_service_accounts = null
       source_tags             = null
       target_service_accounts = null
