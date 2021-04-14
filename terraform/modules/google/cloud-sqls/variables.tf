@@ -4,7 +4,7 @@ variable "mysqls" {
     tier                             = string
     region                           = string
     database_version                 = string
-    project                          = string
+    project_id                       = string
     ip_configuration_private_network = string
     ip_configuration_authorized_networks = list(object({
       value = string

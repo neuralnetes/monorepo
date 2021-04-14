@@ -26,6 +26,6 @@ variable "ip_configuration_authorized_networks" {
 variable "ip_configuration_require_ssl" {
   type = bool
 }
-variable "project" {
+variable "project_id" {
   type = string
 }

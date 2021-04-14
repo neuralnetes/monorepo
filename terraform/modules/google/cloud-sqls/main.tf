@@ -5,7 +5,7 @@ module "mysqls" {
   tier                                 = each.value["tier"]
   region                               = each.value["region"]
   database_version                     = each.value["database_version"]
-  project                              = each.value["project"]
+  project_id                           = each.value["project_id"]
   ip_configuration_private_network     = each.value["ip_configuration_private_network"]
   ip_configuration_ipv4_enabled        = each.value["ip_configuration_ipv4_enabled"]
   ip_configuration_authorized_networks = each.value["ip_configuration_authorized_networks"]
