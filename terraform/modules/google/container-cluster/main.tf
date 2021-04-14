@@ -3,6 +3,7 @@ module "container-cluster" {
   create_service_account     = var.create_service_account
   enable_private_nodes       = var.enable_private_nodes
   firewall_inbound_ports     = var.firewall_inbound_ports
+  identity_namespace         = var.identity_namespace
   ip_range_pods              = var.ip_range_pods
   ip_range_services          = var.ip_range_services
   kubernetes_version         = var.kubernetes_version

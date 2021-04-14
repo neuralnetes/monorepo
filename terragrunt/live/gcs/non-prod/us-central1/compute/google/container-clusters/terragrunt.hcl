@@ -10,6 +10,10 @@ dependency "compute_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/google/project"
 }
 
+dependency "iam_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
+}
+
 dependency "service_accounts" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
 }
@@ -93,12 +97,13 @@ inputs = {
           "https://www.googleapis.com/auth/ndev.clouddns.readwrite"
         ]
       }
-      project_id      = dependency.compute_project.outputs.project_id
-      region          = "us-central1"
-      regional        = false
-      service_account = dependency.service_accounts.outputs.service_accounts_map["cluster-${dependency.random_string.outputs.result}"].email
-      subnetwork      = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].name
-      zones           = ["us-central1-a"]
+      project_id         = dependency.compute_project.outputs.project_id
+      region             = "us-central1"
+      regional           = false
+      service_account    = dependency.service_accounts.outputs.service_accounts_map["cluster-${dependency.random_string.outputs.result}"].email
+      subnetwork         = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].name
+      zones              = ["us-central1-a"]
+      identity_namespace = "${dependency.iam_project.outputs.project_id}.svc.id.goog"
     }
   ]
 }

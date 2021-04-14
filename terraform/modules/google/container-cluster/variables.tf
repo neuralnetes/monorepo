@@ -98,3 +98,5 @@ variable "zones" {
   type    = list(string)
   default = []
 }
+
+variable "identity_namespace" {}
