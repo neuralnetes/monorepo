@@ -11,6 +11,6 @@ spec:
         args:
         - --source=service
         - --provider=google
-        - --google-project=network-slrm
+        - --google-project=network-sach
         - --registry=txt
-        - --txt-owner-id=external-dns-compute-slrm
+        - --txt-owner-id=external-dns-compute-sach
