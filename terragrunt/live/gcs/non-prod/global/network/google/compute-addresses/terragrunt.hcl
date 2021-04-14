@@ -34,7 +34,7 @@ inputs = {
   regional_addresses = [
     {
       project      = dependency.network_project.outputs.project_id
-      name         = "istio-ingressgateway-${local.region}-${dependency.random_string.outputs.result}"
+      name         = "istio-ingressgateway-${local.region}-${dependency.vpc.outputs.network["name"]}"
       purpose      = "SHARED_LOADBALANCER_VIP"
       address_type = "INTERNAL"
       region       = local.region
@@ -44,7 +44,7 @@ inputs = {
   global_addresses = [
     {
       project       = dependency.network_project.outputs.project_id
-      name          = "google-managed-services-${dependency.vpc.outputs.network["name"]}"
+      name          = "google-managed-services-global-${dependency.vpc.outputs.network["name"]}"
       prefix_length = 16
       purpose       = "VPC_PEERING"
       address_type  = "INTERNAL"
