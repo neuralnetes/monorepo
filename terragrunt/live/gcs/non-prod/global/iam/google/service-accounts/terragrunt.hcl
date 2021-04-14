@@ -35,7 +35,7 @@ inputs = {
     # compute
     [
       {
-        project_id = dependency.compute_project.outputs.project_id
+        project_id = dependency.iam_project.outputs.project_id
         name       = "cluster-${dependency.random_string.outputs.result}"
         project_roles = [
           "${dependency.compute_project.outputs.project_id}=>roles/logging.logWriter",
@@ -47,28 +47,28 @@ inputs = {
         ]
       },
       {
-        project_id = dependency.network_project.outputs.project_id
+        project_id = dependency.iam_project.outputs.project_id
         name       = "cert-manager-${dependency.random_string.outputs.result}"
         project_roles = [
           "${dependency.network_project.outputs.project_id}=>roles/dns.admin"
         ]
       },
       {
-        project_id = dependency.network_project.outputs.project_id
+        project_id = dependency.iam_project.outputs.project_id
         name       = "external-dns-${dependency.random_string.outputs.result}"
         project_roles = [
           "${dependency.network_project.outputs.project_id}=>roles/dns.admin",
         ]
       },
       {
-        project_id = dependency.secret_project.outputs.project_id
+        project_id = dependency.iam_project.outputs.project_id
         name       = "external-secrets-${dependency.random_string.outputs.result}"
         project_roles = [
           "${dependency.secret_project.outputs.project_id}=>roles/secretmanager.admin"
         ]
       },
       {
-        project_id = dependency.data_project.outputs.project_id
+        project_id = dependency.iam_project.outputs.project_id
         name       = "kubeflow-${dependency.random_string.outputs.result}"
         project_roles = [
           "${dependency.data_project.outputs.project_id}=>roles/storage.admin",
