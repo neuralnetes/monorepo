@@ -99,4 +99,6 @@ variable "zones" {
   default = []
 }
 
-variable "identity_namespace" {}
+variable "identity_namespace" {
+  type = string
+}

@@ -103,7 +103,7 @@ inputs = {
       service_account    = dependency.service_accounts.outputs.service_accounts_map["cluster-${dependency.random_string.outputs.result}"].email
       subnetwork         = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].name
       zones              = ["us-central1-a"]
-      identity_namespace = "${dependency.iam_project.outputs.project_id}.svc.id.goog"
+      identity_namespace = "${dependency.compute_project.outputs.project_id}.svc.id.goog"
     }
   ]
 }
