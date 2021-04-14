@@ -1,3 +1,7 @@
+data "google_service_account" "service_account" {
+  account_id = var.service_account_id
+}
+
 resource "google_service_account_iam_member" "member" {
   service_account_id = data.google_service_account.service_account.name
   role               = "roles/iam.workloadIdentityUser"
