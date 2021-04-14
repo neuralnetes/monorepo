@@ -50,25 +50,25 @@ inputs = {
   workload_identity_users = [
     {
       project_id                 = dependency.iam_project.outputs.project_id
-      service_account_id         = dependency.service_accounts.outputs.service_accounts_map["cert-manager-${dependency.random_string.outputs.result}"].service_account["id"]
+      service_account_id         = dependency.service_accounts.outputs.service_accounts_map["cert-manager-${dependency.random_string.outputs.result}"].email
       kubernetes_namespace       = "cert-manager"
       kubernetes_service_account = "cert-manager"
     },
     {
       project_id                 = dependency.iam_project.outputs.project_id
-      service_account_id         = dependency.service_accounts.outputs.service_accounts_map["external-dns-${dependency.random_string.outputs.result}"].service_account["id"]
+      service_account_id         = dependency.service_accounts.outputs.service_accounts_map["external-dns-${dependency.random_string.outputs.result}"].email
       kubernetes_namespace       = "external-dns"
       kubernetes_service_account = "external-dns"
     },
     {
       project_id                 = dependency.iam_project.outputs.project_id
-      service_account_id         = dependency.service_accounts.outputs.service_accounts_map["kubeflow-${dependency.random_string.outputs.result}"].service_account["id"]
+      service_account_id         = dependency.service_accounts.outputs.service_accounts_map["kubeflow-${dependency.random_string.outputs.result}"].email
       kubernetes_namespace       = "kubeflow"
       kubernetes_service_account = "kubeflow"
     },
     {
       project_id                 = dependency.iam_project.outputs.project_id
-      service_account_id         = dependency.service_accounts.outputs.service_accounts_map["external-secrets-${dependency.random_string.outputs.result}"].service_account["id"]
+      service_account_id         = dependency.service_accounts.outputs.service_accounts_map["external-secrets-${dependency.random_string.outputs.result}"].email
       kubernetes_namespace       = "external-secrets"
       kubernetes_service_account = "external-secrets"
     }
