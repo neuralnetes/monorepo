@@ -10,6 +10,10 @@ dependency "iam_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
 }
 
+dependency "compute_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/google/project"
+}
+
 dependency "service_accounts" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
 }
