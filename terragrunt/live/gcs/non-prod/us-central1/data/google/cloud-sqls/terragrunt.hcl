@@ -46,29 +46,16 @@ locals {
 inputs = {
   mysqls = [
     {
-      database_version                 = "MYSQL_8_0"
-      name                             = "cloud-sql-${dependency.random_string.outputs.result}"
-      project_id                       = dependency.data_project.outputs.project_id
-      region                           = local.region
-      tier                             = "db-f1-micro"
-      zone                             = local.zone
-      ip_configuration_private_network = dependency.vpc.outputs.network["id"]
-      ip_configuration_ipv4_enabled    = true
-      ip_configuration_authorized_networks = [
-        {
-          name  = "us-central1/cluster-${dependency.random_string.outputs.result}"
-          value = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].ip_cidr_range
-        },
-        {
-          name  = "us-central1/cluster-${dependency.random_string.outputs.result}-pods"
-          value = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[0].range_name
-        },
-        {
-          name  = "us-central1/cluster-${dependency.random_string.outputs.result}-services"
-          value = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[1].range_name
-        },
-      ]
-      ip_configuration_require_ssl = true
+      database_version                     = "MYSQL_8_0"
+      name                                 = "cloud-sql-${dependency.random_string.outputs.result}"
+      project_id                           = dependency.data_project.outputs.project_id
+      region                               = local.region
+      tier                                 = "db-f1-micro"
+      zone                                 = local.zone
+      ip_configuration_private_network     = dependency.vpc.outputs.network["id"]
+      ip_configuration_ipv4_enabled        = true
+      ip_configuration_authorized_networks = []
+      ip_configuration_require_ssl         = true
     }
   ]
 }
