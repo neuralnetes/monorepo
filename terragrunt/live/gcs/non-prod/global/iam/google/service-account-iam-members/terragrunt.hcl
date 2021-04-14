@@ -32,6 +32,11 @@ inputs = {
       service_account_id = dependency.service_accounts.outputs.service_accounts_map["cluster-${dependency.random_string.outputs.result}"].service_account.name
       role               = "roles/iam.serviceAccountUser"
       member             = "group:terraform@${local.gcp_workspace_domain_name}"
-    }
+    },
+    {
+      service_account_id = dependency.service_accounts.outputs.service_accounts_map["cluster-${dependency.random_string.outputs.result}"].service_account.name
+      role               = "roles/iam.serviceAccountUser"
+      member             = "serviceAccount:${dependency.compute_project.outputs.service_account_email}"
+    },
   ]
 }
