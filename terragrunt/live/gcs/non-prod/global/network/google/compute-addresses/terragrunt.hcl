@@ -43,12 +43,12 @@ inputs = {
   ]
   global_addresses = [
     {
-      project      = dependency.network_project.outputs.project_id
-      name         = "google-managed-services-${dependency.vpc.outputs.network["name"]}"
+      project       = dependency.network_project.outputs.project_id
+      name          = "google-managed-services-${dependency.vpc.outputs.network["name"]}"
       prefix_length = 16
-      purpose      = "VPC_PEERING"
-      address_type = "INTERNAL"
-      network   = dependency.vpc.outputs.network["id"]
+      purpose       = "VPC_PEERING"
+      address_type  = "INTERNAL"
+      network       = dependency.vpc.outputs.network["id"]
     }
   ]
 }
