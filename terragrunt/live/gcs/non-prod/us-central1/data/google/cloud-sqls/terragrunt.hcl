@@ -31,7 +31,7 @@ dependency "compute_addresses" {
 }
 
 dependency "service_networking_connections" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/google/service-networking-connections"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/service-networking-connections"
 }
 
 dependency "random_string" {

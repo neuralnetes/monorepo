@@ -28,7 +28,7 @@ inputs = {
       network = dependency.vpc.outputs.network["id"]
       service = "servicenetworking.googleapis.com"
       reserved_peering_ranges = [
-        dependency.compute_addresses.outputs.regional_addresses_map["compute-${dependency.random_string.outputs.result}"].name
+        dependency.compute_addresses.outputs.global_addresses_map["google-managed-services-global-${dependency.vpc.outputs.network["name"]}"].name
       ]
     }
   ]
