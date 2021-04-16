@@ -108,6 +108,7 @@ inputs = {
         bindings = {
           for project_role in [
             "roles/iam.serviceAccountAdmin",
+            "roles/iam.serviceAccountUser",
             "roles/iam.serviceAccountKeyAdmin",
           ] :
           project_role => [
