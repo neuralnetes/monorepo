@@ -43,7 +43,8 @@ inputs = {
           "${dependency.compute_project.outputs.project_id}=>roles/monitoring.viewer",
           "${dependency.compute_project.outputs.project_id}=>roles/stackdriver.resourceMetadata.writer",
           "${dependency.compute_project.outputs.project_id}=>roles/storage.objectViewer",
-          "${dependency.compute_project.outputs.project_id}=>roles/artifactregistry.reader"
+          "${dependency.compute_project.outputs.project_id}=>roles/artifactregistry.reader",
+          "${dependency.iam_project.outputs.project_id}=>roles/iam.serviceAccountUser",
         ]
       },
       {
