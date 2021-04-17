@@ -43,146 +43,174 @@ locals {
 }
 
 inputs = {
-  bindings = flatten([
+  bindings = [
     # compute
-    [
-      {
-        key = "${dependency.compute_project.outputs.project_id}-01"
-        bindings = {
-          for project_role in [
-            "roles/compute.admin",
-            "roles/iam.serviceAccountAdmin",
-          ] :
-          project_role => [
-            "group:terraform@${local.gcp_workspace_domain_name}"
-          ]
-        }
-        projects = [dependency.compute_project.outputs.project_id]
-      },
-      {
-        key = "${dependency.compute_project.outputs.project_id}-02"
-        bindings = {
-          for project_role in [
-            "roles/viewer",
-          ] :
-          project_role => [
-            "group:engineering@${local.gcp_workspace_domain_name}"
-          ]
-        }
-        projects = [dependency.compute_project.outputs.project_id]
+    {
+      bindings = {
+        for project_role in [
+          "roles/compute.admin",
+          "roles/iam.serviceAccountAdmin",
+        ] :
+        project_role => [
+          "group:terraform@${local.gcp_workspace_domain_name}"
+        ]
       }
-    ],
+      project = dependency.compute_project.outputs.project_id
+    },
+    {
+      bindings = {
+        for project_role in [
+          "roles/viewer",
+        ] :
+        project_role => [
+          "group:engineering@${local.gcp_workspace_domain_name}"
+        ]
+      }
+      project = dependency.compute_project.outputs.project_id
+    },
+    {
+      bindings = {
+        for project_role in [
+          "roles/logging.logWriter",
+          "roles/monitoring.metricWriter",
+          "roles/monitoring.viewer",
+          "roles/stackdriver.resourceMetadata.writer",
+          "roles/storage.objectViewer",
+          "roles/artifactregistry.reader",
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.service_accounts_map["cluster"].email}"
+        ]
+      }
+      project = dependency.compute_project.outputs.project_id
+    },
     # data
-    [
-      {
-        key = "${dependency.data_project.outputs.project_id}-01"
-        bindings = {
-          for project_role in [
-            "roles/storage.admin",
-            "roles/bigquery.admin",
-            "roles/pubsub.admin",
-          ] :
-          project_role => [
-            "group:terraform@${local.gcp_workspace_domain_name}"
-          ]
-        }
-        projects = [dependency.data_project.outputs.project_id]
-      },
-      {
-        key = "${dependency.data_project.outputs.project_id}-02"
-        bindings = {
-          for project_role in [
-            "roles/viewer",
-          ] :
-          project_role => [
-            "group:engineering@${local.gcp_workspace_domain_name}"
-          ]
-        }
-        projects = [dependency.data_project.outputs.project_id]
+    {
+      bindings = {
+        for project_role in [
+          "roles/storage.admin",
+          "roles/bigquery.admin",
+          "roles/pubsub.admin",
+        ] :
+        project_role => [
+          "group:terraform@${local.gcp_workspace_domain_name}"
+        ]
       }
-    ],
+      project = dependency.data_project.outputs.project_id
+    },
+    {
+      bindings = {
+        for project_role in [
+          "roles/viewer",
+        ] :
+        project_role => [
+          "group:engineering@${local.gcp_workspace_domain_name}"
+        ]
+      }
+      project = dependency.data_project.outputs.project_id
+    },
     # iam
-    [
-      {
-        key = "${dependency.iam_project.outputs.project_id}-01"
-        bindings = {
-          for project_role in [
-            "roles/iam.serviceAccountAdmin",
-            "roles/iam.serviceAccountUser",
-            "roles/iam.serviceAccountKeyAdmin",
-          ] :
-          project_role => [
-            "group:terraform@${local.gcp_workspace_domain_name}"
-          ]
-        }
-        projects = [dependency.iam_project.outputs.project_id]
-      },
-      {
-        key = "${dependency.iam_project.outputs.project_id}-02"
-        bindings = {
-          for project_role in [
-            "roles/viewer",
-          ] :
-          project_role => [
-            "group:engineering@${local.gcp_workspace_domain_name}"
-          ]
-        }
-        projects = [dependency.iam_project.outputs.project_id]
+    {
+      bindings = {
+        for project_role in [
+          "roles/iam.serviceAccountAdmin",
+          "roles/iam.serviceAccountKeyAdmin",
+        ] :
+        project_role => [
+          "group:terraform@${local.gcp_workspace_domain_name}"
+        ]
       }
-    ],
+      project = dependency.iam_project.outputs.project_id
+    },
+    {
+      bindings = {
+        for project_role in [
+          "roles/viewer",
+        ] :
+        project_role => [
+          "group:engineering@${local.gcp_workspace_domain_name}"
+        ]
+      }
+      project = dependency.iam_project.outputs.project_id
+    },
     # network
-    [
-      {
-        key = "${dependency.network_project.outputs.project_id}-01"
-        bindings = {
-          for project_role in [
-            "roles/dns.admin"
-          ] :
-          project_role => [
-            "group:terraform@${local.gcp_workspace_domain_name}"
-          ]
-        }
-        projects = [dependency.network_project.outputs.project_id]
-      },
-      {
-        key = "${dependency.network_project.outputs.project_id}-02"
-        bindings = {
-          for project_role in [
-            "roles/viewer",
-          ] :
-          project_role => [
-            "group:engineering@${local.gcp_workspace_domain_name}"
-          ]
-        }
-        projects = [dependency.network_project.outputs.project_id]
+    {
+      bindings = {
+        for project_role in [
+          "roles/dns.admin"
+        ] :
+        project_role => [
+          "group:terraform@${local.gcp_workspace_domain_name}"
+        ]
       }
-    ],
+      project = dependency.network_project.outputs.project_id
+    },
+    {
+      bindings = {
+        for project_role in [
+          "roles/viewer",
+        ] :
+        project_role => [
+          "group:engineering@${local.gcp_workspace_domain_name}"
+        ]
+      }
+      project = dependency.network_project.outputs.project_id
+    },
+    {
+      bindings = {
+        for project_role in [
+          "roles/dns.admin"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.service_accounts_map["external-dns"].email}"
+        ]
+      }
+      project = dependency.network_project.outputs.project_id
+    },
+    {
+      bindings = {
+        for project_role in [
+          "roles/dns.admin"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.service_accounts_map["cert-manager"].email}"
+        ]
+      }
+      project = dependency.network_project.outputs.project_id
+    },
     # secret
-    [
-      {
-        key = "${dependency.secret_project.outputs.project_id}-01"
-        bindings = {
-          for project_role in [
-            "roles/secretmanager.admin"
-          ] :
-          project_role => [
-            "group:terraform@${local.gcp_workspace_domain_name}"
-          ]
-        }
-        projects = [dependency.secret_project.outputs.project_id]
-      },
-      {
-        key = "${dependency.secret_project.outputs.project_id}-02"
-        bindings = {
-          for project_role in [
-            "roles/viewer",
-          ] :
-          project_role => [
-            "group:engineering@${local.gcp_workspace_domain_name}"
-          ]
-        }
-        projects = [dependency.secret_project.outputs.project_id]
+    {
+      bindings = {
+        for project_role in [
+          "roles/secretmanager.admin"
+        ] :
+        project_role => [
+          "group:terraform@${local.gcp_workspace_domain_name}"
+        ]
       }
-    ],
-  ])
+      project = dependency.secret_project.outputs.project_id
+    },
+    {
+      bindings = {
+        for project_role in [
+          "roles/viewer"
+        ] :
+        project_role => [
+          "group:engineering@${local.gcp_workspace_domain_name}"
+        ]
+      }
+      project = dependency.secret_project.outputs.project_id
+    },
+    {
+      bindings = {
+        for project_role in [
+          "roles/secretmanager.admin"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.service_accounts_map["external-secrets"].email}"
+        ]
+      }
+      project = dependency.secret_project.outputs.project_id
+    }
+  ]
 }

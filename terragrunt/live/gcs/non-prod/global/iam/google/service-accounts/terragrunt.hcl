@@ -31,52 +31,28 @@ dependency "random_string" {
 }
 
 inputs = {
-  service_accounts = flatten([
-    # compute
-    [
-      {
-        project_id = dependency.iam_project.outputs.project_id
-        name       = "cluster-${dependency.random_string.outputs.result}"
-        project_roles = [
-          "${dependency.compute_project.outputs.project_id}=>roles/logging.logWriter",
-          "${dependency.compute_project.outputs.project_id}=>roles/monitoring.metricWriter",
-          "${dependency.compute_project.outputs.project_id}=>roles/monitoring.viewer",
-          "${dependency.compute_project.outputs.project_id}=>roles/stackdriver.resourceMetadata.writer",
-          "${dependency.compute_project.outputs.project_id}=>roles/storage.objectViewer",
-          "${dependency.compute_project.outputs.project_id}=>roles/artifactregistry.reader",
-          "${dependency.iam_project.outputs.project_id}=>roles/iam.serviceAccountUser",
-          "${dependency.compute_project.outputs.project_id}=>roles/iam.serviceAccountUser",
-        ]
-      },
-      {
-        project_id = dependency.iam_project.outputs.project_id
-        name       = "cert-manager-${dependency.random_string.outputs.result}"
-        project_roles = [
-          "${dependency.network_project.outputs.project_id}=>roles/dns.admin"
-        ]
-      },
-      {
-        project_id = dependency.iam_project.outputs.project_id
-        name       = "external-dns-${dependency.random_string.outputs.result}"
-        project_roles = [
-          "${dependency.network_project.outputs.project_id}=>roles/dns.admin",
-        ]
-      },
-      {
-        project_id = dependency.iam_project.outputs.project_id
-        name       = "external-secrets-${dependency.random_string.outputs.result}"
-        project_roles = [
-          "${dependency.secret_project.outputs.project_id}=>roles/secretmanager.admin"
-        ]
-      },
-      {
-        project_id = dependency.iam_project.outputs.project_id
-        name       = "kubeflow-${dependency.random_string.outputs.result}"
-        project_roles = [
-          "${dependency.data_project.outputs.project_id}=>roles/storage.admin",
-          "${dependency.compute_project.outputs.project_id}=>roles/compute.admin"
-        ]
-      },
-    ]
-  ])
+  service_accounts = [
+    {
+      project    = dependency.iam_project.outputs.project_id
+      account_id = "cluster-${dependency.random_string.outputs.result}"
+    },
+    {
+      project    = dependency.iam_project.outputs.project_id
+      account_id = "cert-manager"
+    },
+    {
+      project    = dependency.iam_project.outputs.project_id
+      account_id = "external-dns"
+    },
+    {
+      project    = dependency.iam_project.outputs.project_id
+      account_id = "external-secrets"
+    },
+  ]
+  service_account_datas = [
+    {
+      project    = dependency.compute_project.outputs.project_id
+      account_id = "service-${dependency.compute_project.outputs.project["number"]}@container-engine-robot.iam.gserviceaccount.com"
+    },
+  ]
 }
