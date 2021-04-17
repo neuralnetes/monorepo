@@ -19,7 +19,7 @@ dependency "service_accounts" {
 }
 
 dependency "service_account_iam_bindings" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-account-iam-bindings"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-account-iam-members"
 }
 
 dependency "project_iam_bindings" {
