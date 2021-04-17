@@ -162,7 +162,7 @@ inputs = {
           "roles/dns.admin"
         ] :
         project_role => [
-          "serviceAccount:${dependency.service_accounts.service_accounts_map["external-dns"].email}"
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["external-dns"].email}"
         ]
       }
       project = dependency.network_project.outputs.project_id
@@ -173,7 +173,7 @@ inputs = {
           "roles/dns.admin"
         ] :
         project_role => [
-          "serviceAccount:${dependency.service_accounts.service_accounts_map["cert-manager"].email}"
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cert-manager"].email}"
         ]
       }
       project = dependency.network_project.outputs.project_id
@@ -207,7 +207,7 @@ inputs = {
           "roles/secretmanager.admin"
         ] :
         project_role => [
-          "serviceAccount:${dependency.service_accounts.service_accounts_map["external-secrets"].email}"
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["external-secrets"].email}"
         ]
       }
       project = dependency.secret_project.outputs.project_id
