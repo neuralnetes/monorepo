@@ -15,8 +15,8 @@ variable "service_account_iam_members" {
 
 locals {
   service_account_iam_members_map = {
-    for service_account_iam_member in var.service_account_iam_members :
-    "${service_account_iam_member["service_account_id"]}/${service_account_iam_member["role"]}/${service_account_iam_member["member"]}" => service_account_iam_member
+    for i, service_account_iam_member in var.service_account_iam_members :
+    i => service_account_iam_member
   }
 }
 

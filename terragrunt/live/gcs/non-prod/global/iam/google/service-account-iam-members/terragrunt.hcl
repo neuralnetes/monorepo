@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/neuralnetes/monorepo.git//terraform/modules/google/service-account-iam-bindings?ref=main"
+  source = "github.com/neuralnetes/monorepo.git//terraform/modules/google/service-account-iam-members?ref=main"
 }
 
 include {
@@ -30,10 +30,6 @@ dependency "service_accounts" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
 }
 
-dependency "service_account_datas" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-account-datas"
-}
-
 dependency "random_string" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
 }
@@ -49,12 +45,9 @@ locals {
 inputs = {
   service_account_iam_bindings = [
     {
-      bindings = {
-        "roles/iam.serviceAccountUser" = [
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cluster-${dependency.random_string.outputs.result}"].email}"
-        ]
-      }
-      service_account = dependency.service_account_datas.outputs.service_account_datas_map["service-${dependency.compute_project.outputs.project_number}"].email
+      service_account_id = "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cluster-${dependency.random_string.outputs.result}"].email}"
+      role               = "roles/iam.serviceAccountUser"
+      member             = "service-${dependency.compute_project.outputs.project_number}@container-engine-robot.iam.gserviceaccount.com"
     }
   ]
 }
