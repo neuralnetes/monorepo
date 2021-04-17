@@ -30,6 +30,10 @@ dependency "service_accounts" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
 }
 
+dependency "service_account_datas" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-account-datas"
+}
+
 dependency "random_string" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
 }
