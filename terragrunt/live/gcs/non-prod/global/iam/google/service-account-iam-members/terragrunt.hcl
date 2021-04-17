@@ -45,7 +45,7 @@ locals {
 inputs = {
   service_account_iam_members = [
     {
-      service_account_id = dependency.service_accounts.outputs.service_accounts_map["cluster-${dependency.random_string.outputs.result}"].email
+      service_account_id = dependency.service_accounts.outputs.service_accounts_map["cluster-${dependency.random_string.outputs.result}"].name
       role               = "roles/iam.serviceAccountUser"
       member             = "serviceAccount:service-${dependency.compute_project.outputs.project_number}@container-engine-robot.iam.gserviceaccount.com"
     }
