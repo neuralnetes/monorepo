@@ -43,7 +43,7 @@ locals {
 }
 
 inputs = {
-  bindings = [
+  project_iam_bindings = [
     # compute
     {
       bindings = {
