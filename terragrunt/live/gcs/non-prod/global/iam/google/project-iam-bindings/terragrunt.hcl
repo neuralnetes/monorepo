@@ -79,7 +79,7 @@ inputs = {
           "roles/artifactregistry.reader",
         ] :
         project_role => [
-          "serviceAccount:${dependency.service_accounts.service_accounts_map["cluster"].email}"
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cluster"].email}"
         ]
       }
       project = dependency.compute_project.outputs.project_id
