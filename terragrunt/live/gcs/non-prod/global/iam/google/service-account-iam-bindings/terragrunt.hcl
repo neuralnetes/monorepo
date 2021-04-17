@@ -51,7 +51,7 @@ inputs = {
     {
       bindings = {
         "roles/iam.serviceAccountUser" = [
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cluster"].email}"
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cluster-${dependency.random_string.outputs.result}"].email}"
         ]
       }
       service_account = dependency.service_account_datas.outputs.service_account_datas_map["service-${dependency.compute_project.outputs.project_number}"].email
