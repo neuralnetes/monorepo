@@ -52,7 +52,7 @@ inputs = {
   service_account_datas = [
     {
       project    = dependency.compute_project.outputs.project_id
-      account_id = "service-${dependency.compute_project.outputs.project["number"]}@container-engine-robot.iam.gserviceaccount.com"
+      account_id = "service-${dependency.compute_project.outputs.project_number}@container-engine-robot.iam.gserviceaccount.com"
     },
   ]
 }
