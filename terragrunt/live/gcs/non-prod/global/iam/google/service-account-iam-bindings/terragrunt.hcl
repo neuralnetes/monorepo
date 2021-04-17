@@ -54,7 +54,7 @@ inputs = {
           "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cluster"].email}"
         ]
       }
-      service_account = dependency.service_accounts.outputs.service_account_datas_map["service-${dependency.compute_project.outputs.project_number}"].email
+      service_account = dependency.service_account_datas.outputs.service_account_datas_map["service-${dependency.compute_project.outputs.project_number}"].email
     }
   ]
 }
