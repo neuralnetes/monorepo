@@ -1,12 +1,12 @@
 resource "google_service_account" "service-accounts" {
-  for_each = local.service_accounts_map
-  project = each.value["project"]
+  for_each   = local.service_accounts_map
+  project    = each.value["project"]
   account_id = each.value["account_id"]
 }
 
 data "google_service_account" "service-account-datas" {
-  for_each = local.service_account_datas_map
-  project = each.value["project"]
+  for_each   = local.service_account_datas_map
+  project    = each.value["project"]
   account_id = each.value["account_id"]
 }
 
