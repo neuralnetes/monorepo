@@ -46,11 +46,11 @@ inputs = {
   container_clusters = [
     {
       cluster_autoscaling = {
-        autoscaling_profile = "BALANCED"
         enabled             = true
-        max_cpu_cores       = 8
-        max_memory_gb       = 32
+        autoscaling_profile = "BALANCED"
+        max_cpu_cores       = 4
         min_cpu_cores       = 0
+        max_memory_gb       = 16
         min_memory_gb       = 0
       }
       firewall_inbound_ports = [
