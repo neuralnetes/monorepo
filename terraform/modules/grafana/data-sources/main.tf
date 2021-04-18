@@ -3,9 +3,12 @@ resource "grafana_data_source" "github_data_sources" {
   type     = "github"
   name     = each.value["name"]
   json_data {
-    access_token         = each.value["json_data"]["access_token"]
-    default_organization = each.value["json_data"]["default_organization"]
-    default_repository   = each.value["json_data"]["default_repository"]
+    owner      = each.value["json_data"]["owner"]
+    repository = each.value["json_data"]["repository"]
+  }
+
+  secure_json_data {
+    access_token = each.value["secure_json_data"]["access_token"]
   }
 }
 

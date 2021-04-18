@@ -31,9 +31,11 @@ inputs = {
     {
       name = "github-${dependency.random_string.outputs.result}"
       json_data = {
-        access_token         = get_env("GITHUB_TOKEN")
-        default_organization = get_env("GITHUB_OWNER")
-        default_repository   = reverse(split("/", get_env("GITHUB_REPOSITORY")))[0]
+        owner      = get_env("GITHUB_OWNER")
+        repository = reverse(split("/", get_env("GITHUB_REPOSITORY")))[0]
+      }
+      secure_json_data = {
+        access_token = get_env("GITHUB_TOKEN")
       }
     }
   ]
