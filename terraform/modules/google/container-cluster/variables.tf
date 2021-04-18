@@ -1,3 +1,4 @@
+# required
 variable "cluster_autoscaling" {
   type = object({
     enabled             = bool
@@ -9,27 +10,8 @@ variable "cluster_autoscaling" {
   })
 }
 
-variable "create_service_account" {
-  type    = bool
-  default = false
-}
-
-variable "enable_private_nodes" {
-  type    = bool
-  default = true
-}
-
-variable "firewall_inbound_ports" {
-  type = list(string)
-}
-
 variable "identity_namespace" {
   type = string
-}
-
-variable "initial_node_count" {
-  type    = number
-  default = 1
 }
 
 variable "ip_range_pods" {
@@ -38,21 +20,6 @@ variable "ip_range_pods" {
 
 variable "ip_range_services" {
   type = string
-}
-
-variable "kubernetes_version" {
-  type    = string
-  default = "latest"
-}
-
-variable "master_authorized_networks" {
-  type    = list(object({ cidr_block = string, display_name = string }))
-  default = []
-}
-
-variable "master_ipv4_cidr_block" {
-  type    = string
-  default = "192.168.0.0/28"
 }
 
 variable "name" {
@@ -69,6 +36,63 @@ variable "network_project_id" {
 
 variable "node_pools" {
   type = list(map(string))
+}
+
+variable "project_id" {
+  type = string
+}
+
+variable "region" {
+  type = string
+}
+
+variable "service_account" {
+  type = string
+}
+
+variable "subnetwork" {
+  type = string
+}
+
+# optional
+variable "add_cluster_firewall_rules" {
+  type    = bool
+  default = true
+}
+
+variable "create_service_account" {
+  type    = bool
+  default = false
+}
+
+variable "enable_private_nodes" {
+  type    = bool
+  default = true
+}
+
+variable "firewall_inbound_ports" {
+  type    = list(string)
+  default = []
+}
+
+variable "initial_node_count" {
+  type    = number
+  default = 1
+}
+
+variable "kubernetes_version" {
+  type    = string
+  default = "latest"
+}
+
+variable "master_authorized_networks" {
+  type    = list(object({ cidr_block = string, display_name = string }))
+  default = []
+}
+
+variable "master_ipv4_cidr_block" {
+  type    = string
+  default = "192.168.0.0/28"
 }
 
 variable "node_pools_oauth_scopes" {
@@ -88,14 +112,6 @@ variable "node_pools_tags" {
   }
 }
 
-variable "project_id" {
-  type = string
-}
-
-variable "region" {
-  type = string
-}
-
 variable "regional" {
   type    = bool
   default = false
@@ -104,14 +120,6 @@ variable "regional" {
 variable "remove_default_node_pool" {
   type    = bool
   default = true
-}
-
-variable "service_account" {
-  type = string
-}
-
-variable "subnetwork" {
-  type = string
 }
 
 variable "zones" {

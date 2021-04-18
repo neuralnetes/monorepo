@@ -1,5 +1,6 @@
 variable "container_clusters" {
   type = list(object({
+    add_cluster_firewall_rules = bool
     cluster_autoscaling = object({
       enabled             = bool
       autoscaling_profile = string
