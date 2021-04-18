@@ -1,3 +1,13 @@
+variable "cluster_autoscaling" {
+  type = object({
+    enabled       = bool
+    max_cpu_cores = number
+    max_memory_gb = number
+    min_cpu_cores = number
+    min_memory_gb = number
+  })
+}
+
 variable "create_service_account" {
   type    = bool
   default = false
@@ -10,6 +20,15 @@ variable "enable_private_nodes" {
 
 variable "firewall_inbound_ports" {
   type = list(string)
+}
+
+variable "identity_namespace" {
+  type = string
+}
+
+variable "initial_node_count" {
+  type    = number
+  default = 1
 }
 
 variable "ip_range_pods" {
@@ -97,8 +116,4 @@ variable "subnetwork" {
 variable "zones" {
   type    = list(string)
   default = []
-}
-
-variable "identity_namespace" {
-  type = string
 }
