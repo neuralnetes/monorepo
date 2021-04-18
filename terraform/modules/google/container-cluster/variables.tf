@@ -1,10 +1,7 @@
 variable "cluster_autoscaling" {
   type = object({
-    enabled       = bool
-    max_cpu_cores = number
-    max_memory_gb = number
-    min_cpu_cores = number
-    min_memory_gb = number
+    enabled             = bool
+    autoscaling_profile = string
   })
 }
 
