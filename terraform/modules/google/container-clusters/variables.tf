@@ -3,6 +3,10 @@ variable "container_clusters" {
     cluster_autoscaling = object({
       enabled             = bool
       autoscaling_profile = string
+      min_cpu_cores       = number
+      max_cpu_cores       = number
+      min_memory_gb       = number
+      max_memory_gb       = number
     })
     firewall_inbound_ports = list(string)
     identity_namespace     = string
