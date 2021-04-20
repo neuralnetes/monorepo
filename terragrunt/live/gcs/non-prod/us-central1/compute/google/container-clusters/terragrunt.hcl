@@ -50,9 +50,9 @@ inputs = {
         enabled             = true
         autoscaling_profile = "BALANCED"
         max_cpu_cores       = 4
-        min_cpu_cores       = 0
+        min_cpu_cores       = 1
         max_memory_gb       = 16
-        min_memory_gb       = 0
+        min_memory_gb       = 1
       }
       firewall_inbound_ports = [
         "443",
@@ -106,13 +106,7 @@ inputs = {
       }
       node_pools_oauth_scopes = {
         all = [
-          "https://www.googleapis.com/auth/bigquery",
-          "https://www.googleapis.com/auth/cloud-platform",
-          "https://www.googleapis.com/auth/devstorage.full_control",
-          "https://www.googleapis.com/auth/logging.write",
-          "https://www.googleapis.com/auth/monitoring",
-          "https://www.googleapis.com/auth/ndev.clouddns.readwrite",
-          "https://www.googleapis.com/auth/sqlservice.admin",
+          "https://www.googleapis.com/auth/cloud-platform"
         ]
       }
       project_id         = dependency.compute_project.outputs.project_id
