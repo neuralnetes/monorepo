@@ -100,7 +100,6 @@ variable "node_pools_oauth_scopes" {
   default = {
     all = [
       "https://www.googleapis.com/auth/cloud-platform",
-      "https://www.googleapis.com/auth/ndev.clouddns.readwrite"
     ]
   }
 }

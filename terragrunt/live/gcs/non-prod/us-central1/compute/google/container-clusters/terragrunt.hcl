@@ -106,8 +106,13 @@ inputs = {
       }
       node_pools_oauth_scopes = {
         all = [
+          "https://www.googleapis.com/auth/bigquery",
           "https://www.googleapis.com/auth/cloud-platform",
-          "https://www.googleapis.com/auth/ndev.clouddns.readwrite"
+          "https://www.googleapis.com/auth/devstorage.full_control",
+          "https://www.googleapis.com/auth/logging.write",
+          "https://www.googleapis.com/auth/monitoring",
+          "https://www.googleapis.com/auth/ndev.clouddns.readwrite",
+          "https://www.googleapis.com/auth/sqlservice.admin",
         ]
       }
       project_id         = dependency.compute_project.outputs.project_id
