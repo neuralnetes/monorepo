@@ -31,30 +31,18 @@ inputs = {
   network_name = dependency.vpc.outputs.network_name
   subnets = [
     {
-      subnet_name = "internal-https-loadbalancer-${dependency.random_string.outputs.result}"
-      subnet_ip = cidrsubnet(
-        local.cidr_block,
-        local.cidr_subnetwork_width_delta,
-        0 * (1 + local.cidr_subnetwork_spacing)
-      )
-      subnet_region = local.subnet_region
-      description   = "internal-https-loadbalancer-${dependency.random_string.outputs.result}"
-      purpose       = "INTERNAL_HTTPS_LOAD_BALANCER"
-      role          = "ACTIVE"
-    },
-    {
       subnet_name = "cluster-${dependency.random_string.outputs.result}"
       subnet_ip = cidrsubnet(
         local.cidr_block,
         local.cidr_subnetwork_width_delta,
-        1
+        0 * (1 + local.cidr_subnetwork_spacing)
       )
       subnet_region             = local.subnet_region
       subnet_private_access     = "true"
       subnet_flow_logs          = "true"
       subnet_flow_logs_metadata = "INCLUDE_ALL_METADATA"
       description               = "cluster-${dependency.random_string.outputs.result}"
-    },
+    }
   ]
   secondary_ranges = {
     "cluster-${dependency.random_string.outputs.result}" = [

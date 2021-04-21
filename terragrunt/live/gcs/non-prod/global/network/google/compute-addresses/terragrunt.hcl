@@ -35,7 +35,6 @@ inputs = {
     {
       project      = dependency.network_project.outputs.project_id
       name         = "istio-ingressgateway-${local.region}-${dependency.vpc.outputs.network["name"]}"
-      purpose      = "SHARED_LOADBALANCER_VIP"
       address_type = "INTERNAL"
       region       = local.region
       subnetwork   = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"]["id"]

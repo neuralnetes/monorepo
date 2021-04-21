@@ -3,7 +3,7 @@ resource "google_compute_address" "regional_addresses" {
   for_each     = local.regional_addresses_map
   project      = each.value["project"]
   name         = each.value["name"]
-  purpose      = each.value["purpose"]
+  purpose      = lookup(each.value, "purpose", null)
   address_type = each.value["address_type"]
   subnetwork   = each.value["subnetwork"]
   region       = each.value["region"]
