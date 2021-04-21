@@ -100,9 +100,7 @@ inputs = {
         }
       ]
       node_pools_tags = {
-        all = [
-          "private",
-        ]
+        all = []
       }
       node_pools_oauth_scopes = {
         all = [
