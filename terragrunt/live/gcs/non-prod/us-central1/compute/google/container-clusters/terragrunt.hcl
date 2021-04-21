@@ -81,7 +81,7 @@ inputs = {
         {
           machine_type = "e2-standard-4"
           max_count    = 10
-          min_count    = 5
+          min_count    = 1
           name         = "cluster-${dependency.random_string.outputs.result}-cpu-01"
           preemptible  = true
         },
@@ -108,7 +108,7 @@ inputs = {
       project_id               = dependency.compute_project.outputs.project_id
       region                   = "us-central1"
       regional                 = false
-      remove_default_node_pool = false
+      remove_default_node_pool = true
       service_account          = dependency.service_accounts.outputs.service_accounts_map["cluster-${dependency.random_string.outputs.result}"].email
       subnetwork               = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].name
       zones                    = ["us-central1-a"]

@@ -1,4 +1,10 @@
 variable "path" {
-  description = "a kustomize directory, it must contain a kustomization.yaml file."
-  type        = string
+  type = string
+}
+
+variable "kustomize_options" {
+  type = map(string)
+  default = {
+    load_restrictor = "none"
+  }
 }

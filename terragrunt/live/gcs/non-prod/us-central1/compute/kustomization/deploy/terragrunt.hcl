@@ -26,7 +26,7 @@ generate "kustomization_provider" {
       required_providers {
         kustomization = {
           source = "kbst/kustomization"
-          version = "0.4.3"
+          version = "0.5.0"
         }
       }
     }
@@ -37,5 +37,5 @@ EOF
 }
 
 inputs = {
-  path = "${get_env("GITHUB_WORKSPACE")}/kustomize/manifests/deploy/overlays/compute"
+  path = "git::https://github.com/neuralnetes/monorepo.git//kustomize/manifests/deploy/overlays/compute?ref=main"
 }
