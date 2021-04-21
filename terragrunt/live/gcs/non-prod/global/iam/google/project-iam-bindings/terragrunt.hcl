@@ -71,6 +71,7 @@ inputs = {
     {
       bindings = {
         for project_role in [
+          "roles/compute.admin",
           "roles/logging.logWriter",
           "roles/monitoring.metricWriter",
           "roles/monitoring.viewer",

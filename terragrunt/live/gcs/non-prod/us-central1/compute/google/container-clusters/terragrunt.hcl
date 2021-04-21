@@ -62,6 +62,8 @@ inputs = {
         "15017",
         "8080"
       ]
+      identity_namespace = "${dependency.compute_project.outputs.project_id}.svc.id.goog"
+      initial_node_count = 1
       ip_range_services  = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[0].range_name
       ip_range_pods      = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[1].range_name
       kubernetes_version = "latest"
@@ -77,21 +79,15 @@ inputs = {
       network_project_id     = dependency.vpc.outputs.project_id
       node_pools = [
         {
-          disk_size_gb = 100
-          disk_type    = "pd-standard"
-          image_type   = "COS"
           machine_type = "e2-standard-4"
           max_count    = 10
-          min_count    = 1
+          min_count    = 2
           name         = "cluster-${dependency.random_string.outputs.result}-cpu-01"
           preemptible  = true
         },
         {
           accelerator_count = 1
           accelerator_type  = "nvidia-tesla-t4"
-          disk_size_gb      = 100
-          disk_type         = "pd-standard"
-          image_type        = "COS"
           machine_type      = "n1-standard-4"
           max_count         = 1
           min_count         = 0
@@ -100,20 +96,22 @@ inputs = {
         }
       ]
       node_pools_tags = {
-        all = []
+        all = [
+          "private"
+        ]
       }
       node_pools_oauth_scopes = {
         all = [
           "https://www.googleapis.com/auth/cloud-platform"
         ]
       }
-      project_id         = dependency.compute_project.outputs.project_id
-      region             = "us-central1"
-      regional           = false
-      service_account    = dependency.service_accounts.outputs.service_accounts_map["cluster-${dependency.random_string.outputs.result}"].email
-      subnetwork         = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].name
-      zones              = ["us-central1-a"]
-      identity_namespace = "${dependency.compute_project.outputs.project_id}.svc.id.goog"
+      project_id               = dependency.compute_project.outputs.project_id
+      region                   = "us-central1"
+      regional                 = false
+      remove_default_node_pool = true
+      service_account          = dependency.service_accounts.outputs.service_accounts_map["cluster-${dependency.random_string.outputs.result}"].email
+      subnetwork               = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].name
+      zones                    = ["us-central1-a"]
     }
   ]
 }
