@@ -47,7 +47,7 @@ inputs = {
     {
       add_cluster_firewall_rules = true
       cluster_autoscaling = {
-        enabled             = true
+        enabled             = false
         autoscaling_profile = "BALANCED"
         max_cpu_cores       = 4
         min_cpu_cores       = 1
@@ -81,7 +81,7 @@ inputs = {
         {
           machine_type = "e2-standard-4"
           max_count    = 10
-          min_count    = 2
+          min_count    = 5
           name         = "cluster-${dependency.random_string.outputs.result}-cpu-01"
           preemptible  = true
         },
