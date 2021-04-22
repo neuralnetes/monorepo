@@ -46,16 +46,18 @@ locals {
 inputs = {
   mysqls = [
     {
-      database_version                     = "MYSQL_8_0"
-      name                                 = "cloud-sql-${dependency.random_string.outputs.result}"
-      project_id                           = dependency.data_project.outputs.project_id
-      region                               = local.region
-      tier                                 = "db-f1-micro"
-      zone                                 = local.zone
-      ip_configuration_private_network     = dependency.vpc.outputs.network["id"]
-      ip_configuration_ipv4_enabled        = true
-      ip_configuration_authorized_networks = []
-      ip_configuration_require_ssl         = true
+      database_version                 = "MYSQL_8_0"
+      name                             = "cloud-sql-${dependency.random_string.outputs.result}"
+      project_id                       = dependency.data_project.outputs.project_id
+      region                           = local.region
+      tier                             = "db-f1-micro"
+      zone                             = local.zone
+      ip_configuration_private_network = dependency.vpc.outputs.network["id"]
+      ip_configuration_ipv4_enabled    = true
+      ip_configuration_authorized_networks = [
+
+      ]
+      ip_configuration_require_ssl = true
     }
   ]
 }

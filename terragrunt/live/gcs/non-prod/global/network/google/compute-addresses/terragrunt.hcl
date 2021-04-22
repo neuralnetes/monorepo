@@ -36,6 +36,7 @@ inputs = {
       project      = dependency.network_project.outputs.project_id
       name         = "istio-ingressgateway-${local.region}-${dependency.vpc.outputs.network["name"]}"
       address_type = "INTERNAL"
+      purpose      = "GCE_ENDPOINT"
       region       = local.region
       subnetwork   = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"]["id"]
     }
