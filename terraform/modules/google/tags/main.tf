@@ -1,5 +1,5 @@
-data "null_data_source" "tags" {
-  inputs = {
+locals {
+  tags_map = {
     random_string       = var.random_string
     owner               = var.owner
     public              = "public"
