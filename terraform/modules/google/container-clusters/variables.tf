@@ -10,7 +10,6 @@ variable "container_clusters" {
       max_memory_gb       = number
     })
     firewall_inbound_ports = list(string)
-    identity_namespace     = string
     initial_node_count     = number
     ip_range_pods          = string
     ip_range_services      = string

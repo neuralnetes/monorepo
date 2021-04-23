@@ -37,6 +37,7 @@ inputs = {
     "dataflow.googleapis.com",
     "ml.googleapis.com",
     "servicemanagement.googleapis.com",
+    "iam.googleapis.com"
   ]
   domain             = local.gcp_workspace_domain_name
   shared_vpc         = dependency.vpc.outputs.project_id

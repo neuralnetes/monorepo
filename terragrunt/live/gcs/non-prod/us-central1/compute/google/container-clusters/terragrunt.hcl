@@ -42,12 +42,16 @@ dependency "random_string" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
 }
 
+dependency "tags" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/tags"
+}
+
 inputs = {
   container_clusters = [
     {
       add_cluster_firewall_rules = true
       cluster_autoscaling = {
-        enabled             = false
+        enabled             = true
         autoscaling_profile = "BALANCED"
         max_cpu_cores       = 4
         min_cpu_cores       = 1
@@ -56,13 +60,14 @@ inputs = {
       }
       firewall_inbound_ports = [
         "443",
-        "10250",
         "6443",
+        "8080",
+        "8443",
+        "9443",
+        "10250",
         "15014",
-        "15017",
-        "8080"
+        "15017"
       ]
-      identity_namespace = "${dependency.compute_project.outputs.project_id}.svc.id.goog"
       initial_node_count = 1
       ip_range_services  = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[0].range_name
       ip_range_pods      = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[1].range_name
@@ -96,9 +101,7 @@ inputs = {
         }
       ]
       node_pools_tags = {
-        all = [
-          "private"
-        ]
+        all = []
       }
       node_pools_oauth_scopes = {
         all = [

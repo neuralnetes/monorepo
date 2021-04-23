@@ -32,29 +32,29 @@ EOF
 
 inputs = {
   github_data_sources = [
-    {
-      name = "github-${dependency.random_string.outputs.result}"
-      json_data = {
-        owner      = get_env("GITHUB_OWNER")
-        repository = reverse(split("/", get_env("GITHUB_REPOSITORY")))[0]
-      }
-      secure_json_data = {
-        access_token = get_env("GITHUB_TOKEN")
-      }
-    }
+    //    {
+    //      name = "github-${dependency.random_string.outputs.result}"
+    //      json_data = {
+    //        owner      = get_env("GITHUB_OWNER")
+    //        repository = reverse(split("/", get_env("GITHUB_REPOSITORY")))[0]
+    //      }
+    //      secure_json_data = {
+    //        access_token = get_env("GITHUB_TOKEN")
+    //      }
+    //    }
   ]
-  //  stackdriver_data_sources = [
-  //    {
-  //      name = "stackdriver-${dependency.compute_project.outputs.project_id}"
-  //      json_data = {
-  //        token_uri = "https://oauth2.googleapis.com/token"
-  //        authentication_type = "jwt"
-  //        default_project = "default-project"
-  //        client_email = "client-email@default-project.iam.gserviceaccount.com"
-  //      }
-  //      secure_json_data = {
-  //        private_key = "-----BEGIN PRIVATE KEY-----\nprivate-key\n-----END PRIVATE KEY-----\n"
-  //      }
-  //    }
-  //  ]
+  stackdriver_data_sources = [
+    //    {
+    //      name = "stackdriver-${dependency.compute_project.outputs.project_id}"
+    //      json_data = {
+    //        token_uri = "https://oauth2.googleapis.com/token"
+    //        authentication_type = "jwt"
+    //        default_project = "default-project"
+    //        client_email = "client-email@default-project.iam.gserviceaccount.com"
+    //      }
+    //      secure_json_data = {
+    //        private_key = "-----BEGIN PRIVATE KEY-----\nprivate-key\n-----END PRIVATE KEY-----\n"
+    //      }
+    //    }
+  ]
 }

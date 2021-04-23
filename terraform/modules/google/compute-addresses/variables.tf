@@ -1,5 +1,12 @@
 variable "regional_addresses" {
-  type    = list(map(string))
+  type = list(object({
+    project      = string
+    name         = string
+    purpose      = string
+    address_type = string
+    subnetwork   = string
+    region       = string
+  }))
   default = []
 }
 

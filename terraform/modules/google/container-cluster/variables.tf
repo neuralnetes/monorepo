@@ -10,10 +10,6 @@ variable "cluster_autoscaling" {
   })
 }
 
-variable "identity_namespace" {
-  type = string
-}
-
 variable "ip_range_pods" {
   type = string
 }
