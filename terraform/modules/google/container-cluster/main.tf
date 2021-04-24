@@ -20,7 +20,7 @@ module "container-cluster" {
   region                     = var.region
   regional                   = var.regional
   remove_default_node_pool   = var.remove_default_node_pool
-  service_account            = var.service_account
+//  service_account            = var.service_account
   subnetwork                 = var.subnetwork
   zones                      = var.zones
 }

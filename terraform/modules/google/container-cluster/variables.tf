@@ -58,7 +58,7 @@ variable "add_cluster_firewall_rules" {
 
 variable "create_service_account" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "enable_private_nodes" {
