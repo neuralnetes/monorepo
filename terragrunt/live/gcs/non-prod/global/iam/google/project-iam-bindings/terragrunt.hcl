@@ -68,22 +68,6 @@ inputs = {
       }
       project = dependency.compute_project.outputs.project_id
     },
-    {
-      bindings = {
-        for project_role in [
-          "roles/logging.logWriter",
-          "roles/monitoring.metricWriter",
-          "roles/monitoring.viewer",
-          "roles/stackdriver.resourceMetadata.writer",
-          "roles/storage.objectViewer",
-          "roles/artifactregistry.reader",
-        ] :
-        project_role => [
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cluster-${dependency.random_string.outputs.result}"].email}"
-        ]
-      }
-      project = dependency.compute_project.outputs.project_id
-    },
     # data
     {
       bindings = {

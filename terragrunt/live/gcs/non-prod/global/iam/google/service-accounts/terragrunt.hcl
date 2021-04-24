@@ -35,10 +35,6 @@ inputs = {
   service_accounts = [
     {
       project    = dependency.iam_project.outputs.project_id
-      account_id = "cluster-${dependency.random_string.outputs.result}"
-    },
-    {
-      project    = dependency.iam_project.outputs.project_id
       account_id = "cert-manager"
     },
     {
