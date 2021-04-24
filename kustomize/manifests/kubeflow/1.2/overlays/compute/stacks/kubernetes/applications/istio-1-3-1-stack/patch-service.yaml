@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: istio-ingressgateway
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: compute-inhn.neuralnetes.com.
+    external-dns.alpha.kubernetes.io/hostname: compute-skrg.neuralnetes.com.
     networking.gke.io/load-balancer-type: "Internal"
 spec:
   type: LoadBalancer

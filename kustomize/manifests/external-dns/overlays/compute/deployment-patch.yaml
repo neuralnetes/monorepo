@@ -11,6 +11,6 @@ spec:
         args:
         - --source=service
         - --provider=google
-        - --google-project=network-inhn
+        - --google-project=network-skrg
         - --registry=txt
-        - --txt-owner-id=external-dns-compute-inhn
+        - --txt-owner-id=external-dns-compute-skrg
