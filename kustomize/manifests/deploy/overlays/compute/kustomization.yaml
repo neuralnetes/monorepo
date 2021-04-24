@@ -1,6 +1,6 @@
 namespace: flux-system
 resources:
 - git::https://github.com/neuralnetes/monorepo.git//kustomize/manifests/namespace/flux-system?ref=main
-- git::https://github.com/neuralnetes/monorepo.git//kustomize/manifests/flux-system/baseref=main
+- git::https://github.com/neuralnetes/monorepo.git//kustomize/manifests/flux-system/base?ref=main
 - git::https://github.com/neuralnetes/monorepo.git//kustomize/manifests/flux-git-repository/monorepo?ref=main
 - git::https://github.com/neuralnetes/monorepo.git//kustomize/manifests/flux-kustomization/cluster/overlays/compute?ref=main
