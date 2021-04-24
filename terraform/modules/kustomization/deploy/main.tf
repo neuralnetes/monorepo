@@ -1,5 +1,6 @@
 data "kustomization_build" "root" {
   path = var.path
+  kustomize_options = var.kustomize_options
 }
 
 resource "kustomization_resource" "p0" {
