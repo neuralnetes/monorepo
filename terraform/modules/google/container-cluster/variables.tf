@@ -42,10 +42,6 @@ variable "region" {
   type = string
 }
 
-variable "service_account" {
-  type = string
-}
-
 variable "subnetwork" {
   type = string
 }
@@ -115,6 +111,11 @@ variable "regional" {
 variable "remove_default_node_pool" {
   type    = bool
   default = true
+}
+
+variable "service_account" {
+  type    = string
+  default = ""
 }
 
 variable "zones" {

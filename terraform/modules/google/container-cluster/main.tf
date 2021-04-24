@@ -1,7 +1,6 @@
 module "container-cluster" {
   source                     = "github.com/terraform-google-modules/terraform-google-kubernetes-engine.git//modules/beta-private-cluster?ref=v14.1.0"
   cluster_autoscaling        = var.cluster_autoscaling
-  create_service_account     = var.create_service_account
   enable_private_nodes       = var.enable_private_nodes
   firewall_inbound_ports     = var.firewall_inbound_ports
   initial_node_count         = var.initial_node_count
@@ -20,7 +19,6 @@ module "container-cluster" {
   region                     = var.region
   regional                   = var.regional
   remove_default_node_pool   = var.remove_default_node_pool
-  //  service_account            = var.service_account
-  subnetwork = var.subnetwork
-  zones      = var.zones
+  subnetwork                 = var.subnetwork
+  zones                      = var.zones
 }

@@ -17,7 +17,6 @@ module "container-clusters" {
   project_id                 = each.value["project_id"]
   region                     = each.value["region"]
   regional                   = each.value["regional"]
-  service_account            = each.value["service_account"]
   subnetwork                 = each.value["subnetwork"]
   zones                      = each.value["zones"]
 }

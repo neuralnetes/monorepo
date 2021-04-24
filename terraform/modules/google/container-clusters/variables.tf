@@ -29,7 +29,6 @@ variable "container_clusters" {
     region                   = string
     regional                 = bool
     remove_default_node_pool = bool
-    service_account          = string
     subnetwork               = string
     zones                    = list(string)
   }))
