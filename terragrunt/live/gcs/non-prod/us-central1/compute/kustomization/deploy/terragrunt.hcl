@@ -37,5 +37,5 @@ EOF
 }
 
 inputs = {
-  path = "git::https://github.com/neuralnetes/monorepo.git//kustomize/manifests/deploy/overlays/compute?ref=main"
+  path = "${get_env("GITHUB_WORKSPACE")}/kustomize/manifests/deploy/overlays/compute"
 }
