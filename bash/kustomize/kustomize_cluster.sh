@@ -286,6 +286,14 @@ spec:
 
 EOF
 
+cat <<EOF > "kustomize/manifests/flux-kustomization/cluster/overlays/${COMPUTE_PROJECT}/kustomization.yaml"
+resources:
+- ../../base
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml
+
+EOF
+
 cat <<EOF > "kustomize/manifests/deploy/overlays/${COMPUTE_PROJECT}/kustomization.yaml"
 namespace: flux-system
 resources:
