@@ -3,8 +3,6 @@ kind: Kustomization
 metadata:
   name: monorepo
 spec:
-  dependsOn:
-  - name: flux-system-namespace
   interval: 5m
   path: kustomize/manifests/flux-git-repository/monorepo
   prune: true

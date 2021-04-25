@@ -3,8 +3,6 @@ kind: Kustomization
 metadata:
   name: external-secrets
 spec:
-  dependsOn:
-  - name: namespaces
   interval: 5m
   path: kustomize/manifests/external-secrets/overlays/compute
   prune: true
