@@ -99,7 +99,7 @@ kind: Kustomization
 metadata:
   name: cert-manager
 spec:
-  path: kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER}/common/cert-manager/cert-manager/overlays/self-signed
+  path: kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER}/common/cert-manager/cert-manager/overlays/letsencrypt
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
