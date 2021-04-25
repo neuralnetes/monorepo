@@ -92,6 +92,54 @@ patchesStrategicMerge:
 EOF
 
 # flux-kustomization
+cat <<EOF > "kustomize/manifests/flux-kustomization/external-secrets/overlays/${CLUSTER}/patch-flux-kustomization.yaml"
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: external-secrets
+spec:
+  path: kustomize/manifests/external-secrets/overlays/${CLUSTER}
+EOF
+
+cat <<EOF > "kustomize/manifests/flux-kustomization/external-secrets/overlays/${CLUSTER}/kustomization.yaml"
+resources:
+- ../../base
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml
+EOF
+
+cat <<EOF > "kustomize/manifests/flux-kustomization/external-dns/overlays/${CLUSTER}/patch-flux-kustomization.yaml"
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: external-dns
+spec:
+  path: kustomize/manifests/external-dns/overlays/${CLUSTER}
+EOF
+
+cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${CLUSTER}/kustomization.yaml"
+resources:
+- ../../base
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml
+EOF
+
+cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${CLUSTER}/patch-flux-kustomization.yaml"
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: kubeflow-secrets
+spec:
+  path: kustomize/manifests/secrets/kubeflow/overlays/${CLUSTER}
+EOF
+
+cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${CLUSTER}/kustomization.yaml"
+resources:
+- ../../base
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml
+EOF
+
 cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow/1.3/overlays/${CLUSTER}/patch-flux-kustomization.yaml"
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
