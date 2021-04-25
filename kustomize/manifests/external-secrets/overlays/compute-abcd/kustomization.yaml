@@ -1,5 +1,5 @@
 resources:
 - ../../base
 patchesStrategicMerge:
-- patch-deployment.yaml
 - patch-service-account.yaml
+
