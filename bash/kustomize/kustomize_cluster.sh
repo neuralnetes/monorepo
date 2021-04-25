@@ -7,13 +7,12 @@ PATHS=(
   "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER}/common/dex/overlays/istio"
   "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER}/common/knative/knative-serving-install/base"
   "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER}/common/istio-1-9-0/kubeflow-istio-resources/base"
-  "kustomize/manifests/flux-kustomization/cluster/overlays/${CLUSTER}"
-  "kustomize/manifests/flux-kustomization/namespaces/overlays/${CLUSTER}"
-  "kustomize/manifests/flux-kustomization/cluster-role-binding/overlays/${CLUSTER}"
   "kustomize/manifests/flux-kustomization/external-secrets/overlays/${CLUSTER}"
   "kustomize/manifests/flux-kustomization/external-dns/overlays/${CLUSTER}"
   "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${CLUSTER}"
   "kustomize/manifests/flux-kustomization/kubeflow/1.3/overlays/${CLUSTER}"
+  "kustomize/manifests/flux-kustomization/cluster/overlays/${CLUSTER}"
+  "kustomize/manifests/deploy/overlays/${CLUSTER}"
 )
 
 for path in "${PATHS[@]}"; do
@@ -153,13 +152,9 @@ spec:
   path: kustomize/manifests/flux-kustomization/cluster/overlays/${CLUSTER}
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/cluster/overlays/${CLUSTER}/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/deploy/overlays/${CLUSTER}/kustomization.yaml"
+namespace: flux-system
 resources:
 - ../../base
-- ../../../external-dns/overlays/${CLUSTER}
-- ../../../external-secrets/overlays/${CLUSTER}
-- ../../../secrets/kubeflow/overlays/${CLUSTER}
-- ../../../kubeflow/1.3/overlays/${CLUSTER}
-patchesStrategicMerge:
-- patch-flux-kustomization.yaml
+- ../../../flux-kustomization/cluster/overlays/${CLUSTER}
 EOF
