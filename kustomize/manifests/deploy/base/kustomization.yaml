@@ -1,4 +1,4 @@
 resources:
-- ../../namespaces/base
+- namespace.yaml
 - ../../flux-system/base
 - ../../flux-git-repositories/base
