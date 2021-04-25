@@ -1,0 +1,422 @@
+# cert-manager
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: cert-manager-kube-system-resources
+spec:
+  interval: 11m
+  path: kustomize/manifests/kubeflow/1.3/base/common/cert-manager/cert-manager-kube-system-resources/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: cert-manager-crds
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/common/cert-manager/cert-manager-crds/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: cert-manager
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/common/cert-manager/overlays/self-signed
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# istio
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: istio-crds
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/common/istio-1-9-0/istio-crds/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: istio-namespace
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/common/istio-1-9-0/istio-namespace/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: istio-install
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/common/istio-1-9-0/istio-install/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# oidc-authservice
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: oidc-authservice
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/common/oidc-authservice/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# dex
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: dex
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/common/dex/overlays/istio
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# knative-serving
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: knative-serving-crds
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/common/knative/knative-serving-crds/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: knative-serving-install
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/common/knative/knative-serving-install/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# knative-eventing
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: knative-eventing-crds
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/common/knative/knative-eventing-crds/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: knative-eventing-install
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/common/knative/knative-eventing-install/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# cluster-local-gateway
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: cluster-local-gateway
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/common/istio-1-9-0/cluster-local-gateway/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# kubeflow namespace
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: kubeflow-namespace
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/common/kubeflow-namespace/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# kubeflow roles
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: kubeflow-roles
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/common/kubeflow-roles/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# kubeflow istio resources
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: kubeflow-istio-resources
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/common/istio-1-9-0/kubeflow-istio-resources/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# kubeflow pipelines
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: kubeflow-pipelines
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/apps/pipeline/upstream/env/platform-agnostic-multi-user
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# kfserving
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: kfserving
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/apps/kfserving/upstream/overlays/kubeflow
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# katib
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: katib
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/apps/katib/upstream/installs/katib-with-kubeflow
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# centraldashboard
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: centraldashboard
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/apps/centraldashboard/upstream/overlays/istio
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# admission webhook
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: admission-webhook
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/apps/admission-webhook/upstream/overlays/cert-manager
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# notebook controller
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: jupyter-web-app
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/apps/jupyter/jupyter-web-app/upstream/overlays/istio
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# notebook controller
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: notebook-controller
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/apps/jupyter/notebook-controller/upstream/overlays/kubeflow
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# profiles + kfam
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: profiles
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/apps/profiles/upstream/overlays/kubeflow
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# volumes web app
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: volumes-web-app
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/apps/volumes-web-app/upstream/overlays/istio
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# tensorboard controller
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: tensorboard-controller
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/apps/tensorboard/tensorboard-controller/upstream/overlays/kubeflow
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# tensorboards web app
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: tensorboards-web-app
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/apps/tensorboard/tensorboards-web-app/upstream/overlays/istio
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# tfjob operator
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: tfjob-operator
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/apps/tf-training/upstream/overlays/kubeflow
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# pytorch operator
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: pytorch-operator
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/apps/pytorch-job/upstream/overlays/kubeflow
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# mpi operator
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: mpi-operator
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/apps/mpi-job/upstream/overlays/kubeflow
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# mxnet operator
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: mxnet-operator
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/apps/mxnet-job/upstream/overlays/kubeflow
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# xgboost operator
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: xgboost-operator
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/apps/xgboost-job/upstream/overlays/kubeflow
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+---
+# user namespace
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: user-namespace
+spec:
+  interval: 1m
+  path: kustomize/manifests/kubeflow/1.3/base/common/user-namespace/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
