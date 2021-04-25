@@ -4,3 +4,4 @@ metadata:
   name: external-secrets
 spec:
   path: kustomize/manifests/external-secrets/overlays/compute
+

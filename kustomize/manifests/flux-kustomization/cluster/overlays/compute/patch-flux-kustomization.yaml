@@ -4,3 +4,4 @@ metadata:
   name: cluster
 spec:
   path: kustomize/manifests/flux-kustomization/cluster/overlays/compute
+
