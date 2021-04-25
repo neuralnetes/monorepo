@@ -1,5 +1,5 @@
 data "kustomization_build" "root" {
-  path = var.path
+  path              = var.path
   kustomize_options = var.kustomize_options
 }
 

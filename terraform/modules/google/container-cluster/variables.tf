@@ -49,7 +49,7 @@ variable "subnetwork" {
 # optional
 variable "add_cluster_firewall_rules" {
   type    = bool
-  default = true
+  default = false
 }
 
 variable "create_service_account" {
@@ -99,7 +99,7 @@ variable "node_pools_oauth_scopes" {
 variable "node_pools_tags" {
   type = map(list(string))
   default = {
-    all = ["private"]
+    all = []
   }
 }
 

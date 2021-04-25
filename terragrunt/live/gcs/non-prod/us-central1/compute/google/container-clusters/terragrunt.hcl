@@ -45,7 +45,6 @@ dependency "tags" {
 inputs = {
   container_clusters = [
     {
-      add_cluster_firewall_rules = true
       cluster_autoscaling = {
         enabled             = true
         autoscaling_profile = "BALANCED"
@@ -54,16 +53,6 @@ inputs = {
         max_memory_gb       = 8
         min_memory_gb       = 0
       }
-      firewall_inbound_ports = [
-        "443",
-        "6443",
-        "8080",
-        "8443",
-        "9443",
-        "10250",
-        "15014",
-        "15017"
-      ]
       initial_node_count = 1
       ip_range_services  = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[0].range_name
       ip_range_pods      = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[1].range_name
@@ -97,7 +86,9 @@ inputs = {
         }
       ]
       node_pools_tags = {
-        all = []
+        all = [
+          dependency.tags.outputs.tags_map["private"]
+        ]
       }
       node_pools_oauth_scopes = {
         all = [

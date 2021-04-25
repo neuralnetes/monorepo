@@ -2,7 +2,6 @@ module "container-clusters" {
   for_each                   = local.container_clusters_map
   source                     = "github.com/neuralnetes/monorepo.git//terraform/modules/google/container-cluster?ref=main"
   cluster_autoscaling        = each.value["cluster_autoscaling"]
-  firewall_inbound_ports     = each.value["firewall_inbound_ports"]
   ip_range_pods              = each.value["ip_range_pods"]
   ip_range_services          = each.value["ip_range_services"]
   kubernetes_version         = each.value["kubernetes_version"]
