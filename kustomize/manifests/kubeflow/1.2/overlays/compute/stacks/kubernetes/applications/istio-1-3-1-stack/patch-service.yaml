@@ -9,7 +9,6 @@ metadata:
     networking.gke.io/internal-load-balancer-allow-global-access: "true"
 spec:
   type: LoadBalancer
-  loadBalancerIP: 10.0.0.2
   ports:
     - name: http2
       nodePort: 31380
