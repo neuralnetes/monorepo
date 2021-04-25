@@ -45,6 +45,10 @@ inputs = {
       project    = dependency.iam_project.outputs.project_id
       account_id = "external-secrets"
     },
+    {
+      project    = dependency.iam_project.outputs.project_id
+      account_id = "grafana-cloud"
+    },
   ]
   service_account_datas = []
 }
