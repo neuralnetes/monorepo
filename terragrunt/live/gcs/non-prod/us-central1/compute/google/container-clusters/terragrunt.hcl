@@ -101,7 +101,8 @@ inputs = {
       }
       node_pools_oauth_scopes = {
         all = [
-          "https://www.googleapis.com/auth/cloud-platform"
+          "https://www.googleapis.com/auth/cloud-platform",
+          "https://www.googleapis.com/auth/ndev.clouddns.readwrite"
         ]
       }
       project_id               = dependency.compute_project.outputs.project_id
