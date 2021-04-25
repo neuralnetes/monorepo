@@ -1,12 +1,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: monorepo
+  name: cluster-role-bindings
 spec:
   interval: 5m
-  path: kustomize/manifests/flux-git-repository/monorepo
+  path: kustomize/manifests/cluster-role-bindings/base
   prune: true
   sourceRef:
     name: monorepo
     kind: GitRepository
-  targetNamespace: flux-system

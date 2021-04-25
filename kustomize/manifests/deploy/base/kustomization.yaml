@@ -1,0 +1,4 @@
+resources:
+- ../../namespaces/base
+- ../../flux-system/base
+- ../../flux-git-repositories/base

@@ -1,11 +1,12 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: cluster-admin
+  name: flux-git-repositories
 spec:
   interval: 5m
-  path: kustomize/manifests/cluster-role-binding/cluster-admin/overlays/base
+  path: kustomize/manifests/flux-git-repositories/base
   prune: true
   sourceRef:
     name: monorepo
     kind: GitRepository
+  targetNamespace: flux-system

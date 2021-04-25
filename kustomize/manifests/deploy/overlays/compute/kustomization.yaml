@@ -1,6 +1,4 @@
 namespace: flux-system
 resources:
-- ../../../namespace/flux-system
-- ../../../flux-system/base
-- ../../../flux-git-repository/monorepo
+- ../../base
 - ../../../flux-kustomization/cluster/overlays/compute

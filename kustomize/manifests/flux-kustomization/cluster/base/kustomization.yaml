@@ -1,7 +1,7 @@
 resources:
 - ../../namespaces/base
 - ../../flux-system/base
-- ../../flux-git-repository/base
-- ../../cluster-role-binding/base
+- ../../flux-git-repositories/base
+- ../../cluster-role-bindings/base
 - ../../nvidia-driver-installer/base
 - flux-kustomization.yaml

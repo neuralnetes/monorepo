@@ -144,31 +144,22 @@ patchesStrategicMerge:
 - patch-flux-kustomization.yaml
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/cluster/overlays/${CLUSTER}/flux-kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/cluster/overlays/${CLUSTER}/patch-flux-kustomization.yaml"
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: ${CLUSTER}
+  name: cluster
 spec:
-  interval: 5m
   path: kustomize/manifests/flux-kustomization/cluster/overlays/${CLUSTER}
-  prune: true
-  sourceRef:
-    name: monorepo
-    kind: GitRepository
-  targetNamespace: flux-system
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/cluster/overlays/${CLUSTER}/kustomization.yaml"
 resources:
-- ../../../namespaces/overlays/${CLUSTER}
-- ../../../flux-system/base
-- ../../../flux-git-repository/monorepo
-- ../../../cluster-role-binding/overlays/${CLUSTER}
-- ../../../external-secrets/overlays/${CLUSTER}
+- ../../base
 - ../../../external-dns/overlays/${CLUSTER}
-- ../../../nvidia-driver-installer/gcp
+- ../../../external-secrets/overlays/${CLUSTER}
 - ../../../secrets/kubeflow/overlays/${CLUSTER}
 - ../../../kubeflow/1.3/overlays/${CLUSTER}
-- flux-kustomization.yaml
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml
 EOF
