@@ -60,7 +60,7 @@ spec:
   sourceRef:
     name: monorepo
     kind: GitRepository
-  targetNamespace: istio-system
+  targetNamespace: kubeflow
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
