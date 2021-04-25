@@ -1,11 +1,12 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: kubeflow-namespace
+  name: cluster
 spec:
   interval: 5m
-  path: kustomize/manifests/namespace/kubeflow
+  path: kustomize/manifests/flux-kustomization/cluster/base
   prune: true
   sourceRef:
     name: monorepo
     kind: GitRepository
+  targetNamespace: flux-system

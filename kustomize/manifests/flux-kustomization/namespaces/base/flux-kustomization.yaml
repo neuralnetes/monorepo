@@ -1,10 +1,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: cluster-admin
+  name: namespaces
 spec:
   interval: 5m
-  path: kustomize/manifests/cluster-role-binding/cluster-admin/overlays/compute
+  path: kustomize/manifests/namespaces/base
   prune: true
   sourceRef:
     name: monorepo

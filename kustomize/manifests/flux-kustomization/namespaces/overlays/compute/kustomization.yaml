@@ -1,8 +1,0 @@
-resources:
-- ../../../namespace/flux-system
-- ../../../namespace/cert-manager
-- ../../../namespace/external-dns
-- ../../../namespace/external-secrets
-- ../../../namespace/istio-system
-- ../../../namespace/kubeflow
-- flux-kustomization.yaml

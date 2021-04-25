@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: cluster-admin-system-masters
+  name: cluster-admin
 roleRef:
   name: cluster-admin
   kind: ClusterRole
@@ -9,4 +9,7 @@ roleRef:
 subjects:
 - name: "system:masters"
   kind: Group
+  apiGroup: rbac.authorization.k8s.io
+- name: "terraform@terraform-neuralnetes.iam.gserviceaccount.com"
+  kind: User
   apiGroup: rbac.authorization.k8s.io

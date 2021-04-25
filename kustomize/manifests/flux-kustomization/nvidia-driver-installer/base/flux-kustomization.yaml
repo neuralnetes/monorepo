@@ -1,12 +1,12 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: compute
+  name: nvidia-driver-installer
 spec:
   interval: 5m
-  path: kustomize/manifests/flux-kustomization/cluster/overlays/compute
+  path: kustomize/manifests/nvidia-driver-installer/base
   prune: true
   sourceRef:
     name: monorepo
     kind: GitRepository
-  targetNamespace: flux-system
+  targetNamespace: kube-system

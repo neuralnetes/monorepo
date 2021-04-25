@@ -1,0 +1,4 @@
+resources:
+- ../../namespace/flux-system
+- ../../namespace/external-dns
+- ../../namespace/external-secrets
