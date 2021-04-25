@@ -49,10 +49,10 @@ inputs = {
       cluster_autoscaling = {
         enabled             = true
         autoscaling_profile = "BALANCED"
-        max_cpu_cores       = 4
-        min_cpu_cores       = 1
-        max_memory_gb       = 16
-        min_memory_gb       = 1
+        max_cpu_cores       = 0
+        min_cpu_cores       = 0
+        max_memory_gb       = 0
+        min_memory_gb       = 0
       }
       firewall_inbound_ports = [
         "443",
@@ -82,7 +82,7 @@ inputs = {
         {
           machine_type = "e2-standard-4"
           max_count    = 10
-          min_count    = 1
+          min_count    = 3
           name         = "cluster-${dependency.random_string.outputs.result}-cpu-01"
           preemptible  = true
         },
