@@ -1,6 +1,10 @@
 #!/bin/bash
 CLUSTER=$1
 PATHS=(
+  "kustomize/manifests/external-secrets/overlays/${CLUSTER}"
+  "kustomize/manifests/external-dns/overlays/${CLUSTER}"
+  "kustomize/manifests/secrets/kubeflow/overlays/${CLUSTER}"
+  "kustomize/manifests/external-secrets/overlays/${CLUSTER}"
   "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER}/common/cert-manager/cert-manager/overlays/letsencrypt"
   "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER}/common/istio-1-9-0/istio-install/base"
   "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER}/common/oidc-authservice/base"
