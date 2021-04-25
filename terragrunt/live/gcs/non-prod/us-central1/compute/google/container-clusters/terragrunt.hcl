@@ -49,9 +49,9 @@ inputs = {
       cluster_autoscaling = {
         enabled             = true
         autoscaling_profile = "BALANCED"
-        max_cpu_cores       = 0
+        max_cpu_cores       = 2
         min_cpu_cores       = 0
-        max_memory_gb       = 0
+        max_memory_gb       = 8
         min_memory_gb       = 0
       }
       firewall_inbound_ports = [
