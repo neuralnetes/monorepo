@@ -1,0 +1,5 @@
+namespace: knative-serving
+resources:
+- ../../../../../../../kubeflow/1.2/base/knative/installs/generic
+patchesStrategicMerge:
+- patch-config-map.yaml

@@ -4,7 +4,7 @@ metadata:
   name: istio-ingressgateway
   annotations:
     beta.cloud.google.com/backend-config: null
-    external-dns.alpha.kubernetes.io/hostname: compute-skrg.network-skrg.neuralnetes.com.
+    external-dns.alpha.kubernetes.io/hostname: '*.network-skrg.neuralnetes.com.'
     networking.gke.io/load-balancer-type: "Internal"
     networking.gke.io/internal-load-balancer-allow-global-access: "true"
 spec:
