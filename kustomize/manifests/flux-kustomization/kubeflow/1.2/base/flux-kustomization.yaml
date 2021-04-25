@@ -49,8 +49,6 @@ metadata:
 spec:
   dependsOn:
   - name: kubeflow-namespaces
-  - name: istio-stack
-  - name: istio
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/cluster-local-gateway-1-3-1
   prune: true
@@ -96,7 +94,6 @@ metadata:
 spec:
   dependsOn:
   - name: kubeflow-namespaces
-  - name: cert-manager-crds
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/cert-manager-kube-system-resources
   prune: true
@@ -112,8 +109,6 @@ metadata:
 spec:
   dependsOn:
   - name: kubeflow-namespaces
-  - name: cert-manager-crds
-  - name: cert-manager-kube-system-resources
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/cert-manager
   prune: true
@@ -129,10 +124,6 @@ metadata:
 spec:
   dependsOn:
   - name: kubeflow-namespaces
-  - name: cert-manager
-  - name: istio-stack
-  - name: istio
-  - name: cluster-local-gateway
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/metacontroller/base
   prune: true
@@ -148,10 +139,6 @@ metadata:
 spec:
   dependsOn:
   - name: kubeflow-namespaces
-  - name: cert-manager
-  - name: istio-stack
-  - name: istio
-  - name: cluster-local-gateway
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/oidc-authservice
   prune: true
@@ -167,10 +154,6 @@ metadata:
 spec:
   dependsOn:
   - name: kubeflow-namespaces
-  - name: cert-manager
-  - name: istio-stack
-  - name: istio
-  - name: cluster-local-gateway
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes/application/dex-auth
   prune: true
@@ -186,10 +169,6 @@ metadata:
 spec:
   dependsOn:
   - name: kubeflow-namespaces
-  - name: cert-manager
-  - name: istio-stack
-  - name: istio
-  - name: cluster-local-gateway
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/admission-webhook/bootstrap/overlays/application
   prune: true
@@ -205,10 +184,6 @@ metadata:
 spec:
   dependsOn:
   - name: kubeflow-namespaces
-  - name: cert-manager
-  - name: istio-stack
-  - name: istio
-  - name: cluster-local-gateway
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/spark/spark-operator/overlays/application
   prune: true
@@ -224,10 +199,6 @@ metadata:
 spec:
   dependsOn:
   - name: kubeflow-namespaces
-  - name: cert-manager
-  - name: istio-stack
-  - name: istio
-  - name: cluster-local-gateway
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/stacks/kubernetes
   prune: true
@@ -243,10 +214,6 @@ metadata:
 spec:
   dependsOn:
   - name: kubeflow-namespaces
-  - name: cert-manager
-  - name: istio-stack
-  - name: istio
-  - name: cluster-local-gateway
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/knative/installs/generic
   prune: true
@@ -262,11 +229,6 @@ metadata:
 spec:
   dependsOn:
   - name: kubeflow-namespaces
-  - name: cert-manager
-  - name: istio-stack
-  - name: istio
-  - name: cluster-local-gateway
-  - name: knative
   interval: 5m
   path: kustomize/manifests/kubeflow/1.2/kfserving/installs/generic
   prune: true
