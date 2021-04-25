@@ -68,6 +68,17 @@ inputs = {
       }
       project = dependency.compute_project.outputs.project_id
     },
+    {
+      bindings = {
+        for project_role in [
+          "roles/monitoring.viewer"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["grafana-cloud"].email}"
+        ]
+      }
+      project = dependency.compute_project.outputs.project_id
+    },
     # data
     {
       bindings = {
