@@ -3,7 +3,31 @@ kind: Service
 metadata:
   name: istio-ingressgateway
   annotations:
+    beta.cloud.google.com/backend-config: null
     external-dns.alpha.kubernetes.io/hostname: compute-skrg.network-skrg.neuralnetes.com.
     networking.gke.io/load-balancer-type: "Internal"
+    networking.gke.io/internal-load-balancer-allow-global-access: "true"
 spec:
   type: LoadBalancer
+  ports:
+    - name: http2
+      nodePort: 31380
+      port: 80
+      targetPort: 80
+    - name: https
+      nodePort: 31390
+      port: 443
+    - name: status-port
+      $patch: delete
+    - name: tcp
+      $patch: delete
+    - name: https-kiali
+      $patch: delete
+    - name: https-prometheus
+      $patch: delete
+    - name: https-grafana
+      $patch: delete
+    - name: https-tracing
+      $patch: delete
+    - name: tls
+      $patch: delete
