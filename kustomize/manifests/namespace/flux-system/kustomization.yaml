@@ -1,4 +1,0 @@
-resources:
-- namespace.yaml
-commonLabels:
-  istio-injection: disabled

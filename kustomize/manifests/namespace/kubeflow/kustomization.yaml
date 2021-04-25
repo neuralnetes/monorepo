@@ -1,5 +1,0 @@
-resources:
-- namespace.yaml
-commonLabels:
-  control-plane: kubeflow
-  istio-injection: enabled
