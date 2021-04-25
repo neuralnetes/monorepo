@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: cluster
+  name: compute
 spec:
   interval: 5m
   path: kustomize/manifests/flux-kustomization/cluster/overlays/compute
