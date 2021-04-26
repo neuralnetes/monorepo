@@ -10,7 +10,7 @@ resource "null_resource" "kustomize_cluster" {
   }
 
   triggers = {
-    always            = timestamp()
+    timestamp         = timestamp()
     kustomize_cluster = filebase64sha256("${var.github_workspace}/bash/kustomize/kustomize_cluster.sh")
   }
 }
