@@ -2,6 +2,10 @@ variable "github_workspace" {
   type = string
 }
 
+variable "github_token" {
+  type = string
+}
+
 variable "script_path" {
   type = string
 }
