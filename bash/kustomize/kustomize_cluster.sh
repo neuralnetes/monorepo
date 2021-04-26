@@ -1,7 +1,4 @@
 #!/bin/bash
-COMPUTE_PROJECT=$1
-IAM_PROJECT=$2
-NETWORK_PROJECT=$3
 PATHS=(
   "kustomize/manifests/external-secrets/overlays/${COMPUTE_PROJECT}"
   "kustomize/manifests/external-dns/overlays/${COMPUTE_PROJECT}"
