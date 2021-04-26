@@ -21,11 +21,11 @@ resource "null_resource" "git_commit" {
     interpreter = ["bash", "-c"]
     command     = <<-EOF
       cd ${var.github_workspace} \
-      && git config --global user.email ${var.github_email} \
-      && git config --global user.name ${var.github_user} \
-      && git add kustomize \
-      && git commit -m "cluster kustomize ${var.compute_project}" \
-      && git push
+        && git config --global user.email "${var.github_email}" \
+        && git config --global user.name "${var.github_user}" \
+        && git add kustomize \
+        && git commit -m "cluster kustomize ${var.compute_project}" \
+        && git push
 EOF
     environment = {
       GITHUB_TOKEN = var.github_token
