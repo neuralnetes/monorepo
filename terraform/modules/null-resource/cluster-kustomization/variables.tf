@@ -1,16 +1,8 @@
+variable "cluster_name" {
+  type = string
+}
+
 variable "github_workspace" {
-  type = string
-}
-
-variable "github_user" {
-  type = string
-}
-
-variable "github_email" {
-  type = string
-}
-
-variable "github_token" {
   type = string
 }
 
@@ -24,4 +16,8 @@ variable "iam_project" {
 
 variable "network_project" {
   type = string
+}
+
+variable "triggers" {
+  type = map(string)
 }

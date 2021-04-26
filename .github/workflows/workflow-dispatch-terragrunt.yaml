@@ -19,6 +19,13 @@ jobs:
       uses: actions/checkout@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
+    - id: setup_github_user
+      env:
+        GITHUB_USER: ${{ secrets.GH_USER }}
+        GITHUB_EMAIL: ${{ secrets.GH_EMAIL }}
+      run: |
+        git config --global user.email "${GITHUB_EMAIL}"
+        git config --global user.name "${GITHUB_USER}"
     - id: setup_github_path
       name: run setup github path
       run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH

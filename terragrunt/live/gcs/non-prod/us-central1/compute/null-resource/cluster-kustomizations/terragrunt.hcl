@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/neuralnetes/monorepo.git//terraform/modules/null-resource/cluster-kustomize?ref=main"
+  source = "github.com/neuralnetes/monorepo.git//terraform/modules/null-resource/cluster-kustomizations?ref=main"
 }
 
 include {
@@ -31,11 +31,17 @@ dependency "random_string" {
 }
 
 inputs = {
-  github_workspace = get_env("GITHUB_WORKSPACE")
-  github_token     = get_env("GITHUB_TOKEN")
-  github_user      = get_env("GITHUB_USER")
-  github_email     = get_env("GITHUB_EMAIL")
-  compute_project  = dependency.compute_project.outputs.project_id
-  iam_project      = dependency.iam_project.outputs.project_id
-  network_project  = dependency.network_project.outputs.project_id
+  cluster_kustomizations = [
+    {
+      github_workspace = get_env("GITHUB_WORKSPACE")
+      cluster_name     = dependency.container_clusters.outputs.container_clusters_map["cluster-${dependency.random_string.outputs.result}"].cluster_name
+      compute_project  = dependency.compute_project.outputs.project_id
+      iam_project      = dependency.iam_project.outputs.project_id
+      network_project  = dependency.network_project.outputs.project_id
+      triggers = {
+        timestamp        = timestamp()
+        filebase64sha256 = filebase64sha256("${var.github_workspace}/bash/kustomize/kustomize_cluster.sh")
+      }
+    }
+  ]
 }

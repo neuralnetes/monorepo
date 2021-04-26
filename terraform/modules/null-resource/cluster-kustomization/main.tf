@@ -3,16 +3,13 @@ resource "null_resource" "kustomize_cluster" {
     interpreter = ["bash", "-c"]
     command     = "cd ${var.github_workspace} && bash/kustomize/kustomize_cluster.sh"
     environment = {
+      CLUSTER_NAME    = var.cluster_name
       COMPUTE_PROJECT = var.compute_project
       IAM_PROJECT     = var.iam_project
       NETWORK_PROJECT = var.network_project
     }
   }
-
-  triggers = {
-    timestamp         = timestamp()
-    kustomize_cluster = filebase64sha256("${var.github_workspace}/bash/kustomize/kustomize_cluster.sh")
-  }
+  triggers = var.triggers
 }
 
 resource "null_resource" "git_commit" {
@@ -21,17 +18,10 @@ resource "null_resource" "git_commit" {
     interpreter = ["bash", "-c"]
     command     = <<-EOF
       cd ${var.github_workspace} \
-        && git config --global user.email "${var.github_email}" \
-        && git config --global user.name "${var.github_user}" \
         && git pull \
         && git add kustomize \
-        && git commit -m "cluster kustomize ${var.compute_project}" \
+        && git commit -m "cluster kustomize ${var.cluster_name}" \
         && git push
 EOF
-    environment = {
-      GITHUB_TOKEN = var.github_token
-    }
   }
-
-  triggers = null_resource.kustomize_cluster.triggers
 }

@@ -15,6 +15,8 @@ jobs:
       - id: checkout
         name: run checkout
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
       - id: terragrunt_run_all_apply
         name: run workflow dispatch terragrunt run-all apply
         working-directory: ./bash/github-actions
