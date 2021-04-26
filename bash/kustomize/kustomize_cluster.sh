@@ -126,14 +126,37 @@ EOF
 
 # istio-install
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${COMPUTE_PROJECT}/common/istio-1-9-0/istio-install/base/patch-service.yaml"
+apiVersion: v1
 kind: Service
+metadata:
+  name: istio-ingressgateway
+  namespace: istio-system
+spec:
+  type: LoadBalancer
+
+EOF
+
+cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${COMPUTE_PROJECT}/common/istio-1-9-0/istio-install/base/patch-gateway.yaml"
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-ingressgateway
+spec:
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - '*'
 
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${COMPUTE_PROJECT}/common/istio-1-9-0/istio-install/base/kustomization.yaml"
 resources:
-- ../../../kubeflow/1.3/base/common/istio-1-9-0/istio-install/base
+- ../../../../../../../../kubeflow/1.3/base/common/istio-1-9-0/istio-install/base
 patchesStrategicMerge:
+- patch-gateway.yaml
 - patch-service.yaml
 
 EOF
