@@ -84,13 +84,41 @@ EOF
 
 # cert-manager
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${COMPUTE_PROJECT}/common/cert-manager/cert-manager/overlays/letsencrypt/patch-cluster-issuer.yaml"
+apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: bot+letsencrypt-prod@neuralnetes.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+      - dns01:
+          cloudDNS:
+            project: ${NETWORK_PROJECT}
+
+EOF
+
+cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${COMPUTE_PROJECT}/common/cert-manager/cert-manager/overlays/letsencrypt/cluster-issuer.yaml"
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    email: bot+letsencrypt-staging@neuralnetes.com
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    solvers:
+      - dns01:
+          cloudDNS:
+            project: ${NETWORK_PROJECT}
 
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${COMPUTE_PROJECT}/common/cert-manager/cert-manager/overlays/letsencrypt/kustomization.yaml"
 resources:
-- ../../../kubeflow/1.3/base/common/cert-manager/cert-manager/overlays/letsencrypt
+- ../../../../../../../../../kubeflow/1.3/base/common/cert-manager/cert-manager/overlays/letsencrypt
+- cluster-issuer.yaml
 patchesStrategicMerge:
 - patch-cluster-issuer.yaml
 
