@@ -131,6 +131,8 @@ kind: Service
 metadata:
   name: istio-ingressgateway
   namespace: istio-system
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: '*.${COMPUTE_PROJECT}.${NETWORK_PROJECT}.com.'
 spec:
   type: LoadBalancer
 
