@@ -14,7 +14,7 @@ resource "null_resource" "git_commit" {
   depends_on = [null_resource.kustomize_cluster]
   provisioner "local-exec" {
     interpreter = ["bash", "-c"]
-    command     = "cd ${var.github_workspace} && git commit -am ${var.script_path} && git push"
+    command     = "cd ${var.github_workspace} && git add kustomize && git commit -m 'cluster kustomize ${var.compute_project}' && git push"
     environment = {
       GITHUB_TOKEN = var.github_token
     }

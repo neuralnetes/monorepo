@@ -6,10 +6,6 @@ variable "github_token" {
   type = string
 }
 
-variable "script_path" {
-  type = string
-}
-
 variable "compute_project" {
   type = string
 }

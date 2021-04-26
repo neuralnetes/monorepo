@@ -42,9 +42,9 @@ dependency "container_clusters" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/google/container-clusters"
 }
 
-dependency "kustomization" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/kustomization/deploy"
-}
+//dependency "kustomization" {
+//  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/kustomization/deploy"
+//}
 
 inputs = {
   workload_identity_users = [

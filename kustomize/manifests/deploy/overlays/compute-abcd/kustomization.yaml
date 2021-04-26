@@ -1,5 +1,0 @@
-namespace: flux-system
-resources:
-- ../../base
-- ../../../flux-kustomization/cluster/overlays/compute-abcd
-
