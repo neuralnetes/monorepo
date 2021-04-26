@@ -4,4 +4,3 @@ metadata:
   name: deploy
 spec:
   path: kustomize/manifests/deploy/overlays/compute-abcd
-
