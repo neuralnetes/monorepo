@@ -3,3 +3,4 @@ resources:
 patchesStrategicMerge:
 - patch-gateway.yaml
 - patch-service.yaml
+

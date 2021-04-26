@@ -5,3 +5,4 @@ metadata:
   namespace: istio-system
 spec:
   type: LoadBalancer
+
