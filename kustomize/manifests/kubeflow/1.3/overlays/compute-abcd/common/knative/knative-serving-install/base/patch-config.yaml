@@ -4,4 +4,5 @@ metadata:
   name: config-domain
   namespace: knative-serving
 data:
-  network-abcd.compute-abcd.com: ""
+  compute-abcd.network-abcd.com: ""
+
