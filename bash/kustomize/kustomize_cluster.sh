@@ -13,12 +13,13 @@ PATHS=(
   "kustomize/manifests/kubeflow/1.3/overlays/${COMPUTE_PROJECT}/common/dex/overlays/istio"
   "kustomize/manifests/kubeflow/1.3/overlays/${COMPUTE_PROJECT}/common/knative/knative-serving-install/base"
   "kustomize/manifests/kubeflow/1.3/overlays/${COMPUTE_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base"
+  "kustomize/manifests/deploy/overlays/${COMPUTE_PROJECT}"
   "kustomize/manifests/flux-kustomization/external-secrets/overlays/${COMPUTE_PROJECT}"
   "kustomize/manifests/flux-kustomization/external-dns/overlays/${COMPUTE_PROJECT}"
   "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${COMPUTE_PROJECT}"
   "kustomize/manifests/flux-kustomization/kubeflow/1.3/overlays/${COMPUTE_PROJECT}"
   "kustomize/manifests/flux-kustomization/cluster/overlays/${COMPUTE_PROJECT}"
-  "kustomize/manifests/deploy/overlays/${COMPUTE_PROJECT}"
+  "kustomize/manifests/flux-kustomization/deploy/overlays/${COMPUTE_PROJECT}"
 )
 
 for path in "${PATHS[@]}"; do
@@ -168,6 +169,15 @@ patchesStrategicMerge:
 
 EOF
 
+# deploy
+cat <<EOF > "kustomize/manifests/deploy/overlays/${COMPUTE_PROJECT}/kustomization.yaml"
+namespace: flux-system
+resources:
+- ../../base
+- ../../../flux-kustomization/cluster/overlays/${COMPUTE_PROJECT}
+
+EOF
+
 # flux-kustomization
 cat <<EOF > "kustomize/manifests/flux-kustomization/external-secrets/overlays/${COMPUTE_PROJECT}/patch-flux-kustomization.yaml"
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -294,10 +304,19 @@ patchesStrategicMerge:
 
 EOF
 
-cat <<EOF > "kustomize/manifests/deploy/overlays/${COMPUTE_PROJECT}/kustomization.yaml"
-namespace: flux-system
+cat <<EOF > "kustomize/manifests/flux-kustomization/deploy/overlays/${COMPUTE_PROJECT}/patch-flux-kustomization.yaml"
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: deploy
+spec:
+  path: kustomize/manifests/deploy/overlays/${COMPUTE_PROJECT}
+EOF
+
+cat <<EOF > "kustomize/manifests/flux-kustomization/deploy/overlays/${COMPUTE_PROJECT}/kustomization.yaml"
 resources:
 - ../../base
-- ../../../flux-kustomization/cluster/overlays/${COMPUTE_PROJECT}
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml
 
 EOF
