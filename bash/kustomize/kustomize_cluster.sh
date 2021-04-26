@@ -198,7 +198,7 @@ data:
     enablePasswordDB: true
     staticPasswords:
     - email: user@example.com
-      hash: $2y$12$4K/VkmDd1q1Orb3xAt82zu8gk7Ad6ReFR4LCP9UeYE90NLiN9Df72
+      hash: \$2y\$12\$4K/VkmDd1q1Orb3xAt82zu8gk7Ad6ReFR4LCP9UeYE90NLiN9Df72
       # https://github.com/dexidp/dex/pull/1601/commits
       # FIXME: Use hashFromEnv instead
       username: user
