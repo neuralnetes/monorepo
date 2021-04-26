@@ -23,6 +23,7 @@ resource "null_resource" "git_commit" {
       cd ${var.github_workspace} \
         && git config --global user.email "${var.github_email}" \
         && git config --global user.name "${var.github_user}" \
+        && git pull \
         && git add kustomize \
         && git commit -m "cluster kustomize ${var.compute_project}" \
         && git push
