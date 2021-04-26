@@ -33,6 +33,8 @@ dependency "random_string" {
 inputs = {
   github_workspace = get_env("GITHUB_WORKSPACE")
   github_token     = get_env("GITHUB_TOKEN")
+  github_user      = get_env("GITHUB_USER")
+  github_email     = get_env("GITHUB_EMAIL")
   compute_project  = dependency.compute_project.outputs.project_id
   iam_project      = dependency.iam_project.outputs.project_id
   network_project  = dependency.network_project.outputs.project_id

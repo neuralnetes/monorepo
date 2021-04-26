@@ -50,6 +50,7 @@ jobs:
         GITHUB_OWNER: ${{ github.repository_owner }}
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         GITHUB_USER: ${{ secrets.GH_USER }}
+        GITHUB_EMAIL: ${{ secrets.GH_EMAIL }}
         GRAFANA_AUTH: ${{ secrets.GRAFANA_AUTH }}
         GRAFANA_ORG_ID: ${{ secrets.GRAFANA_ORG_ID }}
         GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
