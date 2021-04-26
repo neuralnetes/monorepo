@@ -1,5 +1,2 @@
 resources:
-- ../../../kubeflow/1.3/base/common/oidc-authservice/base
-patchesStrategicMerge:
-- patch-config.yaml
-
+- ../../../../../../../kubeflow/1.3/base/common/oidc-authservice/base

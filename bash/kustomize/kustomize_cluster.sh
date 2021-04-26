@@ -162,16 +162,14 @@ patchesStrategicMerge:
 EOF
 
 # oidc-authservice
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${COMPUTE_PROJECT}/common/oidc-authservice/base/patch-config.yaml"
-kind: ConfigMap
-
-EOF
+#cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${COMPUTE_PROJECT}/common/oidc-authservice/base/patch-config.yaml"
+#kind: ConfigMap
+#
+#EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${COMPUTE_PROJECT}/common/oidc-authservice/base/kustomization.yaml"
 resources:
-- ../../../kubeflow/1.3/base/common/oidc-authservice/base
-patchesStrategicMerge:
-- patch-config.yaml
+- ../../../../../../../kubeflow/1.3/base/common/oidc-authservice/base
 
 EOF
 
@@ -222,7 +220,13 @@ EOF
 
 # knative-serving-install
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${COMPUTE_PROJECT}/common/knative/knative-serving-install/base/patch-config.yaml"
+apiVersion: v1
 kind: ConfigMap
+metadata:
+  name: config-domain
+  namespace: knative-serving
+data:
+  ${COMPUTE_PROJECT}.${NETWORK_PROJECT}.com: ""
 
 EOF
 
