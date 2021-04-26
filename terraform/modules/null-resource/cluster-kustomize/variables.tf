@@ -2,6 +2,14 @@ variable "github_workspace" {
   type = string
 }
 
+variable "github_user" {
+  type = string
+}
+
+variable "github_email" {
+  type = string
+}
+
 variable "github_token" {
   type = string
 }

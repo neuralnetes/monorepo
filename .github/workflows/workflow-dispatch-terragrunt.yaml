@@ -17,6 +17,7 @@ jobs:
     - id: checkout
       name: run checkout
       uses: actions/checkout@v2
+      token: ${{ secrets.GH_TOKEN }}
     - id: setup_github_path
       name: run setup github path
       run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH
