@@ -9,5 +9,5 @@ spec:
     solvers:
       - dns01:
           cloudDNS:
-            # The ID of the GCP project
             project: network-abcd
+
