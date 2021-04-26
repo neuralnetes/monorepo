@@ -1,4 +1,4 @@
-resource "null_resource" "local_exec" {
+resource "null_resource" "kustomize_cluster" {
   provisioner "local-exec" {
     interpreter = ["bash", "-c"]
     command     = "cd ${var.github_workspace} && bash/kustomize/kustomize_cluster.sh"
@@ -11,7 +11,7 @@ resource "null_resource" "local_exec" {
 }
 
 resource "null_resource" "git_commit" {
-  depends_on = [null_resource.local_exec]
+  depends_on = [null_resource.kustomize_cluster]
   provisioner "local-exec" {
     interpreter = ["bash", "-c"]
     command     = "cd ${var.github_workspace} && git commit -am ${var.script_path} && git push"
