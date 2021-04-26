@@ -236,13 +236,24 @@ EOF
 
 # kubeflow-istio-resources
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${COMPUTE_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base/patch-gateway.yaml"
+apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
+metadata:
+  name: kubeflow-gateway
+spec:
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
 
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${COMPUTE_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base/kustomization.yaml"
 resources:
-- ../../../kubeflow/1.3/common/istio-1-9-0/kubeflow-istio-resources/base
+- ../../../../../../../../kubeflow/1.3/base/common/istio-1-9-0/kubeflow-istio-resources/base
 patchesStrategicMerge:
 - patch-gateway.yaml
 
