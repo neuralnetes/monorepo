@@ -32,4 +32,6 @@ EOF
       GITHUB_TOKEN = var.github_token
     }
   }
+
+  triggers = null_resource.kustomize_cluster.triggers
 }
