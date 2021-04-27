@@ -24,4 +24,5 @@ resource "null_resource" "git_commit" {
         && git push
 EOF
   }
+  triggers = var.triggers
 }
