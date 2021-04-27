@@ -303,7 +303,7 @@ spec:
 
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${CLUSTER_NAME}/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/external-dns/overlays/${CLUSTER_NAME}/kustomization.yaml"
 resources:
 - ../../base
 patchesStrategicMerge:
