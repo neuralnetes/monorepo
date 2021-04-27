@@ -43,6 +43,7 @@ inputs = {
       iam_project      = dependency.iam_project.outputs.project_id
       network_project  = dependency.network_project.outputs.project_id
       triggers = {
+        uuid = uuid()
         timestamp        = timestamp()
         filebase64sha256 = filebase64sha256("${local.github_workspace}/bash/kustomize/kustomize_cluster.sh")
       }
