@@ -19,7 +19,8 @@ jobs:
       uses: actions/checkout@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-    - id: setup_github_user
+    - id: setup_git_config
+      name: run setup git config
       env:
         GITHUB_USER: ${{ secrets.GH_USER }}
         GITHUB_EMAIL: ${{ secrets.GH_EMAIL }}
