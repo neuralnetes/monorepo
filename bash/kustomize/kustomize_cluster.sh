@@ -395,6 +395,12 @@ EOF
 cat <<EOF > "kustomize/manifests/flux-kustomization/cluster/overlays/${CLUSTER_NAME}/kustomization.yaml"
 resources:
 - ../../base
+- ../../../external-secrets/overlays/${CLUSTER_NAME}
+- ../../../external-dns/overlays/${CLUSTER_NAME}
+- ../../../secrets/kubeflow/overlays/${CLUSTER_NAME}
+- ../../../kubeflow/1.3/overlays/${CLUSTER_NAME}
+- ../../../cluster/overlays/${CLUSTER_NAME}
+- ../../../deploy/overlays/${CLUSTER_NAME}
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
 
