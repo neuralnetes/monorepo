@@ -4,5 +4,5 @@ metadata:
   name: config-domain
   namespace: knative-serving
 data:
-  cluster-acdg.network-acdg.com: ""
+  cluster-acdg..com: ""
 

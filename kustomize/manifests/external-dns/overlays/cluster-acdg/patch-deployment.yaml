@@ -11,7 +11,7 @@ spec:
         args:
         - --source=service
         - --provider=google
-        - --google-project=network-acdg
+        - --google-project=
         - --registry=txt
         - --txt-owner-id=external-dns-cluster-acdg
 

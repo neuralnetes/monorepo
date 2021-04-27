@@ -9,5 +9,5 @@ spec:
     solvers:
       - dns01:
           cloudDNS:
-            project: network-acdg
+            project: 
 
