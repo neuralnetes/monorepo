@@ -18,8 +18,8 @@ dependency "container_cluster_auths" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/google/container-cluster-auths"
 }
 
-dependency "cluster_kustomize" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/null-resource/cluster-kustomize"
+dependency "cluster_kustomizations" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/null-resource/cluster-kustomizations"
 }
 
 dependency "random_string" {
