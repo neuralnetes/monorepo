@@ -167,13 +167,15 @@ metadata:
   name: istio-ingressgateway
 spec:
   servers:
-    - port:
-        number: 80
-        name: http
-        protocol: HTTP
-      hosts:
-        - '*'
-
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: istio-certs
+    hosts:
+    - '*.${CLUSTER_NAME}.${NETWORK_PROJECT}.com'
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/istio-1-9-0/istio-install/base/kustomization.yaml"
