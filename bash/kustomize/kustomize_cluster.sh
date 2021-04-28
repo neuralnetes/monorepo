@@ -3,7 +3,7 @@ PATHS=(
   "kustomize/manifests/external-secrets/overlays/${CLUSTER_NAME}"
   "kustomize/manifests/external-dns/overlays/${CLUSTER_NAME}"
   "kustomize/manifests/secrets/kubeflow/overlays/${CLUSTER_NAME}"
-  "kustomize/manifests/external-secrets/overlays/${CLUSTER_NAME}"
+  "kustomize/manifests/secrets/istio-system/overlays/${CLUSTER_NAME}"
   "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/cert-manager/cert-manager/overlays/letsencrypt"
   "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/istio-1-9-0/istio-install/base"
   "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/oidc-authservice/base"
@@ -14,6 +14,7 @@ PATHS=(
   "kustomize/manifests/flux-kustomization/external-secrets/overlays/${CLUSTER_NAME}"
   "kustomize/manifests/flux-kustomization/external-dns/overlays/${CLUSTER_NAME}"
   "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${CLUSTER_NAME}"
+  "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${CLUSTER_NAME}"
   "kustomize/manifests/flux-kustomization/kubeflow/1.3/overlays/${CLUSTER_NAME}"
   "kustomize/manifests/flux-kustomization/cluster/overlays/${CLUSTER_NAME}"
   "kustomize/manifests/flux-kustomization/deploy/overlays/${CLUSTER_NAME}"
@@ -22,6 +23,27 @@ PATHS=(
 for path in "${PATHS[@]}"; do
   mkdir -p "${path}"
 done
+
+# secrets
+
+cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${CLUSTER_NAME}/patch-certificate.yaml"
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: istio-certs
+spec:
+  dnsNames:
+  - '*.${CLUSTER_NAME}.${NETWORK_PROJECT}.com'
+EOF
+
+cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${CLUSTER_NAME}/kustomization.yaml"
+namespace: istio-system
+resources:
+- ../../base
+patchesStrategicMerge:
+- patch-certificate.yaml
+
+EOF
 
 # external-secrets
 cat <<EOF > "kustomize/manifests/external-secrets/overlays/${CLUSTER_NAME}/patch-service-account.yaml"
@@ -248,13 +270,15 @@ metadata:
   name: kubeflow-gateway
 spec:
   servers:
-    - port:
-        number: 80
-        name: http
-        protocol: HTTP
-      hosts:
-        - "*"
-
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: istio-certs
+    hosts:
+    - '*.${CLUSTER_NAME}.${NETWORK_PROJECT}.com'
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/istio-1-9-0/kubeflow-istio-resources/base/kustomization.yaml"
@@ -322,6 +346,24 @@ spec:
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${CLUSTER_NAME}/kustomization.yaml"
+resources:
+- ../../base
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml
+
+EOF
+
+cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${CLUSTER_NAME}/patch-flux-kustomization.yaml"
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: istio-system-secrets
+spec:
+  path: kustomize/manifests/secrets/istio-system/overlays/${CLUSTER_NAME}
+
+EOF
+
+cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${CLUSTER_NAME}/kustomization.yaml"
 resources:
 - ../../base
 patchesStrategicMerge:
@@ -398,6 +440,7 @@ resources:
 - ../../../external-secrets/overlays/${CLUSTER_NAME}
 - ../../../external-dns/overlays/${CLUSTER_NAME}
 - ../../../secrets/kubeflow/overlays/${CLUSTER_NAME}
+- ../../../secrets/istio-system/overlays/${CLUSTER_NAME}
 - ../../../kubeflow/1.3/overlays/${CLUSTER_NAME}
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
