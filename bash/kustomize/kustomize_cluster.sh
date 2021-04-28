@@ -113,6 +113,7 @@ metadata:
 spec:
   acme:
     email: bot+letsencrypt-prod@neuralnetes.com
+    http01: null
     server: https://acme-v02.api.letsencrypt.org/directory
     solvers:
       - dns01:
