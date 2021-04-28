@@ -1,0 +1,20 @@
+on:
+  workflow_dispatch: {}
+jobs:
+  terragrunt:
+    runs-on: ubuntu-latest
+    steps:
+    - id: checkout
+      name: run checkout
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GH_TOKEN }}
+    - id: setup_gcloud
+      name: run setup gcloud
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+        export_default_credentials: true
+    - id: gcloud_projects_delete
+      name: run gcloud projects delete
+      run: chmod +x bash/gcloud/projects_delete.sh && ./bash/gcloud/projects_delete.sh
