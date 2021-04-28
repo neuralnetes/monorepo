@@ -27,7 +27,7 @@ done
 # secrets
 
 cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${CLUSTER_NAME}/patch-certificate.yaml"
-apiVersion: cert-manager.io/v1
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: istio-certs
