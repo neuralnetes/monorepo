@@ -1,7 +1,7 @@
 on:
   workflow_dispatch: {}
 jobs:
-  terragrunt:
+  gcloud_projects_delete:
     runs-on: ubuntu-latest
     steps:
     - id: checkout
