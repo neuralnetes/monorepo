@@ -23,7 +23,7 @@ jobs:
         run: |
           export TERRAGRUNT_COMMAND='run-all apply'
           export TERRAGRUNT_WORKING_DIR='terragrunt/live/gcs/non-prod'
-          TERRAGRUNT_CLI_FLAGS="$(
+          export TERRAGRUNT_CLI_FLAGS="$(
             jq -nrc '[
               "--terragrunt-include-dir global/terraform/**/**",
               "--terragrunt-include-dir global/iam/**/**",
@@ -36,5 +36,4 @@ jobs:
               "--terragrunt-include-dir us-central1/compute/**/**"
             ]'
           )"
-          export TERRAGRUNT_CLI_FLAGS
           chmod +x ./workflow_dispatch_terragrunt.sh && ./workflow_dispatch_terragrunt.sh
