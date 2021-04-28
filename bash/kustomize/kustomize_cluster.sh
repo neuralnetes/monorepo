@@ -399,25 +399,6 @@ resources:
 - ../../../external-dns/overlays/${CLUSTER_NAME}
 - ../../../secrets/kubeflow/overlays/${CLUSTER_NAME}
 - ../../../kubeflow/1.3/overlays/${CLUSTER_NAME}
-- ../../../cluster/overlays/${CLUSTER_NAME}
-- ../../../deploy/overlays/${CLUSTER_NAME}
-patchesStrategicMerge:
-- patch-flux-kustomization.yaml
-
-EOF
-
-cat <<EOF > "kustomize/manifests/flux-kustomization/deploy/overlays/${CLUSTER_NAME}/patch-flux-kustomization.yaml"
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: deploy
-spec:
-  path: kustomize/manifests/deploy/overlays/${CLUSTER_NAME}
-EOF
-
-cat <<EOF > "kustomize/manifests/flux-kustomization/deploy/overlays/${CLUSTER_NAME}/kustomization.yaml"
-resources:
-- ../../base
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
 
