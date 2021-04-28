@@ -138,6 +138,7 @@ spec:
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/cert-manager/cert-manager/overlays/letsencrypt/kustomization.yaml"
+namespace: cert-manager
 resources:
 - ../../../../../../../../../kubeflow/1.3/base/common/cert-manager/cert-manager/overlays/letsencrypt
 - cluster-issuer.yaml
