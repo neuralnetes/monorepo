@@ -49,6 +49,10 @@ inputs = {
       project    = dependency.iam_project.outputs.project_id
       account_id = "grafana-cloud"
     },
+    {
+      project    = dependency.iam_project.outputs.project_id
+      account_id = "kubeflow"
+    },
   ]
   service_account_datas = []
 }
