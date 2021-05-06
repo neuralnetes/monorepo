@@ -1,0 +1,10 @@
+resources:
+- ../../base
+- ../../../external-secrets/overlays/cluster-yuqc
+- ../../../external-dns/overlays/cluster-yuqc
+- ../../../secrets/kubeflow/overlays/cluster-yuqc
+- ../../../secrets/istio-system/overlays/cluster-yuqc
+- ../../../kubeflow/1.3/overlays/cluster-yuqc
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml
+
