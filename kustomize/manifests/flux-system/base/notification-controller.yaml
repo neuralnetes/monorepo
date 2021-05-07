@@ -1,10 +1,10 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: alerts.notification.toolkit.fluxcd.io
   annotations:
     controller-gen.kubebuilder.io/version: v0.4.1
   creationTimestamp: null
+  name: alerts.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
   names:
@@ -14,70 +14,48 @@ spec:
     singular: alert
   scope: Namespaced
   versions:
-  - name: v1beta1
-    additionalPrinterColumns:
-    - name: Ready
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=="Ready")].status
+      name: Ready
       type: string
-      jsonPath: .status.conditions[?(@.type=="Ready")].status
-    - name: Status
+    - jsonPath: .status.conditions[?(@.type=="Ready")].message
+      name: Status
       type: string
-      jsonPath: .status.conditions[?(@.type=="Ready")].message
-    - name: Age
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
       type: date
-      jsonPath: .metadata.creationTimestamp
+    name: v1beta1
     schema:
       openAPIV3Schema:
-        type: object
         description: Alert is the Schema for the alerts API
         properties:
           apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
             type: string
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           kind:
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
             type: string
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           metadata:
             type: object
           spec:
-            type: object
-            description: AlertSpec defines an alerting rule for events involving a
-              list of objects
+            description: AlertSpec defines an alerting rule for events involving a list of objects
             properties:
               eventSeverity:
-                type: string
                 default: info
-                description: Filter events based on severity, defaults to ('info').
-                  If set to 'info' no events will be filtered.
+                description: Filter events based on severity, defaults to ('info'). If set to 'info' no events will be filtered.
                 enum:
                 - info
                 - error
+                type: string
               eventSources:
-                type: array
                 description: Filter events based on the involved objects.
                 items:
-                  type: object
-                  description: CrossNamespaceObjectReference contains enough information
-                    to let you locate the typed referenced object at cluster level
+                  description: CrossNamespaceObjectReference contains enough information to let you locate the typed referenced object at cluster level
                   properties:
-                    name:
-                      type: string
-                      description: Name of the referent
-                      maxLength: 53
-                      minLength: 1
-                    namespace:
-                      type: string
-                      description: Namespace of the referent
-                      maxLength: 53
-                      minLength: 1
                     apiVersion:
-                      type: string
                       description: API version of the referent
-                    kind:
                       type: string
+                    kind:
                       description: Kind of the referent
                       enum:
                       - Bucket
@@ -89,110 +67,97 @@ spec:
                       - ImageRepository
                       - ImagePolicy
                       - ImageUpdateAutomation
+                      type: string
+                    name:
+                      description: Name of the referent
+                      maxLength: 53
+                      minLength: 1
+                      type: string
+                    namespace:
+                      description: Namespace of the referent
+                      maxLength: 53
+                      minLength: 1
+                      type: string
                   required:
                   - name
-              exclusionList:
+                  type: object
                 type: array
-                description: A list of Golang regular expressions to be used for excluding
-                  messages.
+              exclusionList:
+                description: A list of Golang regular expressions to be used for excluding messages.
                 items:
                   type: string
+                type: array
               providerRef:
-                type: object
                 description: Send events using this provider.
                 properties:
                   name:
-                    type: string
                     description: Name of the referent
+                    type: string
                 required:
                 - name
+                type: object
               summary:
-                type: string
                 description: Short description of the impact and affected cluster.
+                type: string
               suspend:
+                description: This flag tells the controller to suspend subsequent events dispatching. Defaults to false.
                 type: boolean
-                description: This flag tells the controller to suspend subsequent
-                  events dispatching. Defaults to false.
             required:
             - eventSources
             - providerRef
-          status:
             type: object
+          status:
             description: AlertStatus defines the observed state of Alert
             properties:
               conditions:
-                type: array
                 items:
-                  type: object
-                  description: "Condition contains details for one aspect of the current
-                    state of this API Resource. --- This struct is intended for direct
-                    use as an array at the field path .status.conditions.  For example,
-                    type FooStatus struct{     // Represents the observations of a
-                    foo's current state.     // Known .status.conditions.type are:
-                    \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type
-                    \    // +patchStrategy=merge     // +listType=map     // +listMapKey=type
-                    \    Conditions []metav1.Condition `json:\"conditions,omitempty\"
-                    patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`
-                    \n     // other fields }"
+                  description: "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }"
                   properties:
-                    type:
+                    lastTransitionTime:
+                      description: lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.
+                      format: date-time
                       type: string
-                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
-                        --- Many .condition.type values are consistent across resources
-                        like Available, but because arbitrary conditions can be useful
-                        (see .node.status.conditions), the ability to deconflict is
-                        important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
-                      maxLength: 316
-                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                    message:
+                      description: message is a human readable message indicating details about the transition. This may be an empty string.
+                      maxLength: 32768
+                      type: string
+                    observedGeneration:
+                      description: observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.
+                      format: int64
+                      minimum: 0
+                      type: integer
+                    reason:
+                      description: reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
+                      type: string
                     status:
-                      type: string
                       description: status of the condition, one of True, False, Unknown.
                       enum:
                       - "True"
                       - "False"
                       - Unknown
-                    lastTransitionTime:
                       type: string
-                      description: lastTransitionTime is the last time the condition
-                        transitioned from one status to another. This should be when
-                        the underlying condition changed.  If that is not known, then
-                        using the time when the API field changed is acceptable.
-                      format: date-time
-                    message:
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase. --- Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be useful (see .node.status.conditions), the ability to deconflict is important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
                       type: string
-                      description: message is a human readable message indicating
-                        details about the transition. This may be an empty string.
-                      maxLength: 32768
-                    observedGeneration:
-                      type: integer
-                      description: observedGeneration represents the .metadata.generation
-                        that the condition was set based upon. For instance, if .metadata.generation
-                        is currently 12, but the .status.conditions[x].observedGeneration
-                        is 9, the condition is out of date with respect to the current
-                        state of the instance.
-                      format: int64
-                      minimum: 0
-                    reason:
-                      type: string
-                      description: reason contains a programmatic identifier indicating
-                        the reason for the condition's last transition. Producers
-                        of specific condition types may define expected values and
-                        meanings for this field, and whether the values are considered
-                        a guaranteed API. The value should be a CamelCase string.
-                        This field may not be empty.
-                      maxLength: 1024
-                      minLength: 1
-                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
                   required:
                   - lastTransitionTime
                   - message
                   - reason
                   - status
                   - type
+                  type: object
+                type: array
               observedGeneration:
-                type: integer
                 description: ObservedGeneration is the last observed generation.
                 format: int64
+                type: integer
+            type: object
+        type: object
     served: true
     storage: true
     subresources:
@@ -207,10 +172,10 @@ status:
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: providers.notification.toolkit.fluxcd.io
   annotations:
     controller-gen.kubebuilder.io/version: v0.4.1
   creationTimestamp: null
+  name: providers.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
   names:
@@ -220,40 +185,62 @@ spec:
     singular: provider
   scope: Namespaced
   versions:
-  - name: v1beta1
-    additionalPrinterColumns:
-    - name: Ready
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=="Ready")].status
+      name: Ready
       type: string
-      jsonPath: .status.conditions[?(@.type=="Ready")].status
-    - name: Status
+    - jsonPath: .status.conditions[?(@.type=="Ready")].message
+      name: Status
       type: string
-      jsonPath: .status.conditions[?(@.type=="Ready")].message
-    - name: Age
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
       type: date
-      jsonPath: .metadata.creationTimestamp
+    name: v1beta1
     schema:
       openAPIV3Schema:
-        type: object
         description: Provider is the Schema for the providers API
         properties:
           apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
             type: string
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           kind:
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
             type: string
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           metadata:
             type: object
           spec:
-            type: object
             description: ProviderSpec defines the desired state of Provider
             properties:
-              type:
+              address:
+                description: HTTP/S webhook address of this provider
+                pattern: ^(http|https)://
                 type: string
+              certSecretRef:
+                description: CertSecretRef can be given the name of a secret containing a PEM-encoded CA certificate (`caFile`)
+                properties:
+                  name:
+                    description: Name of the referent
+                    type: string
+                required:
+                - name
+                type: object
+              channel:
+                description: Alert channel for this provider
+                type: string
+              proxy:
+                description: HTTP/S address of the proxy
+                pattern: ^(http|https)://
+                type: string
+              secretRef:
+                description: Secret reference containing the provider webhook URL using "address" as data key
+                properties:
+                  name:
+                    description: Name of the referent
+                    type: string
+                required:
+                - name
+                type: object
+              type:
                 description: Type of provider
                 enum:
                 - slack
@@ -268,105 +255,61 @@ spec:
                 - googlechat
                 - webex
                 - sentry
-              secretRef:
-                type: object
-                description: Secret reference containing the provider webhook URL
-                  using "address" as data key
-                properties:
-                  name:
-                    type: string
-                    description: Name of the referent
-                required:
-                - name
-              address:
                 type: string
-                description: HTTP/S webhook address of this provider
-                pattern: ^(http|https)://
-              channel:
-                type: string
-                description: Alert channel for this provider
-              proxy:
-                type: string
-                description: HTTP/S address of the proxy
-                pattern: ^(http|https)://
               username:
-                type: string
                 description: Bot username for this provider
+                type: string
             required:
             - type
-          status:
             type: object
+          status:
             description: ProviderStatus defines the observed state of Provider
             properties:
               conditions:
-                type: array
                 items:
-                  type: object
-                  description: "Condition contains details for one aspect of the current
-                    state of this API Resource. --- This struct is intended for direct
-                    use as an array at the field path .status.conditions.  For example,
-                    type FooStatus struct{     // Represents the observations of a
-                    foo's current state.     // Known .status.conditions.type are:
-                    \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type
-                    \    // +patchStrategy=merge     // +listType=map     // +listMapKey=type
-                    \    Conditions []metav1.Condition `json:\"conditions,omitempty\"
-                    patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`
-                    \n     // other fields }"
+                  description: "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }"
                   properties:
-                    type:
+                    lastTransitionTime:
+                      description: lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.
+                      format: date-time
                       type: string
-                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
-                        --- Many .condition.type values are consistent across resources
-                        like Available, but because arbitrary conditions can be useful
-                        (see .node.status.conditions), the ability to deconflict is
-                        important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
-                      maxLength: 316
-                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                    message:
+                      description: message is a human readable message indicating details about the transition. This may be an empty string.
+                      maxLength: 32768
+                      type: string
+                    observedGeneration:
+                      description: observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.
+                      format: int64
+                      minimum: 0
+                      type: integer
+                    reason:
+                      description: reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
+                      type: string
                     status:
-                      type: string
                       description: status of the condition, one of True, False, Unknown.
                       enum:
                       - "True"
                       - "False"
                       - Unknown
-                    lastTransitionTime:
                       type: string
-                      description: lastTransitionTime is the last time the condition
-                        transitioned from one status to another. This should be when
-                        the underlying condition changed.  If that is not known, then
-                        using the time when the API field changed is acceptable.
-                      format: date-time
-                    message:
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase. --- Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be useful (see .node.status.conditions), the ability to deconflict is important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
                       type: string
-                      description: message is a human readable message indicating
-                        details about the transition. This may be an empty string.
-                      maxLength: 32768
-                    observedGeneration:
-                      type: integer
-                      description: observedGeneration represents the .metadata.generation
-                        that the condition was set based upon. For instance, if .metadata.generation
-                        is currently 12, but the .status.conditions[x].observedGeneration
-                        is 9, the condition is out of date with respect to the current
-                        state of the instance.
-                      format: int64
-                      minimum: 0
-                    reason:
-                      type: string
-                      description: reason contains a programmatic identifier indicating
-                        the reason for the condition's last transition. Producers
-                        of specific condition types may define expected values and
-                        meanings for this field, and whether the values are considered
-                        a guaranteed API. The value should be a CamelCase string.
-                        This field may not be empty.
-                      maxLength: 1024
-                      minLength: 1
-                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
                   required:
                   - lastTransitionTime
                   - message
                   - reason
                   - status
                   - type
+                  type: object
+                type: array
+            type: object
+        type: object
     served: true
     storage: true
     subresources:
@@ -381,10 +324,10 @@ status:
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: receivers.notification.toolkit.fluxcd.io
   annotations:
     controller-gen.kubebuilder.io/version: v0.4.1
   creationTimestamp: null
+  name: receivers.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
   names:
@@ -394,42 +337,86 @@ spec:
     singular: receiver
   scope: Namespaced
   versions:
-  - name: v1beta1
-    additionalPrinterColumns:
-    - name: Ready
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=="Ready")].status
+      name: Ready
       type: string
-      jsonPath: .status.conditions[?(@.type=="Ready")].status
-    - name: Status
+    - jsonPath: .status.conditions[?(@.type=="Ready")].message
+      name: Status
       type: string
-      jsonPath: .status.conditions[?(@.type=="Ready")].message
-    - name: Age
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
       type: date
-      jsonPath: .metadata.creationTimestamp
+    name: v1beta1
     schema:
       openAPIV3Schema:
-        type: object
         description: Receiver is the Schema for the receivers API
         properties:
           apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
             type: string
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           kind:
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
             type: string
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           metadata:
             type: object
           spec:
-            type: object
             description: ReceiverSpec defines the desired state of Receiver
             properties:
+              events:
+                description: A list of events to handle, e.g. 'push' for GitHub or 'Push Hook' for GitLab.
+                items:
+                  type: string
+                type: array
+              resources:
+                description: A list of resources to be notified about changes.
+                items:
+                  description: CrossNamespaceObjectReference contains enough information to let you locate the typed referenced object at cluster level
+                  properties:
+                    apiVersion:
+                      description: API version of the referent
+                      type: string
+                    kind:
+                      description: Kind of the referent
+                      enum:
+                      - Bucket
+                      - GitRepository
+                      - Kustomization
+                      - HelmRelease
+                      - HelmChart
+                      - HelmRepository
+                      - ImageRepository
+                      - ImagePolicy
+                      - ImageUpdateAutomation
+                      type: string
+                    name:
+                      description: Name of the referent
+                      maxLength: 53
+                      minLength: 1
+                      type: string
+                    namespace:
+                      description: Namespace of the referent
+                      maxLength: 53
+                      minLength: 1
+                      type: string
+                  required:
+                  - name
+                  type: object
+                type: array
+              secretRef:
+                description: Secret reference containing the token used to validate the payload authenticity
+                properties:
+                  name:
+                    description: Name of the referent
+                    type: string
+                required:
+                - name
+                type: object
+              suspend:
+                description: This flag tells the controller to suspend subsequent events handling. Defaults to false.
+                type: boolean
               type:
-                type: string
-                description: Type of webhook sender, used to determine the validation
-                  procedure and payload deserialization.
+                description: Type of webhook sender, used to determine the validation procedure and payload deserialization.
                 enum:
                 - generic
                 - generic-hmac
@@ -442,145 +429,66 @@ spec:
                 - gcr
                 - nexus
                 - acr
-              resources:
-                type: array
-                description: A list of resources to be notified about changes.
-                items:
-                  type: object
-                  description: CrossNamespaceObjectReference contains enough information
-                    to let you locate the typed referenced object at cluster level
-                  properties:
-                    name:
-                      type: string
-                      description: Name of the referent
-                      maxLength: 53
-                      minLength: 1
-                    namespace:
-                      type: string
-                      description: Namespace of the referent
-                      maxLength: 53
-                      minLength: 1
-                    apiVersion:
-                      type: string
-                      description: API version of the referent
-                    kind:
-                      type: string
-                      description: Kind of the referent
-                      enum:
-                      - Bucket
-                      - GitRepository
-                      - Kustomization
-                      - HelmRelease
-                      - HelmChart
-                      - HelmRepository
-                      - ImageRepository
-                      - ImagePolicy
-                      - ImageUpdateAutomation
-                  required:
-                  - name
-              secretRef:
-                type: object
-                description: Secret reference containing the token used to validate
-                  the payload authenticity
-                properties:
-                  name:
-                    type: string
-                    description: Name of the referent
-                required:
-                - name
-              events:
-                type: array
-                description: A list of events to handle, e.g. 'push' for GitHub or
-                  'Push Hook' for GitLab.
-                items:
-                  type: string
-              suspend:
-                type: boolean
-                description: This flag tells the controller to suspend subsequent
-                  events handling. Defaults to false.
+                type: string
             required:
             - resources
             - type
-          status:
             type: object
+          status:
             description: ReceiverStatus defines the observed state of Receiver
             properties:
               conditions:
-                type: array
                 items:
-                  type: object
-                  description: "Condition contains details for one aspect of the current
-                    state of this API Resource. --- This struct is intended for direct
-                    use as an array at the field path .status.conditions.  For example,
-                    type FooStatus struct{     // Represents the observations of a
-                    foo's current state.     // Known .status.conditions.type are:
-                    \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type
-                    \    // +patchStrategy=merge     // +listType=map     // +listMapKey=type
-                    \    Conditions []metav1.Condition `json:\"conditions,omitempty\"
-                    patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`
-                    \n     // other fields }"
+                  description: "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }"
                   properties:
-                    type:
+                    lastTransitionTime:
+                      description: lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.
+                      format: date-time
                       type: string
-                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
-                        --- Many .condition.type values are consistent across resources
-                        like Available, but because arbitrary conditions can be useful
-                        (see .node.status.conditions), the ability to deconflict is
-                        important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
-                      maxLength: 316
-                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                    message:
+                      description: message is a human readable message indicating details about the transition. This may be an empty string.
+                      maxLength: 32768
+                      type: string
+                    observedGeneration:
+                      description: observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.
+                      format: int64
+                      minimum: 0
+                      type: integer
+                    reason:
+                      description: reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
+                      type: string
                     status:
-                      type: string
                       description: status of the condition, one of True, False, Unknown.
                       enum:
                       - "True"
                       - "False"
                       - Unknown
-                    lastTransitionTime:
                       type: string
-                      description: lastTransitionTime is the last time the condition
-                        transitioned from one status to another. This should be when
-                        the underlying condition changed.  If that is not known, then
-                        using the time when the API field changed is acceptable.
-                      format: date-time
-                    message:
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase. --- Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be useful (see .node.status.conditions), the ability to deconflict is important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
                       type: string
-                      description: message is a human readable message indicating
-                        details about the transition. This may be an empty string.
-                      maxLength: 32768
-                    observedGeneration:
-                      type: integer
-                      description: observedGeneration represents the .metadata.generation
-                        that the condition was set based upon. For instance, if .metadata.generation
-                        is currently 12, but the .status.conditions[x].observedGeneration
-                        is 9, the condition is out of date with respect to the current
-                        state of the instance.
-                      format: int64
-                      minimum: 0
-                    reason:
-                      type: string
-                      description: reason contains a programmatic identifier indicating
-                        the reason for the condition's last transition. Producers
-                        of specific condition types may define expected values and
-                        meanings for this field, and whether the values are considered
-                        a guaranteed API. The value should be a CamelCase string.
-                        This field may not be empty.
-                      maxLength: 1024
-                      minLength: 1
-                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
                   required:
                   - lastTransitionTime
                   - message
                   - reason
                   - status
                   - type
+                  type: object
+                type: array
               observedGeneration:
-                type: integer
                 description: ObservedGeneration is the last observed generation.
                 format: int64
+                type: integer
               url:
-                type: string
                 description: Generated webhook URL in the format of '/hook/sha256sum(token+name+namespace)'.
+                type: string
+            type: object
+        type: object
     served: true
     storage: true
     subresources:
@@ -600,41 +508,41 @@ metadata:
 apiVersion: v1
 kind: Service
 metadata:
-  name: notification-controller
   labels:
     control-plane: controller
+  name: notification-controller
 spec:
-  type: ClusterIP
-  selector:
-    app: notification-controller
   ports:
   - name: http
-    protocol: TCP
     port: 80
+    protocol: TCP
     targetPort: http
+  selector:
+    app: notification-controller
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: webhook-receiver
   labels:
     control-plane: controller
+  name: webhook-receiver
 spec:
-  type: ClusterIP
-  selector:
-    app: notification-controller
   ports:
   - name: http
-    protocol: TCP
     port: 80
+    protocol: TCP
     targetPort: http-webhook
+  selector:
+    app: notification-controller
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: notification-controller
   labels:
     control-plane: controller
+  name: notification-controller
 spec:
   replicas: 1
   selector:
@@ -642,37 +550,44 @@ spec:
       app: notification-controller
   template:
     metadata:
-      labels:
-        app: notification-controller
       annotations:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
+      labels:
+        app: notification-controller
     spec:
-      terminationGracePeriodSeconds: 10
-      serviceAccountName: notification-controller
       containers:
-      - name: manager
-        image: fluxcd/notification-controller:v0.12.0
-        args:
+      - args:
         - --watch-all-namespaces
         - --log-level=info
         - --log-encoding=json
         - --enable-leader-election
-        ports:
-        - name: http
-          containerPort: 9090
-        - name: http-webhook
-          containerPort: 9292
-        - name: http-prom
-          containerPort: 8080
-        - name: healthz
-          protocol: TCP
-          containerPort: 9440
         env:
         - name: RUNTIME_NAMESPACE
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
+        image: fluxcd/notification-controller:v0.13.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: healthz
+        name: manager
+        ports:
+        - containerPort: 9090
+          name: http
+        - containerPort: 9292
+          name: http-webhook
+        - containerPort: 8080
+          name: http-prom
+        - containerPort: 9440
+          name: healthz
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: healthz
         resources:
           limits:
             cpu: 1000m
@@ -680,21 +595,14 @@ spec:
           requests:
             cpu: 100m
             memory: 64Mi
-        volumeMounts:
-        - name: temp
-          mountPath: /tmp
-        livenessProbe:
-          httpGet:
-            port: healthz
-            path: /healthz
-        readinessProbe:
-          httpGet:
-            port: healthz
-            path: /readyz
-        imagePullPolicy: IfNotPresent
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
+        volumeMounts:
+        - mountPath: /tmp
+          name: temp
+      serviceAccountName: notification-controller
+      terminationGracePeriodSeconds: 10
       volumes:
-      - name: temp
-        emptyDir: {}
+      - emptyDir: {}
+        name: temp

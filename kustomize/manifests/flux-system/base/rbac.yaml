@@ -3,56 +3,56 @@ kind: ClusterRole
 metadata:
   name: crd-controller
 rules:
-- resources:
-  - '*'
-  apiGroups:
+- apiGroups:
   - source.toolkit.fluxcd.io
+  resources:
+  - '*'
   verbs:
   - '*'
-- resources:
-  - '*'
-  apiGroups:
+- apiGroups:
   - kustomize.toolkit.fluxcd.io
+  resources:
+  - '*'
   verbs:
   - '*'
-- resources:
-  - '*'
-  apiGroups:
+- apiGroups:
   - helm.toolkit.fluxcd.io
+  resources:
+  - '*'
   verbs:
   - '*'
-- resources:
-  - '*'
-  apiGroups:
+- apiGroups:
   - notification.toolkit.fluxcd.io
+  resources:
+  - '*'
   verbs:
   - '*'
-- resources:
-  - '*'
-  apiGroups:
+- apiGroups:
   - image.toolkit.fluxcd.io
+  resources:
+  - '*'
   verbs:
   - '*'
-- resources:
-  - secrets
-  apiGroups:
+- apiGroups:
   - ""
+  resources:
+  - secrets
   verbs:
   - get
   - list
   - watch
-- resources:
-  - events
-  apiGroups:
+- apiGroups:
   - ""
+  resources:
+  - events
   verbs:
   - create
   - patch
-- resources:
+- apiGroups:
+  - ""
+  resources:
   - configmaps
   - configmaps/status
-  apiGroups:
-  - ""
   verbs:
   - get
   - list
@@ -61,10 +61,10 @@ rules:
   - update
   - patch
   - delete
-- resources:
-  - leases
-  apiGroups:
+- apiGroups:
   - coordination.k8s.io
+  resources:
+  - leases
   verbs:
   - get
   - list
@@ -79,41 +79,41 @@ kind: ClusterRoleBinding
 metadata:
   name: cluster-reconciler
 roleRef:
-  name: cluster-admin
-  kind: ClusterRole
   apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
 subjects:
-- name: kustomize-controller
+- kind: ServiceAccount
+  name: kustomize-controller
   namespace: flux-system
-  kind: ServiceAccount
-- name: helm-controller
+- kind: ServiceAccount
+  name: helm-controller
   namespace: flux-system
-  kind: ServiceAccount
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: crd-controller
 roleRef:
-  name: crd-controller
-  kind: ClusterRole
   apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: crd-controller
 subjects:
-- name: kustomize-controller
+- kind: ServiceAccount
+  name: kustomize-controller
   namespace: flux-system
-  kind: ServiceAccount
-- name: helm-controller
+- kind: ServiceAccount
+  name: helm-controller
   namespace: flux-system
-  kind: ServiceAccount
-- name: source-controller
+- kind: ServiceAccount
+  name: source-controller
   namespace: flux-system
-  kind: ServiceAccount
-- name: notification-controller
+- kind: ServiceAccount
+  name: notification-controller
   namespace: flux-system
-  kind: ServiceAccount
-- name: image-reflector-controller
+- kind: ServiceAccount
+  name: image-reflector-controller
   namespace: flux-system
-  kind: ServiceAccount
-- name: image-automation-controller
+- kind: ServiceAccount
+  name: image-automation-controller
   namespace: flux-system
-  kind: ServiceAccount
