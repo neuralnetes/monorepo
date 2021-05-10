@@ -1,23 +1,23 @@
 #!/bin/bash
 PATHS=(
-  "kustomize/manifests/external-secrets/overlays/${CLUSTER_NAME}"
-  "kustomize/manifests/external-dns/overlays/${CLUSTER_NAME}"
-  "kustomize/manifests/secrets/kubeflow/overlays/${CLUSTER_NAME}"
-  "kustomize/manifests/secrets/istio-system/overlays/${CLUSTER_NAME}"
-  "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/cert-manager/cert-manager/overlays/letsencrypt"
-  "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/istio-1-9-0/istio-install/base"
-  "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/oidc-authservice/base"
-  "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/dex/overlays/istio"
-  "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/knative/knative-serving-install/base"
-  "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/istio-1-9-0/kubeflow-istio-resources/base"
-  "kustomize/manifests/deploy/overlays/${CLUSTER_NAME}"
-  "kustomize/manifests/flux-kustomization/external-secrets/overlays/${CLUSTER_NAME}"
-  "kustomize/manifests/flux-kustomization/external-dns/overlays/${CLUSTER_NAME}"
-  "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${CLUSTER_NAME}"
-  "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${CLUSTER_NAME}"
-  "kustomize/manifests/flux-kustomization/kubeflow/1.3/overlays/${CLUSTER_NAME}"
-  "kustomize/manifests/flux-kustomization/cluster/overlays/${CLUSTER_NAME}"
-  "kustomize/manifests/flux-kustomization/deploy/overlays/${CLUSTER_NAME}"
+  "kustomize/manifests/external-secrets/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/external-dns/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/cert-manager/overlays/letsencrypt"
+  "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base"
+  "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/oidc-authservice/base"
+  "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio"
+  "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base"
+  "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base"
+  "kustomize/manifests/deploy/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/external-secrets/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/external-dns/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/deploy/overlays/${KUBEFLOW_PROJECT}"
 )
 
 for path in "${PATHS[@]}"; do
@@ -26,17 +26,17 @@ done
 
 # secrets
 
-cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${CLUSTER_NAME}/patch-certificate.yaml"
+cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/patch-certificate.yaml"
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: istio-certs
 spec:
   dnsNames:
-  - '*.${CLUSTER_NAME}.${NETWORK_PROJECT}.com'
+  - '*.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.com'
 EOF
 
-cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${CLUSTER_NAME}/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 namespace: istio-system
 resources:
 - ../../base
@@ -46,7 +46,7 @@ patchesStrategicMerge:
 EOF
 
 # external-secrets
-cat <<EOF > "kustomize/manifests/external-secrets/overlays/${CLUSTER_NAME}/patch-service-account.yaml"
+cat <<EOF > "kustomize/manifests/external-secrets/overlays/${KUBEFLOW_PROJECT}/patch-service-account.yaml"
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -56,7 +56,7 @@ metadata:
 
 EOF
 
-cat <<EOF > "kustomize/manifests/external-secrets/overlays/${CLUSTER_NAME}/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/external-secrets/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 resources:
 - ../../base
 patchesStrategicMerge:
@@ -65,7 +65,7 @@ patchesStrategicMerge:
 EOF
 
 # external-dns
-cat <<EOF > "kustomize/manifests/external-dns/overlays/${CLUSTER_NAME}/patch-deployment.yaml"
+cat <<EOF > "kustomize/manifests/external-dns/overlays/${KUBEFLOW_PROJECT}/patch-deployment.yaml"
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -81,11 +81,11 @@ spec:
         - --provider=google
         - --google-project=${NETWORK_PROJECT}
         - --registry=txt
-        - --txt-owner-id=external-dns-${CLUSTER_NAME}
+        - --txt-owner-id=${KUBEFLOW_PROJECT}
 
 EOF
 
-cat <<EOF > "kustomize/manifests/external-dns/overlays/${CLUSTER_NAME}/patch-service-account.yaml"
+cat <<EOF > "kustomize/manifests/external-dns/overlays/${KUBEFLOW_PROJECT}/patch-service-account.yaml"
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -95,7 +95,7 @@ metadata:
 
 EOF
 
-cat <<EOF > "kustomize/manifests/external-dns/overlays/${CLUSTER_NAME}/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/external-dns/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 resources:
 - ../../base
 patchesStrategicMerge:
@@ -104,162 +104,24 @@ patchesStrategicMerge:
 
 EOF
 
-# cert-manager
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/cert-manager/cert-manager/overlays/letsencrypt/patch-cluster-issuer.yaml"
-apiVersion: cert-manager.io/v1alpha2
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt-prod
-spec:
-  acme:
-    email: bot+letsencrypt-prod@neuralnetes.com
-    http01: null
-    privateKeySecretRef: null
-    server: https://acme-v02.api.letsencrypt.org/directory
-    solvers:
-      - dns01:
-          cloudDNS:
-            project: ${NETWORK_PROJECT}
 
-EOF
-
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/cert-manager/cert-manager/overlays/letsencrypt/cluster-issuer.yaml"
-apiVersion: cert-manager.io/v1alpha2
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt-staging
-spec:
-  acme:
-    email: bot+letsencrypt-staging@neuralnetes.com
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
-    solvers:
-      - dns01:
-          cloudDNS:
-            project: ${NETWORK_PROJECT}
-
-EOF
-
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/cert-manager/cert-manager/overlays/letsencrypt/kustomization.yaml"
-namespace: cert-manager
-resources:
-- ../../../../../../../../../kubeflow/1.3/base/common/cert-manager/cert-manager/overlays/letsencrypt
-- cluster-issuer.yaml
-patchesStrategicMerge:
-- patch-cluster-issuer.yaml
-
-EOF
-
-# istio-install
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/istio-1-9-0/istio-install/base/patch-service.yaml"
-apiVersion: v1
-kind: Service
-metadata:
-  name: istio-ingressgateway
-  namespace: istio-system
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: '*.${CLUSTER_NAME}.${NETWORK_PROJECT}.com.'
-spec:
-  type: LoadBalancer
-
-EOF
-
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/istio-1-9-0/istio-install/base/patch-gateway.yaml"
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: istio-ingressgateway
-spec:
-  servers:
-  - port:
-      number: 443
-      name: https
-      protocol: HTTPS
-    tls:
-      mode: SIMPLE
-      credentialName: istio-certs
-    hosts:
-    - '*.${CLUSTER_NAME}.${NETWORK_PROJECT}.com'
-EOF
-
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/istio-1-9-0/istio-install/base/kustomization.yaml"
-resources:
-- ../../../../../../../../kubeflow/1.3/base/common/istio-1-9-0/istio-install/base
-patchesStrategicMerge:
-- patch-gateway.yaml
-- patch-service.yaml
-
-EOF
-
-# oidc-authservice
-#cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/oidc-authservice/base/patch-config.yaml"
-#kind: ConfigMap
-#
-#EOF
-
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/oidc-authservice/base/kustomization.yaml"
-resources:
-- ../../../../../../../kubeflow/1.3/base/common/oidc-authservice/base
-
-EOF
-
-# dex
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/dex/overlays/istio/patch-config.yaml"
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: dex
-data:
-  config.yaml: |
-    issuer: http://dex.auth.svc.cluster.local:5556/dex
-    storage:
-      type: kubernetes
-      config:
-        inCluster: true
-    web:
-      http: 0.0.0.0:5556
-    logger:
-      level: "debug"
-      format: text
-    oauth2:
-      skipApprovalScreen: true
-    enablePasswordDB: true
-    staticPasswords:
-    - email: user@example.com
-      hash: \$2y\$12\$4K/VkmDd1q1Orb3xAt82zu8gk7Ad6ReFR4LCP9UeYE90NLiN9Df72
-      # https://github.com/dexidp/dex/pull/1601/commits
-      # FIXME: Use hashFromEnv instead
-      username: user
-      userID: "15841185641784"
-    staticClients:
-    # https://github.com/dexidp/dex/pull/1664
-    - idEnv: OIDC_CLIENT_ID
-      redirectURIs: ["/login/oidc"]
-      name: 'Dex Login Application'
-      secretEnv: OIDC_CLIENT_SECRET
-
-EOF
-
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/dex/overlays/istio/kustomization.yaml"
-resources:
-- ../../../../../../../../kubeflow/1.3/base/common/dex/overlays/istio
-patchesStrategicMerge:
-- patch-config.yaml
-
-EOF
+./bash/kustomize/kubeflow/generate_istio_overlays.sh
+./bash/kustomize/kubeflow/generate_oidc_authservice_overlays.sh
+./bash/kustomize/kubeflow/generate_dex_overlays.sh
 
 # knative-serving-install
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/knative/knative-serving-install/base/patch-config.yaml"
+cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base/patch-config.yaml"
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: config-domain
   namespace: knative-serving
 data:
-  ${CLUSTER_NAME}.${NETWORK_PROJECT}.com: ""
+  ${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.com: ""
 
 EOF
 
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/knative/knative-serving-install/base/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base/kustomization.yaml"
 resources:
 - ../../../kubeflow/1.3/common/knative/knative-serving-install/base
 patchesStrategicMerge:
@@ -268,7 +130,7 @@ patchesStrategicMerge:
 EOF
 
 # kubeflow-istio-resources
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/istio-1-9-0/kubeflow-istio-resources/base/patch-gateway.yaml"
+cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base/patch-gateway.yaml"
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -283,10 +145,10 @@ spec:
       mode: SIMPLE
       credentialName: istio-certs
     hosts:
-    - '*.${CLUSTER_NAME}.${NETWORK_PROJECT}.com'
+    - '*.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.com'
 EOF
 
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/istio-1-9-0/kubeflow-istio-resources/base/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base/kustomization.yaml"
 resources:
 - ../../../../../../../../kubeflow/1.3/base/common/istio-1-9-0/kubeflow-istio-resources/base
 patchesStrategicMerge:
@@ -295,26 +157,26 @@ patchesStrategicMerge:
 EOF
 
 # deploy
-cat <<EOF > "kustomize/manifests/deploy/overlays/${CLUSTER_NAME}/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/deploy/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 namespace: flux-system
 resources:
 - ../../base
-- ../../../flux-kustomization/cluster/overlays/${CLUSTER_NAME}
+- ../../../flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}
 
 EOF
 
 # flux-kustomization
-cat <<EOF > "kustomize/manifests/flux-kustomization/external-secrets/overlays/${CLUSTER_NAME}/patch-flux-kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/external-secrets/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: external-secrets
 spec:
-  path: kustomize/manifests/external-secrets/overlays/${CLUSTER_NAME}
+  path: kustomize/manifests/external-secrets/overlays/${KUBEFLOW_PROJECT}
 
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/external-secrets/overlays/${CLUSTER_NAME}/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/external-secrets/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 resources:
 - ../../base
 patchesStrategicMerge:
@@ -322,17 +184,17 @@ patchesStrategicMerge:
 
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/external-dns/overlays/${CLUSTER_NAME}/patch-flux-kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/external-dns/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: external-dns
 spec:
-  path: kustomize/manifests/external-dns/overlays/${CLUSTER_NAME}
+  path: kustomize/manifests/external-dns/overlays/${KUBEFLOW_PROJECT}
 
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/external-dns/overlays/${CLUSTER_NAME}/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/external-dns/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 resources:
 - ../../base
 patchesStrategicMerge:
@@ -340,17 +202,17 @@ patchesStrategicMerge:
 
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${CLUSTER_NAME}/patch-flux-kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: kubeflow-secrets
 spec:
-  path: kustomize/manifests/secrets/kubeflow/overlays/${CLUSTER_NAME}
+  path: kustomize/manifests/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}
 
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${CLUSTER_NAME}/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 resources:
 - ../../base
 patchesStrategicMerge:
@@ -358,17 +220,17 @@ patchesStrategicMerge:
 
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${CLUSTER_NAME}/patch-flux-kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: istio-system-secrets
 spec:
-  path: kustomize/manifests/secrets/istio-system/overlays/${CLUSTER_NAME}
+  path: kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}
 
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${CLUSTER_NAME}/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 resources:
 - ../../base
 patchesStrategicMerge:
@@ -376,52 +238,52 @@ patchesStrategicMerge:
 
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow/1.3/overlays/${CLUSTER_NAME}/patch-flux-kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: cert-manager
 spec:
-  path: kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/cert-manager/cert-manager/overlays/letsencrypt
+  path: kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/cert-manager/overlays/letsencrypt
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: istio-install
 spec:
-  path: kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/istio-1-9-0/istio-install/base
+  path: kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: oidc-authservice
 spec:
-  path: kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/oidc-authservice/base
+  path: kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/oidc-authservice/base
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: dex
 spec:
-  path: kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/dex/overlays/istio
+  path: kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: knative-serving-install
 spec:
-  path: kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/knative/knative-serving-install/base
+  path: kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: kubeflow-istio-resources
 spec:
-  path: kustomize/manifests/kubeflow/1.3/overlays/${CLUSTER_NAME}/common/istio-1-9-0/kubeflow-istio-resources/base
+  path: kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base
 
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow/1.3/overlays/${CLUSTER_NAME}/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 resources:
 - ../../base
 patchesStrategicMerge:
@@ -429,24 +291,24 @@ patchesStrategicMerge:
 
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/cluster/overlays/${CLUSTER_NAME}/patch-flux-kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: cluster
 spec:
-  path: kustomize/manifests/flux-kustomization/cluster/overlays/${CLUSTER_NAME}
+  path: kustomize/manifests/flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}
 
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/cluster/overlays/${CLUSTER_NAME}/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 resources:
 - ../../base
-- ../../../external-secrets/overlays/${CLUSTER_NAME}
-- ../../../external-dns/overlays/${CLUSTER_NAME}
-- ../../../secrets/kubeflow/overlays/${CLUSTER_NAME}
-- ../../../secrets/istio-system/overlays/${CLUSTER_NAME}
-- ../../../kubeflow/1.3/overlays/${CLUSTER_NAME}
+- ../../../external-secrets/overlays/${KUBEFLOW_PROJECT}
+- ../../../external-dns/overlays/${KUBEFLOW_PROJECT}
+- ../../../secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}
+- ../../../secrets/istio-system/overlays/${KUBEFLOW_PROJECT}
+- ../../../kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
 

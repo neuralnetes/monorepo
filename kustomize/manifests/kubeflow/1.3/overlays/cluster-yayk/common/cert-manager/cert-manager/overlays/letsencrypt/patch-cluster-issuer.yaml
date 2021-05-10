@@ -9,7 +9,6 @@ spec:
     privateKeySecretRef: null
     server: https://acme-v02.api.letsencrypt.org/directory
     solvers:
-      - dns01:
-          cloudDNS:
-            project: network-yayk
-
+    - dns01:
+        clouddns:
+          project: network-yayk

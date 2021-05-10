@@ -7,3 +7,5 @@
 * [expose kubeflow](https://www.kubeflow.org/docs/started/k8s/kfctl-istio-dex/#expose-kubeflow)
 * [gke-istio-vpn-demo](https://github.com/GoogleCloudPlatform/gke-istio-vpn-demo/blob/master/terraform/main.tf)
 * [training-a-model-with-a-notebook](https://github.com/kubeflow/examples/blob/master/github_issue_summarization/02_training_the_model.md)
+* [kubeflow 1.3 branch](https://github.com/kubeflow/manifests/tree/v1.3.0)
+* [kubeflow components described](https://github.com/kubeflow/manifests/tree/v1.3.0#install-individual-components)vvv
