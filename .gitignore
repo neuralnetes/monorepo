@@ -1,13 +1,7 @@
 *.tfstate
 *.tfstate.*
 .DS_Store
-.alias
-.envrc
-.envrc-public
 .envrc-secret
-.function
-.gitconfig
-.gitignore-global
 .idea
 .ignore
 .terraform
@@ -16,11 +10,7 @@
 .tfenv
 .tgenv
 .venv
-.zshrc
-Brewfile
-bin
-keyboard.json
 node_modules
 terragrunt-debug.tfvars.json
 tmp
-google-cloud-sdk*
+.obsidian

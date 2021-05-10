@@ -25,6 +25,12 @@ inputs = {
       name       = "datasets-${dependency.random_string.outputs.result}"
       project_id = dependency.data_project.outputs.project_id
       versioning = true
-    }
+    },
+    {
+      location   = "US"
+      name       = "kubeflow-${dependency.random_string.outputs.result}"
+      project_id = dependency.data_project.outputs.project_id
+      versioning = true
+    },
   ]
 }

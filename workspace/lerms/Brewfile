@@ -1,0 +1,58 @@
+tap "adoptopenjdk/openjdk"
+tap "argoproj/tap"
+tap "bazelbuild/tap"
+tap "fluxcd/tap"
+tap "github/gh"
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/cask-versions"
+tap "homebrew/core"
+tap "homebrew/services"
+brew "bazelisk"
+brew "go"
+brew "direnv"
+brew "fzf"
+brew "gh"
+brew "helm"
+brew "hyperkit"
+brew "jenv"
+brew "jq"
+brew "kind"
+brew "kubernetes-cli"
+brew "kubectx"
+brew "kustomize"
+brew "mas"
+brew "nvm"
+brew "pyenv"
+brew "pyenv-virtualenv"
+brew "stern"
+brew "tree"
+brew "watch"
+brew "wget"
+brew "yq"
+brew "zsh"
+brew "zsh-completions"
+brew "fluxcd/tap/flux"
+cask "adoptopenjdk8"
+cask "brave-browser"
+cask "contexts"
+cask "discord"
+cask "docker"
+cask "geekbench"
+cask "google-cloud-sdk"
+cask "intellij-idea"
+cask "iterm2"
+cask "spotify"
+cask "visual-studio-code"
+cask "zoomus"
+mas "1Password 7", id: 1333542190
+mas "Bear", id: 1091189122
+mas "DaisyDisk", id: 411643860
+mas "Fantastical", id: 975937182
+mas "Logic Pro", id: 634148309
+mas "Magnet", id: 441258766
+mas "Screens", id: 1224268771
+mas "Slack", id: 803453959
+mas "Spark", id: 1176895641
+mas "Surfshark", id: 1437809329
+mas "Xcode", id: 497799835

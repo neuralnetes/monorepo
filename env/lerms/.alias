@@ -1,0 +1,6 @@
+#!/bin/bash
+alias kb="kustomize build --load-restrictor LoadRestrictionsNone"
+alias kbf="kb | kaf -"
+alias kbdf="kb | kdelf -"
+alias kfmt="kustomize cfg fmt -R"
+alias to_lowercase="tr '[:upper:]' '[:lower:]'"
