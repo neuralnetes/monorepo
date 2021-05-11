@@ -4,7 +4,7 @@ kind: Kustomization
 metadata:
   name: cert-manager-kube-system-resources
 spec:
-  interval: 11m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.3/base/common/cert-manager/cert-manager-kube-system-resources/base
   prune: true
   sourceRef:
