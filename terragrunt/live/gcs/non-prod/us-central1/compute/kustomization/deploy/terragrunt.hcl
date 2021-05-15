@@ -45,5 +45,5 @@ EOF
 }
 
 inputs = {
-  path = "${get_env("GITHUB_WORKSPACE")}/kustomize/manifests/deploy/overlays/cluster-${dependency.random_string.outputs.result}"
+  path = "${get_env("GITHUB_WORKSPACE")}/kustomize/manifests/deploy/overlays/${dependency.compute_project.outputs.project_id}"
 }
