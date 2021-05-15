@@ -11,7 +11,7 @@ dependency "network_project" {
 }
 
 dependency "compute_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compuote/google/project"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/google/project"
 }
 
 dependency "vpc" {
