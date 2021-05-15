@@ -3,7 +3,7 @@ kind: Kustomization
 metadata:
   name: kubeflow-namespaces
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.2/base/namespaces/base
   prune: true
   sourceRef:
@@ -15,7 +15,7 @@ kind: Kustomization
 metadata:
   name: application
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.2/base/application/v3
   prune: true
   sourceRef:
@@ -28,7 +28,7 @@ kind: Kustomization
 metadata:
   name: istio-stack
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.2/base/stacks/kubernetes/application/istio-1-3-1-stack
   prune: true
   sourceRef:
@@ -41,7 +41,7 @@ kind: Kustomization
 metadata:
   name: cluster-local-gateway
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.2/base/stacks/kubernetes/application/cluster-local-gateway-1-3-1
   prune: true
   sourceRef:
@@ -54,7 +54,7 @@ kind: Kustomization
 metadata:
   name: istio
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.2/base/istio/istio/base
   prune: true
   sourceRef:
@@ -67,7 +67,7 @@ kind: Kustomization
 metadata:
   name: cert-manager-crds
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.2/base/stacks/kubernetes/application/cert-manager-crds
   prune: true
   sourceRef:
@@ -80,7 +80,7 @@ kind: Kustomization
 metadata:
   name: cert-manager-kube-system-resources
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.2/base/stacks/kubernetes/application/cert-manager-kube-system-resources
   prune: true
   sourceRef:
@@ -93,7 +93,7 @@ kind: Kustomization
 metadata:
   name: cert-manager
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.2/base/stacks/kubernetes/application/cert-manager
   prune: true
   sourceRef:
@@ -106,7 +106,7 @@ kind: Kustomization
 metadata:
   name: metacontroller
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.2/base/metacontroller/base
   prune: true
   sourceRef:
@@ -119,7 +119,7 @@ kind: Kustomization
 metadata:
   name: oidc-authservice
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.2/base/stacks/kubernetes/application/oidc-authservice
   prune: true
   sourceRef:
@@ -132,7 +132,7 @@ kind: Kustomization
 metadata:
   name: dex-auth
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.2/base/stacks/kubernetes/application/dex-auth
   prune: true
   sourceRef:
@@ -145,7 +145,7 @@ kind: Kustomization
 metadata:
   name: bootstrap
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.2/base/admission-webhook/bootstrap/overlays/application
   prune: true
   sourceRef:
@@ -158,7 +158,7 @@ kind: Kustomization
 metadata:
   name: spark-operator
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.2/base/spark/spark-operator/overlays/application
   prune: true
   sourceRef:
@@ -171,7 +171,7 @@ kind: Kustomization
 metadata:
   name: kubeflow-apps
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.2/base/stacks/kubernetes
   prune: true
   sourceRef:
@@ -184,7 +184,7 @@ kind: Kustomization
 metadata:
   name: knative
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.2/base/knative/installs/generic
   prune: true
   sourceRef:
@@ -197,7 +197,7 @@ kind: Kustomization
 metadata:
   name: kfserving
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/kubeflow/1.2/base/kfserving/installs/generic
   prune: true
   sourceRef:

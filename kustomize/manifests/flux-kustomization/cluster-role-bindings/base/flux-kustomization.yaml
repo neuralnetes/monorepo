@@ -3,7 +3,7 @@ kind: Kustomization
 metadata:
   name: cluster-role-bindings
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/cluster-role-bindings/base
   prune: true
   sourceRef:

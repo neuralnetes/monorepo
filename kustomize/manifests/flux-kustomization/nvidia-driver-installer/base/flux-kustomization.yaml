@@ -3,7 +3,7 @@ kind: Kustomization
 metadata:
   name: nvidia-driver-installer
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/nvidia-driver-installer/base
   prune: true
   sourceRef:

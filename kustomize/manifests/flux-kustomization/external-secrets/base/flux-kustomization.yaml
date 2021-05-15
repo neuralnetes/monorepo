@@ -3,7 +3,7 @@ kind: Kustomization
 metadata:
   name: external-secrets
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/external-secrets/overlays/compute
   prune: true
   sourceRef:

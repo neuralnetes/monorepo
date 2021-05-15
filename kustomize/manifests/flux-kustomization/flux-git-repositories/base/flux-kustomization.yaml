@@ -3,7 +3,7 @@ kind: Kustomization
 metadata:
   name: flux-git-repositories
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/flux-git-repositories/base
   prune: true
   sourceRef:

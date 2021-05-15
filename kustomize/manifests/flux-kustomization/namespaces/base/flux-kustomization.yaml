@@ -3,7 +3,7 @@ kind: Kustomization
 metadata:
   name: namespaces
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/namespaces/base
   prune: true
   sourceRef:

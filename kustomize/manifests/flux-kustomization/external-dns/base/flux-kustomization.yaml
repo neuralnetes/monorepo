@@ -3,7 +3,7 @@ kind: Kustomization
 metadata:
   name: external-dns
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/external-dns/base
   prune: true
   sourceRef:

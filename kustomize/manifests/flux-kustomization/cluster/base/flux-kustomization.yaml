@@ -3,7 +3,7 @@ kind: Kustomization
 metadata:
   name: cluster
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/flux-kustomization/cluster/base
   prune: true
   sourceRef:

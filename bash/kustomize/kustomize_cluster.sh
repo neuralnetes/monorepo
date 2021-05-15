@@ -246,7 +246,7 @@ data:
         # Credentials can be string literals or pulled from the environment.
         clientID: ${GITHUB_CLIENT_ID}
         clientSecret: ${GITHUB_CLIENT_SECRET}
-        redirectURI: http://127.0.0.1:5556/dex/callback
+        redirectURI: http://dex.auth.svc.cluster.local:5556/dex/callback
 
         # Optional organizations and teams, communicated through the "groups" scope.
         #

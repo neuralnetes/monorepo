@@ -3,7 +3,7 @@ kind: Kustomization
 metadata:
   name: deploy
 spec:
-  interval: 5m
+  interval: 1m
   path: kustomize/manifests/deploy/base
   prune: true
   sourceRef:
