@@ -8,7 +8,7 @@ metadata:
   namespace: istio-system
   annotations:
     external-dns.alpha.kubernetes.io/hostname: '*.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}.'
-    networking3.gke.io/load-balancer-type: Internal
+    networking.gke.io/load-balancer-type: Internal
 spec:
   type: LoadBalancer
 
