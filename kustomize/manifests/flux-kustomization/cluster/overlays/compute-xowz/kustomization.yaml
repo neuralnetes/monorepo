@@ -1,0 +1,11 @@
+namespace: flux-system
+resources:
+- ../../base
+- ../../../external-secrets/overlays/compute-xowz
+- ../../../external-dns/overlays/compute-xowz
+- ../../../secrets/kubeflow/overlays/compute-xowz
+- ../../../secrets/istio-system/overlays/compute-xowz
+- ../../../kubeflow/1.3/overlays/compute-xowz
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml
+
