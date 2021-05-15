@@ -4,4 +4,5 @@ wget "https://github.com/fluxcd/flux2/releases/download/${FLUX2_VERSION}/manifes
 tar xvfz manifests.tar.gz
 rm -rf manifests.tar.gz
 git add .
-git commit -m "update flux2 to version ${FLUX2_VERSION}"
+git commit -m "flux2 manifests ${KUBEFLOW_VERSION}"
+git push

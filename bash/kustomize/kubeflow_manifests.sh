@@ -6,3 +6,4 @@ tar xvfz v1.3.0.tar.gz
 rm -rf v1.3.0.tar.gz
 git add .
 git commit -m "kubeflow manifests ${KUBEFLOW_VERSION}"
+git push
