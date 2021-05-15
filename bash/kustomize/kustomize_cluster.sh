@@ -179,7 +179,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - 'kubeflow.{KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
+    - 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
     tls:
       httpsRedirect: true # sends 301 redirect for http requests
   - port:
@@ -190,7 +190,7 @@ spec:
       mode: SIMPLE
       credentialName: istio-certs
     hosts:
-    - 'kubeflow.{KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
+    - 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base/kustomization.yaml"
