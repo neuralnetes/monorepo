@@ -33,7 +33,7 @@ metadata:
   name: istio-certs
 spec:
   dnsNames:
-  - '*.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
+  - 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
 EOF
 
 cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -161,7 +161,7 @@ metadata:
   name: istio-ingressgateway
   namespace: istio-system
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: '*.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}.'
+    external-dns.alpha.kubernetes.io/hostname: 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}.'
 spec:
   type: LoadBalancer
 
@@ -175,6 +175,14 @@ metadata:
 spec:
   servers:
   - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - 'kubeflow.{KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
+    tls:
+      httpsRedirect: true # sends 301 redirect for http requests
+  - port:
       number: 443
       name: https
       protocol: HTTPS
@@ -182,7 +190,7 @@ spec:
       mode: SIMPLE
       credentialName: istio-certs
     hosts:
-    - '*.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
+    - 'kubeflow.{KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base/kustomization.yaml"
@@ -304,7 +312,7 @@ metadata:
   name: config-domain
   namespace: knative-serving
 data:
-  ${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}: ""
+  kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}: ""
 
 EOF
 
@@ -333,7 +341,7 @@ spec:
       mode: SIMPLE
       credentialName: istio-certs
     hosts:
-    - '*.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
+    - 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base/kustomization.yaml"
