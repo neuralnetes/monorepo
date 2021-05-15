@@ -319,7 +319,7 @@ EOF
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base/kustomization.yaml"
 namespace: knative-serving
 resources:
-- ../../../kubeflow/1.3/common/knative/knative-serving-install/base
+- ../../../../../../../../kubeflow/1.3/base/common/knative/knative-serving-install/base
 patchesStrategicMerge:
 - patch-config.yaml
 
