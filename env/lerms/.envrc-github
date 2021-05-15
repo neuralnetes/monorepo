@@ -1,0 +1,8 @@
+#!/bin/bash
+export GITHUB_OWNER="neuralnetes"
+export GITHUB_REPOSITORY="${GITHUB_OWNER}/monorepo"
+export GITHUB_WORKSPACE="${GOPATH}/src/github.com/${GITHUB_REPOSITORY}"
+export GITHUB_USER="lerms"
+export GITHUB_USER_WORKSPACE="${GITHUB_WORKSPACE}/env/${GITHUB_USER}"
+export GITHUB_REF=$(cd "${GITHUB_WORKSPACE}" && git branch --show-current)
+export GITHUB_SHA=$(cd "${GITHUB_WORKSPACE}" && git rev-parse HEAD)
