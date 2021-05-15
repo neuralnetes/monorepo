@@ -101,7 +101,7 @@ patchesStrategicMerge:
 EOF
 
 # cert-manager
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/cert-manager/overlays/letsencrypt/patch-cluster-issuer.yaml"
+cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/cert-manager/overlays/letsencrypt/cluster-issuer.yaml"
 apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
 metadata:
@@ -116,9 +116,7 @@ spec:
       - dns01:
           clouddns:
             project: ${NETWORK_PROJECT}
-EOF
-
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/cert-manager/overlays/letsencrypt/cluster-issuer.yaml"
+---
 apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
 metadata:
@@ -138,10 +136,8 @@ EOF
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/cert-manager/overlays/letsencrypt/kustomization.yaml"
 namespace: cert-manager
 resources:
-- ../../../../../../../../../kubeflow/1.3/base/common/cert-manager/cert-manager/overlays/letsencrypt
+- ../../../../../../../../../kubeflow/1.3/base/common/cert-manager/cert-manager/base
 - cluster-issuer.yaml
-patchesStrategicMerge:
-- patch-cluster-issuer.yaml
 EOF
 
 # istio-install
@@ -317,6 +313,14 @@ metadata:
   name: kubeflow-gateway
 spec:
   servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
+    tls:
+      httpsRedirect: true # sends 301 redirect for http requests
   - port:
       number: 443
       name: https
