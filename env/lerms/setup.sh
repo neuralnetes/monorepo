@@ -1,4 +1,5 @@
 #!/bin/bash
+GOPATH="${HOME}/go"
 GITHUB_OWNER="neuralnetes"
 GITHUB_REPOSITORY="${GITHUB_OWNER}/monorepo"
 GITHUB_WORKSPACE="${GOPATH}/src/github.com/${GITHUB_REPOSITORY}"
