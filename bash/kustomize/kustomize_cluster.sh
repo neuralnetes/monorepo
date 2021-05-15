@@ -42,7 +42,6 @@ resources:
 - ../../base
 patchesStrategicMerge:
 - patch-certificate.yaml
-
 EOF
 
 # external-secrets
@@ -53,7 +52,6 @@ metadata:
   name: external-secrets
   annotations:
     iam.gke.io/gcp-service-account: external-secrets@${IAM_PROJECT}.iam.gserviceaccount.com
-
 EOF
 
 cat <<EOF > "kustomize/manifests/external-secrets/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -62,7 +60,6 @@ resources:
 - ../../base
 patchesStrategicMerge:
 - patch-service-account.yaml
-
 EOF
 
 # external-dns
@@ -83,7 +80,6 @@ spec:
         - --google-project=${NETWORK_PROJECT}
         - --registry=txt
         - --txt-owner-id=${KUBEFLOW_PROJECT}
-
 EOF
 
 cat <<EOF > "kustomize/manifests/external-dns/overlays/${KUBEFLOW_PROJECT}/patch-service-account.yaml"
@@ -93,7 +89,6 @@ metadata:
   name: external-dns
   annotations:
     iam.gke.io/gcp-service-account: external-dns@${IAM_PROJECT}.iam.gserviceaccount.com
-
 EOF
 
 cat <<EOF > "kustomize/manifests/external-dns/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -103,7 +98,6 @@ resources:
 patchesStrategicMerge:
 - patch-deployment.yaml
 - patch-service-account.yaml
-
 EOF
 
 # cert-manager
@@ -122,7 +116,6 @@ spec:
       - dns01:
           clouddns:
             project: ${NETWORK_PROJECT}
-
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/cert-manager/overlays/letsencrypt/cluster-issuer.yaml"
@@ -140,7 +133,6 @@ spec:
       - dns01:
           clouddns:
             project: ${NETWORK_PROJECT}
-
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/cert-manager/overlays/letsencrypt/kustomization.yaml"
@@ -150,7 +142,6 @@ resources:
 - cluster-issuer.yaml
 patchesStrategicMerge:
 - patch-cluster-issuer.yaml
-
 EOF
 
 # istio-install
@@ -164,7 +155,6 @@ metadata:
     external-dns.alpha.kubernetes.io/hostname: 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}.'
 spec:
   type: LoadBalancer
-
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base/patch-gateway.yaml"
@@ -200,7 +190,6 @@ resources:
 patchesStrategicMerge:
 - patch-gateway.yaml
 - patch-service.yaml
-
 EOF
 
 # oidc-authservice
@@ -213,7 +202,6 @@ cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/commo
 namespace: kubeflow
 resources:
 - ../../../../../../../kubeflow/1.3/base/common/oidc-authservice/base
-
 EOF
 
 # dex
@@ -292,7 +280,6 @@ data:
         # flag which will switch from using the internal GitHub id to the users handle (@mention) as the user id.
         # It is possible for a user to change their own user name but it is very rare for them to do so
         useLoginAsID: false
-
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio/kustomization.yaml"
@@ -301,7 +288,6 @@ resources:
 - ../../../../../../../../kubeflow/1.3/base/common/dex/overlays/istio
 patchesStrategicMerge:
 - patch-config.yaml
-
 EOF
 
 # knative-serving-install
@@ -313,7 +299,6 @@ metadata:
   namespace: knative-serving
 data:
   kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}: ""
-
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base/kustomization.yaml"
@@ -322,7 +307,6 @@ resources:
 - ../../../../../../../../kubeflow/1.3/base/common/knative/knative-serving-install/base
 patchesStrategicMerge:
 - patch-config.yaml
-
 EOF
 
 # kubeflow-istio-resources
@@ -350,7 +334,6 @@ resources:
 - ../../../../../../../../kubeflow/1.3/base/common/istio-1-9-0/kubeflow-istio-resources/base
 patchesStrategicMerge:
 - patch-gateway.yaml
-
 EOF
 
 # deploy
@@ -359,7 +342,6 @@ namespace: flux-system
 resources:
 - ../../base
 - ../../../flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}
-
 EOF
 
 # flux-kustomization
@@ -370,7 +352,6 @@ metadata:
   name: external-secrets
 spec:
   path: kustomize/manifests/external-secrets/overlays/${KUBEFLOW_PROJECT}
-
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/external-secrets/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -378,7 +359,6 @@ resources:
 - ../../base
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
-
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/external-dns/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
@@ -388,7 +368,6 @@ metadata:
   name: external-dns
 spec:
   path: kustomize/manifests/external-dns/overlays/${KUBEFLOW_PROJECT}
-
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/external-dns/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -396,7 +375,6 @@ resources:
 - ../../base
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
-
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
@@ -406,7 +384,6 @@ metadata:
   name: kubeflow-secrets
 spec:
   path: kustomize/manifests/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}
-
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -414,7 +391,6 @@ resources:
 - ../../base
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
-
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
@@ -424,7 +400,6 @@ metadata:
   name: istio-system-secrets
 spec:
   path: kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}
-
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -432,7 +407,6 @@ resources:
 - ../../base
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
-
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
@@ -477,7 +451,6 @@ metadata:
   name: kubeflow-istio-resources
 spec:
   path: kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base
-
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -485,7 +458,6 @@ resources:
 - ../../base
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
-
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
@@ -495,7 +467,6 @@ metadata:
   name: cluster
 spec:
   path: kustomize/manifests/flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}
-
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -509,5 +480,4 @@ resources:
 - ../../../kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
-
 EOF
