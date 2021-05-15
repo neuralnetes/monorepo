@@ -1,0 +1,7 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: cluster
+spec:
+  path: kustomize/manifests/flux-kustomization/cluster/overlays/compute-tmox
+
