@@ -33,7 +33,7 @@ dependency "random_string" {
 locals {
   github_client_id     = get_env("GITHUB_CLIENT_ID")
   github_client_secret = get_env("GITHUB_CLIENT_SECRET")
-  github_owner         = get_env("GITHHUB_OWNER")
+  github_owner         = get_env("GITHUB_OWNER")
   github_workspace     = get_env("GITHUB_WORKSPACE")
   filebase64sha256     = filebase64sha256("${local.github_workspace}/bash/kustomize/kustomize_cluster.sh")
 }
