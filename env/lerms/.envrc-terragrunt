@@ -10,6 +10,6 @@ export TERRAGRUNT_CLI_FLAGS='[
     "--terragrunt-include-dir us-central1/data/**/**",
     "--terragrunt-include-dir us-central1/compute/**/**"
 ]'
-export TERRAGRUNT_COMMAND="run-all output"
+export TERRAGRUNT_COMMAND="run-all apply"
 export TERRAGRUNT_WORKING_DIR="terragrunt/live/gcs/non-prod"
 export TF_INPUT="false"
