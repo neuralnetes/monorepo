@@ -5,6 +5,7 @@ on:
     paths:
       - 'terraform/**'
       - 'terragrunt/**'
+      - 'bash/kustomize/kustomize_cluster.sh'
 jobs:
   terragrunt:
     runs-on: ubuntu-latest
