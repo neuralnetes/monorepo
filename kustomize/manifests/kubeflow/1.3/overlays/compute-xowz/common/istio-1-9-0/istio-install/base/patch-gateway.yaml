@@ -9,7 +9,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - 'kubeflow.{KUBEFLOW_PROJECT}.network-xowz.neuralnetes.com'
+    - 'kubeflow.compute-xowz.network-xowz.neuralnetes.com'
     tls:
       httpsRedirect: true # sends 301 redirect for http requests
   - port:
@@ -20,4 +20,4 @@ spec:
       mode: SIMPLE
       credentialName: istio-certs
     hosts:
-    - 'kubeflow.{KUBEFLOW_PROJECT}.network-xowz.neuralnetes.com'
+    - 'kubeflow.compute-xowz.network-xowz.neuralnetes.com'
