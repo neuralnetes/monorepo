@@ -19,7 +19,7 @@
 ## Overview
 
 This repo is owned by the [Manifests Working Group](https://github.com/kubeflow/community/blob/master/wg-manifests/charter.md).
-If you are a contributor authoring or editing the packages please see [Best Practices](docs/KustomizeBestPractices.md).
+If you are a contributor authoring or editing the packages please see [Best Practices](./docs/KustomizeBestPractices.md).
 
 The Kubeflow Manifests repository is organized under three (3) main directories, which include manifests for installing:
 
