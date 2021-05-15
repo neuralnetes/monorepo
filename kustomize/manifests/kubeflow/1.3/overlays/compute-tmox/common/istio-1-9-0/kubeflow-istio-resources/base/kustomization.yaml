@@ -1,4 +1,4 @@
-namespace: istio-system
+namespace: kubeflow
 resources:
 - ../../../../../../../../kubeflow/1.3/base/common/istio-1-9-0/kubeflow-istio-resources/base
 patchesStrategicMerge:
