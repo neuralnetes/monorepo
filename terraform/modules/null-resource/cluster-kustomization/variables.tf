@@ -2,6 +2,18 @@ variable "cluster_name" {
   type = string
 }
 
+variable "github_client_id" {
+  type = string
+}
+
+variable "github_client_secret" {
+  type = string
+}
+
+variable "github_owner" {
+  type = string
+}
+
 variable "github_workspace" {
   type = string
 }
@@ -11,6 +23,10 @@ variable "compute_project" {
 }
 
 variable "iam_project" {
+  type = string
+}
+
+variable "kubeflow_project" {
   type = string
 }
 

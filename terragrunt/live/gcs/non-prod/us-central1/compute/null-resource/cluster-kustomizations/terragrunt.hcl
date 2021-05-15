@@ -31,19 +31,27 @@ dependency "random_string" {
 }
 
 locals {
-  github_workspace = get_env("GITHUB_WORKSPACE")
+  github_client_id     = get_env("GITHUB_CLIENT_ID")
+  github_client_secret = get_env("GITHUB_CLIENT_SECRET")
+  github_owner         = get_env("GITHHUB_OWNER")
+  github_workspace     = get_env("GITHUB_WORKSPACE")
+  filebase64sha256     = filebase64sha256("${local.github_workspace}/bash/kustomize/kustomize_cluster.sh")
 }
 
 inputs = {
   cluster_kustomizations = [
     {
-      github_workspace = local.github_workspace
-      cluster_name     = dependency.container_clusters.outputs.container_clusters_map["cluster-${dependency.random_string.outputs.result}"].cluster_name
-      compute_project  = dependency.compute_project.outputs.project_id
-      iam_project      = dependency.iam_project.outputs.project_id
-      network_project  = dependency.network_project.outputs.project_id
+      github_client_id     = local.github_client_id
+      github_client_secret = local.github_client_secret
+      github_owner         = local.github_owner
+      github_workspace     = local.github_workspace
+      cluster_name         = dependency.container_clusters.outputs.container_clusters_map["cluster-${dependency.random_string.outputs.result}"].cluster_name
+      compute_project      = dependency.compute_project.outputs.project_id
+      iam_project          = dependency.iam_project.outputs.project_id
+      network_project      = dependency.network_project.outputs.project_id
+      kubeflow_project     = dependency.compute_project.outputs.project_id
       triggers = {
-        filebase64sha256 = filebase64sha256("${local.github_workspace}/bash/kustomize/kustomize_cluster.sh")
+        filebase64sha256 = local.filebase64sha256
       }
     }
   ]

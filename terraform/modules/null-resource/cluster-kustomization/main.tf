@@ -3,10 +3,16 @@ resource "null_resource" "kustomize_cluster" {
     interpreter = ["bash", "-c"]
     command     = "cd ${var.github_workspace} && bash/kustomize/kustomize_cluster.sh"
     environment = {
-      CLUSTER_NAME    = var.cluster_name
-      COMPUTE_PROJECT = var.compute_project
-      IAM_PROJECT     = var.iam_project
-      NETWORK_PROJECT = var.network_project
+      CLUSTER_NAME         = var.cluster_name
+      GITHUB_OWNER         = var.github_owner
+      GITHUB_CLIENT_ID     = var.github_client_id
+      GITHUB_CLIENT_SECRET = var.github_client_secret
+      GITHUB_OWNER         = var.github_owner
+      GITHUB_WORKSPACE     = var.github_workspace
+      COMPUTE_PROJECT      = var.compute_project
+      IAM_PROJECT          = var.iam_project
+      KUBEFLOW_PROJECT     = var.kubeflow_project
+      NETWORK_PROJECT      = var.network_project
     }
   }
   triggers = var.triggers
