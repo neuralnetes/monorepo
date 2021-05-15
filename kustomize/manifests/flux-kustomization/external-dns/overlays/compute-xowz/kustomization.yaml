@@ -2,4 +2,3 @@ resources:
 - ../../base
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
-

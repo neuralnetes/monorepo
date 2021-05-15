@@ -5,4 +5,3 @@ metadata:
   namespace: knative-serving
 data:
   kubeflow.compute-xowz.network-xowz.neuralnetes.com: ""
-

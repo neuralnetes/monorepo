@@ -4,4 +4,3 @@ resources:
 - cluster-issuer.yaml
 patchesStrategicMerge:
 - patch-cluster-issuer.yaml
-

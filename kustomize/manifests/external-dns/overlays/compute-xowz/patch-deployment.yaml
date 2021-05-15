@@ -14,4 +14,3 @@ spec:
         - --google-project=network-xowz
         - --registry=txt
         - --txt-owner-id=compute-xowz
-

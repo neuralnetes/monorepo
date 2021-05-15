@@ -7,4 +7,3 @@ metadata:
     external-dns.alpha.kubernetes.io/hostname: 'kubeflow.compute-xowz.network-xowz.neuralnetes.com.'
 spec:
   type: LoadBalancer
-
