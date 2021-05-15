@@ -10,6 +10,10 @@ dependency "network_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/project"
 }
 
+dependency "compute_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compuote/google/project"
+}
+
 dependency "vpc" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/vpc"
 }
@@ -25,20 +29,36 @@ locals {
 inputs = {
   cloud_dns = [
     {
-      project_id = dependency.vpc.outputs.project_id
+      project_id = dependency.network_project.outputs.project_id
       type       = "private"
-      name       = replace("private-${dependency.vpc.outputs.project_id}-${local.gsuite_domain_name}", ".", "-")
-      domain     = "${dependency.vpc.outputs.project_id}.${local.gsuite_domain_name}."
+      name       = replace("private-${dependency.network_project.outputs.project_id}-${local.gsuite_domain_name}", ".", "-")
+      domain     = "${dependency.network_project.outputs.project_id}.${local.gsuite_domain_name}."
       private_visibility_config_networks = [
         dependency.vpc.outputs.network_self_link
       ]
     },
     {
-      project_id                         = dependency.vpc.outputs.project_id
+      project_id                         = dependency.network_project.outputs.project_id
       type                               = "public"
-      name                               = replace("public-${dependency.vpc.outputs.project_id}-${local.gsuite_domain_name}", ".", "-")
-      domain                             = "${dependency.vpc.outputs.project_id}.${local.gsuite_domain_name}."
+      name                               = replace("public-${dependency.network_project.outputs.project_id}-${local.gsuite_domain_name}", ".", "-")
+      domain                             = "${dependency.network_project.outputs.project_id}.${local.gsuite_domain_name}."
       private_visibility_config_networks = []
-    }
+    },
+    {
+      project_id = dependency.network_project.outputs.project_id
+      type       = "private"
+      name       = replace("private-${dependency.compute_project.outputs.project_id}-${dependency.network_project.outputs.project_id}-${local.gsuite_domain_name}", ".", "-")
+      domain     = "${dependency.compute_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gsuite_domain_name}."
+      private_visibility_config_networks = [
+        dependency.vpc.outputs.network_self_link
+      ]
+    },
+    {
+      project_id                         = dependency.network_project.outputs.project_id
+      type                               = "public"
+      name                               = replace("public-${dependency.compute_project.outputs.project_id}-${dependency.network_project.outputs.project_id}-${local.gsuite_domain_name}", ".", "-")
+      domain                             = "${dependency.compute_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gsuite_domain_name}."
+      private_visibility_config_networks = []
+    },
   ]
 }
