@@ -1,0 +1,5 @@
+namespace: cert-manager
+resources:
+- ../../../../../../kubeflow/custom/common/cert-manager
+patchesStrategicMerge:
+- patch-cluster-issuer.yaml

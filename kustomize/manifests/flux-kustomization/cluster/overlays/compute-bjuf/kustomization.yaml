@@ -3,6 +3,7 @@ resources:
 - ../../base
 - ../../../external-secrets/overlays/compute-bjuf
 - ../../../external-dns/overlays/compute-bjuf
+- ../../../secrets/cert-manager/overlays/compute-bjuf
 - ../../../secrets/kubeflow/overlays/compute-bjuf
 - ../../../secrets/istio-system/overlays/compute-bjuf
 - ../../../kubeflow/overlays/compute-bjuf
