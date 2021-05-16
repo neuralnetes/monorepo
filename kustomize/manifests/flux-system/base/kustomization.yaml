@@ -7,7 +7,7 @@ resources:
 - kustomize-controller.yaml
 - image-automation-controller.yaml
 - image-reflector-controller.yaml
-images:
-  - name: fluxcd/kustomize-controller
-    newName: ghcr.io/fluxcd/kustomize-controller
-    newTag: kustomize-v4-rc-de0310e7
+#images:
+#  - name: fluxcd/kustomize-controller
+#    newName: ghcr.io/fluxcd/kustomize-controller
+#    newTag: kustomize-v4-rc-de0310e7
