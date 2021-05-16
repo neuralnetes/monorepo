@@ -2,16 +2,12 @@
 PATHS=(
   "kustomize/manifests/external-secrets/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/external-dns/overlays/${KUBEFLOW_PROJECT}"
-  "kustomize/manifests/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}"
-  "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base"
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base"
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base"
   "kustomize/manifests/deploy/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/external-secrets/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/external-dns/overlays/${KUBEFLOW_PROJECT}"
-  "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}"
-  "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/kubeflow/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/deploy/overlays/${KUBEFLOW_PROJECT}"
@@ -21,28 +17,6 @@ for path in "${PATHS[@]}"; do
   rm -rf "${path}"
   mkdir -p "${path}"
 done
-
-# secrets
-
-cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/patch-external-secret.yaml"
-apiVersion: kubernetes-client.io/v1
-kind: ExternalSecret
-metadata:
-  name: istio-certs # name of the k8s external secret and the k8s secret
-spec:
-  projectId: ${SECRET_PROJECT}
-  data:
-    - key: kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}
-      name: cert
-EOF
-
-cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
-namespace: istio-system
-resources:
-- ../../base
-patchesStrategicMerge:
-- patch-external-secret.yaml
-EOF
 
 # external-secrets
 cat <<EOF > "kustomize/manifests/external-secrets/overlays/${KUBEFLOW_PROJECT}/patch-service-account.yaml"
@@ -125,18 +99,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
-    tls:
-      httpsRedirect: true # sends 301 redirect for http requests
-  - port:
-      number: 443
-      name: https
-      protocol: HTTPS
-    tls:
-      mode: SIMPLE
-      credentialName: istio-certs
-    hosts:
-    - 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
+    - '*'
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base/kustomization.yaml"
@@ -180,18 +143,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
-    tls:
-      httpsRedirect: true # sends 301 redirect for http requests
-  - port:
-      number: 443
-      name: https
-      protocol: HTTPS
-    tls:
-      mode: SIMPLE
-      credentialName: istio-certs
-    hosts:
-    - 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
+    - '*'
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base/kustomization.yaml"
@@ -237,38 +189,6 @@ spec:
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/external-dns/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
-resources:
-- ../../base
-patchesStrategicMerge:
-- patch-flux-kustomization.yaml
-EOF
-
-cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: kubeflow-secrets
-spec:
-  path: kustomize/manifests/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}
-EOF
-
-cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
-resources:
-- ../../base
-patchesStrategicMerge:
-- patch-flux-kustomization.yaml
-EOF
-
-cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: istio-system-secrets
-spec:
-  path: kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}
-EOF
-
-cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 resources:
 - ../../base
 patchesStrategicMerge:
@@ -321,8 +241,6 @@ resources:
 - ../../base
 - ../../../external-secrets/overlays/${KUBEFLOW_PROJECT}
 - ../../../external-dns/overlays/${KUBEFLOW_PROJECT}
-- ../../../secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}
-- ../../../secrets/istio-system/overlays/${KUBEFLOW_PROJECT}
 - ../../../kubeflow/overlays/${KUBEFLOW_PROJECT}
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
