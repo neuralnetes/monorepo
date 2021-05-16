@@ -105,7 +105,7 @@ EOF
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base/kustomization.yaml"
 namespace: istio-system
 resources:
-- ../../../../../../../../kubeflow/base/common/istio-1-9-0/istio-install/base
+- ../../../../../../../kubeflow/base/common/istio-1-9-0/istio-install/base
 patchesStrategicMerge:
 - patch-gateway.yaml
 - patch-service.yaml
@@ -125,7 +125,7 @@ EOF
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base/kustomization.yaml"
 namespace: knative-serving
 resources:
-- ../../../../../../../../kubeflow/base/common/knative/knative-serving-install/base
+- ../../../../../../../kubeflow/base/common/knative/knative-serving-install/base
 patchesStrategicMerge:
 - patch-config.yaml
 EOF
@@ -149,7 +149,7 @@ EOF
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base/kustomization.yaml"
 namespace: kubeflow
 resources:
-- ../../../../../../../../kubeflow/base/common/istio-1-9-0/kubeflow-istio-resources/base
+- ../../../../../../../kubeflow/base/common/istio-1-9-0/kubeflow-istio-resources/base
 patchesStrategicMerge:
 - patch-gateway.yaml
 EOF
