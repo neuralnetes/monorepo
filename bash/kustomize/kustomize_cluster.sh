@@ -131,6 +131,7 @@ spec:
       - dns01:
           clouddns:
             project: ${NETWORK_PROJECT}
+---
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/cert-manager/overlays/letsencrypt/kustomization.yaml"
