@@ -201,90 +201,89 @@ resources:
 EOF
 
 ## dex
-#cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio/patch-config.yaml"
-#apiVersion: v1
-#kind: ConfigMap
-#metadata:
-#  name: dex
-#data:
-#  config.yaml: |
-#    issuer: http://dex.auth.svc.cluster.local:5556/dex
-#    storage:
-#      type: kubernetes
-#      config:
-#        inCluster: true
-#    web:
-#      http: 0.0.0.0:5556
-#    logger:
-#      level: "debug"
-#      format: text
-#    oauth2:
-#      skipApprovalScreen: true
-#    enablePasswordDB: false
-#    staticPasswords: []
-#    staticClients:
-#    # https://github.com/dexidp/dex/pull/1664
-#    - idEnv: OIDC_CLIENT_ID
-#      redirectURIs: ["/login/oidc"]
-#      name: 'Dex Login Application'
-#      secretEnv: OIDC_CLIENT_SECRET
-#    connectors:
-#    - type: github
-#      # Required field for connector id.
-#      id: github
-#      # Required field for connector name.
-#      name: GitHub
-#      config:
-#        # Credentials can be string literals or pulled from the environment.
-#        clientID: \$GITHUB_CLIENT_ID
-#        clientSecret: \$GITHUB_CLIENT_SECRET
-#        redirectURI: http://dex.auth.svc.cluster.local:5556/dex/callback
-#
-#        # Optional organizations and teams, communicated through the "groups" scope.
-#        #
-#        # NOTE: This is an EXPERIMENTAL config option and will likely change.
-#        #
-#        # Legacy 'org' field. 'org' and 'orgs' cannot be used simultaneously. A user
-#        # MUST be a member of the following org to authenticate with dex.
-#        # org: my-organization
-#        #
-#        # Dex queries the following organizations for group information if the
-#        # "groups" scope is provided. Group claims are formatted as "(org):(team)".
-#        # For example if a user is part of the "engineering" team of the "coreos"
-#        # org, the group claim would include "coreos:engineering".
-#        #
-#        # If orgs are specified in the config then user MUST be a member of at least one of the specified orgs to
-#        # authenticate with dex.
-#        #
-#        # If neither 'org' nor 'orgs' are specified in the config and 'loadAllGroups' setting set to true then user
-#        # authenticate with ALL user's Github groups. Typical use case for this setup:
-#        # provide read-only access to everyone and give full permissions if user has 'my-organization:admins-team' group claim.
-#        orgs:
-#        - name: ${GITHUB_OWNER}
-#          # Include all teams as claims.
-#        # Flag which indicates that all user groups and teams should be loaded.
-#        loadAllGroups: false
-#
-#        # Optional choice between 'name' (default), 'slug', or 'both'.
-#        #
-#        # As an example, group claims for member of 'Site Reliability Engineers' in
-#        # Acme organization would yield:
-#        #   - ['acme:Site Reliability Engineers'] for 'name'
-#        #   - ['acme:site-reliability-engineers'] for 'slug'
-#        #   - ['acme:Site Reliability Engineers', 'acme:site-reliability-engineers'] for 'both'
-#        teamNameField: slug
-#        # flag which will switch from using the internal GitHub id to the users handle (@mention) as the user id.
-#        # It is possible for a user to change their own user name but it is very rare for them to do so
-#        useLoginAsID: false
-#EOF
-#
-#cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio/kustomization.yaml"
-#namespace: auth
-#resources:
-#- ../../../../../../../../kubeflow/base/common/dex/overlays/istio
-#patchesStrategicMerge:
-#- patch-config.yaml
-#EOF
+cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio/patch-config.yaml"
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dex
+data:
+  config.yaml: |
+    issuer: http://dex.auth.svc.cluster.local:5556/dex
+    storage:
+      type: kubernetes
+      config:
+        inCluster: true
+    web:
+      http: 0.0.0.0:5556
+    logger:
+      level: "debug"
+      format: text
+    oauth2:
+      skipApprovalScreen: true
+    enablePasswordDB: true
+    staticClients:
+    # https://github.com/dexidp/dex/pull/1664
+    - idEnv: OIDC_CLIENT_ID
+      redirectURIs: ["/login/oidc"]
+      name: 'Dex Login Application'
+      secretEnv: OIDC_CLIENT_SECRET
+    connectors:
+    - type: github
+      # Required field for connector id.
+      id: github
+      # Required field for connector name.
+      name: GitHub
+      config:
+        # Credentials can be string literals or pulled from the environment.
+        clientID: \$GITHUB_CLIENT_ID
+        clientSecret: \$GITHUB_CLIENT_SECRET
+        redirectURI: http://dex.auth.svc.cluster.local:5556/dex/callback
+
+        # Optional organizations and teams, communicated through the "groups" scope.
+        #
+        # NOTE: This is an EXPERIMENTAL config option and will likely change.
+        #
+        # Legacy 'org' field. 'org' and 'orgs' cannot be used simultaneously. A user
+        # MUST be a member of the following org to authenticate with dex.
+        # org: my-organization
+        #
+        # Dex queries the following organizations for group information if the
+        # "groups" scope is provided. Group claims are formatted as "(org):(team)".
+        # For example if a user is part of the "engineering" team of the "coreos"
+        # org, the group claim would include "coreos:engineering".
+        #
+        # If orgs are specified in the config then user MUST be a member of at least one of the specified orgs to
+        # authenticate with dex.
+        #
+        # If neither 'org' nor 'orgs' are specified in the config and 'loadAllGroups' setting set to true then user
+        # authenticate with ALL user's Github groups. Typical use case for this setup:
+        # provide read-only access to everyone and give full permissions if user has 'my-organization:admins-team' group claim.
+        orgs:
+        - name: ${GITHUB_OWNER}
+          # Include all teams as claims.
+        # Flag which indicates that all user groups and teams should be loaded.
+        loadAllGroups: false
+
+        # Optional choice between 'name' (default), 'slug', or 'both'.
+        #
+        # As an example, group claims for member of 'Site Reliability Engineers' in
+        # Acme organization would yield:
+        #   - ['acme:Site Reliability Engineers'] for 'name'
+        #   - ['acme:site-reliability-engineers'] for 'slug'
+        #   - ['acme:Site Reliability Engineers', 'acme:site-reliability-engineers'] for 'both'
+        teamNameField: slug
+        # flag which will switch from using the internal GitHub id to the users handle (@mention) as the user id.
+        # It is possible for a user to change their own user name but it is very rare for them to do so
+        useLoginAsID: false
+EOF
+
+cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio/kustomization.yaml"
+namespace: auth
+resources:
+- ../../../../../../../../kubeflow/base/common/dex/overlays/istio
+patchesStrategicMerge:
+- patch-config.yaml
+EOF
 
 # knative-serving-install
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base/patch-config.yaml"
