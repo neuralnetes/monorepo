@@ -36,33 +36,10 @@ locals {
   github_owner         = get_env("GITHUB_OWNER")
   github_workspace     = get_env("GITHUB_WORKSPACE")
   filebase64sha256     = filebase64sha256("${local.github_workspace}/bash/kustomize/kustomize_cluster.sh")
-  paths = [
-    "${local.github_workspace}/kustomize/manifests/external-secrets/overlays/${dependency.compute_project.outputs.project_id}",
-    "${local.github_workspace}/kustomize/manifests/external-dns/overlays/${dependency.compute_project.outputs.project_id}",
-    "${local.github_workspace}/kustomize/manifests/secrets/kubeflow/overlays/${dependency.compute_project.outputs.project_id}",
-    "${local.github_workspace}/kustomize/manifests/secrets/istio-system/overlays/${dependency.compute_project.outputs.project_id}",
-    "${local.github_workspace}/kustomize/manifests/kubeflow/1.3/overlays/${dependency.compute_project.outputs.project_id}/common/cert-manager/cert-manager/overlays/letsencrypt",
-    "${local.github_workspace}/kustomize/manifests/kubeflow/1.3/overlays/${dependency.compute_project.outputs.project_id}/common/istio-1-9-0/istio-install/base",
-    "${local.github_workspace}/kustomize/manifests/kubeflow/1.3/overlays/${dependency.compute_project.outputs.project_id}/common/oidc-authservice/base",
-    "${local.github_workspace}/kustomize/manifests/kubeflow/1.3/overlays/${dependency.compute_project.outputs.project_id}/common/dex/overlays/istio",
-    "${local.github_workspace}/kustomize/manifests/kubeflow/1.3/overlays/${dependency.compute_project.outputs.project_id}/common/knative/knative-serving-install/base",
-    "${local.github_workspace}/kustomize/manifests/kubeflow/1.3/overlays/${dependency.compute_project.outputs.project_id}/common/istio-1-9-0/kubeflow-istio-resources/base",
-    "${local.github_workspace}/kustomize/manifests/deploy/overlays/${dependency.compute_project.outputs.project_id}",
-    "${local.github_workspace}/kustomize/manifests/flux-kustomization/external-secrets/overlays/${dependency.compute_project.outputs.project_id}",
-    "${local.github_workspace}/kustomize/manifests/flux-kustomization/external-dns/overlays/${dependency.compute_project.outputs.project_id}",
-    "${local.github_workspace}/kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${dependency.compute_project.outputs.project_id}",
-    "${local.github_workspace}/kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${dependency.compute_project.outputs.project_id}",
-    "${local.github_workspace}/kustomize/manifests/flux-kustomization/kubeflow/1.3/overlays/${dependency.compute_project.outputs.project_id}",
-    "${local.github_workspace}/kustomize/manifests/flux-kustomization/cluster/overlays/${dependency.compute_project.outputs.project_id}",
-    "${local.github_workspace}/kustomize/manifests/flux-kustomization/deploy/overlays/${dependency.compute_project.outputs.project_id}",
-  ]
-  triggers = merge({
-    for path in local.paths :
-    path => filebase64sha256(path)
-    }, {
+  triggers = {
     filebase64sha256 = local.filebase64sha256
     timestamp        = timestamp()
-  })
+  }
 }
 
 inputs = {
