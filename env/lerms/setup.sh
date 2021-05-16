@@ -12,6 +12,7 @@ SYMBOLIC_LINK_FILES=(
   ".envrc-function"
   ".envrc-github"
   ".envrc-secret"
+  ".envrc-projects"
   ".gitconfig"
   ".zshrc"
 )
