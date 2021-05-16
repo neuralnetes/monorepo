@@ -38,7 +38,6 @@ locals {
   filebase64sha256     = filebase64sha256("${local.github_workspace}/bash/kustomize/kustomize_cluster.sh")
   triggers = {
     filebase64sha256 = local.filebase64sha256
-    timestamp        = timestamp()
   }
 }
 
