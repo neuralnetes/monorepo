@@ -1,0 +1,5 @@
+namespace: kubeflow
+resources:
+- ../../../../kubeflow/base/apps/katib/upstream/installs/katib-with-kubeflow
+patchesStrategicMerge:
+- katib-mysql-deployment-patch.yaml

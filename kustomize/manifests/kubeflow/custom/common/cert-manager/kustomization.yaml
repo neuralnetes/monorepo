@@ -1,0 +1,7 @@
+resources:
+- ../../../../kubeflow/base/common/cert-manager/cert-manager/overlays/self-signed
+- cluster-issuer.yaml
+commonLabels:
+  kustomize.component: cert-manager
+  app.kubernetes.io/component: cert-manager
+  app.kubernetes.io/name: cert-manager

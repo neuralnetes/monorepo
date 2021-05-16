@@ -5,7 +5,7 @@ metadata:
   name: cert-manager-kube-system-resources
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/cert-manager/cert-manager-kube-system-resources/base
+  path: kustomize/manifests/kubeflow/base/common/cert-manager/cert-manager-kube-system-resources/base
   prune: true
   sourceRef:
     name: monorepo
@@ -17,7 +17,7 @@ metadata:
   name: cert-manager-crds
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/cert-manager/cert-manager-crds/base
+  path: kustomize/manifests/kubeflow/base/common/cert-manager/cert-manager-crds/base
   prune: true
   sourceRef:
     name: monorepo
@@ -29,7 +29,7 @@ metadata:
   name: cert-manager
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/cert-manager/overlays/self-signed
+  path: kustomize/manifests/kubeflow/base/common/cert-manager/overlays/self-signed
   prune: true
   sourceRef:
     name: monorepo
@@ -42,7 +42,7 @@ metadata:
   name: istio-crds
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/istio-1-9-0/istio-crds/base
+  path: kustomize/manifests/kubeflow/base/common/istio-1-9-0/istio-crds/base
   prune: true
   sourceRef:
     name: monorepo
@@ -54,7 +54,7 @@ metadata:
   name: istio-namespace
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/istio-1-9-0/istio-namespace/base
+  path: kustomize/manifests/kubeflow/base/common/istio-1-9-0/istio-namespace/base
   prune: true
   sourceRef:
     name: monorepo
@@ -66,7 +66,7 @@ metadata:
   name: istio-install
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/istio-1-9-0/istio-install/base
+  path: kustomize/manifests/kubeflow/base/common/istio-1-9-0/istio-install/base
   prune: true
   sourceRef:
     name: monorepo
@@ -79,7 +79,7 @@ metadata:
   name: oidc-authservice
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/oidc-authservice/base
+  path: kustomize/manifests/kubeflow/base/common/oidc-authservice/base
   prune: true
   sourceRef:
     name: monorepo
@@ -92,7 +92,7 @@ metadata:
   name: dex
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/dex/overlays/istio
+  path: kustomize/manifests/kubeflow/base/common/dex/overlays/istio
   prune: true
   sourceRef:
     name: monorepo
@@ -105,7 +105,7 @@ metadata:
   name: knative-serving-crds
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/knative/knative-serving-crds/base
+  path: kustomize/manifests/kubeflow/base/common/knative/knative-serving-crds/base
   prune: true
   sourceRef:
     name: monorepo
@@ -117,7 +117,7 @@ metadata:
   name: knative-serving-install
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/knative/knative-serving-install/base
+  path: kustomize/manifests/kubeflow/base/common/knative/knative-serving-install/base
   prune: true
   sourceRef:
     name: monorepo
@@ -130,7 +130,7 @@ metadata:
   name: knative-eventing-crds
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/knative/knative-eventing-crds/base
+  path: kustomize/manifests/kubeflow/base/common/knative/knative-eventing-crds/base
   prune: true
   sourceRef:
     name: monorepo
@@ -142,7 +142,7 @@ metadata:
   name: knative-eventing-install
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/knative/knative-eventing-install/base
+  path: kustomize/manifests/kubeflow/base/common/knative/knative-eventing-install/base
   prune: true
   sourceRef:
     name: monorepo
@@ -155,7 +155,7 @@ metadata:
   name: cluster-local-gateway
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/istio-1-9-0/cluster-local-gateway/base
+  path: kustomize/manifests/kubeflow/base/common/istio-1-9-0/cluster-local-gateway/base
   prune: true
   sourceRef:
     name: monorepo
@@ -168,7 +168,7 @@ metadata:
   name: kubeflow-namespace
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/kubeflow-namespace/base
+  path: kustomize/manifests/kubeflow/base/common/kubeflow-namespace/base
   prune: true
   sourceRef:
     name: monorepo
@@ -181,7 +181,7 @@ metadata:
   name: kubeflow-roles
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/kubeflow-roles/base
+  path: kustomize/manifests/kubeflow/base/common/kubeflow-roles/base
   prune: true
   sourceRef:
     name: monorepo
@@ -194,7 +194,7 @@ metadata:
   name: kubeflow-istio-resources
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/istio-1-9-0/kubeflow-istio-resources/base
+  path: kustomize/manifests/kubeflow/base/common/istio-1-9-0/kubeflow-istio-resources/base
   prune: true
   sourceRef:
     name: monorepo
@@ -207,7 +207,7 @@ metadata:
   name: kubeflow-pipelines
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/apps/pipeline/upstream/env/platform-agnostic-multi-user
+  path: kustomize/manifests/kubeflow/base/apps/pipeline/upstream/env/platform-agnostic-multi-user
   prune: true
   sourceRef:
     name: monorepo
@@ -220,7 +220,7 @@ metadata:
   name: kfserving
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/apps/kfserving/upstream/overlays/kubeflow
+  path: kustomize/manifests/kubeflow/base/apps/kfserving/upstream/overlays/kubeflow
   prune: true
   sourceRef:
     name: monorepo
@@ -233,7 +233,7 @@ metadata:
   name: katib
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/apps/katib/upstream/installs/katib-with-kubeflow
+  path: kustomize/manifests/kubeflow/base/apps/katib/upstream/installs/katib-with-kubeflow
   prune: true
   sourceRef:
     name: monorepo
@@ -246,7 +246,7 @@ metadata:
   name: centraldashboard
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/apps/centraldashboard/upstream/overlays/istio
+  path: kustomize/manifests/kubeflow/base/apps/centraldashboard/upstream/overlays/istio
   prune: true
   sourceRef:
     name: monorepo
@@ -259,7 +259,7 @@ metadata:
   name: admission-webhook
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/apps/admission-webhook/upstream/overlays/cert-manager
+  path: kustomize/manifests/kubeflow/base/apps/admission-webhook/upstream/overlays/cert-manager
   prune: true
   sourceRef:
     name: monorepo
@@ -272,7 +272,7 @@ metadata:
   name: jupyter-web-app
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/apps/jupyter/jupyter-web-app/upstream/overlays/istio
+  path: kustomize/manifests/kubeflow/base/apps/jupyter/jupyter-web-app/upstream/overlays/istio
   prune: true
   sourceRef:
     name: monorepo
@@ -285,7 +285,7 @@ metadata:
   name: notebook-controller
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/apps/jupyter/notebook-controller/upstream/overlays/kubeflow
+  path: kustomize/manifests/kubeflow/base/apps/jupyter/notebook-controller/upstream/overlays/kubeflow
   prune: true
   sourceRef:
     name: monorepo
@@ -298,7 +298,7 @@ metadata:
   name: profiles
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/apps/profiles/upstream/overlays/kubeflow
+  path: kustomize/manifests/kubeflow/base/apps/profiles/upstream/overlays/kubeflow
   prune: true
   sourceRef:
     name: monorepo
@@ -311,7 +311,7 @@ metadata:
   name: volumes-web-app
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/apps/volumes-web-app/upstream/overlays/istio
+  path: kustomize/manifests/kubeflow/base/apps/volumes-web-app/upstream/overlays/istio
   prune: true
   sourceRef:
     name: monorepo
@@ -324,7 +324,7 @@ metadata:
   name: tensorboard-controller
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/apps/tensorboard/tensorboard-controller/upstream/overlays/kubeflow
+  path: kustomize/manifests/kubeflow/base/apps/tensorboard/tensorboard-controller/upstream/overlays/kubeflow
   prune: true
   sourceRef:
     name: monorepo
@@ -337,7 +337,7 @@ metadata:
   name: tensorboards-web-app
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/apps/tensorboard/tensorboards-web-app/upstream/overlays/istio
+  path: kustomize/manifests/kubeflow/base/apps/tensorboard/tensorboards-web-app/upstream/overlays/istio
   prune: true
   sourceRef:
     name: monorepo
@@ -350,7 +350,7 @@ metadata:
   name: tfjob-operator
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/apps/tf-training/upstream/overlays/kubeflow
+  path: kustomize/manifests/kubeflow/base/apps/tf-training/upstream/overlays/kubeflow
   prune: true
   sourceRef:
     name: monorepo
@@ -363,7 +363,7 @@ metadata:
   name: pytorch-operator
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/apps/pytorch-job/upstream/overlays/kubeflow
+  path: kustomize/manifests/kubeflow/base/apps/pytorch-job/upstream/overlays/kubeflow
   prune: true
   sourceRef:
     name: monorepo
@@ -376,7 +376,7 @@ metadata:
   name: mpi-operator
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/apps/mpi-job/upstream/overlays/kubeflow
+  path: kustomize/manifests/kubeflow/base/apps/mpi-job/upstream/overlays/kubeflow
   prune: true
   sourceRef:
     name: monorepo
@@ -389,7 +389,7 @@ metadata:
   name: mxnet-operator
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/apps/mxnet-job/upstream/overlays/kubeflow
+  path: kustomize/manifests/kubeflow/base/apps/mxnet-job/upstream/overlays/kubeflow
   prune: true
   sourceRef:
     name: monorepo
@@ -402,7 +402,7 @@ metadata:
   name: xgboost-operator
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/apps/xgboost-job/upstream/overlays/kubeflow
+  path: kustomize/manifests/kubeflow/base/apps/xgboost-job/upstream/overlays/kubeflow
   prune: true
   sourceRef:
     name: monorepo
@@ -415,7 +415,7 @@ metadata:
   name: user-namespace
 spec:
   interval: 1m
-  path: kustomize/manifests/kubeflow/1.3/base/common/user-namespace/base
+  path: kustomize/manifests/kubeflow/base/common/user-namespace/base
   prune: true
   sourceRef:
     name: monorepo

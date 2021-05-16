@@ -4,6 +4,7 @@ PATHS=(
   "kustomize/manifests/external-dns/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/cert-manager"
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base"
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/oidc-authservice/base"
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio"
@@ -14,6 +15,7 @@ PATHS=(
   "kustomize/manifests/flux-kustomization/external-dns/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/kubeflow/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/deploy/overlays/${KUBEFLOW_PROJECT}"
@@ -53,23 +55,23 @@ spec:
   backendType: gcpSecretsManager
   projectId: ${SECRET_PROJECT}
   data:
-    - key: katib-mysql-secrets
+    - key: ${KUBEFLOW_PROJECT}/kubeflow/katib-mysql-secrets
       name: MYSQL_HOST
       property: mysql_host
       version: latest
-    - key: katib-mysql-secrets
+    - key: ${KUBEFLOW_PROJECT}/kubeflow/katib-mysql-secrets
       name: MYSQL_PORT
       property: mysql_port
       version: latest
-    - key: katib-mysql-secrets
+    - key: ${KUBEFLOW_PROJECT}/kubeflow/katib-mysql-secrets
       name: MYSQL_USER
       property: mysql_user
       version: latest
-    - key: katib-mysql-secrets
+    - key: ${KUBEFLOW_PROJECT}/kubeflow/katib-mysql-secrets
       name: MYSQL_PASSWORD
       property: mysql_password
       version: latest
-    - key: katib-mysql-secrets
+    - key: ${KUBEFLOW_PROJECT}/kubeflow/katib-mysql-secrets
       name: MYSQL_ROOT_PASSWORD
       property: mysql_root_password
       version: latest
@@ -83,6 +85,28 @@ patchesStrategicMerge:
 - patch-external-secret.yaml
 EOF
 
+cat <<EOF > "kustomize/manifests/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}/patch-external-secret.yaml"
+apiVersion: kubernetes-client.io/v1
+kind: ExternalSecret
+metadata:
+  name: cert-manager-secrets
+spec:
+  backendType: gcpSecretsManager
+  projectId: ${SECRET_PROJECT}
+  data:
+    - key: ${KUBEFLOW_PROJECT}/cert-manager/cert-manager-secrets
+      name: key.json
+      property: key.json
+      version: latest
+EOF
+
+cat <<EOF > "kustomize/manifests/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
+namespace: kubeflow
+resources:
+- ../../base
+patchesStrategicMerge:
+- patch-external-secret.yaml
+EOF
 
 # external-secrets
 cat <<EOF > "kustomize/manifests/external-secrets/overlays/${KUBEFLOW_PROJECT}/patch-service-account.yaml"
@@ -139,6 +163,33 @@ patchesStrategicMerge:
 - patch-deployment.yaml
 - patch-service-account.yaml
 EOF
+
+# cert-manager
+cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/patch-cluster-issuer.yaml"
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    email: bot+letencrypt-staging@${GCP_WORKSPACE_DOMAIN_NAME}
+    solvers:
+      - dns01:
+          clouddns:
+            project: ${NETWORK_PROJECT}
+            serviceAccountSecretRef:
+              name: cert-manager-secrets
+              key: key.json
+EOF
+
+cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/kustomization.yaml"
+namespace: cert-manager
+resources:
+- ../../../../../../kubeflow/custom/common/cert-manager
+patchesStrategicMerge:
+- patch-cluster-issuer.yaml
+EOF
+
 
 # istio-install
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base/patch-service.yaml"
@@ -412,7 +463,30 @@ patchesStrategicMerge:
 - patch-flux-kustomization.yaml
 EOF
 
+cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: cert-manager-secrets
+spec:
+  path: kustomize/manifests/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}
+EOF
+
+cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
+resources:
+- ../../base
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml
+EOF
+
 cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: cert-manager
+spec:
+  path: kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/cert-manager
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
@@ -448,6 +522,13 @@ metadata:
   name: kubeflow-istio-resources
 spec:
   path: kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: katib
+spec:
+  path: kustomize/manifests/kubeflow/custom/apps/katib
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -472,6 +553,7 @@ resources:
 - ../../base
 - ../../../external-secrets/overlays/${KUBEFLOW_PROJECT}
 - ../../../external-dns/overlays/${KUBEFLOW_PROJECT}
+- ../../../secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}
 - ../../../secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}
 - ../../../secrets/istio-system/overlays/${KUBEFLOW_PROJECT}
 - ../../../kubeflow/overlays/${KUBEFLOW_PROJECT}
