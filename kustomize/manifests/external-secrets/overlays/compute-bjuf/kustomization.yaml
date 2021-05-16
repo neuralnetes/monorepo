@@ -1,0 +1,5 @@
+namespace: external-secrets
+resources:
+- ../../base
+patchesStrategicMerge:
+- patch-service-account.yaml
