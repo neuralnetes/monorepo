@@ -1,5 +1,0 @@
-namespace: knative-serving
-resources:
-- ../../../../../../../../kubeflow/base/common/knative/knative-serving-install/base
-patchesStrategicMerge:
-- patch-config.yaml

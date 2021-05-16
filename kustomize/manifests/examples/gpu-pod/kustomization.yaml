@@ -1,4 +1,0 @@
-namespace: gpu-test
-resources:
-- namespace.yaml
-- pod.yaml
