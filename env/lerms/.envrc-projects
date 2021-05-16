@@ -1,6 +1,6 @@
-export IAM_PROJECT=
-export SECRET_PROJECT=
-export NETWORK_PROJECT=
-export DATA_PROJECT=
-export COMPUTE_PROJECT=
-export KUBEFLOW_PROJECT=
+export IAM_PROJECT=iam-bjuf
+export SECRET_PROJECT=secret-bjuf
+export NETWORK_PROJECT=network-bjuf
+export DATA_PROJECT=data-bjuf
+export COMPUTE_PROJECT=compute-bjuf
+export KUBEFLOW_PROJECT=compute-bjuf
