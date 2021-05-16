@@ -18,6 +18,10 @@ dependency "network_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/project"
 }
 
+dependency "secret_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/secret/google/project"
+}
+
 dependency "container_clusters" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/google/container-clusters"
 }
@@ -53,6 +57,7 @@ inputs = {
       iam_project          = dependency.iam_project.outputs.project_id
       network_project      = dependency.network_project.outputs.project_id
       kubeflow_project     = dependency.compute_project.outputs.project_id
+      secret_project       = dependency.secret_project.outputs.project_id
       triggers             = local.triggers
     }
   ]

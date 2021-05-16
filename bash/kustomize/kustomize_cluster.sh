@@ -4,36 +4,36 @@ PATHS=(
   "kustomize/manifests/external-dns/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}"
-  "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/cert-manager/overlays/letsencrypt"
-  "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base"
-  "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/oidc-authservice/base"
-  "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio"
-  "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base"
-  "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base"
+  "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base"
+  "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base"
+  "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base"
   "kustomize/manifests/deploy/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/external-secrets/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/external-dns/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}"
-  "kustomize/manifests/flux-kustomization/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/kubeflow/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/deploy/overlays/${KUBEFLOW_PROJECT}"
 )
 
 for path in "${PATHS[@]}"; do
+  rm -rf "${path}"
   mkdir -p "${path}"
 done
 
 # secrets
 
-cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/patch-certificate.yaml"
-apiVersion: cert-manager.io/v1alpha2
-kind: Certificate
+cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/patch-external-secret.yaml"
+apiVersion: kubernetes-client.io/v1
+kind: ExternalSecret
 metadata:
-  name: istio-certs
+  name: istio-certs # name of the k8s external secret and the k8s secret
 spec:
-  dnsNames:
-  - 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
+  projectId: ${SECRET_PROJECT}
+  data:
+    - key: kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}
+      name: cert
 EOF
 
 cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -41,7 +41,7 @@ namespace: istio-system
 resources:
 - ../../base
 patchesStrategicMerge:
-- patch-certificate.yaml
+- patch-external-secret.yaml
 EOF
 
 # external-secrets
@@ -100,49 +100,8 @@ patchesStrategicMerge:
 - patch-service-account.yaml
 EOF
 
-# cert-manager
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/cert-manager/overlays/letsencrypt/cluster-issuer.yaml"
-apiVersion: cert-manager.io/v1alpha2
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt-prod
-spec:
-  acme:
-    email: bot+letsencrypt-prod@${GCP_WORKSPACE_DOMAIN_NAME}
-    http01: null
-    privateKeySecretRef: null
-    server: https://acme-v02.api.letsencrypt.org/directory
-    solvers:
-      - dns01:
-          clouddns:
-            project: ${NETWORK_PROJECT}
----
-apiVersion: cert-manager.io/v1alpha2
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt-staging
-spec:
-  acme:
-    email: bot+letsencrypt-staging@${GCP_WORKSPACE_DOMAIN_NAME}
-    http01: null
-    privateKeySecretRef: null
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
-    solvers:
-      - dns01:
-          clouddns:
-            project: ${NETWORK_PROJECT}
----
-EOF
-
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/cert-manager/overlays/letsencrypt/kustomization.yaml"
-namespace: cert-manager
-resources:
-- ../../../../../../../../../kubeflow/1.3/base/common/cert-manager/cert-manager/base
-- cluster-issuer.yaml
-EOF
-
 # istio-install
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base/patch-service.yaml"
+cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base/patch-service.yaml"
 apiVersion: v1
 kind: Service
 metadata:
@@ -154,7 +113,7 @@ spec:
   type: LoadBalancer
 EOF
 
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base/patch-gateway.yaml"
+cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base/patch-gateway.yaml"
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -180,115 +139,17 @@ spec:
     - 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
 EOF
 
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base/kustomization.yaml"
 namespace: istio-system
 resources:
-- ../../../../../../../../kubeflow/1.3/base/common/istio-1-9-0/istio-install/base
+- ../../../../../../../../kubeflow/base/common/istio-1-9-0/istio-install/base
 patchesStrategicMerge:
 - patch-gateway.yaml
 - patch-service.yaml
 EOF
 
-# oidc-authservice
-#cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/oidc-authservice/base/patch-config.yaml"
-#kind: ConfigMap
-#
-#EOF
-
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/oidc-authservice/base/kustomization.yaml"
-namespace: kubeflow
-resources:
-- ../../../../../../../kubeflow/1.3/base/common/oidc-authservice/base
-EOF
-
-# dex
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio/patch-config.yaml"
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: dex
-data:
-  config.yaml: |
-    issuer: http://dex.auth.svc.cluster.local:5556/dex
-    storage:
-      type: kubernetes
-      config:
-        inCluster: true
-    web:
-      http: 0.0.0.0:5556
-    logger:
-      level: "debug"
-      format: text
-    oauth2:
-      skipApprovalScreen: true
-    enablePasswordDB: false
-    staticPasswords: []
-    staticClients:
-    # https://github.com/dexidp/dex/pull/1664
-    - idEnv: OIDC_CLIENT_ID
-      redirectURIs: ["/login/oidc"]
-      name: 'Dex Login Application'
-      secretEnv: OIDC_CLIENT_SECRET
-    connectors:
-    - type: github
-      # Required field for connector id.
-      id: github
-      # Required field for connector name.
-      name: GitHub
-      config:
-        # Credentials can be string literals or pulled from the environment.
-        clientID: ${GITHUB_CLIENT_ID}
-        clientSecret: ${GITHUB_CLIENT_SECRET}
-        redirectURI: http://dex.auth.svc.cluster.local:5556/dex/callback
-
-        # Optional organizations and teams, communicated through the "groups" scope.
-        #
-        # NOTE: This is an EXPERIMENTAL config option and will likely change.
-        #
-        # Legacy 'org' field. 'org' and 'orgs' cannot be used simultaneously. A user
-        # MUST be a member of the following org to authenticate with dex.
-        # org: my-organization
-        #
-        # Dex queries the following organizations for group information if the
-        # "groups" scope is provided. Group claims are formatted as "(org):(team)".
-        # For example if a user is part of the "engineering" team of the "coreos"
-        # org, the group claim would include "coreos:engineering".
-        #
-        # If orgs are specified in the config then user MUST be a member of at least one of the specified orgs to
-        # authenticate with dex.
-        #
-        # If neither 'org' nor 'orgs' are specified in the config and 'loadAllGroups' setting set to true then user
-        # authenticate with ALL user's Github groups. Typical use case for this setup:
-        # provide read-only access to everyone and give full permissions if user has 'my-organization:admins-team' group claim.
-        orgs:
-        - name: ${GITHUB_OWNER}
-          # Include all teams as claims.
-        # Flag which indicates that all user groups and teams should be loaded.
-        loadAllGroups: false
-
-        # Optional choice between 'name' (default), 'slug', or 'both'.
-        #
-        # As an example, group claims for member of 'Site Reliability Engineers' in
-        # Acme organization would yield:
-        #   - ['acme:Site Reliability Engineers'] for 'name'
-        #   - ['acme:site-reliability-engineers'] for 'slug'
-        #   - ['acme:Site Reliability Engineers', 'acme:site-reliability-engineers'] for 'both'
-        teamNameField: slug
-        # flag which will switch from using the internal GitHub id to the users handle (@mention) as the user id.
-        # It is possible for a user to change their own user name but it is very rare for them to do so
-        useLoginAsID: false
-EOF
-
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio/kustomization.yaml"
-namespace: auth
-resources:
-- ../../../../../../../../kubeflow/1.3/base/common/dex/overlays/istio
-patchesStrategicMerge:
-- patch-config.yaml
-EOF
-
 # knative-serving-install
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base/patch-config.yaml"
+cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base/patch-config.yaml"
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -298,16 +159,16 @@ data:
   kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}: ""
 EOF
 
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base/kustomization.yaml"
 namespace: knative-serving
 resources:
-- ../../../../../../../../kubeflow/1.3/base/common/knative/knative-serving-install/base
+- ../../../../../../../../kubeflow/base/common/knative/knative-serving-install/base
 patchesStrategicMerge:
 - patch-config.yaml
 EOF
 
 # kubeflow-istio-resources
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base/patch-gateway.yaml"
+cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base/patch-gateway.yaml"
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -333,10 +194,10 @@ spec:
     - 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
 EOF
 
-cat <<EOF > "kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base/kustomization.yaml"
 namespace: kubeflow
 resources:
-- ../../../../../../../../kubeflow/1.3/base/common/istio-1-9-0/kubeflow-istio-resources/base
+- ../../../../../../../../kubeflow/base/common/istio-1-9-0/kubeflow-istio-resources/base
 patchesStrategicMerge:
 - patch-gateway.yaml
 EOF
@@ -414,51 +275,31 @@ patchesStrategicMerge:
 - patch-flux-kustomization.yaml
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: cert-manager
-spec:
-  path: kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/cert-manager/overlays/letsencrypt
+cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: istio-install
 spec:
-  path: kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: oidc-authservice
-spec:
-  path: kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/oidc-authservice/base
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: dex
-spec:
-  path: kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio
+  path: kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: knative-serving-install
 spec:
-  path: kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base
+  path: kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: kubeflow-istio-resources
 spec:
-  path: kustomize/manifests/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base
+  path: kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 resources:
 - ../../base
 patchesStrategicMerge:
@@ -482,7 +323,7 @@ resources:
 - ../../../external-dns/overlays/${KUBEFLOW_PROJECT}
 - ../../../secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}
 - ../../../secrets/istio-system/overlays/${KUBEFLOW_PROJECT}
-- ../../../kubeflow/1.3/overlays/${KUBEFLOW_PROJECT}
+- ../../../kubeflow/overlays/${KUBEFLOW_PROJECT}
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
 EOF

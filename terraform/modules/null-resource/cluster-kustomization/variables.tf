@@ -34,6 +34,10 @@ variable "network_project" {
   type = string
 }
 
+variable "secret_project" {
+  type = string
+}
+
 variable "triggers" {
   type = map(string)
 }

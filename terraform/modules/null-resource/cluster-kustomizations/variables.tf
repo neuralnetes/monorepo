@@ -8,6 +8,7 @@ variable "cluster_kustomizations" {
     compute_project      = string
     iam_project          = string
     kubeflow_project     = string
+    secret_project       = string
     network_project      = string
     triggers             = map(string)
   }))

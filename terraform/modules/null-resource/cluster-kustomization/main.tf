@@ -13,6 +13,7 @@ resource "null_resource" "kustomize_cluster" {
       IAM_PROJECT          = var.iam_project
       KUBEFLOW_PROJECT     = var.kubeflow_project
       NETWORK_PROJECT      = var.network_project
+      SECRET_PROJECT       = var.secret_project
     }
   }
   triggers = var.triggers

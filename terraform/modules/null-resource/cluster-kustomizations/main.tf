@@ -10,6 +10,7 @@ module "cluster-kustomizations" {
   iam_project          = each.value["iam_project"]
   kubeflow_project     = each.value["kubeflow_project"]
   network_project      = each.value["network_project"]
+  secret_project       = each.value["secret_project"]
   triggers             = each.value["triggers"]
 }
 
