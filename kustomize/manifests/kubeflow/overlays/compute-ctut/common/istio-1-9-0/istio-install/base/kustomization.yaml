@@ -1,0 +1,6 @@
+namespace: istio-system
+resources:
+- ../../../../../../../kubeflow/base/common/istio-1-9-0/istio-install/base
+patchesStrategicMerge:
+- patch-gateway.yaml
+- patch-service.yaml
