@@ -1,28 +1,26 @@
+---
 # Source: kubernetes-external-secrets/templates/rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: external-secrets
 rules:
-- resources: ["secrets"]
-  apiGroups: [""]
-  verbs: ["create", "update"]
-- resources: ["namespaces"]
-  apiGroups: [""]
-  verbs: ["get", "watch", "list"]
-- resources: ["customresourcedefinitions"]
-  apiGroups: ["apiextensions.k8s.io"]
-  resourceNames: ["externalsecrets.kubernetes-client.io"]
-  verbs: ["get", "update"]
-- resources: ["externalsecrets"]
-  apiGroups: ["kubernetes-client.io"]
-  verbs: ["get", "watch", "list"]
-- resources: ["externalsecrets/status"]
-  apiGroups: ["kubernetes-client.io"]
-  verbs: ["get", "update"]
-- resources: ["customresourcedefinitions"]
-  apiGroups: ["apiextensions.k8s.io"]
-  verbs: ["create"]
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["create", "update"]
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["get", "watch", "list"]
+  - apiGroups: ["apiextensions.k8s.io"]
+    resources: ["customresourcedefinitions"]
+    resourceNames: ["externalsecrets.kubernetes-client.io"]
+    verbs: ["get", "update"]
+  - apiGroups: ["kubernetes-client.io"]
+    resources: ["externalsecrets"]
+    verbs: ["get", "watch", "list"]
+  - apiGroups: ["kubernetes-client.io"]
+    resources: ["externalsecrets/status"]
+    verbs: ["get", "update"]
 ---
 # Source: kubernetes-external-secrets/templates/rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -30,13 +28,13 @@ kind: ClusterRoleBinding
 metadata:
   name: external-secrets
 roleRef:
-  name: external-secrets
-  kind: ClusterRole
   apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: external-secrets
 subjects:
-- name: external-secrets
-  namespace: external-secrets
-  kind: ServiceAccount
+  - name: external-secrets
+    namespace: "external-secrets"
+    kind: ServiceAccount
 ---
 # Source: kubernetes-external-secrets/templates/rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -44,10 +42,10 @@ kind: ClusterRoleBinding
 metadata:
   name: external-secrets-auth
 roleRef:
-  name: system:auth-delegator
-  kind: ClusterRole
   apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
 subjects:
 - name: external-secrets
-  namespace: external-secrets
+  namespace: "external-secrets"
   kind: ServiceAccount
