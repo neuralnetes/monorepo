@@ -185,7 +185,7 @@ EOF
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/kustomization.yaml"
 namespace: cert-manager
 resources:
-- ../../../../../../kubeflow/custom/common/cert-manager
+- ../../../../../kubeflow/custom/common/cert-manager
 patchesStrategicMerge:
 - patch-cluster-issuer.yaml
 EOF
@@ -248,7 +248,7 @@ EOF
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/oidc-authservice/base/kustomization.yaml"
 namespace: kubeflow
 resources:
-- ../../../../../../../kubeflow/base/common/oidc-authservice/base
+- ../../../../../../kubeflow/base/common/oidc-authservice/base
 EOF
 
 ## dex
@@ -331,7 +331,7 @@ EOF
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio/kustomization.yaml"
 namespace: auth
 resources:
-- ../../../../../../../../kubeflow/base/common/dex/overlays/istio
+- ../../../../../../../kubeflow/base/common/dex/overlays/istio
 EOF
 
 # knative-serving-install
