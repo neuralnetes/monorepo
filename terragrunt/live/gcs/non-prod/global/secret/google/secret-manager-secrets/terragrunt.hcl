@@ -58,7 +58,7 @@ inputs = {
       project_id = dependency.secret_project.outputs.project_id
       secret_id  = "${dependency.compute_project.outputs.project_id}/cert-manager/cert-manager-secrets"
       secret_data = jsonencode({
-        key.json = base64decode(dependency.service_account_keys.outputs.service_account_keys_map["cert-manager"]["private_key"])
+        "key.json" = base64decode(dependency.service_account_keys.outputs.service_account_keys_map["cert-manager"]["private_key"])
       })
       replication = {
         automatic = true
