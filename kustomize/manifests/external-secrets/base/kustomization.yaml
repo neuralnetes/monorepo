@@ -1,4 +1,5 @@
 resources:
+- crds.yaml
 - serviceaccount.yaml
 - rbac.yaml
 - service.yaml
