@@ -30,7 +30,7 @@ done
 # secrets
 
 cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/patch-certificate.yaml"
-apiVersion: cert-manager.io/v1
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: istio-certs
