@@ -101,7 +101,7 @@ spec:
 EOF
 
 cat <<EOF > "kustomize/manifests/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
-namespace: kubeflow
+namespace: cert-manager
 resources:
 - ../../base
 patchesStrategicMerge:
