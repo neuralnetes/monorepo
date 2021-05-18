@@ -18,12 +18,12 @@ dependency "project_iam_bindings" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project-iam-bindings"
 }
 
-dependency "cloud_sqls" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/data/google/cloud-sqls"
+dependency "service_account_keys" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-account-keys"
 }
 
-dependency "service_account_keys" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/secret/google/service-account-keys"
+dependency "cloud_sqls" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/data/google/cloud-sqls"
 }
 
 dependency "random_string" {
@@ -41,13 +41,13 @@ inputs = {
       }
     },
     {
-      project_id  = dependency.secret_project.outputs.project_id
-      secret_id   = "${dependency.compute_project.outputs.project_id}/kubeflow/katib-mysql-secrets"
+      project_id = dependency.secret_project.outputs.project_id
+      secret_id  = "${dependency.compute_project.outputs.project_id}/kubeflow/katib-mysql-secrets"
       secret_data = jsonencode({
-        MYSQL_HOST = dependency.cloud_sqls.outputs.mysqls_map["cloud-sql-${dependency.random_string.outputs.result}"]["mysql"]["ip_address.0.ip_address"]
-        MYSQL_PORT = "5432"
-        MYSQL_USER = dependency.cloud_sqls.outputs.mysqls_map["cloud-sql-${dependency.random_string.outputs.result}"]["default_user"]["name"]
-        MYSQL_PASSWORD = dependency.cloud_sqls.outputs.mysqls_map["cloud-sql-${dependency.random_string.outputs.result}"]["default_user"]["password"]
+        MYSQL_HOST          = dependency.cloud_sqls.outputs.mysqls_map["cloud-sql-${dependency.random_string.outputs.result}"]["mysql"]["ip_address.0.ip_address"]
+        MYSQL_PORT          = "5432"
+        MYSQL_USER          = dependency.cloud_sqls.outputs.mysqls_map["cloud-sql-${dependency.random_string.outputs.result}"]["default_user"]["name"]
+        MYSQL_PASSWORD      = dependency.cloud_sqls.outputs.mysqls_map["cloud-sql-${dependency.random_string.outputs.result}"]["default_user"]["password"]
         MYSQL_ROOT_PASSWORD = dependency.cloud_sqls.outputs.mysqls_map["cloud-sql-${dependency.random_string.outputs.result}"]["default_user"]["password"]
       })
       replication = {
@@ -55,8 +55,8 @@ inputs = {
       }
     },
     {
-      project_id  = dependency.secret_project.outputs.project_id
-      secret_id   = "${dependency.compute_project.outputs.project_id}/cert-manager/cert-manager-secrets"
+      project_id = dependency.secret_project.outputs.project_id
+      secret_id  = "${dependency.compute_project.outputs.project_id}/cert-manager/cert-manager-secrets"
       secret_data = jsonencode({
         key.json = base64decode(dependency.service_account_keys.outputs.service_account_keys_map["cert-manager"]["private_key"])
       })
