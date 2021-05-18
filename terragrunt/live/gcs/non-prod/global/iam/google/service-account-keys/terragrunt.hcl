@@ -23,5 +23,8 @@ inputs = {
     {
       service_account_id = dependency.service_accounts.outputs.service_accounts_map["grafana-cloud"].email
     },
+    {
+      service_account_id = dependency.service_accounts.outputs.service_accounts_map["cert-manager"].email
+    }
   ]
 }

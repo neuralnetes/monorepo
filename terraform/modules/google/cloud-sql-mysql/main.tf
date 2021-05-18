@@ -20,3 +20,14 @@ resource "google_sql_database_instance" "mysql" {
     }
   }
 }
+
+resource "random_password" "random_password" {
+  length = 32
+}
+
+resource "google_sql_user" "default" {
+  project  = google_sql_database_instance.mysql.project
+  instance = google_sql_database_instance.mysql.name
+  name     = "default"
+  password = random_password.random_password.result
+}

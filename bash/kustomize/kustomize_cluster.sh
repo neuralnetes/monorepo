@@ -2,6 +2,7 @@
 PATHS=(
   "kustomize/manifests/external-secrets/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/external-dns/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/cert-manager"
@@ -57,23 +58,23 @@ spec:
   data:
     - key: ${KUBEFLOW_PROJECT}/kubeflow/katib-mysql-secrets
       name: MYSQL_HOST
-      property: mysql_host
+      property: MYSQL_HOST
       version: latest
     - key: ${KUBEFLOW_PROJECT}/kubeflow/katib-mysql-secrets
       name: MYSQL_PORT
-      property: mysql_port
+      property: MYSQL_PORT
       version: latest
     - key: ${KUBEFLOW_PROJECT}/kubeflow/katib-mysql-secrets
       name: MYSQL_USER
-      property: mysql_user
+      property: MYSQL_USER
       version: latest
     - key: ${KUBEFLOW_PROJECT}/kubeflow/katib-mysql-secrets
       name: MYSQL_PASSWORD
-      property: mysql_password
+      property: MYSQL_PASSWORD
       version: latest
     - key: ${KUBEFLOW_PROJECT}/kubeflow/katib-mysql-secrets
       name: MYSQL_ROOT_PASSWORD
-      property: mysql_root_password
+      property: MYSQL_ROOT_PASSWORD
       version: latest
 EOF
 
@@ -96,7 +97,6 @@ spec:
   data:
     - key: ${KUBEFLOW_PROJECT}/cert-manager/cert-manager-secrets
       name: key.json
-      property: key.json
       version: latest
 EOF
 
@@ -495,9 +495,9 @@ metadata:
 spec:
   path: kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base
 ---
-#apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-#kind: Kustomization
-#metadata:
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
   name: oidc-authservice
 spec:
   path: kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/oidc-authservice/base
