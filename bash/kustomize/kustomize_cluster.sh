@@ -332,8 +332,6 @@ cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/de
 namespace: auth
 resources:
 - ../../../../../../../../kubeflow/base/common/dex/overlays/istio
-patchesStrategicMerge:
-- patch-config.yaml
 EOF
 
 # knative-serving-install
@@ -392,7 +390,6 @@ EOF
 
 # deploy
 cat <<EOF > "kustomize/manifests/deploy/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
-namespace: flux-system
 resources:
 - ../../base
 - ../../../flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}
