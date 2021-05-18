@@ -29,9 +29,3 @@ variable "ip_configuration_require_ssl" {
 variable "project_id" {
   type = string
 }
-variable "default_user_name" {
-  type = string
-}
-variable "default_user_password" {
-  type = string
-}
