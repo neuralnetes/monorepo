@@ -1,0 +1,11 @@
+namespace: flux-system
+resources:
+- ../../base
+- ../../../external-secrets/overlays/
+- ../../../external-dns/overlays/
+- ../../../secrets/cert-manager/overlays/
+- ../../../secrets/kubeflow/overlays/
+- ../../../secrets/istio-system/overlays/
+- ../../../kubeflow/overlays/
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml

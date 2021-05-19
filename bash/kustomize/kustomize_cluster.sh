@@ -56,23 +56,23 @@ spec:
   backendType: gcpSecretsManager
   projectId: ${SECRET_PROJECT}
   data:
-    - key: ${KUBEFLOW_PROJECT}/kubeflow/katib-mysql-secrets
+    - key: ${KUBEFLOW_PROJECT}-kubeflow-katib-mysql-secrets
       name: MYSQL_HOST
       property: MYSQL_HOST
       version: latest
-    - key: ${KUBEFLOW_PROJECT}/kubeflow/katib-mysql-secrets
+    - key: ${KUBEFLOW_PROJECT}-kubeflow-katib-mysql-secrets
       name: MYSQL_PORT
       property: MYSQL_PORT
       version: latest
-    - key: ${KUBEFLOW_PROJECT}/kubeflow/katib-mysql-secrets
+    - key: ${KUBEFLOW_PROJECT}-kubeflow-katib-mysql-secrets
       name: MYSQL_USER
       property: MYSQL_USER
       version: latest
-    - key: ${KUBEFLOW_PROJECT}/kubeflow/katib-mysql-secrets
+    - key: ${KUBEFLOW_PROJECT}-kubeflow-katib-mysql-secrets
       name: MYSQL_PASSWORD
       property: MYSQL_PASSWORD
       version: latest
-    - key: ${KUBEFLOW_PROJECT}/kubeflow/katib-mysql-secrets
+    - key: ${KUBEFLOW_PROJECT}-kubeflow-katib-mysql-secrets
       name: MYSQL_ROOT_PASSWORD
       property: MYSQL_ROOT_PASSWORD
       version: latest
@@ -95,7 +95,7 @@ spec:
   backendType: gcpSecretsManager
   projectId: ${SECRET_PROJECT}
   data:
-    - key: ${KUBEFLOW_PROJECT}/cert-manager/cert-manager-secrets
+    - key: ${KUBEFLOW_PROJECT}-cert-manager-cert-manager-secrets
       name: key.json
       version: latest
 EOF

@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    email: bot+letencrypt-staging@neuralnetes.com
+    solvers:
+      - dns01:
+          clouddns:
+            project: 
+            serviceAccountSecretRef:
+              name: cert-manager-secrets
+              key: key.json
