@@ -200,7 +200,7 @@ metadata:
   namespace: istio-system
   annotations:
     external-dns.alpha.kubernetes.io/hostname: 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}.'
-    networking.gke.io/load-balancer-type: 'Internal'
+#    networking.gke.io/load-balancer-type: 'Internal'
 spec:
   type: LoadBalancer
 EOF

@@ -5,6 +5,6 @@ metadata:
   namespace: istio-system
   annotations:
     external-dns.alpha.kubernetes.io/hostname: 'kubeflow.compute-ctut.network-ctut.neuralnetes.com.'
-    networking.gke.io/load-balancer-type: 'Internal'
+#    networking.gke.io/load-balancer-type: 'Internal'
 spec:
   type: LoadBalancer
