@@ -9,7 +9,8 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - 'kubeflow.compute-ctut.network-ctut.neuralnetes.com'
+    - '*'
+#    - 'kubeflow.compute-ctut.network-ctut.neuralnetes.com'
     tls:
       httpsRedirect: true # sends 301 redirect for http requests
   - port:
@@ -20,4 +21,5 @@ spec:
       mode: SIMPLE
       credentialName: istio-certs
     hosts:
-    - 'kubeflow.compute-ctut.network-ctut.neuralnetes.com'
+    - '*'
+#    - 'kubeflow.compute-ctut.network-ctut.neuralnetes.com'
