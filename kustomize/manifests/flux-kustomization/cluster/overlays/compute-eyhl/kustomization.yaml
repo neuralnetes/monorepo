@@ -1,0 +1,11 @@
+namespace: flux-system
+resources:
+- ../../base
+- ../../../external-secrets/overlays/compute-eyhl
+- ../../../external-dns/overlays/compute-eyhl
+- ../../../secrets/cert-manager/overlays/compute-eyhl
+- ../../../secrets/kubeflow/overlays/compute-eyhl
+- ../../../secrets/istio-system/overlays/compute-eyhl
+- ../../../kubeflow/overlays/compute-eyhl
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml
