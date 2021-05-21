@@ -203,6 +203,7 @@ metadata:
     networking.gke.io/load-balancer-type: 'Internal'
 spec:
   type: LoadBalancer
+  loadBalancerIP: ${ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP}
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base/patch-gateway.yaml"

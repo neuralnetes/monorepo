@@ -41,3 +41,7 @@ variable "secret_project" {
 variable "triggers" {
   type = map(string)
 }
+
+variable "istio_ingressgateway_load_balancer_ip" {
+  type = string
+}

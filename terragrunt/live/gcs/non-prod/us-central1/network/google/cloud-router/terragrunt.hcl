@@ -22,4 +22,8 @@ inputs = {
   project = dependency.vpc.outputs.project_id
   network = dependency.vpc.outputs.network_name
   name    = "router-${dependency.random_string.outputs.result}"
+  bgp = {
+    asn               = "64519"
+    advertised_groups = ["ALL_SUBNETS"]
+  }
 }

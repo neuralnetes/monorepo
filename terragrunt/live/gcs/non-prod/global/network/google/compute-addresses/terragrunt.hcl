@@ -31,7 +31,15 @@ locals {
 }
 
 inputs = {
-  regional_addresses = []
+  regional_addresses = [
+    {
+      project      = dependency.network_project.outputs.project_id
+      name         = "istio-ingressgateway-us-central1-${dependency.vpc.outputs.network["name"]}"
+      purpose      = null
+      address_type = "INTERNAL"
+      subnetwork   = dependency.vpc.outputs.subnetworks.subnets["cluster-${dependency.random_string.outputs.result}"]
+    }
+  ]
   global_addresses = [
     {
       project       = dependency.network_project.outputs.project_id

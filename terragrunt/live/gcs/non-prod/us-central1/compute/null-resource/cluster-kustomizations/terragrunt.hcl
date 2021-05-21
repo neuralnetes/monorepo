@@ -18,6 +18,10 @@ dependency "network_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/project"
 }
 
+dependency "compute_addresses" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/compute_addresses"
+}
+
 dependency "secret_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/secret/google/project"
 }
@@ -48,17 +52,18 @@ locals {
 inputs = {
   cluster_kustomizations = [
     {
-      github_client_id     = local.github_client_id
-      github_client_secret = local.github_client_secret
-      github_owner         = local.github_owner
-      github_workspace     = local.github_workspace
-      cluster_name         = dependency.container_clusters.outputs.container_clusters_map["cluster-${dependency.random_string.outputs.result}"].cluster_name
-      compute_project      = dependency.compute_project.outputs.project_id
-      iam_project          = dependency.iam_project.outputs.project_id
-      network_project      = dependency.network_project.outputs.project_id
-      kubeflow_project     = dependency.compute_project.outputs.project_id
-      secret_project       = dependency.secret_project.outputs.project_id
-      triggers             = local.triggers
+      github_client_id                      = local.github_client_id
+      github_client_secret                  = local.github_client_secret
+      github_owner                          = local.github_owner
+      github_workspace                      = local.github_workspace
+      cluster_name                          = dependency.container_clusters.outputs.container_clusters_map["cluster-${dependency.random_string.outputs.result}"].cluster_name
+      compute_project                       = dependency.compute_project.outputs.project_id
+      iam_project                           = dependency.iam_project.outputs.project_id
+      network_project                       = dependency.network_project.outputs.project_id
+      kubeflow_project                      = dependency.compute_project.outputs.project_id
+      secret_project                        = dependency.secret_project.outputs.project_id
+      istio_ingressgateway_load_balancer_ip = dependency.compute_addresses.outputs.regional_addresses_map["istio-ingressgateway-us-central1-${dependency.vpc.outputs.network["name"]}"].address
+      triggers                              = local.triggers
     }
   ]
 }
