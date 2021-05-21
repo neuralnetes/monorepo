@@ -19,7 +19,7 @@ dependency "network_project" {
 }
 
 dependency "compute_addresses" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/compute_addresses"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/compute-addresses"
 }
 
 dependency "secret_project" {
