@@ -38,6 +38,7 @@ inputs = {
       purpose      = null
       address_type = "INTERNAL"
       subnetwork   = dependency.vpc.outputs.subnetworks.subnets["cluster-${dependency.random_string.outputs.result}"]
+      region       = "us-central1"
     }
   ]
   global_addresses = [
