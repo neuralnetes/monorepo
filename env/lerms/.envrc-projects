@@ -1,6 +1,6 @@
-export IAM_PROJECT=iam-eyhl
-export SECRET_PROJECT=secret-eyhl
-export NETWORK_PROJECT=network-eyhl
-export DATA_PROJECT=data-eyhl
-export COMPUTE_PROJECT=compute-eyhl
-export KUBEFLOW_PROJECT=compute-eyhl
+export IAM_PROJECT=iam-akgp
+export SECRET_PROJECT=secret-akgp
+export NETWORK_PROJECT=network-akgp
+export DATA_PROJECT=data-akgp
+export COMPUTE_PROJECT=compute-akgp
+export KUBEFLOW_PROJECT=compute-akgp
