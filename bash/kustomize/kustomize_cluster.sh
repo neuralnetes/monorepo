@@ -219,7 +219,7 @@ spec:
     hosts:
     - '*'
     tls:
-      httpsRedirect: true # sends 301 redirect for http requests
+      httpsRedirect: true
   - port:
       number: 443
       name: https
@@ -369,7 +369,7 @@ spec:
     hosts:
     - '*'
     tls:
-      httpsRedirect: true # sends 301 redirect for http requests
+      httpsRedirect: true
   - port:
       number: 443
       name: https
