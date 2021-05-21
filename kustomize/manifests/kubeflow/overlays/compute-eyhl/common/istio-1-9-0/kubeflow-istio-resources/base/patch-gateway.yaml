@@ -10,7 +10,6 @@ spec:
       protocol: HTTP
     hosts:
     - '*'
-#    - 'kubeflow.compute-eyhl.network-eyhl.neuralnetes.com'
     tls:
       httpsRedirect: true # sends 301 redirect for http requests
   - port:
@@ -22,4 +21,3 @@ spec:
       credentialName: istio-certs
     hosts:
     - '*'
-#    - 'kubeflow.compute-eyhl.network-eyhl.neuralnetes.com'
