@@ -37,9 +37,9 @@ inputs = {
   gateway_name       = "${dependency.vpc.outputs.name}-vpn"
   tunnel_name_prefix = "${dependency.vpc.outputs.name}-vpn"
   tunnel_count       = 1
-  peer_ips           = []
+  peer_ips           = ["108.29.73.202"]
   route_priority     = 1000
-  remote_subnet      = dependency.subnetworks.outputs.subnets["cluster-${dependency.random_string.outputs.result}"]
+  remote_subnet      = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"]
   cr_enabled         = true
   cr_name            = dependency.cloud_router.outputs.router["name"]
 }
