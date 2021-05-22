@@ -5,3 +5,4 @@ export DATA_PROJECT=data-akgp
 export COMPUTE_PROJECT=compute-akgp
 export KUBEFLOW_PROJECT=compute-akgp
 export CLUSTER_NAME=cluster-akgp
+export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP=10.0.0.9

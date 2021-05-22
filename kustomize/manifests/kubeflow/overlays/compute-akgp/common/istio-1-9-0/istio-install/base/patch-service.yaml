@@ -8,4 +8,4 @@ metadata:
     networking.gke.io/load-balancer-type: 'Internal'
 spec:
   type: LoadBalancer
-  loadBalancerIP: 10.0.0.6
+  loadBalancerIP: 10.0.0.9
