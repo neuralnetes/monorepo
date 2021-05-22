@@ -32,14 +32,14 @@ locals {
 
 inputs = {
   regional_addresses = [
-    {
-      project      = dependency.network_project.outputs.project_id
-      name         = "istio-ingressgateway-us-central1-${dependency.vpc.outputs.network["name"]}"
-      purpose      = "PRIVATE"
-      address_type = "INTERNAL"
-      subnetwork   = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].id
-      region       = "us-central1"
-    }
+    //    {
+    //      project      = dependency.network_project.outputs.project_id
+    //      name         = "istio-ingressgateway-us-central1-${dependency.vpc.outputs.network["name"]}"
+    //      purpose      = null
+    //      address_type = "INTERNAL"
+    //      subnetwork   = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].id
+    //      region       = "us-central1"
+    //    }
   ]
   global_addresses = [
     {
