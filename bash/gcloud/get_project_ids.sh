@@ -15,6 +15,7 @@ NETWORK_PROJECT=$(get_project_id_by_prefix "network" "${PROJECTS}")
 DATA_PROJECT=$(get_project_id_by_prefix "data" "${PROJECTS}")
 COMPUTE_PROJECT=$(get_project_id_by_prefix "compute" "${PROJECTS}")
 KUBEFLOW_PROJECT=$(get_project_id_by_prefix "kubeflow" "${PROJECTS}")
+CLUSTER_NAME=$(gcloud container clusters list --project="${COMPUTE_PROJECT}" --format=json | jq -rc '.[0].name')
 
 cat <<EOF > "${GITHUB_USER_WORKSPACE}/.envrc-projects"
 export IAM_PROJECT=${IAM_PROJECT}
@@ -23,4 +24,7 @@ export NETWORK_PROJECT=${NETWORK_PROJECT}
 export DATA_PROJECT=${DATA_PROJECT}
 export COMPUTE_PROJECT=${COMPUTE_PROJECT}
 export KUBEFLOW_PROJECT=${COMPUTE_PROJECT}
+export CLUSTER_NAME=${CLUSTER_NAME}
 EOF
+
+gcloud container clusters get-credentials --project="${COMPUTE_PROJECT}" --zone=us-central1-a "${CLUSTER_NAME}"
