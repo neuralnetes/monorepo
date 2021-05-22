@@ -18,6 +18,10 @@ dependency "network_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/project"
 }
 
+dependency "vpc" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/vpc"
+}
+
 dependency "compute_addresses" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/compute-addresses"
 }
