@@ -31,7 +31,7 @@ dependency "random_string" {
 }
 
 inputs = {
-  project_id         = dependency.vpc.outputs.project
+  project_id         = dependency.vpc.outputs.project_id
   network            = dependency.vpc.outputs.name
   region             = "us-central1"
   gateway_name       = "${dependency.vpc.outputs.name}-vpn"
