@@ -39,7 +39,7 @@ inputs = {
   tunnel_count       = 1
   peer_ips           = ["108.29.73.202"]
   route_priority     = 1000
-  remote_subnet      = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"]
+  remote_subnet      = [dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].name]
   cr_enabled         = true
   cr_name            = dependency.cloud_router.outputs.router["name"]
 }
