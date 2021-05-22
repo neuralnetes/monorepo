@@ -14,7 +14,7 @@ SECRET_PROJECT=$(get_project_id_by_prefix "secret" "${PROJECTS}")
 NETWORK_PROJECT=$(get_project_id_by_prefix "network" "${PROJECTS}")
 DATA_PROJECT=$(get_project_id_by_prefix "data" "${PROJECTS}")
 COMPUTE_PROJECT=$(get_project_id_by_prefix "compute" "${PROJECTS}")
-KUBEFLOW_PROJECT=$(get_project_id_by_prefix "kubeflow" "${PROJECTS}")
+KUBEFLOW_PROJECT="${COMPUTE_PROJECT}"
 CLUSTER_NAME=$(gcloud container clusters list --project="${COMPUTE_PROJECT}" --format=json | jq -rc '.[0].name')
 ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP="10.0.0.9"
 
@@ -24,7 +24,7 @@ export SECRET_PROJECT=${SECRET_PROJECT}
 export NETWORK_PROJECT=${NETWORK_PROJECT}
 export DATA_PROJECT=${DATA_PROJECT}
 export COMPUTE_PROJECT=${COMPUTE_PROJECT}
-export KUBEFLOW_PROJECT=${COMPUTE_PROJECT}
+export KUBEFLOW_PROJECT=${KUBEFLOW_PROJECT}
 export CLUSTER_NAME=${CLUSTER_NAME}
 export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP=${ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP}
 EOF
