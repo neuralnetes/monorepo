@@ -6,3 +6,26 @@ export PATH="${HOME_LOCAL_BIN}:${GOBIN}:${PATH}"
 export EDITOR="code --wait"
 export KUBE_EDITOR="${EDITOR}"
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+
+function curl_ip_address() {
+  curl -sS ifconfig.me
+}
+
+function weather() {
+    current_ip_address=$(curl_ip_address)
+    echo "current ip address: ${current_ip_address}"
+    curl -sS "wttr.in/@${current_ip_address}" | lower
+}
+
+function to_lowercase() {
+    echo "${1}" | tr '[:upper:]' '[:lower:]'
+}
+
+function to_uppercase() {
+    echo "${1}" | tr '[:lower:]' '[:upper:]'
+}
+
+alias kb="kustomize build --load-restrictor LoadRestrictionsNone"
+alias kbkaf="kb | kaf -"
+alias kbkdelf="kb | kdelf -"
+alias kfmt="kustomize cfg fmt -R"

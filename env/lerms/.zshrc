@@ -2,6 +2,7 @@
 export ZSH="${HOME}/.oh-my-zsh"
 export ZSH_THEME="robbyrussell"
 export plugins=(
+    direnv
     git
     kubectl
     terraform
@@ -13,4 +14,3 @@ export plugins=(
     nvm
 )
 source "${ZSH}/oh-my-zsh.sh"
-source "${HOME}/.envrc"

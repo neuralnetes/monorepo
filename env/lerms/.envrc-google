@@ -1,0 +1,84 @@
+#!/bin/bash
+function get_project_id_by_prefix() {
+    PROJECT_ID_PREFIX=$1
+    PROJECTS=$2
+    echo "${PROJECTS}" \
+      | jq -rc  --arg project_id_prefix "${PROJECT_ID_PREFIX}" \
+      '.[] | select(.projectId | startswith($project_id_prefix)) | .projectId'
+}
+
+function get_billing_account_id() {
+    gcloud beta billing accounts list --format=json \
+      | jq -rc '[.[] | .name ] | sort | first'
+}
+
+function get_cluster() {
+  gcloud container clusters list \
+    --project="${COMPUTE_PROJECT}" \
+    --format=json \
+    | jq 'first'
+}
+
+function get_cluster_name() {
+  get_cluster \
+    | jq -rc '.name'
+}
+
+function get_network() {
+  gcloud compute networks list \
+    --project="${NETWORK_PROJECT}" \
+    --format=json \
+    | jq 'first'
+}
+
+function get_network_name() {
+  get_network \
+    | jq -rc '.name'
+}
+
+function get_network_self_link() {
+  get_network \
+    | jq -rc '.selfLink'
+}
+
+function get_subnetwork() {
+  gcloud compute networks subnets list \
+    --project="${NETWORK_PROJECT}" \
+    --format=json \
+    | jq 'first'
+}
+
+function get_subnetwork_name() {
+  get_subnetwork \
+    | jq -rc '.name'
+}
+
+function get_subnetwork_self_link() {
+  get_subnetwork \
+    | jq -rc '.selfLink'
+}
+
+export PROJECTS=$(gcloud projects list --format=json | jq)
+export IAM_PROJECT=$(get_project_id_by_prefix "iam" "${PROJECTS}")
+export SECRET_PROJECT=$(get_project_id_by_prefix "secret" "${PROJECTS}")
+export NETWORK_PROJECT=$(get_project_id_by_prefix "network" "${PROJECTS}")
+export DATA_PROJECT=$(get_project_id_by_prefix "data" "${PROJECTS}")
+export COMPUTE_PROJECT=$(get_project_id_by_prefix "compute" "${PROJECTS}")
+export KUBEFLOW_PROJECT="${COMPUTE_PROJECT}"
+export NETWORK=$(get_network)
+export NETWORK_NAME=$(get_network_name)
+export NETWORK_SELF_LINK=$(get_network_self_link)
+export SUBNETWORK=$(get_subnetwork)
+export SUBNETWORK_NAME=$(get_subnetwork_name)
+export SUBNETWORK_SELF_LINK=$(get_subnetwork_self_link)
+export CLUSTER=$(get_cluster)
+export CLUSTER_NAME=$(get_cluster_name)
+export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP="10.0.0.9"
+export GCP_BILLING_ACCOUNT_ID=""
+export GCP_ORGANIZATION_ID=""
+export GCP_ORGANIZATION="neuralnetes"
+export GCP_PROJECT_ID="terraform-${GCP_ORGANIZATION}"
+export GCP_WORKSPACE_DOMAIN_NAME="${GCP_ORGANIZATION}.com"
+export GCS_TERRAFORM_REMOTE_STATE_BUCKET="terraform-${GCP_ORGANIZATION}"
+export GCS_TERRAFORM_REMOTE_STATE_LOCATION="US"
+export GOOGLE_APPLICATION_CREDENTIALS="${HOME}/.config/gcloud/application_default_credentials.json"

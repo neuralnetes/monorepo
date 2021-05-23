@@ -14,4 +14,4 @@ node_modules
 terragrunt-debug.tfvars.json
 tmp
 .obsidian
-.envrc
+/Users/alexanderlerma/go/src/github.com/neuralnetes/monorepo/env/lerms/.envrc-secret
