@@ -186,7 +186,7 @@ inputs = {
           "roles/owner",
         ] :
         project_role => [
-          "alexander.lerma@${local.gcp_workspace_domain_name}"
+          "group:owners@${local.gcp_workspace_domain_name}"
         ]
       }
       project = dependency.network_project.outputs.project_id
