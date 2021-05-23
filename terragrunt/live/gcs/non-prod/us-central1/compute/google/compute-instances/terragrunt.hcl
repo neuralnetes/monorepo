@@ -53,7 +53,7 @@ inputs = {
       tags = [
         dependency.tags.outputs.tags_map["vpn"]
       ]
-      metadata_startup_script = templatefile("templates/openvpn.tpl", {
+      metadata_startup_script = templatefile("${get_terragrunt_dir()}/templates/openvpn.tpl", {
         url  = "https://cloud-backend.openvpn.com/cvpn/api/v1/scripts/VWJ1bnR1IDIwLjA0/ubuntu_20_04.sh"
         name = "ubuntu_20_04.sh"
       })
