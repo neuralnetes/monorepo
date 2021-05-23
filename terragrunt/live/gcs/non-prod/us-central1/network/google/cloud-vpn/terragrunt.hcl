@@ -49,6 +49,7 @@ inputs = {
       ike_version                     = 2
       vpn_gateway_interface           = 0
       peer_external_gateway_interface = 0
+      shared_secret                   = ""
     }
   }
 }

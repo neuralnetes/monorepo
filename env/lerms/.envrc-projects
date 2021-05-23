@@ -1,8 +1,8 @@
-export IAM_PROJECT=
-export SECRET_PROJECT=
-export NETWORK_PROJECT=
-export DATA_PROJECT=
-export COMPUTE_PROJECT=
-export KUBEFLOW_PROJECT=
-export CLUSTER_NAME=
+export IAM_PROJECT=iam-sprf
+export SECRET_PROJECT=secret-sprf
+export NETWORK_PROJECT=network-sprf
+export DATA_PROJECT=data-sprf
+export COMPUTE_PROJECT=compute-sprf
+export KUBEFLOW_PROJECT=compute-sprf
+export CLUSTER_NAME=cluster-sprf
 export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP=10.0.0.9
