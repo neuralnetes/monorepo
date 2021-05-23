@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/terraform-google-modules/terraform-google-vpn.git//modules/vpn_ha?ref=v1.2.0"
+  source = "github.com/terraform-google-modules/terraform-google-vpn.git//modules/vpn_ha?ref=master"
 }
 
 include {
