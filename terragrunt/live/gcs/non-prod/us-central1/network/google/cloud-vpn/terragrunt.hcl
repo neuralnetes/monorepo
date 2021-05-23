@@ -41,7 +41,7 @@ inputs = {
   tunnels = {
     remote-0 = {
       bgp_peer = {
-        address = "108.29.73.202"
+        address = "100.96.1.18"
         asn     = 64513
       }
       bgp_peer_options                = null
