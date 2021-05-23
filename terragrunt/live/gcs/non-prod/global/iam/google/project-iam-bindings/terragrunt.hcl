@@ -183,17 +183,6 @@ inputs = {
     {
       bindings = {
         for project_role in [
-          "roles/owner",
-        ] :
-        project_role => [
-          "group:owners@${local.gcp_workspace_domain_name}"
-        ]
-      }
-      project = dependency.network_project.outputs.project_id
-    },
-    {
-      bindings = {
-        for project_role in [
           "roles/viewer",
         ] :
         project_role => [

@@ -14,7 +14,7 @@ function get_billing_account_id() {
 
 function get_cluster() {
   gcloud container clusters list \
-    --project="${COMPUTE_PROJECT}" \
+    --project="${KUBEFLOW_PROJECT}" \
     --format=json \
     | jq 'first'
 }
@@ -58,13 +58,20 @@ function get_subnetwork_self_link() {
     | jq -rc '.selfLink'
 }
 
+function get_cluster_credentials() {
+  gcloud container clusters get-credentials \
+    --project="${KUBEFLOW_PROJECT}" \
+    --zone=us-central1-a \
+    "${CLUSTER_NAME}"
+}
+
 export PROJECTS=$(gcloud projects list --format=json | jq)
 export IAM_PROJECT=$(get_project_id_by_prefix "iam" "${PROJECTS}")
 export SECRET_PROJECT=$(get_project_id_by_prefix "secret" "${PROJECTS}")
 export NETWORK_PROJECT=$(get_project_id_by_prefix "network" "${PROJECTS}")
 export DATA_PROJECT=$(get_project_id_by_prefix "data" "${PROJECTS}")
 export COMPUTE_PROJECT=$(get_project_id_by_prefix "compute" "${PROJECTS}")
-export KUBEFLOW_PROJECT="${COMPUTE_PROJECT}"
+export KUBEFLOW_PROJECT=$(get_project_id_by_prefix "kubeflow" "${PROJECTS}")
 export NETWORK=$(get_network)
 export NETWORK_NAME=$(get_network_name)
 export NETWORK_SELF_LINK=$(get_network_self_link)
@@ -73,7 +80,7 @@ export SUBNETWORK_NAME=$(get_subnetwork_name)
 export SUBNETWORK_SELF_LINK=$(get_subnetwork_self_link)
 export CLUSTER=$(get_cluster)
 export CLUSTER_NAME=$(get_cluster_name)
-export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP="10.0.0.9"
+export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP="10.0.15.254"
 export GCP_BILLING_ACCOUNT_ID=""
 export GCP_ORGANIZATION_ID=""
 export GCP_ORGANIZATION="neuralnetes"
@@ -82,3 +89,5 @@ export GCP_WORKSPACE_DOMAIN_NAME="${GCP_ORGANIZATION}.com"
 export GCS_TERRAFORM_REMOTE_STATE_BUCKET="terraform-${GCP_ORGANIZATION}"
 export GCS_TERRAFORM_REMOTE_STATE_LOCATION="US"
 export GOOGLE_APPLICATION_CREDENTIALS="${HOME}/.config/gcloud/application_default_credentials.json"
+
+get_cluster_credentials

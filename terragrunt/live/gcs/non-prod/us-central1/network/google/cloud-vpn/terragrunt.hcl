@@ -42,7 +42,7 @@ inputs = {
     interfaces = [
       {
         id         = 0
-        ip_address = "100.96.1.18" # on-prem router ip address
+        ip_address = "10.0.0.11" # on-prem router ip address
       }
     ]
   }
