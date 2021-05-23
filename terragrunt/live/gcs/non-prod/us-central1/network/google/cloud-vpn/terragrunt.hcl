@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/terraform-google-modules/terraform-google-vpn.git//modules/vpn_ha?ref=master"
+  source = "github.com/terraform-google-modules/terraform-google-vpn.git//modules/vpn_ha?ref=v1.2.0"
 }
 
 include {
@@ -31,13 +31,21 @@ dependency "random_string" {
 }
 
 inputs = {
-  project_id            = dependency.vpc.outputs.project_id
-  network               = dependency.vpc.outputs.network_self_link
-  region                = "us-central1"
-  name                  = "${dependency.vpc.outputs.network["name"]}-ha-vpn"
-  create_vpn_gateway    = true
-  router_name           = dependency.cloud_router.outputs.router["name"]
-  peer_external_gateway = null
+  project_id         = dependency.vpc.outputs.project_id
+  network            = dependency.vpc.outputs.network_self_link
+  region             = "us-central1"
+  name               = "${dependency.vpc.outputs.network["name"]}-ha-vpn"
+  create_vpn_gateway = true
+  router_name        = dependency.cloud_router.outputs.router["name"]
+  peer_external_gateway = {
+    redundancy_type = "SINGLE_IP_INTERNALLY_REDUNDANT"
+    interfaces = [
+      {
+        id         = 0
+        ip_address = "100.96.1.18" # on-prem router ip address
+      }
+    ]
+  }
   tunnels = {
     remote-0 = {
       bgp_peer = {
