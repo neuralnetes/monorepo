@@ -14,6 +14,10 @@ dependency "compute_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/google/project"
 }
 
+dependency "kubeflow_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
+}
+
 dependency "vpc" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/vpc"
 }
@@ -42,6 +46,22 @@ inputs = {
       type                               = "public"
       name                               = replace("public-${dependency.network_project.outputs.project_id}-${local.gsuite_domain_name}", ".", "-")
       domain                             = "${dependency.network_project.outputs.project_id}.${local.gsuite_domain_name}."
+      private_visibility_config_networks = []
+    },
+    {
+      project_id = dependency.network_project.outputs.project_id
+      type       = "private"
+      name       = replace("private-${dependency.kubeflow_project.outputs.project_id}-${dependency.network_project.outputs.project_id}-${local.gsuite_domain_name}", ".", "-")
+      domain     = "${dependency.kubeflow_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gsuite_domain_name}."
+      private_visibility_config_networks = [
+        dependency.vpc.outputs.network_self_link
+      ]
+    },
+    {
+      project_id                         = dependency.network_project.outputs.project_id
+      type                               = "public"
+      name                               = replace("public-${dependency.kubeflow_project.outputs.project_id}-${dependency.network_project.outputs.project_id}-${local.gsuite_domain_name}", ".", "-")
+      domain                             = "${dependency.kubeflow_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gsuite_domain_name}."
       private_visibility_config_networks = []
     },
     {

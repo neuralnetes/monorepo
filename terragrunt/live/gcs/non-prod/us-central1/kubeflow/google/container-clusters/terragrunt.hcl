@@ -6,8 +6,8 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "compute_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/google/project"
+dependency "kubeflow_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
 }
 
 dependency "iam_project" {
@@ -70,7 +70,7 @@ inputs = {
       node_pools = [
         {
           machine_type = "e2-standard-4"
-          max_count    = 10
+          max_count    = 5
           min_count    = 3
           name         = "cluster-${dependency.random_string.outputs.result}-cpu-01"
           preemptible  = true
@@ -92,11 +92,10 @@ inputs = {
       }
       node_pools_oauth_scopes = {
         all = [
-          "https://www.googleapis.com/auth/cloud-platform",
-          "https://www.googleapis.com/auth/ndev.clouddns.readwrite"
+          "https://www.googleapis.com/auth/cloud-platform"
         ]
       }
-      project_id               = dependency.compute_project.outputs.project_id
+      project_id               = dependency.kubeflow_project.outputs.project_id
       region                   = "us-central1"
       regional                 = false
       remove_default_node_pool = true

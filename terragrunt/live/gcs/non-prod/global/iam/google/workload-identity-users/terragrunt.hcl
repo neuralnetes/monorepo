@@ -18,6 +18,10 @@ dependency "project_iam_bindings" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project-iam-bindings"
 }
 
+dependency "kubeflow_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
+}
+
 dependency "compute_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/google/project"
 }
@@ -39,7 +43,7 @@ dependency "random_string" {
 }
 
 dependency "container_clusters" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/google/container-clusters"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/kubeflow/google/container-clusters"
 }
 
 locals {
@@ -78,28 +82,34 @@ inputs = {
   workload_identity_users = flatten([
     [
       {
-        project_id                 = dependency.compute_project.outputs.project_id
+        project_id                 = dependency.kubeflow_project.outputs.project_id
         service_account_id         = dependency.service_accounts.outputs.service_accounts_map["cert-manager"].email
         kubernetes_namespace       = "cert-manager"
         kubernetes_service_account = "cert-manager"
       },
       {
-        project_id                 = dependency.compute_project.outputs.project_id
+        project_id                 = dependency.kubeflow_project.outputs.project_id
         service_account_id         = dependency.service_accounts.outputs.service_accounts_map["external-dns"].email
         kubernetes_namespace       = "external-dns"
         kubernetes_service_account = "external-dns"
       },
       {
-        project_id                 = dependency.compute_project.outputs.project_id
+        project_id                 = dependency.kubeflow_project.outputs.project_id
         service_account_id         = dependency.service_accounts.outputs.service_accounts_map["external-secrets"].email
         kubernetes_namespace       = "external-secrets"
         kubernetes_service_account = "external-secrets"
+      },
+      {
+        project_id                 = dependency.kubeflow_project.outputs.project_id
+        service_account_id         = dependency.service_accounts.outputs.service_accounts_map["openvpn"].email
+        kubernetes_namespace       = "openvpn"
+        kubernetes_service_account = "openvpn"
       }
     ],
     [
       for kubernetes_service_account in local.kubeflow_kubernetes_service_accounts :
       {
-        project_id                 = dependency.compute_project.outputs.project_id
+        project_id                 = dependency.kubeflow_project.outputs.project_id
         service_account_id         = dependency.service_accounts.outputs.service_accounts_map["kubeflow"].email
         kubernetes_namespace       = "kubeflow"
         kubernetes_service_account = kubernetes_service_account

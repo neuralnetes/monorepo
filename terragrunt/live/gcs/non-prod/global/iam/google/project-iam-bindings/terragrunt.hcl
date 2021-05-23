@@ -14,6 +14,10 @@ dependency "service_accounts" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
 }
 
+dependency "kubeflow_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
+}
+
 dependency "compute_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/google/project"
 }
@@ -44,6 +48,42 @@ locals {
 
 inputs = {
   project_iam_bindings = [
+    # kubeflow
+    {
+      bindings = {
+        for project_role in [
+          "roles/compute.admin",
+          "roles/iam.serviceAccountAdmin",
+        ] :
+        project_role => [
+          "group:terraform@${local.gcp_workspace_domain_name}"
+        ]
+      }
+      project = dependency.kubeflow_project.outputs.project_id
+    },
+    {
+      bindings = {
+        for project_role in [
+          "roles/viewer",
+        ] :
+        project_role => [
+          "group:engineering@${local.gcp_workspace_domain_name}"
+        ]
+      }
+      project = dependency.kubeflow_project.outputs.project_id
+    },
+    {
+      bindings = {
+        for project_role in [
+          "roles/viewer",
+          "roles/monitoring.viewer"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["grafana-cloud"].email}"
+        ]
+      }
+      project = dependency.kubeflow_project.outputs.project_id
+    },
     # compute
     {
       bindings = {
@@ -169,6 +209,17 @@ inputs = {
         ] :
         project_role => [
           "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cert-manager"].email}"
+        ]
+      }
+      project = dependency.network_project.outputs.project_id
+    },
+    {
+      bindings = {
+        for project_role in [
+          "roles/dns.admin"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["openvpn"].email}"
         ]
       }
       project = dependency.network_project.outputs.project_id

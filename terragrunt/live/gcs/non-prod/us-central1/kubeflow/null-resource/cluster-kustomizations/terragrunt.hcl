@@ -6,6 +6,10 @@ include {
   path = find_in_parent_folders()
 }
 
+dependency "kubeflow_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
+}
+
 dependency "compute_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/google/project"
 }
@@ -31,11 +35,11 @@ dependency "secret_project" {
 }
 
 dependency "container_clusters" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/google/container-clusters"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/kubeflow/google/container-clusters"
 }
 
 dependency "container_cluster_auths" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/google/container-cluster-auths"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/kubeflow/google/container-cluster-auths"
 }
 
 dependency "random_string" {
@@ -64,7 +68,7 @@ inputs = {
       compute_project      = dependency.compute_project.outputs.project_id
       iam_project          = dependency.iam_project.outputs.project_id
       network_project      = dependency.network_project.outputs.project_id
-      kubeflow_project     = dependency.compute_project.outputs.project_id
+      kubeflow_project     = dependency.kubeflow_project.outputs.project_id
       secret_project       = dependency.secret_project.outputs.project_id
       //      istio_ingressgateway_load_balancer_ip = dependency.compute_addresses.outputs.regional_addresses_map["istio-ingressgateway-us-central1-${dependency.vpc.outputs.network["name"]}"].address
       istio_ingressgateway_load_balancer_ip = "10.0.0.9"

@@ -10,6 +10,10 @@ dependency "iam_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
 }
 
+dependency "kubeflow_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
+}
+
 dependency "compute_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/google/project"
 }
@@ -52,6 +56,10 @@ inputs = {
     {
       project    = dependency.iam_project.outputs.project_id
       account_id = "kubeflow"
+    },
+    {
+      project    = dependency.iam_project.outputs.project_id
+      account_id = "openvpn"
     },
   ]
   service_account_datas = []
