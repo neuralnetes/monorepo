@@ -1,10 +1,6 @@
 #!/bin/bash
-export GOPATH="${HOME}/go"
-export GITHUB_OWNER="neuralnetes"
-export GITHUB_REPOSITORY="${GITHUB_OWNER}/monorepo"
-export GITHUB_WORKSPACE="${GOPATH}/src/github.com/${GITHUB_REPOSITORY}"
-export GITHUB_USER="lerms"
-export GITHUB_USER_WORKSPACE="${GITHUB_WORKSPACE}/env/${GITHUB_USER}"
+GITHUB_USER="lerms"
+GITHUB_USER_WORKSPACE="${HOME}/go/src/github.com/neuralnetes/env/${GITHUB_USER}"
 source "${GITHUB_USER_WORKSPACE}/.envrc-base"
 source "${GITHUB_USER_WORKSPACE}/.envrc-github"
 source "${GITHUB_USER_WORKSPACE}/.envrc-google"
