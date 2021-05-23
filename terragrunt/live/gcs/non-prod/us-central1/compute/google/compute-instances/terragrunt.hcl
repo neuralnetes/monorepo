@@ -41,7 +41,7 @@ dependency "tags" {
 inputs = {
   compute_instances = [
     {
-      name                  = "openvpn-${dependency.random_string.output.result}"
+      name                  = "openvpn-${dependency.random_string.outputs.result}"
       machine_type          = "e2-micro"
       image_project         = "ubuntu-os-cloud"
       image_family          = "ubuntu-2004-lts"
