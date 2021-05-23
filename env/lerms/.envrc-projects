@@ -1,8 +1,8 @@
-export IAM_PROJECT=iam-akgp
-export SECRET_PROJECT=secret-akgp
-export NETWORK_PROJECT=network-akgp
-export DATA_PROJECT=data-akgp
-export COMPUTE_PROJECT=compute-akgp
-export KUBEFLOW_PROJECT=compute-akgp
-export CLUSTER_NAME=cluster-akgp
+export IAM_PROJECT=
+export SECRET_PROJECT=
+export NETWORK_PROJECT=
+export DATA_PROJECT=
+export COMPUTE_PROJECT=
+export KUBEFLOW_PROJECT=
+export CLUSTER_NAME=
 export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP=10.0.0.9
