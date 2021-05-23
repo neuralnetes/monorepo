@@ -45,7 +45,7 @@ inputs = {
         asn     = 64513
       }
       bgp_peer_options                = null
-      bgp_session_range               = "10.0.0.0/16"
+      bgp_session_range               = "100.96.1.16/28"
       ike_version                     = 2
       vpn_gateway_interface           = 0
       peer_external_gateway_interface = 0
