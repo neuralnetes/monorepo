@@ -27,7 +27,7 @@ locals {
   terraform_group_bindings = {
     for role in ["roles/iam.serviceAccountUser"] :
     role => [
-      "group:terraform@${local.gsuite_domain_name}"
+      "serviceAccount:${dependency.auth.outputs.email}"
     ]
   }
 }

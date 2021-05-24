@@ -44,6 +44,14 @@ dependency "auth" {
 
 locals {
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
+  default_group_engineering_bindings = {
+    for project_role in [
+      "roles/viewer"
+    ] :
+    project_role => [
+      "group:engineering@${local.gcp_workspace_domain_name}"
+    ]
+  }
 }
 
 inputs = {
@@ -53,24 +61,16 @@ inputs = {
       bindings = {
         for project_role in [
           "roles/compute.admin",
-          "roles/iam.serviceAccountUser",
         ] :
         project_role => [
-          "group:terraform@${local.gcp_workspace_domain_name}"
+          "serviceAccount:${dependency.auth.outputs.email}"
         ]
       }
       project = dependency.kubeflow_project.outputs.project_id
     },
     {
-      bindings = {
-        for project_role in [
-          "roles/viewer",
-        ] :
-        project_role => [
-          "group:engineering@${local.gcp_workspace_domain_name}"
-        ]
-      }
-      project = dependency.kubeflow_project.outputs.project_id
+      bindings = local.default_group_engineering_bindings
+      project  = dependency.kubeflow_project.outputs.project_id
     },
     {
       bindings = {
@@ -89,24 +89,16 @@ inputs = {
       bindings = {
         for project_role in [
           "roles/compute.admin",
-          "roles/iam.serviceAccountUser",
         ] :
         project_role => [
-          "group:terraform@${local.gcp_workspace_domain_name}"
+          "serviceAccount:${dependency.auth.outputs.email}"
         ]
       }
       project = dependency.compute_project.outputs.project_id
     },
     {
-      bindings = {
-        for project_role in [
-          "roles/viewer",
-        ] :
-        project_role => [
-          "group:engineering@${local.gcp_workspace_domain_name}"
-        ]
-      }
-      project = dependency.compute_project.outputs.project_id
+      bindings = local.default_group_engineering_bindings
+      project  = dependency.compute_project.outputs.project_id
     },
     {
       bindings = {
@@ -123,76 +115,52 @@ inputs = {
     {
       bindings = {
         for project_role in [
-          "roles/iam.serviceAccountUser",
           "roles/storage.admin",
           "roles/bigquery.admin",
           "roles/pubsub.admin",
         ] :
         project_role => [
-          "group:terraform@${local.gcp_workspace_domain_name}"
+          "serviceAccount:${dependency.auth.outputs.email}"
         ]
       }
       project = dependency.data_project.outputs.project_id
     },
     {
-      bindings = {
-        for project_role in [
-          "roles/viewer",
-        ] :
-        project_role => [
-          "group:engineering@${local.gcp_workspace_domain_name}"
-        ]
-      }
-      project = dependency.data_project.outputs.project_id
+      bindings = local.default_group_engineering_bindings
+      project  = dependency.data_project.outputs.project_id
     },
     # iam
     {
       bindings = {
         for project_role in [
-          "roles/iam.serviceAccountUser",
           "roles/iam.serviceAccountAdmin",
           "roles/iam.serviceAccountKeyAdmin",
         ] :
         project_role => [
-          "group:terraform@${local.gcp_workspace_domain_name}"
+          "serviceAccount:${dependency.auth.outputs.email}"
         ]
       }
       project = dependency.iam_project.outputs.project_id
     },
     {
-      bindings = {
-        for project_role in [
-          "roles/viewer",
-        ] :
-        project_role => [
-          "group:engineering@${local.gcp_workspace_domain_name}"
-        ]
-      }
-      project = dependency.iam_project.outputs.project_id
+      bindings = local.default_group_engineering_bindings
+      project  = dependency.iam_project.outputs.project_id
     },
     # network
     {
       bindings = {
         for project_role in [
-          "roles/iam.serviceAccountUser",
           "roles/dns.admin"
         ] :
         project_role => [
-          "group:terraform@${local.gcp_workspace_domain_name}"
+          "serviceAccount:${dependency.auth.outputs.email}"
         ]
       }
       project = dependency.network_project.outputs.project_id
     },
     {
-      bindings = {
-        for project_role in [
-          "roles/viewer",
-        ] :
-        project_role => [
-          "group:engineering@${local.gcp_workspace_domain_name}"
-        ]
-      }
-      project = dependency.network_project.outputs.project_id
+      bindings = local.default_group_engineering_bindings
+      project  = dependency.network_project.outputs.project_id
     },
     {
       bindings = {
@@ -231,25 +199,17 @@ inputs = {
     {
       bindings = {
         for project_role in [
-          "roles/iam.serviceAccountUser",
           "roles/secretmanager.admin"
         ] :
         project_role => [
-          "group:terraform@${local.gcp_workspace_domain_name}"
+          "serviceAccount:${dependency.auth.outputs.email}"
         ]
       }
       project = dependency.secret_project.outputs.project_id
     },
     {
-      bindings = {
-        for project_role in [
-          "roles/viewer"
-        ] :
-        project_role => [
-          "group:engineering@${local.gcp_workspace_domain_name}"
-        ]
-      }
-      project = dependency.secret_project.outputs.project_id
+      bindings = local.default_group_engineering_bindings
+      project  = dependency.secret_project.outputs.project_id
     },
     {
       bindings = {
