@@ -18,8 +18,8 @@ dependency "subnetworks" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/google/subnetworks"
 }
 
-dependency "cloud_router" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/google/cloud-router"
+dependency "cloud_routers" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/google/cloud-routers"
 }
 
 dependency "compute_addresses" {
@@ -40,7 +40,7 @@ inputs = {
   region             = "us-central1"
   name               = "${dependency.vpc.outputs.network["name"]}-ha-vpn"
   create_vpn_gateway = true
-  router_name        = dependency.cloud_router.outputs.router["name"]
+  router_name        = dependency.cloud_routers.outputs.cloud_routers_map["openvpn-${dependency.random_string.outputs.result}"].router["name"]
   peer_external_gateway = {
     redundancy_type = "SINGLE_IP_INTERNALLY_REDUNDANT"
     interfaces = [
@@ -57,7 +57,7 @@ inputs = {
         asn     = 64513
       }
       bgp_peer_options                = null
-      bgp_session_range               = "10.0.0.0/16"
+      bgp_session_range               = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].ip_cidr_range
       ike_version                     = 2
       vpn_gateway_interface           = 0
       peer_external_gateway_interface = 0
