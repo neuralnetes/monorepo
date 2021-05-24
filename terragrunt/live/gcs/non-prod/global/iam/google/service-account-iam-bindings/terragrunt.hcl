@@ -39,6 +39,7 @@ inputs = {
     {
       bindings        = local.terraform_group_bindings
       service_account = service_account.email
+      project         = dependency.iam_project.outputs.project_id
     }
   ]
 }

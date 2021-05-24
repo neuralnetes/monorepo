@@ -18,6 +18,10 @@ dependency "project_iam_bindings" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project-iam-bindings"
 }
 
+dependency "service_account_iam_bindings" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-account-iam-bindings"
+}
+
 dependency "vpc" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/vpc"
 }
