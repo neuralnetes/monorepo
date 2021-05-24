@@ -3,9 +3,6 @@
 #### commands
 
 ```
-curl -X POST "https://us-central1-yfinance-pipe-v1.cloudfunctions.net/entry" \
-  -H "Content-Type:application/json" \
-  -H "Authorization: bearer $(gcloud auth print-identity-token)" \
-  --data '{"name":"Keyboard Cat"}'
+curl -X POST "TRIGGER_GOES_HERE"   -H "Content-Type:application/json"   -H "Authorization: bearer $(gcloud auth print-identity-token)"   --data '{"ticker":"YOUR_TICKER","start":"2020-01-01","end":"2021-01-01","interval":"1d","bucket":"YOUR_BUCKET" }'
 ```
  
