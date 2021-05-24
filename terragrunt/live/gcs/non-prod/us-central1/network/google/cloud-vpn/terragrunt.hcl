@@ -30,6 +30,10 @@ dependency "random_string" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
 }
 
+dependency "compute_instances" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/google/compute-instances"
+}
+
 inputs = {
   project_id         = dependency.vpc.outputs.project_id
   network            = dependency.vpc.outputs.network_self_link
@@ -42,14 +46,14 @@ inputs = {
     interfaces = [
       {
         id         = 0
-        ip_address = "10.0.0.11" # on-prem router ip address
+        ip_address = dependency.compute_instances.outputs.compute_instances_map["openvpn-${dependency.random_string.outputs.result}"]
       }
     ]
   }
   tunnels = {
     remote-0 = {
       bgp_peer = {
-        address = "10.0.0.10"
+        address = "10.0.15.250"
         asn     = 64513
       }
       bgp_peer_options                = null
