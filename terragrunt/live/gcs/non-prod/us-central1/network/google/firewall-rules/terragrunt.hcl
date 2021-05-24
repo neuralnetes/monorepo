@@ -127,6 +127,29 @@ inputs = {
       log_config = {
         metadata = "INCLUDE_ALL_METADATA"
       }
+    },
+    {
+      name                    = "allow-ingress-openvpn"
+      description             = "allow-ingress-openvpn"
+      direction               = "INGRESS"
+      priority                = 1000
+      ranges                  = split(get_env("ALLOW_INGRESS_OPENVPN_IP_RANGES"), ",")
+      source_service_accounts = null
+      source_tags             = null
+      target_service_accounts = null
+      target_tags = [
+        dependency.tags.outputs.tags_map["openvpn"],
+      ]
+      allow = [
+        {
+          protocol = "all"
+          ports    = null
+        }
+      ]
+      deny = []
+      log_config = {
+        metadata = "INCLUDE_ALL_METADATA"
+      }
     }
   ]
 }
