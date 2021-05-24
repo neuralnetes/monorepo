@@ -46,7 +46,7 @@ inputs = {
     interfaces = [
       {
         id         = 0
-        ip_address = dependency.compute_instances.outputs.compute_instances_map["openvpn-${dependency.random_string.outputs.result}"]
+        ip_address = dependency.compute_instances.outputs.compute_instances_map["openvpn-${dependency.random_string.outputs.result}"].network_interface[0].network_ip
       }
     ]
   }
