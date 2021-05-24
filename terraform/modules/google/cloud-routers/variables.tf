@@ -7,7 +7,6 @@ variable "cloud_routers" {
       asn               = string
       advertised_groups = list(string)
     })
-    name   = string
     region = string
   }))
 }
