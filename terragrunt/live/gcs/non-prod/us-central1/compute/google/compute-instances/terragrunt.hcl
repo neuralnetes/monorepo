@@ -51,7 +51,7 @@ inputs = {
       subnetwork            = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].self_link
       service_account_email = dependency.service_accounts.outputs.service_accounts_map["openvpn"].email
       tags = [
-        dependency.tags.outputs.tags_map["vpn"]
+        dependency.tags.outputs.tags_map["openvpn"]
       ]
       metadata_startup_script = templatefile("${get_terragrunt_dir()}/templates/openvpn.tpl", {
         url  = "https://cloud-backend.openvpn.com/cvpn/api/v1/scripts/VWJ1bnR1IDIwLjA0/ubuntu_20_04.sh"

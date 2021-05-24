@@ -86,7 +86,7 @@ inputs = {
       ranges                  = null
       source_service_accounts = null
       source_tags = [
-        dependency.tags.outputs.tags_map["vpn"],
+        dependency.tags.outputs.tags_map["openvpn"],
         dependency.tags.outputs.tags_map["private"],
         dependency.tags.outputs.tags_map["private_persistence"],
       ]
