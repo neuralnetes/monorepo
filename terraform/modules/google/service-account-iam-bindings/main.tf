@@ -3,6 +3,7 @@ module "service-account-iam-bindings" {
   source           = "github.com/terraform-google-modules/terraform-google-iam.git//modules/service_accounts_iam?ref=v6.4.0"
   bindings         = each.value["bindings"]
   service_accounts = [each.value["service_account"]]
+  project          = each.value["project"]
 }
 
 locals {
