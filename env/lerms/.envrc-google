@@ -70,7 +70,7 @@ function get_compute_instance_by_name_prefix() {
   gcloud compute instances list --format=json \
     --project="${COMPUTE_PROJECT}" \
     --zones=us-central1-a \
-    | jq --arg prefix "${PREFIX}" 'select(.name | startswith(""))'
+    | jq --arg prefix "${PREFIX}" 'select(.name | startswith("openvpn"))'
 }
 
 export PROJECTS=$(gcloud projects list --format=json | jq)

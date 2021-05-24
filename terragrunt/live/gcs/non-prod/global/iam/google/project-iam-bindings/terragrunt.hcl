@@ -53,7 +53,7 @@ inputs = {
       bindings = {
         for project_role in [
           "roles/compute.admin",
-          "roles/iam.serviceAccountAdmin",
+          "roles/iam.serviceAccountUser",
         ] :
         project_role => [
           "group:terraform@${local.gcp_workspace_domain_name}"
@@ -89,7 +89,7 @@ inputs = {
       bindings = {
         for project_role in [
           "roles/compute.admin",
-          "roles/iam.serviceAccountAdmin",
+          "roles/iam.serviceAccountUser",
         ] :
         project_role => [
           "group:terraform@${local.gcp_workspace_domain_name}"
@@ -123,6 +123,7 @@ inputs = {
     {
       bindings = {
         for project_role in [
+          "roles/iam.serviceAccountUser",
           "roles/storage.admin",
           "roles/bigquery.admin",
           "roles/pubsub.admin",
@@ -148,6 +149,7 @@ inputs = {
     {
       bindings = {
         for project_role in [
+          "roles/iam.serviceAccountUser",
           "roles/iam.serviceAccountAdmin",
           "roles/iam.serviceAccountKeyAdmin",
         ] :
@@ -172,6 +174,7 @@ inputs = {
     {
       bindings = {
         for project_role in [
+          "roles/iam.serviceAccountUser",
           "roles/dns.admin"
         ] :
         project_role => [
@@ -228,6 +231,7 @@ inputs = {
     {
       bindings = {
         for project_role in [
+          "roles/iam.serviceAccountUser",
           "roles/secretmanager.admin"
         ] :
         project_role => [
