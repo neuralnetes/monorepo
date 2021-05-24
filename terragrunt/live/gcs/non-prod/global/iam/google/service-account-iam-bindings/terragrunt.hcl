@@ -22,14 +22,16 @@ dependency "auth" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/auth"
 }
 
-locals = {
+locals {
+  gsuite_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
   terraform_group_bindings = {
     for role in ["roles/iam.serviceAccountUser"] :
     role => [
-      "group:terraform@neuralnetes.com"
+      "group:terraform@${local.gsuite_domain_name}"
     ]
   }
 }
+
 
 inputs = {
   service_account_iam_bindings = [
