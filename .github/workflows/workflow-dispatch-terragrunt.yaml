@@ -47,6 +47,7 @@ jobs:
     - id: terragrunt_command
       name: run terragrunt command
       env:
+        ALLOW_INGRESS_OPENVPN_IP_RANGES: ${{ secrets.ALLOW_INGRESS_OPENVPN_IP_RANGES }}
         GCP_BILLING_ACCOUNT_ID: ${{ secrets.GCP_BILLING_ACCOUNT_ID }}
         GCP_ORGANIZATION: ${{ secrets.GCP_ORGANIZATION }}
         GCP_ORGANIZATION_ID: ${{ secrets.GCP_ORGANIZATION_ID }}
