@@ -32,7 +32,9 @@ inputs = {
     {
       bindings = {
         for role in [
+          "roles/iam.serviceAccountAdmin",
           "roles/iam.serviceAccountUser",
+          "roles/iam.serviceAccountKeyAdmin",
           "roles/iam.serviceAccountTokenCreator"
         ] :
         role => [

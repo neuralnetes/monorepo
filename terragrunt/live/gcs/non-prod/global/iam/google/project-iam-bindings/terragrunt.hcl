@@ -162,7 +162,9 @@ inputs = {
       bindings = {
         for project_role in [
           "roles/iam.serviceAccountAdmin",
+          "roles/iam.serviceAccountUser",
           "roles/iam.serviceAccountKeyAdmin",
+          "roles/iam.serviceAccountTokenCreator"
         ] :
         project_role => [
           "serviceAccount:${dependency.auth.outputs.email}"
