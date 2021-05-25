@@ -26,11 +26,6 @@ dependency "auth" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/auth"
 }
 
-locals {
-  gsuite_domain_name    = get_env("GCP_WORKSPACE_DOMAIN_NAME")
-  terraform_sa_bindings = "serviceAccount:${dependency.auth.outputs.email}"
-}
-
 inputs = {
   service_account_access_tokens = [
     for service_account_name, service_account in dependency.service_accounts.outputs.service_accounts_map :
