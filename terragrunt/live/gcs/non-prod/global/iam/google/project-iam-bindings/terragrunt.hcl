@@ -97,6 +97,7 @@ inputs = {
       bindings = {
         for project_role in [
           "roles/compute.admin",
+          "roles/compute.instanceAdmin.v1",
         ] :
         project_role => [
           "serviceAccount:${dependency.auth.outputs.email}",
@@ -188,6 +189,19 @@ inputs = {
           "serviceAccount:${dependency.auth.outputs.email}",
           "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cert-manager"].email}",
           "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["external-dns"].email}"
+        ]
+      }
+      project = dependency.network_project.outputs.project_id
+    },
+    {
+      name = "${dependency.network_project.outputs.project_id}-02"
+      bindings = {
+        for project_role in [
+          "roles/compute.networkAdmin"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["compute-instance"].email}"
+
         ]
       }
       project = dependency.network_project.outputs.project_id
