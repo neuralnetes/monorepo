@@ -44,6 +44,13 @@ jobs:
       with:
         service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
         export_default_credentials: true
+    - id: run_slack_webhook_terragrunt_start
+      name: run slack webhook terragrunt start
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_WEBHOOK_DATA: '{ "text": "terragrunt start" }'
+      working-directory: ./bash/slack
+      run: chmod +x ./webhook.sh && ./webhook.sh
     - id: terragrunt_command
       name: run terragrunt command
       env:
@@ -77,3 +84,19 @@ jobs:
         )
         echo "command: ${command[@]}"
         "${command[@]}"
+    - id: run_slack_webhook_terragrunt_success
+      name: run slack webhook terragrunt success
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_WEBHOOK_DATA: '{ "text": "terragrunt success" }'
+      if: ${{ success() }}
+      working-directory: ./bash/slack
+      run: chmod +x ./webhook.sh && ./webhook.sh
+    - id: run_slack_webhook_terragrunt_failure
+      name: run slack webhook terragrunt failure
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_WEBHOOK_DATA: '{ "text": "terragrunt failure" }'
+      if: ${{ failure() }}
+      working-directory: ./bash/slack
+      run: chmod +x ./webhook.sh && ./webhook.sh
