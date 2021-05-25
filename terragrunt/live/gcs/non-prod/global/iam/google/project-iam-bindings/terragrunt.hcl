@@ -100,7 +100,7 @@ inputs = {
         ] :
         project_role => [
           "serviceAccount:${dependency.auth.outputs.email}",
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["openvpn"].email}"
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["compute-instance"].email}"
         ]
       }
       project = dependency.compute_project.outputs.project_id

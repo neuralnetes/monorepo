@@ -68,7 +68,7 @@ inputs = {
       zone                  = "us-central1-a"
       network               = dependency.vpc.outputs.network_self_link
       subnetwork            = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].self_link
-      service_account_email = dependency.service_accounts.outputs.service_accounts_map["openvpn"].email
+      service_account_email = dependency.service_accounts.outputs.service_accounts_map["compute-instance"].email
       tags = [
         dependency.tags.outputs.tags_map["openvpn"]
       ]

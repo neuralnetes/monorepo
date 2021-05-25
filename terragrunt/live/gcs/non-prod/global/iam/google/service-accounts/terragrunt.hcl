@@ -61,6 +61,10 @@ inputs = {
       project    = dependency.iam_project.outputs.project_id
       account_id = "openvpn"
     },
+    {
+      project    = dependency.iam_project.outputs.project_id
+      account_id = "compute-instance"
+    }
   ]
   service_account_datas = []
 }
