@@ -7,7 +7,7 @@ module "project-iam-bindings" {
 
 locals {
   project_iam_bindings_map = {
-    for i, project_iam_binding in var.project_iam_bindings :
-    i => project_iam_binding
+    for project_iam_binding in var.project_iam_bindings :
+    project_iam_binding["name"] => project_iam_binding
   }
 }

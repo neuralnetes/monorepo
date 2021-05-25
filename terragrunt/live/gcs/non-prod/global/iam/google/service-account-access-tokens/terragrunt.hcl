@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/neuralnetes/monorepo.git//terraform/modules/google/service-account-iam-bindings?ref=main"
+  source = "github.com/neuralnetes/monorepo.git//terraform/modules/google/service-account-access-tokens?ref=main"
 }
 
 include {
@@ -18,30 +18,27 @@ dependency "project_iam_bindings" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project-iam-bindings"
 }
 
+dependency "service_account_iam_bindings" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-account-iam-bindings"
+}
+
 dependency "auth" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/auth"
 }
 
 locals {
-  gsuite_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
-  terraform_bindings = {
-    for role in [
-      "roles/iam.serviceAccountUser",
-      "roles/iam.serviceAccountTokenCreator"
-    ] :
-    role => [
-      "serviceAccount:${dependency.auth.outputs.email}"
-    ]
-  }
+  gsuite_domain_name    = get_env("GCP_WORKSPACE_DOMAIN_NAME")
+  terraform_sa_bindings = "serviceAccount:${dependency.auth.outputs.email}"
 }
 
 inputs = {
-  service_account_iam_bindings = [
+  service_account_access_tokens = [
     for service_account_name, service_account in dependency.service_accounts.outputs.service_accounts_map :
     {
-      bindings        = local.terraform_bindings
-      service_account = service_account.email
-      project         = dependency.iam_project.outputs.project_id
+
+      lifetime               = "1800s"
+      target_service_account = service_account.email
+      scopes                 = ["userinfo-email", "cloud-platform"]
     }
   ]
 }

@@ -58,6 +58,12 @@ inputs = {
   project_iam_bindings = [
     # kubeflow
     {
+      name     = "${dependency.kubeflow_project.outputs.project_id}-00"
+      bindings = local.default_group_engineering_bindings
+      project  = dependency.kubeflow_project.outputs.project_id
+    },
+    {
+      name = "${dependency.kubeflow_project.outputs.project_id}-01"
       bindings = {
         for project_role in [
           "roles/compute.admin",
@@ -69,13 +75,9 @@ inputs = {
       project = dependency.kubeflow_project.outputs.project_id
     },
     {
-      bindings = local.default_group_engineering_bindings
-      project  = dependency.kubeflow_project.outputs.project_id
-    },
-    {
+      name = "${dependency.kubeflow_project.outputs.project_id}-02"
       bindings = {
         for project_role in [
-          "roles/viewer",
           "roles/monitoring.viewer"
         ] :
         project_role => [
@@ -86,21 +88,25 @@ inputs = {
     },
     # compute
     {
+      name     = "${dependency.compute_project.outputs.project_id}-00"
+      bindings = local.default_group_engineering_bindings
+      project  = dependency.compute_project.outputs.project_id
+    },
+    {
+      name = "${dependency.compute_project.outputs.project_id}-01"
       bindings = {
         for project_role in [
           "roles/compute.admin",
         ] :
         project_role => [
-          "serviceAccount:${dependency.auth.outputs.email}"
+          "serviceAccount:${dependency.auth.outputs.email}",
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["openvpn"].email}"
         ]
       }
       project = dependency.compute_project.outputs.project_id
     },
     {
-      bindings = local.default_group_engineering_bindings
-      project  = dependency.compute_project.outputs.project_id
-    },
-    {
+      name = "${dependency.compute_project.outputs.project_id}-02"
       bindings = {
         for project_role in [
           "roles/monitoring.viewer"
@@ -113,8 +119,15 @@ inputs = {
     },
     # data
     {
+      name     = "${dependency.data_project.outputs.project_id}-00"
+      bindings = local.default_group_engineering_bindings
+      project  = dependency.data_project.outputs.project_id
+    },
+    {
+      name = "${dependency.data_project.outputs.project_id}-01"
       bindings = {
         for project_role in [
+          "roles/cloudsql.admin",
           "roles/storage.admin",
           "roles/bigquery.admin",
           "roles/pubsub.admin",
@@ -126,11 +139,26 @@ inputs = {
       project = dependency.data_project.outputs.project_id
     },
     {
-      bindings = local.default_group_engineering_bindings
-      project  = dependency.data_project.outputs.project_id
+      name = "${dependency.data_project.outputs.project_id}-02"
+      bindings = {
+        for project_role in [
+          "roles/cloudsql.client",
+          "roles/storage.admin",
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["kubeflow"].email}",
+        ]
+      }
+      project = dependency.data_project.outputs.project_id
     },
     # iam
     {
+      name     = "${dependency.iam_project.outputs.project_id}-00"
+      bindings = local.default_group_engineering_bindings
+      project  = dependency.iam_project.outputs.project_id
+    },
+    {
+      name = "${dependency.iam_project.outputs.project_id}-01"
       bindings = {
         for project_role in [
           "roles/iam.serviceAccountAdmin",
@@ -142,85 +170,44 @@ inputs = {
       }
       project = dependency.iam_project.outputs.project_id
     },
-    {
-      bindings = local.default_group_engineering_bindings
-      project  = dependency.iam_project.outputs.project_id
-    },
     # network
     {
-      bindings = {
-        for project_role in [
-          "roles/dns.admin"
-        ] :
-        project_role => [
-          "serviceAccount:${dependency.auth.outputs.email}"
-        ]
-      }
-      project = dependency.network_project.outputs.project_id
-    },
-    {
+      name     = "${dependency.network_project.outputs.project_id}-00"
       bindings = local.default_group_engineering_bindings
       project  = dependency.network_project.outputs.project_id
     },
     {
+      name = "${dependency.network_project.outputs.project_id}-01"
       bindings = {
         for project_role in [
           "roles/dns.admin"
         ] :
         project_role => [
+          "serviceAccount:${dependency.auth.outputs.email}",
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cert-manager"].email}",
           "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["external-dns"].email}"
-        ]
-      }
-      project = dependency.network_project.outputs.project_id
-    },
-    {
-      bindings = {
-        for project_role in [
-          "roles/dns.admin"
-        ] :
-        project_role => [
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cert-manager"].email}"
-        ]
-      }
-      project = dependency.network_project.outputs.project_id
-    },
-    {
-      bindings = {
-        for project_role in [
-          "roles/dns.admin"
-        ] :
-        project_role => [
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["openvpn"].email}"
         ]
       }
       project = dependency.network_project.outputs.project_id
     },
     # secret
     {
-      bindings = {
-        for project_role in [
-          "roles/secretmanager.admin"
-        ] :
-        project_role => [
-          "serviceAccount:${dependency.auth.outputs.email}"
-        ]
-      }
-      project = dependency.secret_project.outputs.project_id
-    },
-    {
+      name     = "${dependency.secret_project.outputs.project_id}-00"
       bindings = local.default_group_engineering_bindings
       project  = dependency.secret_project.outputs.project_id
     },
     {
+      name = "${dependency.secret_project.outputs.project_id}-01"
       bindings = {
         for project_role in [
           "roles/secretmanager.admin"
         ] :
         project_role => [
+          "serviceAccount:${dependency.auth.outputs.email}",
           "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["external-secrets"].email}"
         ]
       }
       project = dependency.secret_project.outputs.project_id
-    }
+    },
   ]
 }
