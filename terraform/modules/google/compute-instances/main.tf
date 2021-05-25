@@ -6,6 +6,7 @@ data "google_compute_image" "images" {
 
 resource "google_compute_instance" "instances" {
   for_each                = local.compute_instances_map
+  provider = google-beta.impersonated
   machine_type            = each.value["machine_type"]
   metadata_startup_script = each.value["metadata_startup_script"]
   name                    = each.key
