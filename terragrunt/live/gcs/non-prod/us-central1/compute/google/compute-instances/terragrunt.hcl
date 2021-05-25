@@ -7,7 +7,7 @@ include {
 }
 
 dependency "compute_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/google/project"
 }
 
 dependency "service_accounts" {
