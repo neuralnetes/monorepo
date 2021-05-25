@@ -14,7 +14,7 @@ jobs:
   terragrunt:
     runs-on: ubuntu-latest
     env:
-      GITHUB_ACTIONS_RUN_URL: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
+      GITHUB_ACTIONS_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     steps:
     - id: checkout
