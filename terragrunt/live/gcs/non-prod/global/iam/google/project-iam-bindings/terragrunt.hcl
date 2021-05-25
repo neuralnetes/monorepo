@@ -44,6 +44,12 @@ dependency "auth" {
 
 locals {
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
+  iam_service_account_admin_roles = [
+    "roles/iam.serviceAccountAdmin",
+    "roles/iam.serviceAccountUser",
+    "roles/iam.serviceAccountKeyAdmin",
+    "roles/iam.serviceAccountTokenCreator"
+  ]
   default_group_engineering_bindings = {
     for project_role in [
       "roles/viewer"
@@ -65,9 +71,10 @@ inputs = {
     {
       name = "${dependency.kubeflow_project.outputs.project_id}-01"
       bindings = {
-        for project_role in [
-          "roles/compute.admin",
-        ] :
+        for project_role in flatten([
+          local.iam_service_account_admin_roles
+          ["roles/compute.admin"],
+        ]) :
         project_role => [
           "serviceAccount:${dependency.auth.outputs.email}"
         ]
@@ -95,13 +102,12 @@ inputs = {
     {
       name = "${dependency.compute_project.outputs.project_id}-01"
       bindings = {
-        for project_role in [
-          "roles/compute.admin",
-          "roles/compute.instanceAdmin.v1",
-        ] :
+        for project_role in flatten([
+          local.iam_service_account_admin_roles
+          ["roles/compute.admin"],
+        ]) :
         project_role => [
-          "serviceAccount:${dependency.auth.outputs.email}",
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["compute-instance"].email}"
+          "serviceAccount:${dependency.auth.outputs.email}"
         ]
       }
       project = dependency.compute_project.outputs.project_id
@@ -118,6 +124,18 @@ inputs = {
       }
       project = dependency.compute_project.outputs.project_id
     },
+    {
+      name = "${dependency.compute_project.outputs.project_id}-03"
+      bindings = {
+        for project_role in [
+          "roles/viewer"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["compute-instance"].email}"
+        ]
+      }
+      project = dependency.compute_project.outputs.project_id
+    },
     # data
     {
       name     = "${dependency.data_project.outputs.project_id}-00"
@@ -127,12 +145,15 @@ inputs = {
     {
       name = "${dependency.data_project.outputs.project_id}-01"
       bindings = {
-        for project_role in [
-          "roles/cloudsql.admin",
-          "roles/storage.admin",
-          "roles/bigquery.admin",
-          "roles/pubsub.admin",
-        ] :
+        for project_role in flatten([
+          local.iam_service_account_admin_roles,
+          [
+            "roles/cloudsql.admin",
+            "roles/storage.admin",
+            "roles/bigquery.admin",
+            "roles/pubsub.admin",
+          ]
+        ]) :
         project_role => [
           "serviceAccount:${dependency.auth.outputs.email}"
         ]
@@ -161,12 +182,10 @@ inputs = {
     {
       name = "${dependency.iam_project.outputs.project_id}-01"
       bindings = {
-        for project_role in [
-          "roles/iam.serviceAccountAdmin",
-          "roles/iam.serviceAccountUser",
-          "roles/iam.serviceAccountKeyAdmin",
-          "roles/iam.serviceAccountTokenCreator"
-        ] :
+        for project_role in flatten([
+          local.iam_service_account_admin_roles,
+          [],
+        ]) :
         project_role => [
           "serviceAccount:${dependency.auth.outputs.email}"
         ]
@@ -182,13 +201,14 @@ inputs = {
     {
       name = "${dependency.network_project.outputs.project_id}-01"
       bindings = {
-        for project_role in [
-          "roles/dns.admin"
-        ] :
+        for project_role in flatten([
+          local.iam_service_account_admin_roles,
+          [
+            "roles/dns.admin"
+          ]
+        ]) :
         project_role => [
           "serviceAccount:${dependency.auth.outputs.email}",
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cert-manager"].email}",
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["external-dns"].email}"
         ]
       }
       project = dependency.network_project.outputs.project_id
@@ -197,11 +217,23 @@ inputs = {
       name = "${dependency.network_project.outputs.project_id}-02"
       bindings = {
         for project_role in [
-          "roles/compute.networkAdmin"
+          "roles/compute.networkUser"
         ] :
         project_role => [
           "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["compute-instance"].email}"
-
+        ]
+      }
+      project = dependency.network_project.outputs.project_id
+    },
+    {
+      name = "${dependency.network_project.outputs.project_id}-03"
+      bindings = {
+        for project_role in [
+          "roles/dns.admin"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cert-manager"].email}",
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["external-dns"].email}"
         ]
       }
       project = dependency.network_project.outputs.project_id
@@ -215,15 +247,29 @@ inputs = {
     {
       name = "${dependency.secret_project.outputs.project_id}-01"
       bindings = {
-        for project_role in [
-          "roles/secretmanager.admin"
-        ] :
+        for project_role in flatten([
+          local.iam_service_account_admin_roles,
+          [
+            "roles/secretmanager.admin"
+          ],
+        ]) :
         project_role => [
           "serviceAccount:${dependency.auth.outputs.email}",
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["external-secrets"].email}"
         ]
       }
       project = dependency.secret_project.outputs.project_id
     },
+    {
+      name = "${dependency.secret_project.outputs.project_id}-02"
+      bindings = {
+        for project_role in [
+          "roles/secretmanager.admin"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["external-secrets"].email}"
+        ]
+      }
+      project = dependency.secret_project.outputs.project_id
+    }
   ]
 }

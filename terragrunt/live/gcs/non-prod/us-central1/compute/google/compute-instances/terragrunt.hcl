@@ -46,8 +46,19 @@ dependency "tags" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/tags"
 }
 
-generate "google_beta_provider_impersonated" {
-  path      = "google_beta_provider_impersonated.tf"
+generate "google_provider" {
+  path      = "google_provider.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = <<-EOF
+    provider "google" {
+      alias = "impersonated"
+      access_token = "${dependency.service_account_access_tokens.outputs.service_account_access_tokens_map["compute-instance"].access_token}"
+    }
+EOF
+}
+
+generate "google_beta_provider" {
+  path      = "google_beta_provider.tf"
   if_exists = "overwrite_terragrunt"
   contents  = <<-EOF
     provider "google-beta" {

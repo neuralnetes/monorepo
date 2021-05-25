@@ -20,7 +20,7 @@ remote_state {
 
 generate "google_provider" {
   path      = "google_provider.tf"
-  if_exists = "overwrite_terragrunt"
+  if_exists = "skip"
   contents  = <<-EOF
     provider "google" {}
 EOF
@@ -28,7 +28,7 @@ EOF
 
 generate "google_beta_provider" {
   path      = "google_beta_provider.tf"
-  if_exists = "overwrite_terragrunt"
+  if_exists = "skip"
   contents  = <<-EOF
     provider "google-beta" {}
 EOF
@@ -36,7 +36,7 @@ EOF
 
 generate "github_provider" {
   path      = "github_provider.tf"
-  if_exists = "overwrite_terragrunt"
+  if_exists = "skip"
   contents  = <<-EOF
     provider "github" {}
 EOF

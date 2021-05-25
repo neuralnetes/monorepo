@@ -70,7 +70,7 @@ inputs = {
       network_project                       = dependency.network_project.outputs.project_id
       kubeflow_project                      = dependency.kubeflow_project.outputs.project_id
       secret_project                        = dependency.secret_project.outputs.project_id
-      istio_ingressgateway_load_balancer_ip = "10.0.15.254"
+      istio_ingressgateway_load_balancer_ip = "10.0.15.249"
       triggers                              = local.triggers
     }
   ]
