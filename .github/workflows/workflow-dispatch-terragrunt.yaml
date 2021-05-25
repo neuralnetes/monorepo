@@ -13,6 +13,9 @@ on:
 jobs:
   terragrunt:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_ACTIONS_RUNS_URL: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     steps:
     - id: checkout
       name: run checkout
@@ -47,8 +50,7 @@ jobs:
     - id: run_slack_webhook_terragrunt_start
       name: run slack webhook terragrunt start
       env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_WEBHOOK_DATA: '{ "text": "terragrunt start" }'
+        SLACK_WEBHOOK_DATA: '{ "text": "terragrunt start: ${{ env.GITHUB_ACTIONS_RUNS_URL }}" }'
       working-directory: ./bash/slack
       run: chmod +x ./webhook.sh && ./webhook.sh
     - id: terragrunt_command
@@ -87,16 +89,14 @@ jobs:
     - id: run_slack_webhook_terragrunt_success
       name: run slack webhook terragrunt success
       env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_WEBHOOK_DATA: '{ "text": "terragrunt success" }'
+        SLACK_WEBHOOK_DATA: '{ "text": "terragrunt success: ${{ env.GITHUB_ACTIONS_RUNS_URL }}" }'
       if: ${{ success() }}
       working-directory: ./bash/slack
       run: chmod +x ./webhook.sh && ./webhook.sh
     - id: run_slack_webhook_terragrunt_failure
       name: run slack webhook terragrunt failure
       env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_WEBHOOK_DATA: '{ "text": "terragrunt failure" }'
+        SLACK_WEBHOOK_DATA: '{ "text": "terragrunt failure: ${{ env.GITHUB_ACTIONS_RUNS_URL }}" }'
       if: ${{ failure() }}
       working-directory: ./bash/slack
       run: chmod +x ./webhook.sh && ./webhook.sh
