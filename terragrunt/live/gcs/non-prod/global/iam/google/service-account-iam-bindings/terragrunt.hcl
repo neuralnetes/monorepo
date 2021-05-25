@@ -24,22 +24,21 @@ dependency "auth" {
 
 locals {
   gsuite_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
-  terraform_bindings = {
-    for role in [
-      "roles/iam.serviceAccountUser",
-      "roles/iam.serviceAccountTokenCreator"
-    ] :
-    role => [
-      "serviceAccount:${dependency.auth.outputs.email}"
-    ]
-  }
 }
 
 inputs = {
   service_account_iam_bindings = [
     for service_account_name, service_account in dependency.service_accounts.outputs.service_accounts_map :
     {
-      bindings        = local.terraform_bindings
+      bindings = {
+        for role in [
+          "roles/iam.serviceAccountUser",
+          "roles/iam.serviceAccountTokenCreator"
+        ] :
+        role => [
+          "serviceAccount:${dependency.auth.outputs.email}"
+        ]
+      }
       service_account = service_account.email
       project         = dependency.iam_project.outputs.project_id
     }
