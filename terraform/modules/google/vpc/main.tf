@@ -11,6 +11,6 @@ module "vpc" {
 locals {
   vpc_map = {
     for vpc in var.vpc :
-    vpc["name"] => vpc
+    vpc["network_name"] => vpc
   }
 }

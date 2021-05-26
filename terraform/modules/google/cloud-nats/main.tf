@@ -10,7 +10,7 @@ module "cloud_nats" {
 
 locals {
   cloud_nats_map = {
-    for cloud_router in var.cloud_nats :
-    cloud_router["name"] => cloud_router
+    for cloud_nat in var.cloud_nats :
+    cloud_nat["name"] => cloud_nat
   }
 }
