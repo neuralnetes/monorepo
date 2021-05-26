@@ -34,7 +34,7 @@ inputs = {
   regional_addresses = [
     //    {
     //      project      = dependency.network_project.outputs.project_id
-    //      name         = "istio-ingressgateway-us-central1-${dependency.vpc.outputs.network["name"]}"
+    //      name         = "istio-ingressgateway-us-central1-${dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network["name"]}"
     //      purpose      = null
     //      address_type = "INTERNAL"
     //      subnetwork   = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].id
@@ -44,11 +44,11 @@ inputs = {
   global_addresses = [
     {
       project       = dependency.network_project.outputs.project_id
-      name          = "google-managed-services-global-${dependency.vpc.outputs.network["name"]}"
+      name          = "google-managed-services-global-${dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network["name"]}"
       prefix_length = 16
       purpose       = "VPC_PEERING"
       address_type  = "INTERNAL"
-      network       = dependency.vpc.outputs.network["id"]
+      network       = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network["id"]
     }
   ]
 }

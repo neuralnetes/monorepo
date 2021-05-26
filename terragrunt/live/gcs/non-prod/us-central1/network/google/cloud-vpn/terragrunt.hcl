@@ -35,10 +35,10 @@ dependency "compute_instances" {
 }
 
 inputs = {
-  project_id         = dependency.vpc.outputs.project_id
-  network            = dependency.vpc.outputs.network_self_link
+  project_id         = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
+  network            = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_self_link
   region             = "us-central1"
-  name               = "${dependency.vpc.outputs.network["name"]}-ha-vpn"
+  name               = "${dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network["name"]}-ha-vpn"
   create_vpn_gateway = true
   router_name        = dependency.cloud_routers.outputs.cloud_routers_map["openvpn-${dependency.random_string.outputs.result}"].router["name"]
   peer_external_gateway = {

@@ -27,8 +27,8 @@ locals {
 }
 
 inputs = {
-  project_id   = dependency.vpc.outputs.project_id
-  network_name = dependency.vpc.outputs.network_name
+  project_id   = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
+  network_name = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_name
   subnets = [
     {
       subnet_name = "cluster-${dependency.random_string.outputs.result}"

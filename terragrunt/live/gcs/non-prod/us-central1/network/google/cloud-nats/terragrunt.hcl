@@ -30,7 +30,7 @@ inputs = {
   cloud_nats = [
     {
       region                             = "us-central1"
-      project_id                         = dependency.vpc.outputs.project_id
+      project_id                         = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
       router                             = dependency.cloud_routers.outputs.cloud_routers_map["private-${dependency.random_string.outputs.result}"].router["name"]
       source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
       subnetworks = [

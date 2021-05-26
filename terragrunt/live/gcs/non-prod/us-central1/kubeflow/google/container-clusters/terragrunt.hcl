@@ -65,8 +65,8 @@ inputs = {
       ]
       master_ipv4_cidr_block = "192.168.0.0/28"
       name                   = "cluster-${dependency.random_string.outputs.result}"
-      network                = dependency.vpc.outputs.network_name
-      network_project_id     = dependency.vpc.outputs.project_id
+      network                = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_name
+      network_project_id     = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
       node_pools = [
         {
           machine_type = "e2-standard-4"

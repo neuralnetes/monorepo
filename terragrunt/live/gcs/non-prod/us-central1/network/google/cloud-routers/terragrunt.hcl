@@ -21,22 +21,22 @@ dependency "random_string" {
 inputs = {
   cloud_routers = [
     {
-      project = dependency.vpc.outputs.project_id
-      network = dependency.vpc.outputs.network_name
+      project = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
+      network = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_name
       name    = "public-${dependency.random_string.outputs.result}"
       bgp     = null
       region  = "us-central1"
     },
     {
-      project = dependency.vpc.outputs.project_id
-      network = dependency.vpc.outputs.network_name
+      project = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
+      network = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_name
       name    = "private-${dependency.random_string.outputs.result}"
       bgp     = null
       region  = "us-central1"
     },
     {
-      project = dependency.vpc.outputs.project_id
-      network = dependency.vpc.outputs.network_name
+      project = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
+      network = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_name
       name    = "openvpn-${dependency.random_string.outputs.result}"
       bgp = {
         asn               = "64519"

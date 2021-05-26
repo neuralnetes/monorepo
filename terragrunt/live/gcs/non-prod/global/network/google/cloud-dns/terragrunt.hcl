@@ -38,7 +38,7 @@ inputs = {
       name       = replace("private-${dependency.network_project.outputs.project_id}-${local.gsuite_domain_name}", ".", "-")
       domain     = "${dependency.network_project.outputs.project_id}.${local.gsuite_domain_name}."
       private_visibility_config_networks = [
-        dependency.vpc.outputs.network_self_link
+        dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_self_link
       ]
     },
     {
@@ -54,7 +54,7 @@ inputs = {
       name       = replace("private-${dependency.kubeflow_project.outputs.project_id}-${dependency.network_project.outputs.project_id}-${local.gsuite_domain_name}", ".", "-")
       domain     = "${dependency.kubeflow_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gsuite_domain_name}."
       private_visibility_config_networks = [
-        dependency.vpc.outputs.network_self_link
+        dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_self_link
       ]
     },
     {
@@ -70,7 +70,7 @@ inputs = {
       name       = replace("private-${dependency.compute_project.outputs.project_id}-${dependency.network_project.outputs.project_id}-${local.gsuite_domain_name}", ".", "-")
       domain     = "${dependency.compute_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gsuite_domain_name}."
       private_visibility_config_networks = [
-        dependency.vpc.outputs.network_self_link
+        dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_self_link
       ]
     },
     {
