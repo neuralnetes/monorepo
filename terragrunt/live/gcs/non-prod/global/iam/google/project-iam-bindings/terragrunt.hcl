@@ -44,12 +44,6 @@ dependency "auth" {
 
 locals {
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
-  iam_service_account_admin_roles = [
-    "roles/iam.serviceAccountAdmin",
-    "roles/iam.serviceAccountUser",
-    "roles/iam.serviceAccountKeyAdmin",
-    "roles/iam.serviceAccountTokenCreator"
-  ]
   default_group_engineering_bindings = {
     for project_role in [
       "roles/viewer"
@@ -71,12 +65,9 @@ inputs = {
     {
       name = "${dependency.kubeflow_project.outputs.project_id}-01"
       bindings = {
-        for project_role in flatten([
-          local.iam_service_account_admin_roles,
-          [
-            "roles/compute.admin"
-          ]
-        ]) :
+        for project_role in [
+          "roles/compute.admin"
+        ] :
         project_role => [
           "serviceAccount:${dependency.auth.outputs.email}"
         ]
@@ -95,6 +86,23 @@ inputs = {
       }
       project = dependency.kubeflow_project.outputs.project_id
     },
+    {
+      name = "${dependency.kubeflow_project.outputs.project_id}-03"
+      bindings = {
+        for project_role in [
+          "roles/logging.logWriter",
+          "roles/monitoring.metricWriter",
+          "roles/monitoring.viewer",
+          "roles/stackdriver.resourceMetadata.writer",
+          "roles/storage.objectViewer",
+          "roles/artifactregistry.reader"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["container-cluster"].email}"
+        ]
+      }
+      project = dependency.kubeflow_project.outputs.project_id
+    },
     # compute
     {
       name     = "${dependency.compute_project.outputs.project_id}-00"
@@ -104,12 +112,9 @@ inputs = {
     {
       name = "${dependency.compute_project.outputs.project_id}-01"
       bindings = {
-        for project_role in flatten([
-          local.iam_service_account_admin_roles,
-          [
-            "roles/compute.admin"
-          ]
-        ]) :
+        for project_role in [
+          "roles/compute.admin"
+        ] :
         project_role => [
           "serviceAccount:${dependency.auth.outputs.email}"
         ]

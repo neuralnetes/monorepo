@@ -10,26 +10,6 @@ dependency "iam_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
 }
 
-dependency "kubeflow_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
-}
-
-dependency "compute_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/google/project"
-}
-
-dependency "data_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/google/project"
-}
-
-dependency "network_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/project"
-}
-
-dependency "secret_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/secret/google/project"
-}
-
 dependency "random_string" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
 }
@@ -37,33 +17,19 @@ dependency "random_string" {
 # test
 inputs = {
   service_accounts = [
+    for service_account_id in [
+      "cert-manager",
+      "external-dns",
+      "external-secrets",
+      "grafana-cloud",
+      "kubeflow",
+      "openvpn",
+      "compute-instance",
+      "container-cluster"
+    ] :
     {
       project    = dependency.iam_project.outputs.project_id
-      account_id = "cert-manager"
-    },
-    {
-      project    = dependency.iam_project.outputs.project_id
-      account_id = "external-dns"
-    },
-    {
-      project    = dependency.iam_project.outputs.project_id
-      account_id = "external-secrets"
-    },
-    {
-      project    = dependency.iam_project.outputs.project_id
-      account_id = "grafana-cloud"
-    },
-    {
-      project    = dependency.iam_project.outputs.project_id
-      account_id = "kubeflow"
-    },
-    {
-      project    = dependency.iam_project.outputs.project_id
-      account_id = "openvpn"
-    },
-    {
-      project    = dependency.iam_project.outputs.project_id
-      account_id = "compute-instance"
+      account_id = service_account_id
     }
   ]
   service_account_datas = []
