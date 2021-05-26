@@ -154,15 +154,12 @@ inputs = {
     {
       name = "${dependency.data_project.outputs.project_id}-01"
       bindings = {
-        for project_role in flatten([
-          local.iam_service_account_admin_roles,
-          [
-            "roles/cloudsql.admin",
-            "roles/storage.admin",
-            "roles/bigquery.admin",
-            "roles/pubsub.admin",
-          ]
-        ]) :
+        for project_role in [
+          "roles/cloudsql.admin",
+          "roles/storage.admin",
+          "roles/bigquery.admin",
+          "roles/pubsub.admin",
+        ] :
         project_role => [
           "serviceAccount:${dependency.auth.outputs.email}"
         ]
@@ -191,10 +188,12 @@ inputs = {
     {
       name = "${dependency.iam_project.outputs.project_id}-01"
       bindings = {
-        for project_role in flatten([
-          local.iam_service_account_admin_roles,
-          [],
-        ]) :
+        for project_role in [
+          "roles/iam.serviceAccountAdmin",
+          "roles/iam.serviceAccountUser",
+          "roles/iam.serviceAccountKeyAdmin",
+          "roles/iam.serviceAccountTokenCreator"
+        ] :
         project_role => [
           "serviceAccount:${dependency.auth.outputs.email}"
         ]
@@ -210,13 +209,10 @@ inputs = {
     {
       name = "${dependency.network_project.outputs.project_id}-01"
       bindings = {
-        for project_role in flatten([
-          local.iam_service_account_admin_roles,
-          [
-            "roles/compute.admin",
-            "roles/dns.admin"
-          ]
-        ]) :
+        for project_role in [
+          "roles/compute.admin",
+          "roles/dns.admin"
+        ] :
         project_role => [
           "serviceAccount:${dependency.auth.outputs.email}",
         ]
@@ -257,12 +253,9 @@ inputs = {
     {
       name = "${dependency.secret_project.outputs.project_id}-01"
       bindings = {
-        for project_role in flatten([
-          local.iam_service_account_admin_roles,
-          [
-            "roles/secretmanager.admin"
-          ],
-        ]) :
+        for project_role in [
+          "roles/secretmanager.admin"
+        ] :
         project_role => [
           "serviceAccount:${dependency.auth.outputs.email}",
         ]
