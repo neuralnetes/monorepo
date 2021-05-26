@@ -1,6 +1,6 @@
 variable "project_iam_bindings" {
   type = list(object({
-    name = string
+    name     = string
     bindings = map(list(string))
     project  = string
   }))

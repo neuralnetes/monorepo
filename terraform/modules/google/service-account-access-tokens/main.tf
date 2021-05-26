@@ -1,5 +1,5 @@
 data "google_service_account_access_token" "access_tokens" {
-  for_each = local.service_account_access_tokens_map
+  for_each               = local.service_account_access_tokens_map
   target_service_account = each.value["target_service_account"]
   scopes                 = each.value["scopes"]
   lifetime               = each.value["lifetime"]
