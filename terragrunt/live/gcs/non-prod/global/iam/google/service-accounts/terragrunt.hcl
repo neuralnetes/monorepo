@@ -19,13 +19,13 @@ inputs = {
   service_accounts = [
     for service_account_id in [
       "cert-manager",
+      "compute-instance",
+      "container-cluster",
       "external-dns",
       "external-secrets",
       "grafana-cloud",
       "kubeflow",
-      "openvpn",
-      "compute-instance",
-      "container-cluster"
+      "openvpn"
     ] :
     {
       project    = dependency.iam_project.outputs.project_id

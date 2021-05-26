@@ -226,7 +226,8 @@ inputs = {
           "roles/compute.networkUser"
         ] :
         project_role => [
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["compute-instance"].email}"
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["compute-instance"].email}",
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["container-cluster"].email}"
         ]
       }
       project = dependency.network_project.outputs.project_id
