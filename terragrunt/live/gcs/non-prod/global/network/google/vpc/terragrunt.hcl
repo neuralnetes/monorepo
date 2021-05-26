@@ -22,6 +22,7 @@ inputs = {
       shared_vpc_host                        = true
       routing_mode                           = "REGIONAL"
       delete_default_internet_gateway_routes = false
+      auto_create_subnetworks                = false
     }
   ]
 }
