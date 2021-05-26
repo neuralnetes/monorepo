@@ -208,7 +208,7 @@ inputs = {
         for project_role in flatten([
           local.iam_service_account_admin_roles,
           [
-            "compute.admin",
+            "roles/compute.admin",
             "roles/dns.admin"
           ]
         ]) :
