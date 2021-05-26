@@ -72,8 +72,10 @@ inputs = {
       name = "${dependency.kubeflow_project.outputs.project_id}-01"
       bindings = {
         for project_role in flatten([
-          local.iam_service_account_admin_roles
-          ["roles/compute.admin"],
+          local.iam_service_account_admin_roles,
+          [
+            "roles/compute.admin"
+          ]
         ]) :
         project_role => [
           "serviceAccount:${dependency.auth.outputs.email}"
@@ -103,8 +105,10 @@ inputs = {
       name = "${dependency.compute_project.outputs.project_id}-01"
       bindings = {
         for project_role in flatten([
-          local.iam_service_account_admin_roles
-          ["roles/compute.admin"],
+          local.iam_service_account_admin_roles,
+          [
+            "roles/compute.admin"
+          ]
         ]) :
         project_role => [
           "serviceAccount:${dependency.auth.outputs.email}"
