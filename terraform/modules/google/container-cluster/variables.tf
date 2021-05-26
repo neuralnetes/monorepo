@@ -42,6 +42,10 @@ variable "region" {
   type = string
 }
 
+variable "service_account" {
+  type = string
+}
+
 variable "subnetwork" {
   type = string
 }
@@ -54,7 +58,7 @@ variable "add_cluster_firewall_rules" {
 
 variable "create_service_account" {
   type    = bool
-  default = true
+  default = false
 }
 
 variable "enable_private_nodes" {
@@ -111,11 +115,6 @@ variable "regional" {
 variable "remove_default_node_pool" {
   type    = bool
   default = true
-}
-
-variable "service_account" {
-  type    = string
-  default = ""
 }
 
 variable "zones" {
