@@ -20,7 +20,7 @@ dependency "project_iam_bindings" {
 
 inputs = {
   service_account_keys = [
-    for service_account_name in ["auth", "cert-manager", "grafana-cloud"] :
+    for service_account_name in ["dex-auth", "cert-manager", "grafana-cloud"] :
     {
       service_account_id = dependency.service_accounts.outputs.service_accounts_map[service_account_name].email
     }
