@@ -9,6 +9,6 @@ module "service-account-iam-bindings" {
 locals {
   service_account_iam_bindings_map = {
     for service_account_iam_binding in var.service_account_iam_bindings :
-    service_account_iam_binding["service_account"] => service_account_iam_binding
+    service_account_iam_binding["name"] => service_account_iam_binding
   }
 }

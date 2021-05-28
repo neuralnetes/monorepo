@@ -44,6 +44,7 @@ inputs = {
     [
       for service_account_name, service_account in dependency.service_accounts.outputs.service_accounts_map :
       {
+        name = uuid()
         bindings = {
           for role in [
             "roles/iam.serviceAccountAdmin",
