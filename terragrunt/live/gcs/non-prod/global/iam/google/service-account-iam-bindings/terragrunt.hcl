@@ -35,28 +35,5 @@ locals {
 }
 
 inputs = {
-  service_account_iam_bindings = flatten([
-    for project_id in [
-      dependency.iam_project.outputs.project_id
-    ] :
-    [
-      for service_account_name, service_account in dependency.service_accounts.outputs.service_accounts_map :
-      {
-        name = uuid()
-        bindings = {
-          for role in [
-            "roles/iam.serviceAccountAdmin",
-            "roles/iam.serviceAccountUser",
-            "roles/iam.serviceAccountKeyAdmin",
-            "roles/iam.serviceAccountTokenCreator"
-          ] :
-          role => [
-            "serviceAccount:${dependency.auth.outputs.email}"
-          ]
-        }
-        service_account = service_account.email
-        project         = project_id
-      }
-    ]
-  ])
+  service_account_iam_bindings = []
 }
