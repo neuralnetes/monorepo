@@ -30,9 +30,9 @@ dependency "random_string" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
 }
 
-dependency "compute_instances" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/google/compute-instances"
-}
+//dependency "compute_instances" {
+//  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/compute/google/compute-instances"
+//}
 
 inputs = {
   project_id         = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
@@ -45,8 +45,9 @@ inputs = {
     redundancy_type = "SINGLE_IP_INTERNALLY_REDUNDANT"
     interfaces = [
       {
-        id         = 0
-        ip_address = dependency.compute_instances.outputs.compute_instances_map["openvpn-${dependency.random_string.outputs.result}"].network_interface[0].network_ip
+        id = 0
+        //        ip_address = dependency.compute_instances.outputs.compute_instances_map["openvpn-${dependency.random_string.outputs.result}"].network_interface[0].network_ip
+        ip_address = ""
       }
     ]
   }
@@ -65,3 +66,5 @@ inputs = {
     }
   }
 }
+
+skip = true
