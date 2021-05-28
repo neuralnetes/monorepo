@@ -1,5 +1,6 @@
 variable "cloud_nats" {
   type = list(object({
+    name                               = string
     project_id                         = string
     router                             = string
     source_subnetwork_ip_ranges_to_nat = string
