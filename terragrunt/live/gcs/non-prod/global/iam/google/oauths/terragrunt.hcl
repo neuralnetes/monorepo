@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/neuralnetes/monorepo.git//terraform/modules/google/internal-oauths?ref=main"
+  source = "github.com/neuralnetes/monorepo.git//terraform/modules/google/oauths?ref=main"
 }
 
 include {
