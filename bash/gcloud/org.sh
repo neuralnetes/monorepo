@@ -27,6 +27,7 @@ ORGANIZATION_ID=$(
 gcloud projects create "${PROJECT}"
 
 PROJECT_SERVICES=(
+  "admin.googleapis.com"
   "bigquery.googleapis.com"
   "bigquerystorage.googleapis.com"
   "cloudbilling.googleapis.com"
@@ -42,6 +43,7 @@ PROJECT_SERVICES=(
   "monitoring.googleapis.com"
   "oslogin.googleapis.com"
   "pubsub.googleapis.com"
+  "servicemanagement.googleapis.com"
   "servicenetworking.googleapis.com"
   "serviceusage.googleapis.com"
   "sqladmin.googleapis.com"
