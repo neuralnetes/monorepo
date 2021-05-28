@@ -23,7 +23,8 @@ inputs = {
   random_project_id    = false
   skip_gcloud_download = true
   activate_apis = [
-    "iam.googleapis.com"
+    "iam.googleapis.com",
+    "iap.googleapis.com"
   ]
   domain                         = local.gcp_workspace_domain_name
   enable_shared_vpc_host_project = false
