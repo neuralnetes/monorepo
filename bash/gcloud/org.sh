@@ -16,7 +16,6 @@ SERVICE_ACCOUNT_NAME="terraform"
 SERVICE_ACCOUNT_EMAIL="terraform@${ROOT_PROJECT}.iam.gserviceaccount.com"
 GROUP_EMAIL="${SERVICE_ACCOUNT_NAME}@${ORGANIZATION}"
 
-
 # TODO: create terraform google group
 gcloud projects create "${ROOT_PROJECT}"
 gcloud iam service-accounts create "${SERVICE_ACCOUNT_NAME}" \
