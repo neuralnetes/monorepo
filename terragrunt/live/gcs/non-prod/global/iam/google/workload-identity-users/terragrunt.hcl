@@ -48,9 +48,6 @@ dependency "container_clusters" {
 
 locals {
   kubernetes_service_accounts_map = {
-    auth = [
-      "dex"
-    ]
     cert-manager = [
       "cert-manager"
     ]
@@ -94,14 +91,24 @@ locals {
 
 inputs = {
   workload_identity_users = flatten([
-    for kubernetes_namespace, kubernetes_service_accounts in local.kubernetes_service_accounts_map :
     [
-      for kubernetes_service_account in kubernetes_service_accounts :
+      for kubernetes_namespace, kubernetes_service_accounts in local.kubernetes_service_accounts_map :
+      [
+        for kubernetes_service_account in kubernetes_service_accounts :
+        {
+          project_id                 = dependency.kubeflow_project.outputs.project_id
+          service_account_id         = dependency.service_accounts.outputs.service_accounts_map[kubernetes_namespace].email
+          kubernetes_namespace       = kubernetes_namespace
+          kubernetes_service_account = kubernetes_service_account
+        }
+      ]
+    ],
+    [
       {
         project_id                 = dependency.kubeflow_project.outputs.project_id
-        service_account_id         = dependency.service_accounts.outputs.service_accounts_map[kubernetes_namespace].email
-        kubernetes_namespace       = kubernetes_namespace
-        kubernetes_service_account = kubernetes_service_account
+        service_account_id         = dependency.service_accounts.outputs.service_accounts_map["dex-auth"].email
+        kubernetes_namespace       = "auth"
+        kubernetes_service_account = "dex"
       }
     ]
   ])

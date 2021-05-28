@@ -87,7 +87,7 @@ inputs = {
       project_id = dependency.secret_project.outputs.project_id
       secret_id  = "${dependency.kubeflow_project.outputs.project_id}-auth-service-account-key"
       secret_data = jsonencode({
-        "key.json" = base64decode(dependency.service_account_keys.outputs.service_account_keys_map["auth"].private_key)
+        "key.json" = base64decode(dependency.service_account_keys.outputs.service_account_keys_map["dex-auth"].private_key)
       })
       replication = {
         automatic = true
