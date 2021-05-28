@@ -14,12 +14,10 @@ ROOT_PROJECT="terraform-neuralnetes"
 SERVICE_ACCOUNT_KEY="key.json"
 SERVICE_ACCOUNT_NAME="terraform"
 SERVICE_ACCOUNT_EMAIL="terraform@${ROOT_PROJECT}.iam.gserviceaccount.com"
-SERVICE_ACCOUNT_USERS=(
-  "alexander.lerma@${ORGANIZATION}"
-)
 GROUP_EMAIL="${SERVICE_ACCOUNT_NAME}@${ORGANIZATION}"
-USER_GROUP_EMAIL="${SERVICE_ACCOUNT_NAME}-users@${ORGANIZATION}"
 
+
+# TODO: create terraform google group
 gcloud projects create "${ROOT_PROJECT}"
 gcloud iam service-accounts create "${SERVICE_ACCOUNT_NAME}" \
   --description="${SERVICE_ACCOUNT_NAME}" \
@@ -38,6 +36,10 @@ for role in "${ORGANIZATION_IAM_ROLES[@]}"; do
     --role="${role}"
 done
 
+# USER_GROUP_EMAIL="${SERVICE_ACCOUNT_NAME}-users@${ORGANIZATION}"
+#SERVICE_ACCOUNT_USERS=(
+#  "alexander.lerma@${ORGANIZATION}"
+#)
 #gcloud iam service-accounts add-iam-policy-binding \
 #  "${SERVICE_ACCOUNT_EMAIL}" \
 #  --member="group:${USER_GROUP_EMAIL}" \
