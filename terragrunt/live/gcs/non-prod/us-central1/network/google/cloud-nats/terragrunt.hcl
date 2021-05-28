@@ -29,7 +29,7 @@ dependency "random_string" {
 inputs = {
   cloud_nats = [
     {
-      name                               = "${dependency.vpc.outputs.name}-cluster-${dependency.random_string.outputs.result}"
+      name                               = "us-central1-cluster-${dependency.random_string.outputs.result}"
       region                             = "us-central1"
       project_id                         = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
       router                             = dependency.cloud_routers.outputs.cloud_routers_map["us-central1-cluster-${dependency.random_string.outputs.result}"].router["name"]
