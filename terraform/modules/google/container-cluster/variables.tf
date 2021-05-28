@@ -42,6 +42,10 @@ variable "region" {
   type = string
 }
 
+variable "create_service_account" {
+  type = bool
+}
+
 variable "service_account" {
   type = string
 }
@@ -52,11 +56,6 @@ variable "subnetwork" {
 
 # optional
 variable "add_cluster_firewall_rules" {
-  type    = bool
-  default = false
-}
-
-variable "create_service_account" {
   type    = bool
   default = false
 }

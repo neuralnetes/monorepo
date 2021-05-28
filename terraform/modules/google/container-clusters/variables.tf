@@ -26,6 +26,7 @@ variable "container_clusters" {
     project_id              = string
     region                  = string
     regional                = bool
+    create_service_account  = bool
     service_account         = string
     subnetwork              = string
     zones                   = list(string)

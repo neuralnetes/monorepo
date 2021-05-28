@@ -100,8 +100,10 @@ inputs = {
       regional                 = false
       remove_default_node_pool = true
       subnetwork               = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].name
-      service_account          = dependency.service_accounts.outputs.service_accounts_map["container-cluster"].email
-      zones                    = ["us-central1-a"]
+      create_service_account   = true
+      service_account          = ""
+      //      service_account          = dependency.service_accounts.outputs.service_accounts_map["container-cluster"].email
+      zones = ["us-central1-a"]
     }
   ]
 }

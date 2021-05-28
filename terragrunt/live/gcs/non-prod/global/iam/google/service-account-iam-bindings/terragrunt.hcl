@@ -37,9 +37,7 @@ locals {
 inputs = {
   service_account_iam_bindings = flatten([
     for project_id in [
-      dependency.compute_project.outputs.project_id,
-      dependency.iam_project.outputs.project_id,
-      dependency.kubeflow_project.outputs.project_id
+      dependency.iam_project.outputs.project_id
     ] :
     [
       for service_account_name, service_account in dependency.service_accounts.outputs.service_accounts_map :
