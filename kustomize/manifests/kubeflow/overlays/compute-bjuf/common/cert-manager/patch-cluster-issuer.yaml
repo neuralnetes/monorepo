@@ -10,5 +10,5 @@ spec:
           clouddns:
             project: network-bjuf
             serviceAccountSecretRef:
-              name: cert-manager-secrets
+              name: service-account-key
               key: key.json

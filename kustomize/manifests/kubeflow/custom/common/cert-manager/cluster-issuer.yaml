@@ -15,5 +15,5 @@ spec:
             project: ${PROJECT_ID}
             # This is the secret used to access the service account
             serviceAccountSecretRef:
-              name: cert-manager-secrets
+              name: service-account-key
               key: key.json

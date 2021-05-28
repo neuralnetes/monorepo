@@ -6,6 +6,14 @@ include {
   path = find_in_parent_folders()
 }
 
+dependency "compute_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/compute/google/project"
+}
+
+dependency "kubeflow_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
+}
+
 dependency "iam_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
 }
@@ -29,11 +37,8 @@ locals {
 inputs = {
   service_account_iam_bindings = flatten([
     for project_id in [
-      dependency.iam_project.outputs.project_id,
-      dependency.secret_project.outputs.project_id,
-      dependency.network_project.outputs.project_id,
-      dependency.data_project.outputs.project_id,
       dependency.compute_project.outputs.project_id,
+      dependency.iam_project.outputs.project_id,
       dependency.kubeflow_project.outputs.project_id
     ] :
     [

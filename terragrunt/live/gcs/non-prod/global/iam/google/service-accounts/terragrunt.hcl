@@ -18,6 +18,7 @@ dependency "random_string" {
 inputs = {
   service_accounts = [
     for service_account_id in [
+      "auth",
       "cert-manager",
       "compute-instance",
       "container-cluster",

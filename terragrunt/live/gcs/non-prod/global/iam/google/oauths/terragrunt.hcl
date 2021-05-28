@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/neuralnetes/monorepo.git//terraform/modules/google/service-account-access-tokens?ref=main"
+  source = "github.com/neuralnetes/monorepo.git//terraform/modules/google/internal-oauths?ref=main"
 }
 
 include {
@@ -26,14 +26,16 @@ dependency "auth" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/auth"
 }
 
-inputs = {
-  service_account_access_tokens = [
-    for service_account_name in ["compute-instance", "container-cluster"] :
-    {
+locals {
+  gsuite_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
+}
 
-      lifetime               = "1800s"
-      target_service_account = dependency.service_accounts.outputs.service_accounts_map[service_account_name].email
-      scopes                 = ["userinfo-email", "cloud-platform"]
+inputs = {
+  oauths = [
+    {
+      application_title = "dex"
+      support_email     = "bot+support@${local.gsuite_domain_name}"
+      project           = dependency.iam_project.outputs.project_id
     }
   ]
 }

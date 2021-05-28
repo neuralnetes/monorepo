@@ -47,71 +47,60 @@ dependency "container_clusters" {
 }
 
 locals {
-  kubeflow_kubernetes_service_accounts = [
-    "admission-webhook-service-account",
-    "argo",
-    "centraldashboard",
-    "default",
-    "jupyter-web-app-service-account",
-    "kubeflow-pipelines-cache",
-    "kubeflow-pipelines-cache-deployer-sa",
-    "kubeflow-pipelines-container-builder",
-    "kubeflow-pipelines-metadata-writer",
-    "kubeflow-pipelines-viewer",
-    "meta-controller-service",
-    "metadata-grpc-server",
-    "ml-pipeline",
-    "ml-pipeline-persistenceagent",
-    "ml-pipeline-scheduledworkflow",
-    "ml-pipeline-ui",
-    "ml-pipeline-viewer-crd-service-account",
-    "ml-pipeline-visualizationserver",
-    "mpi-operator",
-    "mxnet-operator",
-    "mysql",
-    "pipeline-runner",
-    "pytorch-operator",
-    "tensorboards-web-app-service-account",
-    "tf-job-operator",
-    "volumes-web-app-service-account",
-    "xgboost-operator-service-account"
-  ]
+  kubernetes_service_accounts_map = {
+    auth = [
+      "dex"
+    ]
+    cert-manager = [
+      "cert-manager"
+    ]
+    external-dns = [
+      "external-dns"
+    ]
+    external-secrets = [
+      "external-secrets"
+    ]
+    kubeflow = [
+      "admission-webhook-service-account",
+      "argo",
+      "centraldashboard",
+      "default",
+      "jupyter-web-app-service-account",
+      "kubeflow-pipelines-cache",
+      "kubeflow-pipelines-cache-deployer-sa",
+      "kubeflow-pipelines-container-builder",
+      "kubeflow-pipelines-metadata-writer",
+      "kubeflow-pipelines-viewer",
+      "meta-controller-service",
+      "metadata-grpc-server",
+      "ml-pipeline",
+      "ml-pipeline-persistenceagent",
+      "ml-pipeline-scheduledworkflow",
+      "ml-pipeline-ui",
+      "ml-pipeline-viewer-crd-service-account",
+      "ml-pipeline-visualizationserver",
+      "mpi-operator",
+      "mxnet-operator",
+      "mysql",
+      "pipeline-runner",
+      "pytorch-operator",
+      "tensorboards-web-app-service-account",
+      "tf-job-operator",
+      "volumes-web-app-service-account",
+      "xgboost-operator-service-account"
+    ]
+  }
 }
 
 inputs = {
   workload_identity_users = flatten([
+    for kubernetes_namespace, kubernetes_service_accounts in local.kubernetes_service_accounts_map :
     [
+      for kubernetes_service_account in kubernetes_service_accounts :
       {
         project_id                 = dependency.kubeflow_project.outputs.project_id
-        service_account_id         = dependency.service_accounts.outputs.service_accounts_map["cert-manager"].email
-        kubernetes_namespace       = "cert-manager"
-        kubernetes_service_account = "cert-manager"
-      },
-      {
-        project_id                 = dependency.kubeflow_project.outputs.project_id
-        service_account_id         = dependency.service_accounts.outputs.service_accounts_map["external-dns"].email
-        kubernetes_namespace       = "external-dns"
-        kubernetes_service_account = "external-dns"
-      },
-      {
-        project_id                 = dependency.kubeflow_project.outputs.project_id
-        service_account_id         = dependency.service_accounts.outputs.service_accounts_map["external-secrets"].email
-        kubernetes_namespace       = "external-secrets"
-        kubernetes_service_account = "external-secrets"
-      },
-      {
-        project_id                 = dependency.kubeflow_project.outputs.project_id
-        service_account_id         = dependency.service_accounts.outputs.service_accounts_map["openvpn"].email
-        kubernetes_namespace       = "openvpn"
-        kubernetes_service_account = "openvpn"
-      }
-    ],
-    [
-      for kubernetes_service_account in local.kubeflow_kubernetes_service_accounts :
-      {
-        project_id                 = dependency.kubeflow_project.outputs.project_id
-        service_account_id         = dependency.service_accounts.outputs.service_accounts_map["kubeflow"].email
-        kubernetes_namespace       = "kubeflow"
+        service_account_id         = dependency.service_accounts.outputs.service_accounts_map[kubernetes_namespace].email
+        kubernetes_namespace       = kubernetes_namespace
         kubernetes_service_account = kubernetes_service_account
       }
     ]

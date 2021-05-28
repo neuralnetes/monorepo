@@ -90,12 +90,12 @@ cat <<EOF > "kustomize/manifests/secrets/cert-manager/overlays/${KUBEFLOW_PROJEC
 apiVersion: kubernetes-client.io/v1
 kind: ExternalSecret
 metadata:
-  name: cert-manager-secrets
+  name: service-account-key
 spec:
   backendType: gcpSecretsManager
   projectId: ${SECRET_PROJECT}
   data:
-    - key: ${KUBEFLOW_PROJECT}-cert-manager-cert-manager-secrets
+    - key: ${KUBEFLOW_PROJECT}-cert-manager-service-account-key
       name: key.json
       version: latest
 EOF
@@ -178,7 +178,7 @@ spec:
           clouddns:
             project: ${NETWORK_PROJECT}
             serviceAccountSecretRef:
-              name: cert-manager-secrets
+              name: service-account-key
               key: key.json
 EOF
 
@@ -281,53 +281,55 @@ data:
       name: 'Dex Login Application'
       secretEnv: OIDC_CLIENT_SECRET
     connectors:
-    - type: github
-      # Required field for connector id.
-      id: github
-      # Required field for connector name.
-      name: GitHub
+    - type: google
+      id: google
+      name: Google
       config:
-        # Credentials can be string literals or pulled from the environment.
-        clientID: \$GITHUB_CLIENT_ID
-        clientSecret: \$GITHUB_CLIENT_SECRET
-        redirectURI: http://dex.auth.svc.cluster.local:5556/dex/callback
+        # Connector config values starting with a "$" will read from the environment.
+        clientID: \$GOOGLE_CLIENT_ID
+        clientSecret: \$GOOGLE_CLIENT_SECRET
 
-        # Optional organizations and teams, communicated through the "groups" scope.
-        #
-        # NOTE: This is an EXPERIMENTAL config option and will likely change.
-        #
-        # Legacy 'org' field. 'org' and 'orgs' cannot be used simultaneously. A user
-        # MUST be a member of the following org to authenticate with dex.
-        # org: my-organization
-        #
-        # Dex queries the following organizations for group information if the
-        # "groups" scope is provided. Group claims are formatted as "(org):(team)".
-        # For example if a user is part of the "engineering" team of the "coreos"
-        # org, the group claim would include "coreos:engineering".
-        #
-        # If orgs are specified in the config then user MUST be a member of at least one of the specified orgs to
-        # authenticate with dex.
-        #
-        # If neither 'org' nor 'orgs' are specified in the config and 'loadAllGroups' setting set to true then user
-        # authenticate with ALL user's Github groups. Typical use case for this setup:
-        # provide read-only access to everyone and give full permissions if user has 'my-organization:admins-team' group claim.
-        orgs:
-        - name: ${GITHUB_OWNER}
-          # Include all teams as claims.
-        # Flag which indicates that all user groups and teams should be loaded.
-        loadAllGroups: false
+        # Dex's issuer URL + "/callback"
+        redirectURI: https://kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
+        serviceAccountFilePath: /etc/dex/dex-secret/key.json
 
-        # Optional choice between 'name' (default), 'slug', or 'both'.
-        #
-        # As an example, group claims for member of 'Site Reliability Engineers' in
-        # Acme organization would yield:
-        #   - ['acme:Site Reliability Engineers'] for 'name'
-        #   - ['acme:site-reliability-engineers'] for 'slug'
-        #   - ['acme:Site Reliability Engineers', 'acme:site-reliability-engineers'] for 'both'
-        teamNameField: slug
-        # flag which will switch from using the internal GitHub id to the users handle (@mention) as the user id.
-        # It is possible for a user to change their own user name but it is very rare for them to do so
-        useLoginAsID: false
+EOF
+
+cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio/patch-deployment.yaml"
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dex
+spec:
+  template:
+    spec:
+      containers:
+      - image: quay.io/dexidp/dex:v2.22.0
+        name: dex
+        command: ["dex", "serve", "/etc/dex/cfg/config.yaml"]
+        ports:
+        - name: http
+          containerPort: 5556
+        volumeMounts:
+        - name: config
+          mountPath: /etc/dex/cfg
+        - name: dex-secrets
+          mountPath: /etc/dex/dex-secrets
+        envFrom:
+          - secretRef:
+              name: dex-oidc-client
+          - secretRef:
+              name: dex-secrets
+      volumes:
+      - name: config
+        configMap:
+          name: dex
+          items:
+          - key: config.yaml
+            path: config.yaml
+      - name: dex-secrets
+        secret:
+          secretName: dex-secrets
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio/kustomization.yaml"
@@ -466,7 +468,7 @@ cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/cert-manager/overlay
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: cert-manager-secrets
+  name: service-account-key
 spec:
   path: kustomize/manifests/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}
 EOF
