@@ -16,7 +16,6 @@ ORGANIZATION_IAM_ROLES=(
   "roles/resourcemanager.projectCreator"
   "roles/serviceusage.serviceUsageAdmin"
   "roles/storage.admin"
-
 )
 PROJECT="terraform-neuralnetes"
 SERVICE_ACCOUNT_NAME="terraform"
