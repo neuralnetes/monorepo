@@ -72,6 +72,18 @@ function get_compute_instance_by_name_prefix() {
     | jq --arg prefix "${PREFIX}" '.[] | select(.name | startswith($prefix)) | first'
 }
 
+function get_istio_ingressgateway_load_balancer_compute_address() {
+  PREFIX="istio-ingressgateway"
+  gcloud compute addresses list --format=json \
+    --project="${NETWORK_PROJECT}" \
+    | jq --arg prefix "${PREFIX}" '.[] | select(.name | startswith($prefix))'
+}
+
+function get_istio_ingressgateway_load_balancer_ip() {
+  get_istio_ingressgateway_load_balancer_compute_address \
+    | jq -rc '.address'
+}
+
 export PROJECTS=$(gcloud projects list --format=json | jq)
 export IAM_PROJECT=$(get_project_id_by_prefix "iam" "${PROJECTS}")
 export SECRET_PROJECT=$(get_project_id_by_prefix "secret" "${PROJECTS}")
@@ -88,7 +100,7 @@ export SUBNETWORK_SELF_LINK=$(get_subnetwork_self_link)
 export CLUSTER=$(get_cluster)
 export CLUSTER_NAME=$(get_cluster_name)
 export OPENVPN_COMPUTE_INSTANCE=$(get_compute_instance_by_name_prefix "openvpn")
-export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP="10.0.15.249"
+export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP=$(get_istio_ingressgateway_load_balancer_ip)
 export GCP_BILLING_ACCOUNT_ID=""
 export GCP_ORGANIZATION_ID=""
 export GCP_ORGANIZATION="neuralnetes"

@@ -468,7 +468,7 @@ cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/cert-manager/overlay
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: service-account-key
+  name: cert-manager-secrets
 spec:
   path: kustomize/manifests/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}
 EOF
