@@ -94,14 +94,14 @@ jobs:
         SLACK_WEBHOOK_DATA: '{ "text": "terragrunt success: ${{ env.GITHUB_ACTIONS_RUN_URL }}" }'
       if: ${{ success() }}
       working-directory: ./bash/slack
-      run: chmod +x ./webhook.sh && ./webhook.sh
+      run: chmod +x ./webhook.sh && ./webhook.sh && cat "${GITHUB_WORKSPACE}/logs.txt"
     - id: run_slack_webhook_terragrunt_failure
       name: run slack webhook terragrunt failure
       env:
         SLACK_WEBHOOK_DATA: '{ "text": "terragrunt failure: ${{ env.GITHUB_ACTIONS_RUN_URL }}" }'
       if: ${{ failure() }}
       working-directory: ./bash/slack
-      run: chmod +x ./webhook.sh && ./webhook.sh
+      run: chmod +x ./webhook.sh && ./webhook.sh && cat "${GITHUB_WORKSPACE}/logs.txt"
     - id: logs
       name: logs
       run: |
