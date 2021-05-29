@@ -25,3 +25,6 @@ export TERRAGRUNT_CLI_FLAGS='[
 export TERRAGRUNT_COMMAND="run-all apply"
 export TERRAGRUNT_WORKING_DIR="terragrunt/live/gcs/non-prod"
 export TF_INPUT="false"
+export TF_LOG="JSON"
+export TF_LOG_FILE="${GITHUB_WORKSPACE}/logs.txt"
+export TGENV_AUTO_INSTALL="true"
