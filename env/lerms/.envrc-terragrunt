@@ -1,4 +1,14 @@
 #!/bin/bash
+function run_terragrunt_command() {
+  terragrunt_cli_flags=($(echo "${TERRAGRUNT_CLI_FLAGS}" | jq -rc '@sh' | tr -d \'\"))
+  command=(
+    terragrunt
+    "${TERRAGRUNT_COMMAND}"
+    "${terragrunt_cli_flags[@]}"
+  )
+  "${command[@]}"
+}
+
 export TERRAGRUNT_CLI_FLAGS='[
     "--terragrunt-include-dir global/terraform/**/**",
     "--terragrunt-include-dir global/iam/**/**",
