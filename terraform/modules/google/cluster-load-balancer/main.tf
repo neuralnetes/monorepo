@@ -5,15 +5,15 @@ data "google_container_cluster" "cluster" {
 }
 
 data "google_compute_instance_group" "instance_groups" {
-  for_each  = data.google_container_cluster.cluster.instance_group_urls
+  for_each  = toset(data.google_container_cluster.cluster.instance_group_urls)
   self_link = each.value
 }
 
 data "google_compute_instance" "instances" {
-  for_each = flatten([
+  for_each = toset(flatten([
     for instance_group_url, instance_group in data.google_compute_instance_group.instance_groups :
     instance_group.instances
-  ])
+  ]))
   self_link = each.value
 }
 

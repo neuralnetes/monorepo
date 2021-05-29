@@ -1,4 +1,4 @@
-output "http_load_balancer" {
+output "load_balancer" {
   value = module.load_balancer
 }
 
