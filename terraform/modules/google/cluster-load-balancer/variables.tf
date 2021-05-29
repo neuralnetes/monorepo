@@ -2,10 +2,6 @@ variable "name" {
   type = string
 }
 
-variable "network_project" {
-  type = string
-}
-
 variable "cluster_project" {
   type = string
 }

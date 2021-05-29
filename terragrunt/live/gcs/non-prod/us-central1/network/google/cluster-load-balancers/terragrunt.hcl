@@ -34,7 +34,6 @@ inputs = {
   cluster_load_balancers = [
     {
       name              = "cluster-${dependency.random_string.outputs.result}"
-      network_project   = dependency.network_project.outputs.project_id
       cluster_project   = dependency.kubeflow_project.outputs.project_id
       cluster_name      = dependency.container_clusters.outputs.container_clusters_map["cluster-${dependency.random_string.outputs.result}"].cluster_name
       cluster_location  = "us-central1-a"

@@ -1,3 +1,9 @@
+locals {
+  cluster_network_split = split("/", data.google_container_cluster.cluster.network)
+  network_project       = local.cluster_network_split[1]
+  network_name          = reverse(local.cluster_network_split)[0]
+}
+
 data "google_container_cluster" "cluster" {
   name     = var.cluster_name
   location = var.cluster_location
@@ -18,8 +24,8 @@ data "google_compute_instance" "instances" {
 }
 
 data "google_compute_network" "network" {
-  name    = data.google_container_cluster.cluster.network
-  project = var.network_project
+  name    = local.network_name
+  project = local.network_project
 }
 
 resource "google_compute_instance_group_named_port" "http" {

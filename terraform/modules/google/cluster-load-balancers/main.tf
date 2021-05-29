@@ -2,7 +2,6 @@ module "cluster_load_balancers" {
   for_each          = local.cluster_load_balances_map
   source            = "github.com/neuralnetes/monorepo.git//terraform/modules/google/cluster-load-balancer?ref=main"
   name              = each.value["name"]
-  network_project   = each.value["network_project"]
   cluster_project   = each.value["cluster_project"]
   cluster_name      = each.value["cluster_name"]
   cluster_location  = each.value["cluster_location"]

@@ -1,7 +1,6 @@
 variable "cluster_load_balancers" {
   type = list(object({
     name              = string
-    network_project   = string
     cluster_project   = string
     cluster_name      = string
     cluster_location  = string
