@@ -2,6 +2,14 @@ locals {
   cluster_network_split = split("/", data.google_container_cluster.cluster.network)
   network_project       = local.cluster_network_split[1]
   network_name          = reverse(local.cluster_network_split)[0]
+  http_port = [
+    for http in google_compute_instance_group_named_port.http :
+    http.port
+  ][0]
+  http_port_name = [
+    for http in google_compute_instance_group_named_port.http :
+    http.name
+  ][0]
 }
 
 data "google_container_cluster" "cluster" {
@@ -70,8 +78,8 @@ module "load_balancer" {
     default = {
       description                     = null
       protocol                        = "HTTP"
-      port                            = google_compute_instance_group_named_port.http[0].port
-      port_name                       = google_compute_instance_group_named_port.http[0].name
+      port                            = local.http_port
+      port_name                       = local.http_port_name
       timeout_sec                     = 10
       connection_draining_timeout_sec = null
       enable_cdn                      = false
@@ -86,7 +94,7 @@ module "load_balancer" {
         healthy_threshold   = null
         unhealthy_threshold = null
         request_path        = "/"
-        port                = google_compute_instance_group_named_port.http[0].port
+        port                = local.http_port
         host                = null
         logging             = true
       }
