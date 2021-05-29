@@ -77,6 +77,8 @@ jobs:
         TERRAGRUNT_COMMAND: ${{ github.event.inputs.terragrunt_command }}
         TERRAGRUNT_WORKING_DIR: ${{ github.workspace }}/${{ github.event.inputs.terragrunt_working_dir }}
         TF_INPUT: false
+        TF_LOG: JSON
+        TF_LOG_PATH: ${{ github.workspace }}/logs.txt
       run: |
         terragrunt_cli_flags=($(echo "${TERRAGRUNT_CLI_FLAGS}" | jq -rc '@sh' | tr -d \'\"))
         command=(
@@ -100,3 +102,7 @@ jobs:
       if: ${{ failure() }}
       working-directory: ./bash/slack
       run: chmod +x ./webhook.sh && ./webhook.sh
+    - id: logs
+      name: logs
+      run: |
+        cat "${GITHUB_WORKSPACE}/logs.txt"
