@@ -34,7 +34,7 @@ inputs = {
   oauths = [
     {
       application_title = "dex"
-      support_email     = "support@${local.gsuite_domain_name}"
+      support_email     = "oauth@${local.gsuite_domain_name}"
       project           = dependency.iam_project.outputs.project_id
     }
   ]
