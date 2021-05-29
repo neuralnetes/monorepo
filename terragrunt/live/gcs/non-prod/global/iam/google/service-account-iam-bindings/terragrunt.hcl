@@ -31,7 +31,7 @@ dependency "auth" {
 }
 
 locals {
-  gsuite_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
+  gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
 }
 
 inputs = {

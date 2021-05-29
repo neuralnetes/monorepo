@@ -27,14 +27,14 @@ dependency "auth" {
 }
 
 locals {
-  gsuite_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
+  gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
 }
 
 inputs = {
   oauths = [
     {
       application_title = "dex"
-      support_email     = "oauth@${local.gsuite_domain_name}"
+      support_email     = "oauth@${local.gcp_workspace_domain_name}"
       project           = dependency.iam_project.outputs.project_id
     }
   ]

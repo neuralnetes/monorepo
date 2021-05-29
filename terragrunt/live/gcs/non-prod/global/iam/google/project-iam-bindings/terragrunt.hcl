@@ -103,6 +103,18 @@ inputs = {
       }
       project = dependency.kubeflow_project.outputs.project_id
     },
+    {
+      name = "${dependency.kubeflow_project.outputs.project_id}-04"
+      bindings = {
+        for project_role in [
+          "roles/container.admin"
+        ] :
+        project_role => [
+          "group:container-admins@${local.gcp_workspace_domain_name}"
+        ]
+      }
+      project = dependency.kubeflow_project.outputs.project_id
+    },
     # compute
     {
       name     = "${dependency.compute_project.outputs.project_id}-00"
