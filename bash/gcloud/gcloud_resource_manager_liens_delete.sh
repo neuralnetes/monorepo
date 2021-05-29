@@ -1,5 +1,4 @@
 #!/bin/bash
-cd "$(dirname "$0")"
 PROJECT=${1}
 LIEN_JSON=$(gcloud alpha resource-manager liens list --project="${PROJECT}" --format=json --quiet)
 if [ "${LIEN_JSON}" == "[]" ]; then

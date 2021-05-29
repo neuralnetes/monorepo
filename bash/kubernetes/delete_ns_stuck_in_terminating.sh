@@ -1,5 +1,4 @@
 #!/bin/bash
-cd "$(dirname "$0")"
 NAMESPACE=${1}
 NAMESPACE_JSON=$(kubectl get ns "${NAMESPACE}" -o json)
 NAMESPACE_EMPTY_FINALIZERS_JSON=$(echo "${NAMESPACE_JSON}" | jq ".spec.finalizers = []")

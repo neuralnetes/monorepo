@@ -1,5 +1,4 @@
 #!/bin/bash
-cd "$(dirname "$0")"
 echo 'apiVersion: serving.knative.dev/v1alpha1
 kind: Service
 metadata:

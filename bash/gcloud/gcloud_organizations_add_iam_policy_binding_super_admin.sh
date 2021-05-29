@@ -1,5 +1,4 @@
 #!/bin/bash
-cd "$(dirname "$0")"
 organization_json=$(gcloud organizations list --format=json | jq -r 'first')
 gcp_workspace_domain_name=$(echo "${organization_json}" | jq -r '.displayName')
 organization_id=$(echo "${organization_json}" | jq -r '.name | split("/") | last')

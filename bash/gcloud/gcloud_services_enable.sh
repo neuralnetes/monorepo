@@ -1,5 +1,4 @@
 #!/bin/bash
-cd "$(dirname "$0")"
 PROJECT=${1}
 API_SERVICES=(
   "compute.googleapis.com"

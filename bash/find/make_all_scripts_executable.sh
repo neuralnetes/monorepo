@@ -1,5 +1,4 @@
 #!/bin/bash
-cd "$(dirname "$0")"
 directory_path="${1}"
 find "${directory_path}" -type f \
   -maxdepth 1 \

@@ -1,5 +1,4 @@
 #!/bin/bash
-cd "$(dirname "$0")"
 ORGANIZATION=${1}
 SERVICE_ACCOUNT_EMAIL=${2}
 ROLES=("roles/resourcemanager.projectCreator" "roles/billing.user" "roles/compute.xpnAdmin")

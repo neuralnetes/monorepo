@@ -1,5 +1,4 @@
 #!/bin/bash
-cd "$(dirname "$0")"
 SLEEP_NAMESPACE=foo
 kubectl create namespace "${SLEEP_NAMESPACE}"
 kubectl label namespace "${SLEEP_NAMESPACE}" istio-injection=enabled
