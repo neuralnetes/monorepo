@@ -9,11 +9,14 @@ ORGANIZATION_IAM_ROLES=(
   "roles/iam.serviceAccountKeyAdmin"
   "roles/iam.serviceAccountTokenCreator"
   "roles/iam.serviceAccountUser"
+  "roles/identityplatform.admin"
+  "roles/identitytoolkit.admin"
   "roles/resourcemanager.folderAdmin"
   "roles/resourcemanager.organizationAdmin"
   "roles/resourcemanager.projectCreator"
   "roles/serviceusage.serviceUsageAdmin"
   "roles/storage.admin"
+
 )
 PROJECT="terraform-neuralnetes"
 SERVICE_ACCOUNT_NAME="terraform"
