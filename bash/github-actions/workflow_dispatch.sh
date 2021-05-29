@@ -1,5 +1,4 @@
 #!/bin/bash
-cd "$(dirname "$0")"
 WORKFLOW_ID="${1}"
 REQUEST="${2}"
 # https://docs.github.com/en/rest/reference/actions#create-a-workflow-dispatch-event

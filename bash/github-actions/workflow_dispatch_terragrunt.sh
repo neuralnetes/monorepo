@@ -1,5 +1,4 @@
 #!/bin/bash
-cd "$(dirname "$0")"
 request_json=$(
   jq -n \
     --arg ref "${GITHUB_REF}" \
@@ -18,6 +17,6 @@ request_json=$(
     '
 )
 echo "${request_json}" | jq
-workflow=$(./find_workflow_by_path.sh  ".github/workflows/workflow-dispatch-terragrunt.yaml")
+workflow=$(bash "${GITHUB_WORKSPACE}/bash/github-actions/find_workflow_by_path.sh"  ".github/workflows/workflow-dispatch-terragrunt.yaml")
 workflow_id=$(echo "${workflow}" | jq '.id')
-./workflow_dispatch.sh "${workflow_id}" "${request_json}"
+bash "${GITHUB_WORKSPACE}/bash/github-actions/workflow_dispatch.sh" "${workflow_id}" "${request_json}"
