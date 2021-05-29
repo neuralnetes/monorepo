@@ -1,15 +1,4 @@
 # required
-variable "cluster_autoscaling" {
-  type = object({
-    enabled             = bool
-    autoscaling_profile = string
-    min_cpu_cores       = number
-    max_cpu_cores       = number
-    min_memory_gb       = number
-    max_memory_gb       = number
-  })
-}
-
 variable "ip_range_pods" {
   type = string
 }

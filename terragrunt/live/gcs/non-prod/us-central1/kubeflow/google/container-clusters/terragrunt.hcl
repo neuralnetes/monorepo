@@ -45,14 +45,6 @@ dependency "tags" {
 inputs = {
   container_clusters = [
     {
-      cluster_autoscaling = {
-        enabled             = true
-        autoscaling_profile = "BALANCED"
-        max_cpu_cores       = 2
-        min_cpu_cores       = 0
-        max_memory_gb       = 8
-        min_memory_gb       = 0
-      }
       initial_node_count = 1
       ip_range_services  = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[0].range_name
       ip_range_pods      = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[1].range_name

@@ -1,13 +1,5 @@
 variable "container_clusters" {
   type = list(object({
-    cluster_autoscaling = object({
-      enabled             = bool
-      autoscaling_profile = string
-      min_cpu_cores       = number
-      max_cpu_cores       = number
-      min_memory_gb       = number
-      max_memory_gb       = number
-    })
     initial_node_count = number
     ip_range_pods      = string
     ip_range_services  = string
