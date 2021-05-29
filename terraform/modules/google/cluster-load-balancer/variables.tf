@@ -23,9 +23,9 @@ variable "cert_dns_names" {
 }
 
 variable "cert_common_name" {
-  default = string
+  type = string
 }
 
 variable "cert_organization" {
-  default = string
+  type = string
 }
