@@ -60,17 +60,18 @@ locals {
 inputs = {
   cluster_kustomizations = [
     {
-      github_client_id                      = local.github_client_id
-      github_client_secret                  = local.github_client_secret
-      github_owner                          = local.github_owner
-      github_workspace                      = local.github_workspace
-      cluster_name                          = dependency.container_clusters.outputs.container_clusters_map["cluster-${dependency.random_string.outputs.result}"].cluster_name
-      compute_project                       = dependency.compute_project.outputs.project_id
-      iam_project                           = dependency.iam_project.outputs.project_id
-      network_project                       = dependency.network_project.outputs.project_id
-      kubeflow_project                      = dependency.kubeflow_project.outputs.project_id
-      secret_project                        = dependency.secret_project.outputs.project_id
-      istio_ingressgateway_load_balancer_ip = dependency.compute_addresses.outputs.regional_addresses_map["istio-ingressgateway-us-central1-${dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network["name"]}"].address
+      github_client_id     = local.github_client_id
+      github_client_secret = local.github_client_secret
+      github_owner         = local.github_owner
+      github_workspace     = local.github_workspace
+      cluster_name         = dependency.container_clusters.outputs.container_clusters_map["cluster-${dependency.random_string.outputs.result}"].cluster_name
+      compute_project      = dependency.compute_project.outputs.project_id
+      iam_project          = dependency.iam_project.outputs.project_id
+      network_project      = dependency.network_project.outputs.project_id
+      kubeflow_project     = dependency.kubeflow_project.outputs.project_id
+      secret_project       = dependency.secret_project.outputs.project_id
+      //      istio_ingressgateway_load_balancer_ip = dependency.compute_addresses.outputs.regional_addresses_map["istio-ingressgateway-us-central1-${dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network["name"]}"].address
+      istio_ingressgateway_load_balancer_ip = "10.0.15.249"
       triggers                              = local.triggers
     }
   ]
