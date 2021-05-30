@@ -2,6 +2,7 @@
 PATHS=(
   "kustomize/manifests/external-secrets/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/external-dns/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/secrets/auth/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}"
@@ -14,9 +15,10 @@ PATHS=(
   "kustomize/manifests/deploy/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/external-secrets/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/external-dns/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/secrets/auth/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}"
-  "kustomize/manifests/flux-kustomization/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/kubeflow/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/deploy/overlays/${KUBEFLOW_PROJECT}"
@@ -501,6 +503,22 @@ patchesStrategicMerge:
 - patch-flux-kustomization.yaml
 EOF
 
+cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/auth/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: auth-secrets
+spec:
+  path: kustomize/manifests/secrets/auth/overlays/${KUBEFLOW_PROJECT}
+EOF
+
+cat <<EOF > "kustomize/manifests/flux-kustomization/secrets/auth/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
+resources:
+- ../../base
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml
+EOF
+
 cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -575,6 +593,7 @@ resources:
 - ../../base
 - ../../../external-secrets/overlays/${KUBEFLOW_PROJECT}
 - ../../../external-dns/overlays/${KUBEFLOW_PROJECT}
+- ../../../secrets/auth/overlays/${KUBEFLOW_PROJECT}
 - ../../../secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}
 - ../../../secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}
 - ../../../secrets/istio-system/overlays/${KUBEFLOW_PROJECT}
