@@ -29,8 +29,8 @@ jobs:
       GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
       GITHUB_OWNER: ${{ github.repository_owner }}
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      GITHUB_USER: ${{ secrets.GH_USER }}
-      GITHUB_EMAIL: ${{ secrets.GH_EMAIL }}
+      GITHUB_USER_NAME: ${{ secrets.GH_USER }}
+      GITHUB_USER_EMAIL: ${{ secrets.GH_EMAIL }}
       GRAFANA_AUTH: ${{ secrets.GRAFANA_AUTH }}
       GRAFANA_ORG_ID: ${{ secrets.GRAFANA_ORG_ID }}
       GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
@@ -49,11 +49,11 @@ jobs:
     - id: setup_git_config
       name: run setup git config
       env:
-        GITHUB_USER: ${{ secrets.GH_USER }}
-        GITHUB_EMAIL: ${{ secrets.GH_EMAIL }}
+        GITHUB_USER_NAME: ${{ secrets.GH_USER }}
+        GITHUB_USER_EMAIL: ${{ secrets.GH_EMAIL }}
       run: |
-        git config --global user.email "${GITHUB_EMAIL}"
-        git config --global user.name "${GITHUB_USER}"
+        git config --global user.email "${GITHUB_USER_EMAIL}"
+        git config --global user.name "${GITHUB_USER_NAME}"
     - id: setup_github_path
       name: run setup github path
       run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH

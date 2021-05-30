@@ -1,0 +1,73 @@
+on:
+  workflow_dispatch:
+    inputs:
+      cluster_name:
+        description: cluster_name
+        required: true
+      compute_project:
+        description: compute_project
+        required: true
+      iam_project:
+        description: iam_project
+        required: true
+      kubeflow_project:
+        description: kubeflow_project
+        required: true
+      network_project:
+        description: network_project
+        required: true
+      secret_project:
+        description: secret_project
+        required: true
+jobs:
+  terragrunt:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_ACTIONS_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      GITHUB_OWNER: ${{ github.repository_owner }}
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      GITHUB_USER_NAME: ${{ secrets.GH_USER }}
+      GITHUB_USER_EMAIL: ${{ secrets.GH_EMAIL }}
+    steps:
+      - id: checkout
+        name: run checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+      - id: setup_git_config
+        name: run setup git config
+        run: |
+          git config --global user.name "${GITHUB_USER_NAME}"
+          git config --global user.email "${GITHUB_USER_EMAIL}"
+      - id: setup_github_path
+        name: run setup github path
+        run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH
+      - id: run_event_start
+        name: run event start
+        run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "start"
+      - id: generate_kubeflow_cluster
+        name: run generate kubeflow cluster
+        env:
+          CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}
+          COMPUTE_PROJECT: ${{ github.event.inputs.compute_project }}
+          IAM_PROJECT: ${{ github.event.inputs.iam_project }}
+          KUBEFLOW_PROJECT: ${{ github.event.inputs.kubeflow_project }}
+          NETWORK_PROJECT: ${{ github.event.inputs.network_project }}
+          SECRET_PROJECT: ${{ github.event.inputs.secret_project }}
+        run: bash bash/kustomize/generate_kubeflow_cluster.sh
+      - id: run_git_commit
+        name: run git commit
+        run: |
+          git pull
+          git add kustomize
+          git commit -m "generated kubeflow cluster ${CLUSTER_NAME}"
+          git push
+      - id: run_event_success
+        name: run event success
+        if: ${{ success() }}
+        run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "success"
+      - id: run_event_failure
+        name: run event failure
+        if: ${{ failure() }}
+        run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "failure"

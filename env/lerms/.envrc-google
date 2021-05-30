@@ -99,6 +99,21 @@ function get_cluster_instance_group_self_links() {
       jq -s
 }
 
+function get_istio_ingressgateway_service() {
+    kubectl get service -n istio-system -o json istio-ingressgateway \
+      | jq
+}
+
+function get_istio_ingressgateway_service_type() {
+  get_istio_ingressgateway_service \
+    | jq -rc '.spec.type'
+}
+
+function get_istio_ingressgateway_loadbalancer_ip() {
+  get_istio_ingressgateway_service \
+    | jq -rc '.status.loadBalancer.ingress | first | .ip'
+}
+
 export PROJECTS=$(gcloud projects list --format=json | jq)
 export IAM_PROJECT=$(get_project_id_by_prefix "iam" "${PROJECTS}")
 export SECRET_PROJECT=$(get_project_id_by_prefix "secret" "${PROJECTS}")
@@ -116,8 +131,9 @@ export CLUSTER=$(get_cluster)
 export CLUSTER_NAME=$(get_cluster_name)
 export CLUSTER_INSTANCE_GROUPS=$(get_cluster_instance_groups)
 export CLUSTER_INSTANCE_GROUP_SELF_LINKS=$(get_cluster_instance_group_self_links)
-export OPENVPN_COMPUTE_INSTANCE=$(get_compute_instance_by_name_prefix "openvpn")
-export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP="10.0.15.249"
+export ISTIO_INGRESSGATEWAY_SERVICE=$(get_istio_ingressgateway_service)
+export ISTIO_INGRESSGATEWAY_SERVICE_TYPE=$(get_istio_ingressgateway_service_type)
+export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP=$(get_istio_ingressgateway_loadbalancer_ip)
 export GCP_BILLING_ACCOUNT_ID=""
 export GCP_ORGANIZATION_ID=""
 export GCP_ORGANIZATION="neuralnetes"

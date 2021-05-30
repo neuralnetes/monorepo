@@ -1,6 +1,6 @@
 #!/bin/bash
-GITHUB_USER="lerms"
-GITHUB_USER_WORKSPACE="${HOME}/go/src/github.com/neuralnetes/monorepo/env/${GITHUB_USER}"
+GITHUB_USER_NAME="lerms"
+GITHUB_USER_WORKSPACE="${HOME}/go/src/github.com/neuralnetes/monorepo/env/${GITHUB_USER_NAME}"
 source "${GITHUB_USER_WORKSPACE}/.envrc-base"
 source "${GITHUB_USER_WORKSPACE}/.envrc-github"
 source "${GITHUB_USER_WORKSPACE}/.envrc-google"

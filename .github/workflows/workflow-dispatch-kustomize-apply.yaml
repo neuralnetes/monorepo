@@ -1,0 +1,78 @@
+on:
+  workflow_dispatch:
+    inputs:
+      cluster_name:
+        description: cluster_name
+        required: true
+      cluster_location:
+        description: cluster_location
+        required: true
+      cluster_project:
+        description: cluster_project
+        required: true
+      kustomize_path:
+        description: kustomize_path
+        required: true
+jobs:
+  terragrunt:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_ACTIONS_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      GITHUB_USER_NAME: ${{ secrets.GH_USER }}
+      GITHUB_USER_EMAIL: ${{ secrets.GH_EMAIL }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    steps:
+      - id: checkout
+        name: run checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+      - id: setup_git_config
+        name: run setup git config
+        run: |
+          git config --global user.email "${GITHUB_USER_EMAIL}"
+          git config --global user.name "${GITHUB_USER_NAME}"
+      - id: setup_github_path
+        name: run setup github path
+        run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH
+      - id: run_event_start
+        name: run event start
+        run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "start"
+      - id: setup_kubectl
+        name: run setup kubectl
+        run: bash bash/kustomize/setup_kubectl.sh
+      - id: setup_kustomize
+        name: run setup kustomize
+        run: bash bash/kustomize/setup_kustomize.sh
+      - id: setup_gcloud
+        name: run setup gcloud
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+          export_default_credentials: true
+      - id: setup_kubectx
+        name: run setup kubectx
+        env:
+          CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}
+          CLUSTER_PROJECT: ${{ github.event.inputs.cluster_project }}
+          CLUSTER_LOCATION: ${{ github.event.inputs.cluster_location }}
+        run: |
+          gcloud container clusters get-credentials "${CLUSTER_NAME}" \
+            --project="{CLUSTER_PROJECT}" \
+            --zone="{CLUSTER_LOCATION}"
+      - id: run_kustomize_apply
+        name: run kustomize apply
+        env:
+          KUSTOMIZE_PATH: ${{ github.event.inputs.kustomize_path }}
+        run: |
+          kustomize build --load-restrictor LoadRestrictionsNone "${KUSTOMIZE_PATH}" \
+            | kubectl apply -f -
+      - id: run_event_success
+        name: run event success
+        if: ${{ success() }}
+        run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "success"
+      - id: run_event_failure
+        name: run event failure
+        if: ${{ failure() }}
+        run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "failure"
