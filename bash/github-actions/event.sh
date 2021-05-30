@@ -6,12 +6,14 @@ TEXT=$(
   jq -n \
     --arg logs "${GCS_TERRAFORM_REMOTE_STATE_BUCKET_LOGS}" \
     --arg env "${GCS_TERRAFORM_REMOTE_STATE_BUCKET_ENV}" \
+    --arg run "${GITHUB_ACTIONS_RUN_URL}" \
     --arg status "${STATUS}" \
     '{
       "type": "github_actions",
       "data": {
         "status": $status,
         "logs": $logs,
+        "run": $run,
         "env": $env
       }
     }'
