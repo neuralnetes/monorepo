@@ -100,6 +100,29 @@ spec:
       version: latest
 EOF
 
+# auth
+cat <<EOF > "kustomize/manifests/secrets/auth/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
+namespace: auth
+resources:
+- ../../base
+patchesStrategicMerge:
+- patch-external-secret.yaml
+EOF
+
+cat <<EOF > "kustomize/manifests/secrets/auth/overlays/${KUBEFLOW_PROJECT}/patch-external-secret.yaml"
+apiVersion: kubernetes-client.io/v1
+kind: ExternalSecret
+metadata:
+  name: service-account-key
+spec:
+  backendType: gcpSecretsManager
+  projectId: ${SECRET_PROJECT}
+  data:
+    - key: ${KUBEFLOW_PROJECT}-auth-service-account-key
+      name: key.json
+      version: latest
+EOF
+
 cat <<EOF > "kustomize/manifests/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 namespace: cert-manager
 resources:
