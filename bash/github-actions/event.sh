@@ -25,9 +25,7 @@ export SLACK_WEBHOOK_DATA=$(
       "text": ($text | tostring)
     }'
 )
-cat "${GITHUB_ENV}"
-echo "${GITHUB_ENV}"
-echo "${GITHUB_ENV}" > "${GITHUB_WORKSPACE}/env.txt"
+env > "${GITHUB_WORKSPACE}/env.txt"
 gsutil cp "${GITHUB_WORKSPACE}/logs.txt" "${GCS_TERRAFORM_REMOTE_STATE_BUCKET_LOGS}"
 gsutil cp "${GITHUB_WORKSPACE}/env.txt" "${GCS_TERRAFORM_REMOTE_STATE_BUCKET_ENV}"
 bash "${GITHUB_WORKSPACE}/bash/slack/webhook.sh"
