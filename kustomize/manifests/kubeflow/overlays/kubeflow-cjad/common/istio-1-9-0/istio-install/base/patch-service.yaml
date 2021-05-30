@@ -5,7 +5,5 @@ metadata:
   namespace: istio-system
   annotations:
     external-dns.alpha.kubernetes.io/hostname: 'kubeflow.kubeflow-cjad.network-cjad.neuralnetes.com.'
-    networking.gke.io/load-balancer-type: 'Internal'
 spec:
   type: LoadBalancer
-  loadBalancerIP: 10.0.15.249
