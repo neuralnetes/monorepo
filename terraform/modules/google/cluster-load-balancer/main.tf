@@ -53,8 +53,11 @@ resource "google_compute_instance_group_named_port" "https" {
 }
 
 module "load_balancer" {
-  source            = "github.com/terraform-google-modules/terraform-google-lb-http//?ref=v5.1.0"
-  project           = data.google_compute_network.network.project
+  source = "github.com/terraform-google-modules/terraform-google-lb-http//?ref=v5.1.0"
+  # load balancer must be created in the same project as the cluster
+  #  HTTP response code 400
+  # "Cross project referencing is not allowed for this resource."
+  project           = data.google_container_cluster.cluster.project
   name              = var.name
   ssl               = true
   private_key       = tls_private_key.cert.private_key_pem
