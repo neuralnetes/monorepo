@@ -100,7 +100,6 @@ spec:
     - key: ${KUBEFLOW_PROJECT}-cert-manager-service-account-key
       name: key.json
       version: latest
-      isBinary: true
 EOF
 
 # auth
@@ -124,7 +123,6 @@ spec:
     - key: ${KUBEFLOW_PROJECT}-auth-service-account-key
       name: key.json
       version: latest
-      isBinary: true
 EOF
 
 cat <<EOF > "kustomize/manifests/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
