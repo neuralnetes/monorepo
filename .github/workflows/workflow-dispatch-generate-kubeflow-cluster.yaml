@@ -23,12 +23,13 @@ jobs:
   terragrunt:
     runs-on: ubuntu-latest
     env:
+      GCP_WORKSPACE_DOMAIN_NAME: ${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}
       GITHUB_ACTIONS_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       GITHUB_OWNER: ${{ github.repository_owner }}
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       GITHUB_USER_NAME: ${{ secrets.GH_USER }}
       GITHUB_USER_EMAIL: ${{ secrets.GH_EMAIL }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     steps:
       - id: checkout
         name: run checkout
