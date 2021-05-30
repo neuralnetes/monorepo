@@ -20,38 +20,38 @@ jobs:
       GITHUB_USER_EMAIL: ${{ secrets.GH_EMAIL }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     steps:
-      - id: checkout
+      - id: run_checkout
         name: run checkout
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.GH_TOKEN }}
-      - id: setup_git_config
+      - id: run_setup_git_config
         name: run setup git config
         run: |
           git config --global user.email "${GITHUB_USER_EMAIL}"
           git config --global user.name "${GITHUB_USER_NAME}"
-      - id: setup_github_path
+      - id: run_setup_github_path
         name: run setup github path
         run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH
       - id: run_event_start
         name: run event start
         run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "start"
-      - id: setup_kubectl
+      - id: run_setup_kubectl
         name: run setup kubectl
         run: bash bash/kustomize/setup_kubectl.sh
-      - id: setup_kustomize
+      - id: run_setup_kustomize
         name: run setup kustomize
         run: bash bash/kustomize/setup_kustomize.sh
-      - id: setup_flux
+      - id: run_setup_flux
         name: run setup flux
         run: bash bash/kustomize/setup_flux.sh
-      - id: setup_gcloud
+      - id: run_setup_gcloud
         name: run setup gcloud
         uses: google-github-actions/setup-gcloud@master
         with:
           service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
           export_default_credentials: true
-      - id: setup_kubectx
+      - id: run_setup_kubectx
         name: run setup kubectx
         env:
           CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}
