@@ -6,6 +6,7 @@ module "cloud-dns" {
   name                               = each.value["name"]
   domain                             = each.value["domain"]
   private_visibility_config_networks = each.value["private_visibility_config_networks"]
+  recordsets                         = each.value["recordsets"]
 }
 
 locals {

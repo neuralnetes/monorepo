@@ -31,60 +31,24 @@ locals {
 }
 
 inputs = {
-  cloud_dns = [
-    //    {
-    //      project_id = dependency.network_project.outputs.project_id
-    //      type       = "private"
-    //      name       = replace("private-${dependency.network_project.outputs.project_id}-${local.gcp_workspace_domain_name}", ".", "-")
-    //      domain     = "${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}."
-    //      private_visibility_config_networks = [
-    //        dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_self_link
-    //      ]
-    //    },
-    {
-      project_id = dependency.network_project.outputs.project_id
-      type       = "public"
-      name       = replace("public-${dependency.network_project.outputs.project_id}-${local.gcp_workspace_domain_name}", ".", "-")
-      domain     = "${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}."
-      private_visibility_config_networks = [
-        dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_self_link
-      ]
-    },
-    //    {
-    //      project_id = dependency.network_project.outputs.project_id
-    //      type       = "private"
-    //      name       = replace("private-${dependency.kubeflow_project.outputs.project_id}-${dependency.network_project.outputs.project_id}-${local.gcp_workspace_domain_name}", ".", "-")
-    //      domain     = "${dependency.kubeflow_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}."
-    //      private_visibility_config_networks = [
-    //        dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_self_link
-    //      ]
-    //    },
-    {
-      project_id = dependency.network_project.outputs.project_id
-      type       = "public"
-      name       = replace("public-${dependency.kubeflow_project.outputs.project_id}-${dependency.network_project.outputs.project_id}-${local.gcp_workspace_domain_name}", ".", "-")
-      domain     = "${dependency.kubeflow_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}."
-      private_visibility_config_networks = [
-        dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_self_link
-      ]
-    },
-    //    {
-    //      project_id = dependency.network_project.outputs.project_id
-    //      type       = "private"
-    //      name       = replace("private-${dependency.compute_project.outputs.project_id}-${dependency.network_project.outputs.project_id}-${local.gcp_workspace_domain_name}", ".", "-")
-    //      domain     = "${dependency.compute_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}."
-    //      private_visibility_config_networks = [
-    //        dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_self_link
-    //      ]
-    //    },
-    {
-      project_id = dependency.network_project.outputs.project_id
-      type       = "public"
-      name       = replace("public-${dependency.compute_project.outputs.project_id}-${dependency.network_project.outputs.project_id}-${local.gcp_workspace_domain_name}", ".", "-")
-      domain     = "${dependency.compute_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}."
-      private_visibility_config_networks = [
-        dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_self_link
-      ]
-    },
-  ]
+  cloud_dns = flatten([
+    [
+      for domain in [
+        "${local.gcp_workspace_domain_name}",
+        "${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}",
+        "${dependency.compute_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}",
+        "${dependency.kubeflow_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}",
+      ] :
+      {
+        project_id = dependency.network_project.outputs.project_id
+        type       = "public"
+        name       = replace(domain, ".", "-")
+        domain     = "${domain}."
+        private_visibility_config_networks = [
+          dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_self_link
+        ]
+        recordsets = []
+      }
+    ]
+  ])
 }
