@@ -34,7 +34,6 @@ inputs = {
   cloud_dns = flatten([
     [
       for domain in [
-        "${local.gcp_workspace_domain_name}",
         "${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}",
         "${dependency.compute_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}",
         "${dependency.kubeflow_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}",
@@ -42,12 +41,21 @@ inputs = {
       {
         project_id = dependency.network_project.outputs.project_id
         type       = "public"
-        name       = replace(domain, ".", "-")
+        name       = "public-${replace(domain, ".", "-")}"
         domain     = "${domain}."
         private_visibility_config_networks = [
           dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_self_link
         ]
-        recordsets = []
+        recordsets = [
+          {
+            name = "www"
+            type = "CNAME"
+            ttl  = 300
+            records = [
+              "${domain}."
+            ]
+          }
+        ]
       }
     ]
   ])
