@@ -1,0 +1,11 @@
+namespace: flux-system
+resources:
+- ../../base
+- ../../../external-secrets/overlays/kubeflow-ikdr
+- ../../../external-dns/overlays/kubeflow-ikdr
+- ../../../secrets/cert-manager/overlays/kubeflow-ikdr
+- ../../../secrets/kubeflow/overlays/kubeflow-ikdr
+- ../../../secrets/istio-system/overlays/kubeflow-ikdr
+- ../../../kubeflow/overlays/kubeflow-ikdr
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml

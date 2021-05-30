@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: istio-ingressgateway
+  namespace: istio-system
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: 'kubeflow.kubeflow-ikdr.network-ikdr.neuralnetes.com.'
+    networking.gke.io/load-balancer-type: 'Internal'
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 10.0.15.249
