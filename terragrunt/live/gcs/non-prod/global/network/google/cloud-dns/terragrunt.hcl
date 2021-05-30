@@ -42,11 +42,13 @@ inputs = {
     //      ]
     //    },
     {
-      project_id                         = dependency.network_project.outputs.project_id
-      type                               = "public"
-      name                               = replace("public-${dependency.network_project.outputs.project_id}-${local.gcp_workspace_domain_name}", ".", "-")
-      domain                             = "${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}."
-      private_visibility_config_networks = []
+      project_id = dependency.network_project.outputs.project_id
+      type       = "public"
+      name       = replace("public-${dependency.network_project.outputs.project_id}-${local.gcp_workspace_domain_name}", ".", "-")
+      domain     = "${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}."
+      private_visibility_config_networks = [
+        dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_self_link
+      ]
     },
     //    {
     //      project_id = dependency.network_project.outputs.project_id
@@ -58,11 +60,13 @@ inputs = {
     //      ]
     //    },
     {
-      project_id                         = dependency.network_project.outputs.project_id
-      type                               = "public"
-      name                               = replace("public-${dependency.kubeflow_project.outputs.project_id}-${dependency.network_project.outputs.project_id}-${local.gcp_workspace_domain_name}", ".", "-")
-      domain                             = "${dependency.kubeflow_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}."
-      private_visibility_config_networks = []
+      project_id = dependency.network_project.outputs.project_id
+      type       = "public"
+      name       = replace("public-${dependency.kubeflow_project.outputs.project_id}-${dependency.network_project.outputs.project_id}-${local.gcp_workspace_domain_name}", ".", "-")
+      domain     = "${dependency.kubeflow_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}."
+      private_visibility_config_networks = [
+        dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_self_link
+      ]
     },
     //    {
     //      project_id = dependency.network_project.outputs.project_id
@@ -74,11 +78,13 @@ inputs = {
     //      ]
     //    },
     {
-      project_id                         = dependency.network_project.outputs.project_id
-      type                               = "public"
-      name                               = replace("public-${dependency.compute_project.outputs.project_id}-${dependency.network_project.outputs.project_id}-${local.gcp_workspace_domain_name}", ".", "-")
-      domain                             = "${dependency.compute_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}."
-      private_visibility_config_networks = []
+      project_id = dependency.network_project.outputs.project_id
+      type       = "public"
+      name       = replace("public-${dependency.compute_project.outputs.project_id}-${dependency.network_project.outputs.project_id}-${local.gcp_workspace_domain_name}", ".", "-")
+      domain     = "${dependency.compute_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}."
+      private_visibility_config_networks = [
+        dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_self_link
+      ]
     },
   ]
 }

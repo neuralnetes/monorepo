@@ -5,7 +5,7 @@ module "cloud-dns" {
   type                               = each.value["type"]
   name                               = each.value["name"]
   domain                             = each.value["domain"]
-  private_visibility_config_networks = each.value["type"] == "private" ? each.value["private_visibility_config_networks"] : null
+  private_visibility_config_networks = each.value["private_visibility_config_networks"]
 }
 
 locals {
