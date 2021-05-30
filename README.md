@@ -5,7 +5,7 @@
 [![.github/workflows/workflow-dispatch-terragrunt.yaml](https://github.com/neuralnetes/monorepo/actions/workflows/workflow-dispatch-terragrunt.yaml/badge.svg)](https://github.com/neuralnetes/monorepo/actions/workflows/workflow-dispatch-terragrunt.yaml)
 
 ```shell script
-./bash/github-actions/workflow_dispatch_terragrunt.sh
+bash bash/github-actions/workflow_dispatch_terragrunt.sh
 ```
 
 would trigger a `workflow_dispatch` event with this request
