@@ -56,8 +56,8 @@ jobs:
           CLUSTER_LOCATION: ${{ github.event.inputs.cluster_location }}
         run: |
           gcloud container clusters get-credentials "${CLUSTER_NAME}" \
-            --project="{CLUSTER_PROJECT}" \
-            --zone="{CLUSTER_LOCATION}"
+            --project="${CLUSTER_PROJECT}" \
+            --zone="${CLUSTER_LOCATION}"
       - id: run_kustomize_apply
         name: run kustomize apply
         env:
