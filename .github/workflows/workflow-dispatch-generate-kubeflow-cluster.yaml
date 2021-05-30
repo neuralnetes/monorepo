@@ -75,7 +75,7 @@ jobs:
           fi
       - id: run_workflow_dispatch_kustomize_build_kubectl_apply
         name: run workflow dispatch kustomize build kubectl apply
-        if: ${{ env.RUN_WORKFLOW_DISPATCH_KUSTOMIZE_BUILD_KUBECTL_APPLY == "true" }}
+        if: ${{ env.RUN_WORKFLOW_DISPATCH_KUSTOMIZE_BUILD_KUBECTL_APPLY == 'true' }}
         env:
           CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}
           CLUSTER_LOCATION: ${{ github.event.inputs.cluster_location }}
