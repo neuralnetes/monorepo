@@ -20,3 +20,19 @@ would trigger a `workflow_dispatch` event with this request
   }
 }
 ```
+
+#### debug
+
+copy github event json message posted in slack `#github` channel
+
+```shell script
+EVENT="$(pbpaste)"
+bash bash/github-actions/debug.sh "${EVENT}"
+```
+
+an explicit example without `pbpaste` would look like ...
+
+```shell script
+EVENT='{"type":"github_actions","data":{"status":"failure","logs":"gs://terraform-neuralnetes/2baf3faf06a907054af376aaac71e0a2789ce860/logs.txt","run":"https://github.com/neuralnetes/monorepo/actions/runs/889505371","env":"gs://terraform-neuralnetes/2baf3faf06a907054af376aaac71e0a2789ce860/env.txt"}}'
+bash bash/github-actions/debug.sh "${EVENT}"
+```
