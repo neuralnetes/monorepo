@@ -103,7 +103,7 @@ spec:
   template:
     data:
       key.json: |
-        <%= JSON.stringify(JSON.parse(data.raw))).toString("base64") %>
+        <%= JSON.stringify(JSON.parse(data.raw)).toString("base64") %>
 EOF
 
 # auth
@@ -130,7 +130,7 @@ spec:
   template:
     data:
       key.json: |
-        <%= JSON.stringify(JSON.parse(data.raw))).toString("base64") %>
+        <%= JSON.stringify(JSON.parse(data.raw)).toString("base64") %>
 EOF
 
 cat <<EOF > "kustomize/manifests/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
