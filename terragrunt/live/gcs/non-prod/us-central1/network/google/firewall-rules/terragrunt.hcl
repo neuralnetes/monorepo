@@ -59,7 +59,6 @@ inputs = {
       direction   = "INGRESS"
       priority    = 1000
       ranges = [
-        "0.0.0.0/0",
         "192.168.0.0/28"
       ]
       source_service_accounts = null
