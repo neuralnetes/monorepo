@@ -79,7 +79,8 @@ inputs = {
       ]
       node_pools_tags = {
         all = [
-          dependency.tags.outputs.tags_map["private"]
+          dependency.tags.outputs.tags_map["private"],
+          dependency.tags.outputs.tags_map["public_restricted"]
         ]
       }
       node_pools_oauth_scopes = {
