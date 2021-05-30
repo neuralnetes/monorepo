@@ -3,5 +3,6 @@ output "brands_map" {
 }
 
 output "clients_map" {
-  value = google_iap_client.clients
+  value     = google_iap_client.clients
+  sensitive = true
 }

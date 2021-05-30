@@ -3,42 +3,42 @@
     "description": "datetime",
     "name": "datetime",
     "type": "DATETIME",
-    "mode": "Required"
+    "mode": "REQUIRED"
   },
   {
     "description": "open",
     "name": "open",
     "type": "NUMERIC",
-    "mode": "Required"
+    "mode": "REQUIRED"
   },
   {
     "description": "high",
     "name": "high",
     "type": "NUMERIC",
-    "mode": "Required"
+    "mode": "REQUIRED"
   },
   {
     "description": "low",
     "name": "low",
     "type": "NUMERIC",
-    "mode": "Required"
+    "mode": "REQUIRED"
   },
   {
     "description": "close",
     "name": "close",
     "type": "NUMERIC",
-    "mode": "Required"
+    "mode": "REQUIRED"
   },
   {
     "description": "volume",
     "name": "volume",
     "type": "NUMERIC",
-    "mode": "Required"
+    "mode": "REQUIRED"
   },
   {
     "description": "ticker",
     "name": "ticker",
     "type": "STRING",
-    "mode": "Required"
+    "mode": "REQUIRED"
   }
 ]
