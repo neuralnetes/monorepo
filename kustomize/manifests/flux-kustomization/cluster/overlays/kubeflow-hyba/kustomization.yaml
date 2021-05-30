@@ -3,6 +3,7 @@ resources:
 - ../../base
 - ../../../external-secrets/overlays/kubeflow-hyba
 - ../../../external-dns/overlays/kubeflow-hyba
+- ../../../secrets/auth/overlays/kubeflow-hyba
 - ../../../secrets/cert-manager/overlays/kubeflow-hyba
 - ../../../secrets/kubeflow/overlays/kubeflow-hyba
 - ../../../secrets/istio-system/overlays/kubeflow-hyba
