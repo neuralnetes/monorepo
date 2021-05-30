@@ -10,9 +10,6 @@ on:
       cluster_project:
         description: cluster_project
         required: true
-      kustomize_path:
-        description: kustomize_path
-        required: true
 jobs:
   terragrunt:
     runs-on: ubuntu-latest
@@ -64,7 +61,7 @@ jobs:
       - id: run_kustomize_apply
         name: run kustomize apply
         env:
-          KUSTOMIZE_PATH: ${{ github.event.inputs.kustomize_path }}
+          KUSTOMIZE_PATH: ${{ github.workspace }}/kustomize/manifests/deploy/overlays/${{ github.event.inputs.cluster_project }}
         run: |
           kustomize build --load-restrictor LoadRestrictionsNone "${KUSTOMIZE_PATH}" \
             | kubectl apply -f -

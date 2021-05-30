@@ -3,6 +3,7 @@ request_json=$(
   jq -n \
     --arg ref "${GITHUB_REF}" \
     --arg cluster_name "${CLUSTER_NAME}" \
+    --arg cluster_location "${CLUSTER_LOCATION}" \
     --arg compute_project "${COMPUTE_PROJECT}" \
     --arg iam_project "${IAM_PROJECT}" \
     --arg kubeflow_project "${KUBEFLOW_PROJECT}" \

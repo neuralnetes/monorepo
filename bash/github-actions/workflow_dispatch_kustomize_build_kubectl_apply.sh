@@ -5,15 +5,13 @@ request_json=$(
     --arg cluster_name "${CLUSTER_NAME}" \
     --arg cluster_location "${CLUSTER_LOCATION}" \
     --arg cluster_project "${CLUSTER_PROJECT}" \
-    --arg kustomize_path "${KUSTOMIZE_PATH}" \
     '
       {
         "ref": $ref,
         "inputs": {
           "cluster_name": $cluster_name,
           "cluster_location": $cluster_location,
-          "cluster_project": $cluster_project,
-          "kustomize_path": $kustomize_path
+          "cluster_project": $cluster_project
         }
       }
     '

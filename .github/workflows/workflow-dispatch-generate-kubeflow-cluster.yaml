@@ -4,6 +4,9 @@ on:
       cluster_name:
         description: cluster_name
         required: true
+      cluster_location:
+        description: cluster_location
+        required: true
       compute_project:
         description: compute_project
         required: true
@@ -64,6 +67,13 @@ jobs:
           git add kustomize
           git commit -m "generated kubeflow cluster ${CLUSTER_NAME}"
           git push
+      - id: generate_kubeflow_cluster
+        name: run generate kubeflow cluster
+        env:
+          CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}
+          CLUSTER_LOCATION: ${{ github.event.inputs.cluster_location }}
+          CLUSTER_PROJECT: ${{ github.event.inputs.kubeflow_project }}
+        run: bash bash/github-actions/workflow_dispatch_kustomize_build_kubectl_apply.sh
       - id: run_event_success
         name: run event success
         if: ${{ success() }}
