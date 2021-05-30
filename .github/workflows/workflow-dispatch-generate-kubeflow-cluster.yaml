@@ -64,11 +64,18 @@ jobs:
         name: run git commit
         run: |
           git pull
-          git add kustomize
-          git commit -m "generated kubeflow cluster ${CLUSTER_NAME}"
-          git push
-      - id: generate_kubeflow_cluster
-        name: run generate kubeflow cluster
+          if [ -z "$(git status "${GITHUB_WORKSPACE}/kustomize" --porcelain)" ]; then
+            echo "${CLUSTER_NAME} is up to date."
+            echo "RUN_WORKFLOW_DISPATCH_KUSTOMIZE_BUILD_KUBECTL_APPLY=false" >> "${GITHUB_ENV}"
+          else
+            git add "${GITHUB_WORKSPACE}/kustomize"
+            git commit -m "generated kubeflow cluster ${CLUSTER_NAME}"
+            git push
+            echo "RUN_WORKFLOW_DISPATCH_KUSTOMIZE_BUILD_KUBECTL_APPLY=true" >> "${GITHUB_ENV}"
+          fi
+      - id: run_workflow_dispatch_kustomize_build_kubectl_apply
+        name: run workflow dispatch kustomize build kubectl apply
+        if: ${{ env.RUN_WORKFLOW_DISPATCH_KUSTOMIZE_BUILD_KUBECTL_APPLY == "true" }}
         env:
           CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}
           CLUSTER_LOCATION: ${{ github.event.inputs.cluster_location }}
