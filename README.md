@@ -22,7 +22,7 @@ would trigger a `workflow_dispatch` event with this request
 ```
 
 ```shell script
-bash  bash/github-actions/workflow_dispatch_generate_kubeflow_cluster.sh
+bash bash/github-actions/workflow_dispatch_generate_kubeflow_cluster.sh
 ```
 
 would trigger a `workflow_dispatch` event with this request
@@ -33,6 +33,7 @@ would trigger a `workflow_dispatch` event with this request
   "inputs": {
     "cluster_name": "cluster-cklf",
     "compute_project": "compute-cklf",
+    "cluster_location": "us-central1-a",
     "iam_project": "iam-cklf",
     "kubeflow_project": "kubeflow-cklf",
     "network_project": "network-cklf",
@@ -44,6 +45,30 @@ would trigger a `workflow_dispatch` event with this request
 the workflow will commit any generated code.
 
 pull to see changes.
+
+the workflow will run the following if required...
+
+```shell script
+bash bash/github-actions/workflow_dispatch_kustomize_build_kubectl_apply.sh
+```
+
+would trigger a `workflow_dispatch` event with this request
+
+```json
+{
+  "ref": "main",
+  "inputs": {
+    "cluster_name": "cluster-cklf",
+    "cluster_location": "us-central1-a",
+    "cluster_project": "kubeflow-cklf"
+  }
+}
+```
+
+the workflow will commit any generated code.
+
+pull to see changes.
+
 
 
 #### debug
