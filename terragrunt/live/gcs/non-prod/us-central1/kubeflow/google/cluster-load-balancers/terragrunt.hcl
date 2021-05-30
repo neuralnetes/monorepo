@@ -32,14 +32,14 @@ locals {
 
 inputs = {
   cluster_load_balancers = [
-    {
-      name              = "cluster-${dependency.random_string.outputs.result}"
-      cluster_project   = dependency.kubeflow_project.outputs.project_id
-      cluster_name      = dependency.container_clusters.outputs.container_clusters_map["cluster-${dependency.random_string.outputs.result}"].cluster_name
-      cluster_location  = "us-central1-a"
-      cert_dns_names    = ["*.${dependency.kubeflow_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}"]
-      cert_common_name  = "${dependency.kubeflow_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}"
-      cert_organization = local.gcp_workspace_domain_name
-    }
+    //    {
+    //      name              = "cluster-${dependency.random_string.outputs.result}"
+    //      cluster_project   = dependency.kubeflow_project.outputs.project_id
+    //      cluster_name      = dependency.container_clusters.outputs.container_clusters_map["cluster-${dependency.random_string.outputs.result}"].cluster_name
+    //      cluster_location  = "us-central1-a"
+    //      cert_dns_names    = ["*.${dependency.kubeflow_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}"]
+    //      cert_common_name  = "${dependency.kubeflow_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}"
+    //      cert_organization = local.gcp_workspace_domain_name
+    //    }
   ]
 }
