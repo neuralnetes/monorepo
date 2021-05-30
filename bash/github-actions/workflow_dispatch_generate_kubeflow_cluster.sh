@@ -15,6 +15,7 @@ request_json=$(
         "inputs": {
           "cluster_name": $cluster_name,
           "compute_project": $compute_project,
+          "cluster_location": $cluster_location,
           "iam_project": $iam_project,
           "kubeflow_project": $kubeflow_project,
           "network_project": $network_project,
