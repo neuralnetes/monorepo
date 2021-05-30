@@ -10,6 +10,10 @@ dependency "iam_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
 }
 
+dependency "terraform_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/project"
+}
+
 dependency "service_accounts" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
 }
@@ -56,6 +60,19 @@ locals {
 
 inputs = {
   project_iam_bindings = [
+    # terraform
+    {
+      name = "${dependency.terraform_project.outputs.project_id}-00"
+      bindings = {
+        for project_role in [
+          "roles/storage.admin"
+        ] :
+        project_role => [
+          "group:terraform@${local.gcp_workspace_domain_name}"
+        ]
+      }
+      project = dependency.kubeflow_project.outputs.project_id
+    },
     # kubeflow
     {
       name     = "${dependency.kubeflow_project.outputs.project_id}-00"
