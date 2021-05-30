@@ -4,7 +4,7 @@ metadata:
   name: letsencrypt-staging
 spec:
   acme:
-    email: bot+letencrypt-staging@
+    email: bot+letencrypt-staging@neuralnetes.com
     solvers:
       - dns01:
           clouddns:
