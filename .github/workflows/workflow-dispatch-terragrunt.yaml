@@ -70,11 +70,9 @@ jobs:
       with:
         service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
         export_default_credentials: true
-    - id: run_slack_webhook_terragrunt_start
-      name: run slack webhook terragrunt start
-      env:
-        SLACK_WEBHOOK_DATA: '{ "text": "terragrunt start: ${{ env.GITHUB_ACTIONS_RUN_URL }}" }'
-      run: bash "${GITHUB_WORKSPACE}/bash/slack/webhook.sh"
+    - id: run_event_start
+      name: run event start
+      run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "start"
     - id: terragrunt_command
       name: run terragrunt command
       run: |
@@ -86,11 +84,11 @@ jobs:
         )
         echo "command: ${command[@]}"
         "${command[@]}"
-    - id: run_post_success
-      name: run post success
+    - id: run_event_success
+      name: run event success
       if: ${{ success() }}
-      run: bash "${GITHUB_WORKSPACE}/bash/github-actions/post.sh" "success"
-    - id: run_post_failure
-      name: run post failure
+      run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "success"
+    - id: run_event_failure
+      name: run event failure
       if: ${{ failure() }}
-      run: bash "${GITHUB_WORKSPACE}/bash/github-actions/post.sh" "failure"
+      run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "failure"
