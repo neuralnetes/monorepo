@@ -61,15 +61,15 @@ jobs:
           gcloud container clusters get-credentials "${CLUSTER_NAME}" \
             --project="${CLUSTER_PROJECT}" \
             --zone="${CLUSTER_LOCATION}"
-      - id: run_kustomize_apply
-        name: run kustomize apply
+      - id: run_kustomize_build_kubectl_apply
+        name: run kustomize build kubectl apply
         env:
           KUSTOMIZE_PATH: ${{ github.workspace }}/kustomize/manifests/deploy/overlays/${{ github.event.inputs.cluster_project }}
         run: |
           kustomize build --load-restrictor LoadRestrictionsNone "${KUSTOMIZE_PATH}" \
             | kubectl apply -f -
       - id: run_flux_reconcile
-        name: run kustomize reconcile
+        name: run flux reconcile
         run: |
           kubectl get kustomization -n flux-system -o json \
             | jq -r '.items[] | select(.status.conditions | first | .status == "Unknown") | .metadata.name' \
