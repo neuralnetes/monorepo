@@ -62,6 +62,8 @@ jobs:
         run: bash bash/kustomize/generate_kubeflow_cluster.sh
       - id: run_git_commit
         name: run git commit
+        env:
+          CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}
         run: |
           git pull
           if [ -z "$(git status "${GITHUB_WORKSPACE}/kustomize" --porcelain)" ]; then
