@@ -21,6 +21,31 @@ would trigger a `workflow_dispatch` event with this request
 }
 ```
 
+```shell script
+bash  bash/github-actions/workflow_dispatch_generate_kubeflow_cluster.sh
+```
+
+would trigger a `workflow_dispatch` event with this request
+
+```json
+{
+  "ref": "main",
+  "inputs": {
+    "cluster_name": "cluster-cklf",
+    "compute_project": "compute-cklf",
+    "iam_project": "iam-cklf",
+    "kubeflow_project": "kubeflow-cklf",
+    "network_project": "network-cklf",
+    "secret_project": "secret-cklf"
+  }
+}
+```
+
+the workflow will commit any generated code.
+
+pull to see changes.
+
+
 #### debug
 
 copy github event json message posted in slack `#github` channel

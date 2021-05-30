@@ -114,6 +114,11 @@ function get_istio_ingressgateway_loadbalancer_ip() {
     | jq -rc '.status.loadBalancer.ingress | first | .ip'
 }
 
+function get_cluster_location() {
+  get_cluster \
+    | jq -rc '.zone'
+}
+
 export PROJECTS=$(gcloud projects list --format=json | jq)
 export IAM_PROJECT=$(get_project_id_by_prefix "iam" "${PROJECTS}")
 export SECRET_PROJECT=$(get_project_id_by_prefix "secret" "${PROJECTS}")
@@ -129,6 +134,9 @@ export SUBNETWORK_NAME=$(get_subnetwork_name)
 export SUBNETWORK_SELF_LINK=$(get_subnetwork_self_link)
 export CLUSTER=$(get_cluster)
 export CLUSTER_NAME=$(get_cluster_name)
+export CLUSTER_LOCATION=$(get_cluster_location)
+export CLUSTER_PROJECT="${KUBEFLOW_PROJECT}"
+export KUSTOMIZE_PATH="${GITHUB_WORKSPACE}/kustomize/manifests/deploy/overlays/${CLUSTER_PROJECT}"
 export CLUSTER_INSTANCE_GROUPS=$(get_cluster_instance_groups)
 export CLUSTER_INSTANCE_GROUP_SELF_LINKS=$(get_cluster_instance_group_self_links)
 export ISTIO_INGRESSGATEWAY_SERVICE=$(get_istio_ingressgateway_service)

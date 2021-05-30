@@ -1,4 +1,6 @@
 #!/bin/bash
-git clone https://github.com/tfutils/tfenv.git "${HOME}/.tfenv"
-ln -s "${HOME}/.tfenv/bin"/* "${HOME}/.local/bin"
-tfenv install
+curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" \
+  > "${GITHUB_WORKSPACE}/install_kustomize.sh"
+bash "${GITHUB_WORKSPACE}/install_kustomize.sh" "${HOME}/.local/bin"
+rm "${GITHUB_WORKSPACE}/install_kustomize.sh"
+kustomize version
