@@ -16,6 +16,29 @@ jobs:
     env:
       GITHUB_ACTIONS_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      ALLOW_INGRESS_OPENVPN_IP_RANGES: ${{ secrets.ALLOW_INGRESS_OPENVPN_IP_RANGES }}
+      GCP_BILLING_ACCOUNT_ID: ${{ secrets.GCP_BILLING_ACCOUNT_ID }}
+      GCP_ORGANIZATION: ${{ secrets.GCP_ORGANIZATION }}
+      GCP_ORGANIZATION_ID: ${{ secrets.GCP_ORGANIZATION_ID }}
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_WORKSPACE_DOMAIN_NAME: ${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}
+      GCS_TERRAFORM_REMOTE_STATE_BUCKET: ${{ secrets.GCS_TERRAFORM_REMOTE_STATE_BUCKET }}
+      GCS_TERRAFORM_REMOTE_STATE_LOCATION: ${{ secrets.GCS_TERRAFORM_REMOTE_STATE_LOCATION }}
+      GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
+      GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
+      GITHUB_OWNER: ${{ github.repository_owner }}
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      GITHUB_USER: ${{ secrets.GH_USER }}
+      GITHUB_EMAIL: ${{ secrets.GH_EMAIL }}
+      GRAFANA_AUTH: ${{ secrets.GRAFANA_AUTH }}
+      GRAFANA_ORG_ID: ${{ secrets.GRAFANA_ORG_ID }}
+      GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
+      TERRAGRUNT_CLI_FLAGS: ${{ toJSON(fromJSON(github.event.inputs.terragrunt_cli_flags)) }}
+      TERRAGRUNT_COMMAND: ${{ github.event.inputs.terragrunt_command }}
+      TERRAGRUNT_WORKING_DIR: ${{ github.workspace }}/${{ github.event.inputs.terragrunt_working_dir }}
+      TF_INPUT: false
+      TF_LOG: JSON
+      TF_LOG_PATH: ${{ github.workspace }}/logs.txt
     steps:
     - id: checkout
       name: run checkout
@@ -55,30 +78,6 @@ jobs:
       run: chmod +x ./webhook.sh && ./webhook.sh
     - id: terragrunt_command
       name: run terragrunt command
-      env:
-        ALLOW_INGRESS_OPENVPN_IP_RANGES: ${{ secrets.ALLOW_INGRESS_OPENVPN_IP_RANGES }}
-        GCP_BILLING_ACCOUNT_ID: ${{ secrets.GCP_BILLING_ACCOUNT_ID }}
-        GCP_ORGANIZATION: ${{ secrets.GCP_ORGANIZATION }}
-        GCP_ORGANIZATION_ID: ${{ secrets.GCP_ORGANIZATION_ID }}
-        GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-        GCP_WORKSPACE_DOMAIN_NAME: ${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}
-        GCS_TERRAFORM_REMOTE_STATE_BUCKET: ${{ secrets.GCS_TERRAFORM_REMOTE_STATE_BUCKET }}
-        GCS_TERRAFORM_REMOTE_STATE_LOCATION: ${{ secrets.GCS_TERRAFORM_REMOTE_STATE_LOCATION }}
-        GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
-        GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
-        GITHUB_OWNER: ${{ github.repository_owner }}
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        GITHUB_USER: ${{ secrets.GH_USER }}
-        GITHUB_EMAIL: ${{ secrets.GH_EMAIL }}
-        GRAFANA_AUTH: ${{ secrets.GRAFANA_AUTH }}
-        GRAFANA_ORG_ID: ${{ secrets.GRAFANA_ORG_ID }}
-        GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
-        TERRAGRUNT_CLI_FLAGS: ${{ toJSON(fromJSON(github.event.inputs.terragrunt_cli_flags)) }}
-        TERRAGRUNT_COMMAND: ${{ github.event.inputs.terragrunt_command }}
-        TERRAGRUNT_WORKING_DIR: ${{ github.workspace }}/${{ github.event.inputs.terragrunt_working_dir }}
-        TF_INPUT: false
-        TF_LOG: JSON
-        TF_LOG_PATH: ${{ github.workspace }}/logs.txt
       run: |
         terragrunt_cli_flags=($(echo "${TERRAGRUNT_CLI_FLAGS}" | jq -rc '@sh' | tr -d \'\"))
         command=(
@@ -94,14 +93,22 @@ jobs:
         SLACK_WEBHOOK_DATA: '{ "text": "terragrunt success: ${{ env.GITHUB_ACTIONS_RUN_URL }}" }'
       if: ${{ success() }}
       working-directory: ./bash/slack
-      run: chmod +x ./webhook.sh && ./webhook.sh && cat "${GITHUB_WORKSPACE}/logs.txt"
+      run: |
+        chmod +x ./webhook.sh && ./webhook.sh
+        cat "${GITHUB_ENV}" > "${GITHUB_WORKSPACE}/env.txt"
+        gsutil cp "${GITHUB_WORKSPACE}/logs.txt" "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/${GITHUB_SHA}/logs.txt"
+        gsutil cp "${GITHUB_WORKSPACE}/env.txt" "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/${GITHUB_SHA}/env.txt"
     - id: run_slack_webhook_terragrunt_failure
       name: run slack webhook terragrunt failure
       env:
         SLACK_WEBHOOK_DATA: '{ "text": "terragrunt failure: ${{ env.GITHUB_ACTIONS_RUN_URL }}" }'
       if: ${{ failure() }}
       working-directory: ./bash/slack
-      run: chmod +x ./webhook.sh && ./webhook.sh && cat "${GITHUB_WORKSPACE}/logs.txt"
+      run: |
+        chmod +x ./webhook.sh && ./webhook.sh
+        cat "${GITHUB_ENV}" > "${GITHUB_WORKSPACE}/env.txt"
+        gsutil cp "${GITHUB_WORKSPACE}/logs.txt" "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/${GITHUB_SHA}/logs.txt"
+        gsutil cp "${GITHUB_WORKSPACE}/env.txt" "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/${GITHUB_SHA}/env.txt"
     - id: logs
       name: logs
       run: |
