@@ -15,3 +15,5 @@ terragrunt-debug.tfvars.json
 tmp
 .obsidian
 .envrc
+env.txt
+logs.txt
