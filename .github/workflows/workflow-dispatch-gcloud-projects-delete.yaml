@@ -1,20 +1,46 @@
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      compute_project:
+        description: compute_project
+        required: true
+      data_project:
+        description: data_project
+        required: true
+      iam_project:
+        description: iam_project
+        required: true
+      kubeflow_project:
+        description: kubeflow_project
+        required: true
+      network_project:
+        description: network_project
+        required: true
+      secret_project:
+        description: secret_project
+        required: true
 jobs:
   gcloud_projects_delete:
     runs-on: ubuntu-latest
     steps:
-    - id: checkout
+    - id: run_checkout
       name: run checkout
       uses: actions/checkout@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-    - id: setup_gcloud
+    - id: run_setup_gcloud
       name: run setup gcloud
       uses: google-github-actions/setup-gcloud@master
       with:
         service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
         export_default_credentials: true
-    - id: gcloud_projects_delete
+    - id: run_gcloud_projects_delete
       name: run gcloud projects delete
-      run: chmod +x bash/gcloud/projects_delete.sh && ./bash/gcloud/projects_delete.sh
+      env:
+        COMPUTE_PROJECT: ${{ github.event.inputs.compute_project }}
+        DATA_PROJECT: ${{ github.event.inputs.data_project }}
+        IAM_PROJECT: ${{ github.event.inputs.iam_project }}
+        KUBEFLOW_PROJECT: ${{ github.event.inputs.kubeflow_project }}
+        NETWORK_PROJECT: ${{ github.event.inputs.network_project }}
+        SECRET_PROJECT: ${{ github.event.inputs.secret_project }}
+      run: bash bash/gcloud/projects_delete.sh

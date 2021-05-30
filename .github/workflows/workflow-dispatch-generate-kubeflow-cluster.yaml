@@ -34,23 +34,23 @@ jobs:
       GITHUB_USER_EMAIL: ${{ secrets.GH_EMAIL }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     steps:
-      - id: checkout
+      - id: run_checkout
         name: run checkout
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.GH_TOKEN }}
-      - id: setup_git_config
+      - id: run_setup_git_config
         name: run setup git config
         run: |
           git config --global user.name "${GITHUB_USER_NAME}"
           git config --global user.email "${GITHUB_USER_EMAIL}"
-      - id: setup_github_path
+      - id: run_setup_github_path
         name: run setup github path
         run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH
       - id: run_event_start
         name: run event start
         run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "start"
-      - id: generate_kubeflow_cluster
+      - id: run_generate_kubeflow_cluster
         name: run generate kubeflow cluster
         env:
           CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}

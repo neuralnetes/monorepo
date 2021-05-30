@@ -14,7 +14,7 @@ HOST_PROJECTS=(
   "${NETWORK_PROJECT}"
 )
 for project_id in "${HOST_PROJECTS[@]}"; do
-  . "${GITHUB_WORKSPACE}/bash/gcloud/gcloud_resource_manager_liens_delete.sh" "${project_id}"
+  bash "${GITHUB_WORKSPACE}/bash/gcloud/gcloud_resource_manager_liens_delete.sh" "${project_id}"
   gcloud projects delete "${project_id}" -q
 done
 
