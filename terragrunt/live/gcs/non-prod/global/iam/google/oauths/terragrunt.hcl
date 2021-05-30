@@ -34,7 +34,7 @@ inputs = {
   oauths = [
     {
       application_title = "dex"
-      support_email     = "oauth@${local.gcp_workspace_domain_name}"
+      support_email     = "terraform@${local.gcp_workspace_domain_name}"
       project           = dependency.iam_project.outputs.project_id
     }
   ]
