@@ -18,4 +18,4 @@ for project_id in "${HOST_PROJECTS[@]}"; do
   gcloud projects delete "${project_id}" -q
 done
 
-gsutil -m -q  rm -rf  "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/**/*"
+gsutil rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/**/*"

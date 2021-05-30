@@ -74,8 +74,7 @@ jobs:
       name: run slack webhook terragrunt start
       env:
         SLACK_WEBHOOK_DATA: '{ "text": "terragrunt start: ${{ env.GITHUB_ACTIONS_RUN_URL }}" }'
-      working-directory: ./bash/slack
-      run: chmod +x ./webhook.sh && ./webhook.sh
+      run: bash "${GITHUB_WORKSPACE}/bash/slack/webhook.sh"
     - id: terragrunt_command
       name: run terragrunt command
       run: |
@@ -87,29 +86,11 @@ jobs:
         )
         echo "command: ${command[@]}"
         "${command[@]}"
-    - id: run_slack_webhook_terragrunt_success
-      name: run slack webhook terragrunt success
-      env:
-        SLACK_WEBHOOK_DATA: '{ "text": "terragrunt success: ${{ env.GITHUB_ACTIONS_RUN_URL }}" }'
+    - id: run_post_success
+      name: run post success
       if: ${{ success() }}
-      working-directory: ./bash/slack
-      run: |
-        chmod +x ./webhook.sh && ./webhook.sh
-        cat "${GITHUB_ENV}" > "${GITHUB_WORKSPACE}/env.txt"
-        gsutil cp "${GITHUB_WORKSPACE}/logs.txt" "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/${GITHUB_SHA}/logs.txt"
-        gsutil cp "${GITHUB_WORKSPACE}/env.txt" "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/${GITHUB_SHA}/env.txt"
-    - id: run_slack_webhook_terragrunt_failure
-      name: run slack webhook terragrunt failure
-      env:
-        SLACK_WEBHOOK_DATA: '{ "text": "terragrunt failure: ${{ env.GITHUB_ACTIONS_RUN_URL }}" }'
+      run: bash "${GITHUB_WORKSPACE}/bash/github-actions/post.sh" "success"
+    - id: run_post_failure
+      name: run post failure
       if: ${{ failure() }}
-      working-directory: ./bash/slack
-      run: |
-        chmod +x ./webhook.sh && ./webhook.sh
-        cat "${GITHUB_ENV}" > "${GITHUB_WORKSPACE}/env.txt"
-        gsutil cp "${GITHUB_WORKSPACE}/logs.txt" "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/${GITHUB_SHA}/logs.txt"
-        gsutil cp "${GITHUB_WORKSPACE}/env.txt" "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/${GITHUB_SHA}/env.txt"
-    - id: logs
-      name: logs
-      run: |
-        cat "${GITHUB_WORKSPACE}/logs.txt"
+      run: bash "${GITHUB_WORKSPACE}/bash/github-actions/post.sh" "failure"
