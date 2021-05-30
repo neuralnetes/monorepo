@@ -42,6 +42,9 @@ jobs:
       - id: setup_kustomize
         name: run setup kustomize
         run: bash bash/kustomize/setup_kustomize.sh
+      - id: setup_flux
+        name: run setup flux
+        run: bash bash/kustomize/setup_flux.sh
       - id: setup_gcloud
         name: run setup gcloud
         uses: google-github-actions/setup-gcloud@master
@@ -65,6 +68,14 @@ jobs:
         run: |
           kustomize build --load-restrictor LoadRestrictionsNone "${KUSTOMIZE_PATH}" \
             | kubectl apply -f -
+      - id: run_flux_reconcile
+        name: run kustomize reconcile
+        run: |
+          kubectl get kustomization -n flux-system -o json \
+            | jq -r '.items[] | select(.status.conditions | first | .status == "Unknown") | .metadata.name' \
+            | while read -r kustomization_name; do
+                flux reconcile kustomization "${kustomization_name}"
+              done
       - id: run_event_success
         name: run event success
         if: ${{ success() }}
