@@ -4,4 +4,4 @@ metadata:
   name: config-domain
   namespace: knative-serving
 data:
-  kubeflow.kubeflow-cklf.network-cklf.neuralnetes.com: ""
+  kubeflow.kubeflow-cklf.network-cklf.: ""
