@@ -402,8 +402,8 @@ spec:
       protocol: HTTP
     hosts:
     - '*'
-    tls:
-      httpsRedirect: true
+#    tls:
+#      httpsRedirect: true
   - port:
       number: 443
       name: https
