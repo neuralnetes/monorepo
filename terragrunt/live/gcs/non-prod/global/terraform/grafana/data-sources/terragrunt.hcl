@@ -61,7 +61,9 @@ inputs = {
         client_email        = dependency.service_accounts.outputs.service_accounts_map["grafana-cloud"].email
       }
       secure_json_data = {
-        private_key = base64decode(dependency.service_account_keys.outputs.service_account_keys_map["grafana-cloud"].private_key)
+        private_key = jsonencode(jsondecode(base64decode(
+          dependency.service_account_keys.outputs.service_account_keys_map["grafana-cloud"].private_key
+        )))
       }
     }
   ]
