@@ -80,6 +80,8 @@ inputs = {
       secret_data = jsonencode({
         GOOGLE_CLIENT_ID     = dependency.oauths.outputs.clients_map["dex"].client_id
         GOOGLE_CLIENT_SECRET = dependency.oauths.outputs.clients_map["dex"].secret
+        GITHUB_CLIENT_ID     = get_env("GITHUB_CLIENT_ID")
+        GITHUB_CLIENT_SECRET = get_env("GITHUB_CLIENT_SECRET")
       })
       replication = {
         automatic = true

@@ -142,6 +142,14 @@ spec:
       name: GOOGLE_CLIENT_SECRET
       property: GOOGLE_CLIENT_SECRET
       version: latest
+    - key: ${KUBEFLOW_PROJECT}-auth-dex-secrets
+      name: GITHUB_CLIENT_ID
+      property: GITHUB_CLIENT_ID
+      version: latest
+    - key: ${KUBEFLOW_PROJECT}-auth-dex-secrets
+      name: GITHUB_CLIENT_SECRET
+      property: GITHUB_CLIENT_SECRET
+      version: latest
 EOF
 
 cat <<EOF > "kustomize/manifests/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -334,6 +342,14 @@ data:
         # Dex's issuer URL + "/callback"
         redirectURI: http://${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
         serviceAccountFilePath: /etc/dex/service-account-key/key.json
+    - type: github
+      id: github
+      name: GitHub
+      config:
+        # Connector config values starting with a "$" will read from the environment.
+        clientID: \$GITHUB_CLIENT_ID
+        clientSecret: \$GITHUB_CLIENT_SECRET
+        redirectURI: http://${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
 
 EOF
 
