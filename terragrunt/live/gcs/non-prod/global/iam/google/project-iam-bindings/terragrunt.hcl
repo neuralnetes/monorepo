@@ -6,6 +6,10 @@ include {
   path = find_in_parent_folders()
 }
 
+dependency "artifact_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/artifact/google/project"
+}
+
 dependency "iam_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
 }
@@ -60,6 +64,24 @@ locals {
 
 inputs = {
   project_iam_bindings = [
+    # artifact
+    {
+      name     = "${dependency.artifact_project.outputs.project_id}-01"
+      bindings = local.terraform_group_default_bindings
+      project  = dependency.artifact_project.outputs.project_id
+    },
+    {
+      name = "${dependency.artifact_project.outputs.project_id}-01"
+      bindings = {
+        for project_role in [
+          "roles/artifactregistry.writer"
+        ] :
+        project_role => [
+          "group:terraform@${local.gcp_workspace_domain_name}",
+        ]
+      }
+      project = dependency.artifact_project.outputs.project_id
+    },
     # terraform
     {
       name = "${dependency.terraform_project.outputs.project_id}-00"
@@ -71,7 +93,7 @@ inputs = {
           "group:terraform@${local.gcp_workspace_domain_name}"
         ]
       }
-      project = dependency.kubeflow_project.outputs.project_id
+      project = dependency.terraform_project.outputs.project_id
     },
     # kubeflow
     {
