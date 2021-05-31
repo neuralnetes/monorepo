@@ -134,6 +134,26 @@ function get_dns_name_servers() {
     | jq '[.[] | .nameServers[]] | unique'
 }
 
+function get_artifact_registry_repository_id() {
+  gcloud artifacts repositories list \
+    --project="${ARTIFACT_PROJECT}" \
+    --format=json \
+    | jq -rc 'first | .name | split("/") | last'
+}
+
+function get_artifact_registry_repository_location() {
+  gcloud artifacts repositories list \
+    --project="${ARTIFACT_PROJECT}" \
+    --format=json \
+    | jq -rc 'first | .name | split("/") | .[3]'
+}
+
+function get_artifact_registry_repository_url() {
+  REPOSITORY_ID=$(get_artifact_registry_repository_id)
+  REPOSITORY_LOCATION=$(get_artifact_registry_repository_location)
+  echo "${REPOSITORY_LOCATION}-docker.pkg.dev/${ARTIFACT_PROJECT}/${CLUSTER_NAME}"
+}
+
 export PROJECTS=$(gcloud projects list --format=json | jq)
 export IAM_PROJECT=$(get_project_id_by_prefix "iam" "${PROJECTS}")
 export SECRET_PROJECT=$(get_project_id_by_prefix "secret" "${PROJECTS}")
@@ -141,6 +161,7 @@ export NETWORK_PROJECT=$(get_project_id_by_prefix "network" "${PROJECTS}")
 export DATA_PROJECT=$(get_project_id_by_prefix "data" "${PROJECTS}")
 export COMPUTE_PROJECT=$(get_project_id_by_prefix "compute" "${PROJECTS}")
 export KUBEFLOW_PROJECT=$(get_project_id_by_prefix "kubeflow" "${PROJECTS}")
+export ARTIFACT_PROJECT=$(get_project_id_by_prefix "artifact" "${PROJECTS}")
 export NETWORK=$(get_network)
 export NETWORK_NAME=$(get_network_name)
 export NETWORK_SELF_LINK=$(get_network_self_link)
@@ -160,6 +181,7 @@ export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP=$(get_istio_ingressgateway_loadbala
 export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_DNS=$(get_istio_ingressgateway_loadbalancer_dns)
 export CLOUD_DNS_MANAGED_ZONES=$(get_dns_managed_zones)
 export CLOUD_DNS_NAME_SERVERS=$(get_dns_name_servers)
+export ARTIFACT_REGISTRY_REPOSITORY_URL=$(get_artifact_registry_repository_url)
 export GCP_BILLING_ACCOUNT_ID=""
 export GCP_ORGANIZATION_ID=""
 export GCP_ORGANIZATION="neuralnetes"
