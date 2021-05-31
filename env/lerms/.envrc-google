@@ -114,6 +114,11 @@ function get_istio_ingressgateway_loadbalancer_ip() {
     | jq -rc '.status.loadBalancer.ingress | first | .ip'
 }
 
+function get_istio_ingressgateway_loadbalancer_dns() {
+  get_istio_ingressgateway_service |
+    jq -rc '.metadata.annotations["external-dns.alpha.kubernetes.io/hostname"]'
+}
+
 function get_cluster_location() {
   get_cluster \
     | jq -rc '.zone'
@@ -142,6 +147,7 @@ export CLUSTER_INSTANCE_GROUP_SELF_LINKS=$(get_cluster_instance_group_self_links
 export ISTIO_INGRESSGATEWAY_SERVICE=$(get_istio_ingressgateway_service)
 export ISTIO_INGRESSGATEWAY_SERVICE_TYPE=$(get_istio_ingressgateway_service_type)
 export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP=$(get_istio_ingressgateway_loadbalancer_ip)
+export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_DNS=$(get_istio_ingressgateway_loadbalancer_dns)
 export GCP_BILLING_ACCOUNT_ID=""
 export GCP_ORGANIZATION_ID=""
 export GCP_ORGANIZATION="neuralnetes"

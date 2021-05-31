@@ -42,11 +42,6 @@ would trigger a `workflow_dispatch` event with this request
 }
 ```
 
-the workflow will commit any generated code.
-
-pull to see changes.
-
-the workflow will run the following if required...
 
 ```shell script
 bash bash/github-actions/workflow_dispatch_kustomize_build_kubectl_apply.sh
@@ -64,12 +59,6 @@ would trigger a `workflow_dispatch` event with this request
   }
 }
 ```
-
-the workflow will commit any generated code.
-
-pull to see changes.
-
-
 
 #### debug
 

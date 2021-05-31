@@ -16,7 +16,6 @@ jobs:
     env:
       GITHUB_ACTIONS_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      ALLOW_INGRESS_OPENVPN_IP_RANGES: ${{ secrets.ALLOW_INGRESS_OPENVPN_IP_RANGES }}
       ALLOW_INGRESS_PUBLIC_RESTRICTED_IP_RANGES: ${{ secrets.ALLOW_INGRESS_PUBLIC_RESTRICTED_IP_RANGES }}
       GCP_BILLING_ACCOUNT_ID: ${{ secrets.GCP_BILLING_ACCOUNT_ID }}
       GCP_ORGANIZATION: ${{ secrets.GCP_ORGANIZATION }}
