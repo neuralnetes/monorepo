@@ -66,7 +66,7 @@ inputs = {
   project_iam_bindings = [
     # artifact
     {
-      name     = "${dependency.artifact_project.outputs.project_id}-01"
+      name     = "${dependency.artifact_project.outputs.project_id}-00"
       bindings = local.terraform_group_default_bindings
       project  = dependency.artifact_project.outputs.project_id
     },
