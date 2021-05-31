@@ -38,7 +38,7 @@ metadata:
   name: istio-certs
 spec:
   dnsNames:
-  - 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
+  - '${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
 EOF
 
 cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -98,12 +98,9 @@ spec:
   projectId: ${SECRET_PROJECT}
   data:
     - key: ${KUBEFLOW_PROJECT}-cert-manager-service-account-key
-      name: raw
+      name: key.json
+      property: key.json
       version: latest
-  template:
-    data:
-      key.json: |
-        <%= JSON.stringify(JSON.parse(data.raw["key.json"])).toString("base64") %>
 EOF
 
 # auth
@@ -125,12 +122,26 @@ spec:
   projectId: ${SECRET_PROJECT}
   data:
     - key: ${KUBEFLOW_PROJECT}-auth-service-account-key
-      name: raw
+      name: key.json
+      property: key.json
       version: latest
-  template:
-    data:
-      key.json: |
-        <%= JSON.stringify(JSON.parse(data.raw["key.json"])).toString("base64") %>
+---
+apiVersion: kubernetes-client.io/v1
+kind: ExternalSecret
+metadata:
+  name: dex-secrets
+spec:
+  backendType: gcpSecretsManager
+  projectId: ${SECRET_PROJECT}
+  data:
+    - key: ${KUBEFLOW_PROJECT}-auth-dex-secrets
+      name: GOOGLE_CLIENT_ID
+      property: GOOGLE_CLIENT_ID
+      version: latest
+    - key: ${KUBEFLOW_PROJECT}-auth-dex-secrets
+      name: GOOGLE_CLIENT_SECRET
+      property: GOOGLE_CLIENT_SECRET
+      version: latest
 EOF
 
 cat <<EOF > "kustomize/manifests/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -232,7 +243,7 @@ metadata:
   name: istio-ingressgateway
   namespace: istio-system
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: 'kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}.'
+    external-dns.alpha.kubernetes.io/hostname: '${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}.'
 spec:
   type: LoadBalancer
 EOF
@@ -321,8 +332,8 @@ data:
         clientSecret: \$GOOGLE_CLIENT_SECRET
 
         # Dex's issuer URL + "/callback"
-        redirectURI: https://kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
-        serviceAccountFilePath: /etc/dex/dex-secret/key.json
+        redirectURI: https://${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
+        serviceAccountFilePath: /etc/dex/service-account-key/key.json
 
 EOF
 
@@ -344,8 +355,8 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /etc/dex/cfg
-        - name: dex-secrets
-          mountPath: /etc/dex/dex-secrets
+        - name: service-account-key
+          mountPath: /etc/dex/service-account-key
         envFrom:
           - secretRef:
               name: dex-oidc-client
@@ -358,15 +369,18 @@ spec:
           items:
           - key: config.yaml
             path: config.yaml
-      - name: dex-secrets
+      - name: service-account-key
         secret:
-          secretName: dex-secrets
+          secretName: service-account-key
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio/kustomization.yaml"
 namespace: auth
 resources:
 - ../../../../../../../kubeflow/base/common/dex/overlays/istio
+patchesStrategicMerge:
+- patch-config.yaml
+- patch-deployment.yaml
 EOF
 
 # knative-serving-install
@@ -377,7 +391,7 @@ metadata:
   name: config-domain
   namespace: knative-serving
 data:
-  kubeflow.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}: ""
+  ${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}: ""
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base/kustomization.yaml"
