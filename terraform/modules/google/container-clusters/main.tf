@@ -19,6 +19,8 @@ module "container-clusters" {
   service_account            = each.value["service_account"]
   subnetwork                 = each.value["subnetwork"]
   zones                      = each.value["zones"]
+  grant_registry_access      = each.value["grant_registry_access"]
+  registry_project_ids       = each.value["registry_project_ids"]
 }
 
 locals {

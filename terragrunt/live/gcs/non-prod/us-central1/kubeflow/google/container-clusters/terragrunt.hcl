@@ -6,6 +6,10 @@ include {
   path = find_in_parent_folders()
 }
 
+dependency "artifact_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/artifact/google/project"
+}
+
 dependency "kubeflow_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
 }
@@ -96,7 +100,11 @@ inputs = {
       create_service_account   = true
       service_account          = ""
       //      service_account          = dependency.service_accounts.outputs.service_accounts_map["container-cluster"].email
-      zones = ["us-central1-a"]
+      zones                 = ["us-central1-a"]
+      grant_registry_access = true
+      registry_project_ids = [
+        dependency.artifact_project.outputs.project_id
+      ]
     }
   ]
 }
