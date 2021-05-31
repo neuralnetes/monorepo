@@ -13,6 +13,7 @@ export TERRAGRUNT_CLI_FLAGS='[
     "--terragrunt-include-dir global/terraform/**/**",
     "--terragrunt-include-dir global/iam/**/**",
     "--terragrunt-include-dir global/secret/**/**",
+    "--terragrunt-include-dir global/artifact/**/**",
     "--terragrunt-include-dir global/network/**/**",
     "--terragrunt-include-dir global/data/**/**",
     "--terragrunt-include-dir global/compute/**/**",
