@@ -4,12 +4,6 @@ export ZSH_THEME="robbyrussell"
 export plugins=(
     direnv
     git
-    kubectl
-    terraform
-    pyenv
-    python
-    gcloud
-    aws
     fzf
     nvm
 )
