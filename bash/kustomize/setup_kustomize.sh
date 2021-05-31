@@ -3,4 +3,3 @@ curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack
   > "${GITHUB_WORKSPACE}/install_kustomize.sh"
 bash "${GITHUB_WORKSPACE}/install_kustomize.sh" "${HOME}/.local/bin"
 rm "${GITHUB_WORKSPACE}/install_kustomize.sh"
-kustomize version
