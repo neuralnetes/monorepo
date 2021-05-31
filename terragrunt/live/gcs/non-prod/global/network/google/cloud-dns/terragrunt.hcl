@@ -32,16 +32,17 @@ locals {
 
 inputs = {
   cloud_dns = flatten([
+    for domain in [
+      "${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}",
+      "${dependency.compute_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}",
+      "${dependency.kubeflow_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}",
+    ] :
     [
-      for domain in [
-        "${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}",
-        "${dependency.compute_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}",
-        "${dependency.kubeflow_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}",
-      ] :
+      for type in ["private", "public"] :
       {
         project_id = dependency.network_project.outputs.project_id
-        type       = "public"
-        name       = "public-${replace(domain, ".", "-")}"
+        type       = type
+        name       = "${type}-${replace(domain, ".", "-")}"
         domain     = "${domain}."
         private_visibility_config_networks = [
           dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_self_link
