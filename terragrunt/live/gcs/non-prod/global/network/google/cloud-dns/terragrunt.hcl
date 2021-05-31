@@ -38,7 +38,7 @@ inputs = {
       "${dependency.kubeflow_project.outputs.project_id}.${dependency.network_project.outputs.project_id}.${local.gcp_workspace_domain_name}",
     ] :
     [
-      for type in ["private", "public"] :
+      for type in ["public"] :
       {
         project_id = dependency.network_project.outputs.project_id
         type       = type
