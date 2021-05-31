@@ -71,11 +71,13 @@ jobs:
       - id: run_flux_reconcile
         name: run flux reconcile
         run: |
-          kubectl get kustomization -n flux-system -o json \
-            | jq -r '.items[] | select(.status.conditions | first | .status == "Unknown") | .metadata.name' \
+          kubectl get kustomizations.kustomize.toolkit.fluxcd.io -n flux-system -o json \
+            | jq -rc --arg github_sha "${GITHUB_SHA}" \
+            '.items[] | select(.status.conditions | first | .message | split("/") | last != $github_sha) | .metadata.name' \
             | while read -r kustomization_name; do
-                flux reconcile kustomization "${kustomization_name}"
+                flux reconcile kustomization "${kustomization_name}" &
               done
+          wait
       - id: run_event_success
         name: run event success
         if: ${{ success() }}
