@@ -45,6 +45,9 @@ jobs:
       uses: actions/checkout@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
+    - id: run_event_start
+      name: run event start
+      run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "start"
     - id: setup_git_config
       name: run setup git config
       env:
@@ -70,9 +73,6 @@ jobs:
       with:
         service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
         export_default_credentials: true
-    - id: run_event_start
-      name: run event start
-      run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "start"
     - id: terragrunt_command
       name: run terragrunt command
       run: |
