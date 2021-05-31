@@ -4,6 +4,6 @@ metadata:
   name: istio-ingressgateway
   namespace: istio-system
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: 'kubeflow.kubeflow-cklf.network-cklf.neuralnetes.com.'
+    external-dns.alpha.kubernetes.io/hostname: 'kubeflow-cklf.network-cklf.neuralnetes.com.'
 spec:
   type: LoadBalancer
