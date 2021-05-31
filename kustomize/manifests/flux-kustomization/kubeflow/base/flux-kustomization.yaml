@@ -407,16 +407,3 @@ spec:
   sourceRef:
     name: monorepo
     kind: GitRepository
----
-# user namespace
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: user-namespace
-spec:
-  interval: 1m
-  path: kustomize/manifests/kubeflow/base/common/user-namespace/base
-  prune: true
-  sourceRef:
-    name: monorepo
-    kind: GitRepository
