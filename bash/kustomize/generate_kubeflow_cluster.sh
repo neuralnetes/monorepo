@@ -315,7 +315,7 @@ data:
       format: text
     oauth2:
       skipApprovalScreen: true
-    enablePasswordDB: true
+    enablePasswordDB: false
     staticClients:
     # https://github.com/dexidp/dex/pull/1664
     - idEnv: OIDC_CLIENT_ID
@@ -332,7 +332,7 @@ data:
         clientSecret: \$GOOGLE_CLIENT_SECRET
 
         # Dex's issuer URL + "/callback"
-        redirectURI: https://${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
+        redirectURI: http://${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
         serviceAccountFilePath: /etc/dex/service-account-key/key.json
 
 EOF
