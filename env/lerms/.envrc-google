@@ -124,6 +124,16 @@ function get_cluster_location() {
     | jq -rc '.zone'
 }
 
+function get_dns_managed_zones() {
+  gcloud dns managed-zones list --project="${NETWORK_PROJECT}" --format=json \
+    | jq
+}
+
+function get_dns_name_servers() {
+  get_dns_managed_zones \
+    | jq '[.[] | .nameServers[]] | unique'
+}
+
 export PROJECTS=$(gcloud projects list --format=json | jq)
 export IAM_PROJECT=$(get_project_id_by_prefix "iam" "${PROJECTS}")
 export SECRET_PROJECT=$(get_project_id_by_prefix "secret" "${PROJECTS}")
@@ -148,6 +158,8 @@ export ISTIO_INGRESSGATEWAY_SERVICE=$(get_istio_ingressgateway_service)
 export ISTIO_INGRESSGATEWAY_SERVICE_TYPE=$(get_istio_ingressgateway_service_type)
 export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP=$(get_istio_ingressgateway_loadbalancer_ip)
 export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_DNS=$(get_istio_ingressgateway_loadbalancer_dns)
+export CLOUD_DNS_MANAGED_ZONES=$(get_dns_managed_zones)
+export CLOUD_DNS_NAME_SERVERS=$(get_dns_name_servers)
 export GCP_BILLING_ACCOUNT_ID=""
 export GCP_ORGANIZATION_ID=""
 export GCP_ORGANIZATION="neuralnetes"
