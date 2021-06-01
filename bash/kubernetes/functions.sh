@@ -22,3 +22,7 @@ function get_istio_ingressgateway_loadbalancer_dns() {
 function setup_kubectx() {
   bash "${GITHUB_WORKSPACE}/bash/kubernetes/setup_kubectx.sh"
 }
+
+function get_cluster_kustomize_path() {
+  echo "${GITHUB_WORKSPACE}/kustomize/manifests/deploy/overlays/${CLUSTER_PROJECT}"
+}
