@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-domain
+  namespace: knative-serving
+data:
+  kubeflow-gvjs.network-gvjs.neuralnetes.com: ""
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-deployment
+  namespace: knative-serving
+data:
+  registriesSkippingTagResolving: us-central1-docker.pkg.dev
