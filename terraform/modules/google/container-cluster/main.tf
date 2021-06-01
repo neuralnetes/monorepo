@@ -22,6 +22,4 @@ module "container-cluster" {
   subnetwork                 = var.subnetwork
   service_account            = var.service_account
   zones                      = var.zones
-  grant_registry_access      = var.grant_registry_access
-  registry_project_ids       = var.registry_project_ids
 }
