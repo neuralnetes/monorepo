@@ -2,6 +2,7 @@
 request_json=$(
   jq -n \
     --arg ref "${GITHUB_REF}" \
+    --arg artifact "${ARTIFACT_PROJECT}" \
     --arg compute_project "${COMPUTE_PROJECT}" \
     --arg data_project "${DATA_PROJECT}" \
     --arg iam_project "${IAM_PROJECT}" \
@@ -12,6 +13,7 @@ request_json=$(
       {
         "ref": $ref,
         "inputs": {
+          "artifact_project": $artifact_project,
           "compute_project": $compute_project,
           "data_project": $data_project,
           "iam_project": $iam_project,

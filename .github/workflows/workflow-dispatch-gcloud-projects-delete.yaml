@@ -1,6 +1,9 @@
 on:
   workflow_dispatch:
     inputs:
+      artifact_project:
+        description: artifact_project
+        required: true
       compute_project:
         description: compute_project
         required: true
@@ -40,6 +43,7 @@ jobs:
     - id: run_gcloud_projects_delete
       name: run gcloud projects delete
       env:
+        ARTIFACT_PROJECT: ${{ github.event.inputs.artifact_project }}
         COMPUTE_PROJECT: ${{ github.event.inputs.compute_project }}
         DATA_PROJECT: ${{ github.event.inputs.data_project }}
         IAM_PROJECT: ${{ github.event.inputs.iam_project }}

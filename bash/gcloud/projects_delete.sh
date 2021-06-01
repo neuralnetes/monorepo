@@ -1,5 +1,6 @@
 #!/bin/bash
 SERVICE_PROJECTS=(
+  "${ARTIFACT_PROJECT}"
   "${IAM_PROJECT}"
   "${SECRET_PROJECT}"
   "${DATA_PROJECT}"
