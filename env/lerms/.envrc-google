@@ -148,10 +148,15 @@ function get_artifact_registry_repository_location() {
     | jq -rc 'first | .name | split("/") | .[3]'
 }
 
+function get_artifact_registry_repository_host() {
+  REPOSITORY_LOCATION=$(get_artifact_registry_repository_location)
+  echo "${REPOSITORY_LOCATION}-docker.pkg.dev"
+}
+
 function get_artifact_registry_repository_url() {
   REPOSITORY_ID=$(get_artifact_registry_repository_id)
   REPOSITORY_LOCATION=$(get_artifact_registry_repository_location)
-  echo "${REPOSITORY_LOCATION}-docker.pkg.dev/${ARTIFACT_PROJECT}/${CLUSTER_NAME}"
+  echo "${REPOSITORY_LOCATION}-docker.pkg.dev/${ARTIFACT_PROJECT}/${REPOSITORY_ID}"
 }
 
 export PROJECTS=$(gcloud projects list --format=json | jq)
@@ -182,6 +187,7 @@ export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_DNS=$(get_istio_ingressgateway_loadbal
 export CLOUD_DNS_MANAGED_ZONES=$(get_dns_managed_zones)
 export CLOUD_DNS_NAME_SERVERS=$(get_dns_name_servers)
 export ARTIFACT_REGISTRY_REPOSITORY_URL=$(get_artifact_registry_repository_url)
+export ARTIFACT_REGISTRY_REPOSITORY_HOST=$(get_artifact_registry_repository_host)
 export GCP_BILLING_ACCOUNT_ID=""
 export GCP_ORGANIZATION_ID=""
 export GCP_ORGANIZATION="neuralnetes"
