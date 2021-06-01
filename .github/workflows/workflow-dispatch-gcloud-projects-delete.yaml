@@ -31,9 +31,6 @@ jobs:
       uses: actions/checkout@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-    - id: run_event_start
-      name: run event start
-      run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "start"
     - id: run_setup_gcloud
       name: run setup gcloud
       uses: google-github-actions/setup-gcloud@master
@@ -51,11 +48,3 @@ jobs:
         NETWORK_PROJECT: ${{ github.event.inputs.network_project }}
         SECRET_PROJECT: ${{ github.event.inputs.secret_project }}
       run: bash bash/gcloud/projects_delete.sh
-    - id: run_event_success
-      name: run event success
-      if: ${{ success() }}
-      run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "success"
-    - id: run_event_failure
-      name: run event failure
-      if: ${{ failure() }}
-      run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "failure"
