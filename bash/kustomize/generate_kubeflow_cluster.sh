@@ -292,7 +292,7 @@ EOF
 #EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/oidc-authservice/base/kustomization.yaml"
-namespace: kubeflow
+namespace: istio-system
 resources:
 - ../../../../../../kubeflow/base/common/oidc-authservice/base
 EOF
