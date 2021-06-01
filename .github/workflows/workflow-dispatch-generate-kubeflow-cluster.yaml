@@ -59,7 +59,7 @@ jobs:
           KUBEFLOW_PROJECT: ${{ github.event.inputs.kubeflow_project }}
           NETWORK_PROJECT: ${{ github.event.inputs.network_project }}
           SECRET_PROJECT: ${{ github.event.inputs.secret_project }}
-        run: bash bash/kustomize/generate_kubeflow_cluster.sh
+        run: bash bash/kubernetes/generate_kubeflow_cluster.sh
       - id: run_git_commit
         name: run git commit
         env:

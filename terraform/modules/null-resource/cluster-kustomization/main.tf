@@ -1,7 +1,7 @@
 resource "null_resource" "kustomize_cluster" {
   provisioner "local-exec" {
     interpreter = ["bash", "-c"]
-    command     = "cd ${var.github_workspace} && bash/kustomize/kustomize_cluster.sh"
+    command     = "cd ${var.github_workspace} && bash/kubernetes/kustomize_cluster.sh"
     environment = {
       CLUSTER_NAME                          = var.cluster_name
       GITHUB_OWNER                          = var.github_owner

@@ -1,3 +1,0 @@
-#!/bin/bash
-export FLUX2_VERSION="v0.13.4"
-export KUBEFLOW_VERSION="v1.3.0"

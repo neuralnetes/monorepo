@@ -1,10 +1,15 @@
 #!/bin/bash
 GITHUB_USER_NAME="lerms"
 GITHUB_USER_WORKSPACE="${HOME}/go/src/github.com/neuralnetes/monorepo/env/${GITHUB_USER_NAME}"
-source "${GITHUB_USER_WORKSPACE}/.envrc-base"
-source "${GITHUB_USER_WORKSPACE}/.envrc-github"
-source "${GITHUB_USER_WORKSPACE}/.envrc-google"
-source "${GITHUB_USER_WORKSPACE}/.envrc-grafana"
-source "${GITHUB_USER_WORKSPACE}/.envrc-kustomize"
-source "${GITHUB_USER_WORKSPACE}/.envrc-terragrunt"
-source "${GITHUB_USER_WORKSPACE}/.envrc-secret"
+ENVRC_PATHS=(
+  "${GITHUB_USER_WORKSPACE}/.envrc-base"
+  "${GITHUB_USER_WORKSPACE}/.envrc-github"
+  "${GITHUB_USER_WORKSPACE}/.envrc-google"
+  "${GITHUB_USER_WORKSPACE}/.envrc-grafana"
+  "${GITHUB_USER_WORKSPACE}/.envrc-kubernetes"
+  "${GITHUB_USER_WORKSPACE}/.envrc-terragrunt"
+  "${GITHUB_USER_WORKSPACE}/.envrc-secret"
+)
+for envrc in "${ENVRC_PATHS[@]}"; do
+  source "${envrc}"
+done

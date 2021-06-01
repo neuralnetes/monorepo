@@ -38,13 +38,13 @@ jobs:
         run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH
       - id: run_setup_kubectl
         name: run setup kubectl
-        run: bash bash/kustomize/setup_kubectl_linux.sh
+        run: bash bash/kubernetes/setup_kubectl_linux.sh
       - id: run_setup_kustomize
         name: run setup kustomize
-        run: bash bash/kustomize/setup_kustomize.sh
+        run: bash bash/kubernetes/setup_kustomize.sh
       - id: run_setup_flux
         name: run setup flux
-        run: bash bash/kustomize/setup_flux.sh
+        run: bash bash/kubernetes/setup_flux.sh
       - id: run_setup_gcloud
         name: run setup gcloud
         uses: google-github-actions/setup-gcloud@master
@@ -57,15 +57,15 @@ jobs:
           CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}
           CLUSTER_PROJECT: ${{ github.event.inputs.cluster_project }}
           CLUSTER_LOCATION: ${{ github.event.inputs.cluster_location }}
-        run: bash "${GITHUB_WORKSPACE}/bash/kustomize/setup_kubectx.sh"
+        run: bash "${GITHUB_WORKSPACE}/bash/kubernetes/setup_kubectx.sh"
       - id: run_kustomize_build_kubectl_apply
         name: run kustomize build kubectl apply
         env:
           KUSTOMIZE_PATH: ${{ github.workspace }}/kustomize/manifests/deploy/overlays/${{ github.event.inputs.cluster_project }}
-        run: bash "${GITHUB_WORKSPACE}/bash/kustomize/kustomize_build_kubectl_apply.sh"
+        run: bash "${GITHUB_WORKSPACE}/bash/kubernetes/kustomize_build_kubectl_apply.sh"
       - id: run_flux_reconcile
         name: run flux reconcile
-        run: bash "${GITHUB_WORKSPACE}/bash/kustomize/flux_reconcile.sh"
+        run: bash "${GITHUB_WORKSPACE}/bash/kubernetes/flux_reconcile.sh"
       - id: run_event_success
         name: run event success
         if: ${{ success() }}

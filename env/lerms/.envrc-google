@@ -1,164 +1,5 @@
 #!/bin/bash
-function get_project_id_by_prefix() {
-    PROJECT_ID_PREFIX=$1
-    PROJECTS=$2
-    echo "${PROJECTS}" \
-      | jq -rc  --arg project_id_prefix "${PROJECT_ID_PREFIX}" \
-      '.[] | select(.projectId | startswith($project_id_prefix)) | .projectId'
-}
-
-function get_billing_account_id() {
-    gcloud beta billing accounts list --format=json \
-      | jq -rc '[.[] | .name ] | sort | first'
-}
-
-function get_cluster() {
-  gcloud container clusters list \
-    --project="${KUBEFLOW_PROJECT}" \
-    --format=json \
-    | jq 'first'
-}
-
-function get_cluster_name() {
-  get_cluster \
-    | jq -rc '.name'
-}
-
-function get_network() {
-  gcloud compute networks list \
-    --project="${NETWORK_PROJECT}" \
-    --format=json \
-    | jq 'first'
-}
-
-function get_network_name() {
-  get_network \
-    | jq -rc '.name'
-}
-
-function get_network_self_link() {
-  get_network \
-    | jq -rc '.selfLink'
-}
-
-function get_subnetwork() {
-  gcloud compute networks subnets list \
-    --project="${NETWORK_PROJECT}" \
-    --format=json \
-    | jq 'first'
-}
-
-function get_subnetwork_name() {
-  get_subnetwork \
-    | jq -rc '.name'
-}
-
-function get_subnetwork_self_link() {
-  get_subnetwork \
-    | jq -rc '.selfLink'
-}
-
-function get_cluster_credentials() {
-  gcloud container clusters get-credentials \
-    --project="${KUBEFLOW_PROJECT}" \
-    --zone=us-central1-a \
-    "${CLUSTER_NAME}"
-}
-
-function get_compute_instance_by_name_prefix() {
-  PREFIX=$1
-  gcloud compute instances list --format=json \
-    --project="${COMPUTE_PROJECT}" \
-    | jq --arg prefix "${PREFIX}" '.[] | select(.name | startswith($prefix)) | first'
-}
-#
-#function get_istio_ingressgateway_load_balancer_compute_address() {
-#  PREFIX="istio-ingressgateway"
-#  gcloud compute addresses list --format=json \
-#    --project="${NETWORK_PROJECT}" \
-#    | jq --arg prefix "${PREFIX}" '.[] | select(.name | startswith($prefix))'
-#}
-#
-#function get_istio_ingressgateway_load_balancer_ip() {
-#  get_istio_ingressgateway_load_balancer_compute_address \
-#    | jq -rc '.address'
-#}
-
-function get_cluster_instance_groups() {
-    gcloud compute instance-groups list \
-      --project="${KUBEFLOW_PROJECT}" \
-      --format=json \
-      | jq --arg cluster_name "${CLUSTER_NAME}" \
-        '.[] | select(.name | contains($cluster_name))' \
-      | jq -s
-}
-
-function get_cluster_instance_group_self_links() {
-    get_cluster_instance_groups |
-      jq '.[] | .selfLink' |
-      jq -s
-}
-
-function get_istio_ingressgateway_service() {
-    kubectl get service -n istio-system -o json istio-ingressgateway \
-      | jq
-}
-
-function get_istio_ingressgateway_service_type() {
-  get_istio_ingressgateway_service \
-    | jq -rc '.spec.type'
-}
-
-function get_istio_ingressgateway_loadbalancer_ip() {
-  get_istio_ingressgateway_service \
-    | jq -rc '.status.loadBalancer.ingress | first | .ip'
-}
-
-function get_istio_ingressgateway_loadbalancer_dns() {
-  get_istio_ingressgateway_service |
-    jq -rc '.metadata.annotations["external-dns.alpha.kubernetes.io/hostname"]'
-}
-
-function get_cluster_location() {
-  get_cluster \
-    | jq -rc '.zone'
-}
-
-function get_dns_managed_zones() {
-  gcloud dns managed-zones list --project="${NETWORK_PROJECT}" --format=json \
-    | jq
-}
-
-function get_dns_name_servers() {
-  get_dns_managed_zones \
-    | jq '[.[] | .nameServers[]] | unique'
-}
-
-function get_artifact_registry_repository_id() {
-  gcloud artifacts repositories list \
-    --project="${ARTIFACT_PROJECT}" \
-    --format=json \
-    | jq -rc 'first | .name | split("/") | last'
-}
-
-function get_artifact_registry_repository_location() {
-  gcloud artifacts repositories list \
-    --project="${ARTIFACT_PROJECT}" \
-    --format=json \
-    | jq -rc 'first | .name | split("/") | .[3]'
-}
-
-function get_artifact_registry_repository_host() {
-  REPOSITORY_LOCATION=$(get_artifact_registry_repository_location)
-  echo "${REPOSITORY_LOCATION}-docker.pkg.dev"
-}
-
-function get_artifact_registry_repository_url() {
-  REPOSITORY_ID=$(get_artifact_registry_repository_id)
-  REPOSITORY_LOCATION=$(get_artifact_registry_repository_location)
-  echo "${REPOSITORY_LOCATION}-docker.pkg.dev/${ARTIFACT_PROJECT}/${REPOSITORY_ID}"
-}
-
+source "${GITHUB_WORKSPACE}/bash/gcloud/functions.sh"
 export PROJECTS=$(gcloud projects list --format=json | jq)
 export IAM_PROJECT=$(get_project_id_by_prefix "iam" "${PROJECTS}")
 export SECRET_PROJECT=$(get_project_id_by_prefix "secret" "${PROJECTS}")
@@ -180,16 +21,12 @@ export CLUSTER_PROJECT="${KUBEFLOW_PROJECT}"
 export KUSTOMIZE_PATH="${GITHUB_WORKSPACE}/kustomize/manifests/deploy/overlays/${CLUSTER_PROJECT}"
 export CLUSTER_INSTANCE_GROUPS=$(get_cluster_instance_groups)
 export CLUSTER_INSTANCE_GROUP_SELF_LINKS=$(get_cluster_instance_group_self_links)
-export ISTIO_INGRESSGATEWAY_SERVICE=$(get_istio_ingressgateway_service)
-export ISTIO_INGRESSGATEWAY_SERVICE_TYPE=$(get_istio_ingressgateway_service_type)
-export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP=$(get_istio_ingressgateway_loadbalancer_ip)
-export ISTIO_INGRESSGATEWAY_LOAD_BALANCER_DNS=$(get_istio_ingressgateway_loadbalancer_dns)
 export CLOUD_DNS_MANAGED_ZONES=$(get_dns_managed_zones)
 export CLOUD_DNS_NAME_SERVERS=$(get_dns_name_servers)
 export ARTIFACT_REGISTRY_REPOSITORY_URL=$(get_artifact_registry_repository_url)
 export ARTIFACT_REGISTRY_REPOSITORY_HOST=$(get_artifact_registry_repository_host)
-export GCP_BILLING_ACCOUNT_ID=""
-export GCP_ORGANIZATION_ID=""
+#export GCP_BILLING_ACCOUNT_ID=$(get_billing_account_id)
+#export GCP_ORGANIZATION_ID=$(get_organization_id)
 export GCP_ORGANIZATION="neuralnetes"
 export GCP_PROJECT_ID="terraform-${GCP_ORGANIZATION}"
 export GCP_WORKSPACE_DOMAIN_NAME="${GCP_ORGANIZATION}.com"
