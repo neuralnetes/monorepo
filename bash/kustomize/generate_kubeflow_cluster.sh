@@ -320,10 +320,10 @@ data:
     enablePasswordDB: false
     staticClients:
     # https://github.com/dexidp/dex/pull/1664
-    - idEnv: OIDC_CLIENT_ID
+    - id: kubeflow-oidc-authservice
       redirectURIs: ["/login/oidc"]
       name: 'Dex Login Application'
-      secretEnv: OIDC_CLIENT_SECRET
+      secret: pUBnBOY80SnXgjibTYM9ZWNzY2xreNGQok
     connectors:
     - type: google
       id: google
@@ -334,7 +334,7 @@ data:
         clientSecret: \$GOOGLE_CLIENT_SECRET
 
         # Dex's issuer URL + "/callback"
-        redirectURI: http://auth.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
+        redirectURI: http://home.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
         serviceAccountFilePath: /etc/dex/service-account-key/key.json
     - type: github
       id: github
@@ -343,7 +343,7 @@ data:
         # Connector config values starting with a "$" will read from the environment.
         clientID: \$GITHUB_CLIENT_ID
         clientSecret: \$GITHUB_CLIENT_SECRET
-        redirectURI: http://auth.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
+        redirectURI: http://home.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
 
 EOF
 
