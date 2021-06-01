@@ -50,4 +50,5 @@ jobs:
         KUBEFLOW_PROJECT: ${{ github.event.inputs.kubeflow_project }}
         NETWORK_PROJECT: ${{ github.event.inputs.network_project }}
         SECRET_PROJECT: ${{ github.event.inputs.secret_project }}
+        GCS_TERRAFORM_REMOTE_STATE_BUCKET: ${{ secrets.GCS_TERRAFORM_REMOTE_STATE_BUCKET }}
       run: bash bash/gcloud/projects_delete.sh
