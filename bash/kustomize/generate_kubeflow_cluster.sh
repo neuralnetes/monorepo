@@ -334,7 +334,7 @@ data:
         clientSecret: \$GOOGLE_CLIENT_SECRET
 
         # Dex's issuer URL + "/callback"
-        redirectURI: http://home.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
+        redirectURI: http://dex.auth.svc.cluster.local:5556/dex/callback
         serviceAccountFilePath: /etc/dex/service-account-key/key.json
     - type: github
       id: github
@@ -343,7 +343,7 @@ data:
         # Connector config values starting with a "$" will read from the environment.
         clientID: \$GITHUB_CLIENT_ID
         clientSecret: \$GITHUB_CLIENT_SECRET
-        redirectURI: http://home.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
+        redirectURI: http://dex.auth.svc.cluster.local:5556/dex/callback
 
 EOF
 
