@@ -37,6 +37,9 @@ jobs:
       with:
         service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
         export_default_credentials: true
+    - id: run_gcloud_components_install
+      name: run gcloud components install
+      run: gcloud components install alpha
     - id: run_gcloud_projects_delete
       name: run gcloud projects delete
       env:
