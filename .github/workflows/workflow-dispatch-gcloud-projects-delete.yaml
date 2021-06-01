@@ -39,7 +39,7 @@ jobs:
         export_default_credentials: true
     - id: run_gcloud_components_install
       name: run gcloud components install
-      run: gcloud components install alpha
+      run: gcloud components install alpha -q
     - id: run_gcloud_projects_delete
       name: run gcloud projects delete
       env:
