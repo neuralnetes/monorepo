@@ -22,5 +22,7 @@ variable "container_clusters" {
     service_account         = string
     subnetwork              = string
     zones                   = list(string)
+    grant_registry_access   = bool
+    registry_project_ids    = list(string)
   }))
 }

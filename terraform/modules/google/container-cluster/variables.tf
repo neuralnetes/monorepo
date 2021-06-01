@@ -109,3 +109,13 @@ variable "zones" {
   type    = list(string)
   default = []
 }
+
+variable "grant_registry_access" {
+  type    = bool
+  default = true
+}
+
+variable "registry_project_ids" {
+  type    = list(string)
+  default = []
+}

@@ -44,13 +44,13 @@ locals {
 
 inputs = {
   artifact_registry_repository_iam_members = [
-    {
-      name       = "cluster-${dependency.random_string.outputs.result}-01"
-      location   = "us-central1"
-      repository = "cluster-${dependency.random_string.outputs.result}"
-      role       = "roles/artifactregistry.reader"
-      member     = "serviceAccount:tf-gke-cluster-cklf-35c6@kubeflow-cklf.iam.gserviceaccount.com"
-      project    = dependency.artifact_project.outputs.project_id
-    }
+    //    {
+    //      name       = "cluster-${dependency.random_string.outputs.result}-01"
+    //      location   = "us-central1"
+    //      repository = "cluster-${dependency.random_string.outputs.result}"
+    //      role       = "roles/artifactregistry.reader"
+    //      member     = "serviceAccount:tf-gke-cluster-cklf-35c6@kubeflow-cklf.iam.gserviceaccount.com"
+    //      project    = dependency.artifact_project.outputs.project_id
+    //    }
   ]
 }
