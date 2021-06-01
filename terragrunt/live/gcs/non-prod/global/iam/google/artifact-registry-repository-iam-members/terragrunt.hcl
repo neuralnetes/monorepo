@@ -34,6 +34,10 @@ dependency "auth" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/auth"
 }
 
+dependency "random_string" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
+}
+
 locals {
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
 }
