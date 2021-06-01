@@ -1,7 +1,9 @@
 #!/bin/bash
-GITHUB_USER_NAME="lerms"
-GITHUB_USER_WORKSPACE="${HOME}/go/src/github.com/neuralnetes/monorepo/env/${GITHUB_USER_NAME}"
-ENVRC_PATHS=(
+export GITHUB_USER_NAME="lerms"
+export GITHUB_USER_WORKSPACE="${HOME}/go/src/github.com/neuralnetes/monorepo/env/${GITHUB_USER_NAME}"
+export ENVRC_PATHS=(
+  "${GITHUB_USER_WORKSPACE}/alias.sh"
+  "${GITHUB_USER_WORKSPACE}/functions.sh"
   "${GITHUB_USER_WORKSPACE}/.envrc-base"
   "${GITHUB_USER_WORKSPACE}/.envrc-github"
   "${GITHUB_USER_WORKSPACE}/.envrc-google"
