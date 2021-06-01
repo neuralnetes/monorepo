@@ -33,7 +33,7 @@ data:
         clientSecret: $GOOGLE_CLIENT_SECRET
 
         # Dex's issuer URL + "/callback"
-        redirectURI: http://home.kubeflow-cklf.network-cklf.neuralnetes.com/dex/callback
+        redirectURI: http://central-dashboard.kubeflow-cklf.network-cklf.neuralnetes.com/dex/callback
         serviceAccountFilePath: /etc/dex/service-account-key/key.json
     - type: github
       id: github
