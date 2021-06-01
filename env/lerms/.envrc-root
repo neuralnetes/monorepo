@@ -1,17 +1,17 @@
 #!/bin/bash
 export GITHUB_USER_NAME="lerms"
 export GITHUB_USER_WORKSPACE="${HOME}/go/src/github.com/neuralnetes/monorepo/env/${GITHUB_USER_NAME}"
-export ENVRC_PATHS=(
-  "${GITHUB_USER_WORKSPACE}/alias.sh"
-  "${GITHUB_USER_WORKSPACE}/functions.sh"
-  "${GITHUB_USER_WORKSPACE}/.envrc-base"
-  "${GITHUB_USER_WORKSPACE}/.envrc-github"
-  "${GITHUB_USER_WORKSPACE}/.envrc-google"
-  "${GITHUB_USER_WORKSPACE}/.envrc-grafana"
-  "${GITHUB_USER_WORKSPACE}/.envrc-kubernetes"
-  "${GITHUB_USER_WORKSPACE}/.envrc-terragrunt"
-  "${GITHUB_USER_WORKSPACE}/.envrc-secret"
+export SOURCE_FILES=(
+  "alias.sh"
+  "functions.sh"
+  ".envrc-base"
+  ".envrc-github"
+  ".envrc-google"
+  ".envrc-grafana"
+  ".envrc-kubernetes"
+  ".envrc-terragrunt"
+  ".envrc-secret"
 )
-for envrc in "${ENVRC_PATHS[@]}"; do
-  source "${envrc}"
+for source_file in "${SOURCE_FILES[@]}"; do
+  source "${GITHUB_USER_WORKSPACE}/${source_file}"
 done
