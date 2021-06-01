@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify
 import os
 import yfinance as yf
 
-client = storage.Client()
+# client = storage.Client()
 app = Flask(__name__)
 
 # @app.route('/')
