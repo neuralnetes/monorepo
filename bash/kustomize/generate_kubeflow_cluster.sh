@@ -261,23 +261,17 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: istio-ingressgateway
+  labels:
+    release: istio
 spec:
+  selector:
+    app: istio-ingressgateway
+    istio: ingressgateway
   servers:
   - port:
       number: 80
       name: http
       protocol: HTTP
-    hosts:
-    - '*'
-#    tls:
-#      httpsRedirect: true
-  - port:
-      number: 443
-      name: https
-      protocol: HTTPS
-    tls:
-      mode: SIMPLE
-      credentialName: istio-certs
     hosts:
     - '*'
 EOF
@@ -433,24 +427,15 @@ kind: Gateway
 metadata:
   name: kubeflow-gateway
 spec:
+  selector:
+    istio: ingressgateway
   servers:
   - port:
       number: 80
       name: http
       protocol: HTTP
     hosts:
-    - '*'
-#    tls:
-#      httpsRedirect: true
-  - port:
-      number: 443
-      name: https
-      protocol: HTTPS
-    tls:
-      mode: SIMPLE
-      credentialName: istio-certs
-    hosts:
-    - '*'
+    - "*"
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base/kustomization.yaml"
