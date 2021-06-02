@@ -13,5 +13,5 @@ cat <<EOF > "${GITHUB_USER_WORKSPACE}/.gitconfig"
 	name = ${GITHUB_USER_FULL_NAME}
 	email = ${GITHUB_USER_EMAIL}
 [core]
-	editor = \$EDITOR
+	editor = ${EDITOR}
 EOF
