@@ -8,5 +8,6 @@ resources:
 - ../../../secrets/kubeflow/overlays/kubeflow-gvjs
 - ../../../secrets/istio-system/overlays/kubeflow-gvjs
 - ../../../kubeflow/overlays/kubeflow-gvjs
+- ../../../profiles/overlays/kubeflow-gvjs
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
