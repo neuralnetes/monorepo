@@ -112,13 +112,13 @@ function get_cluster_instance_group_self_links() {
 function get_istio_ingressgateway_compute_address() {
   PREFIX="istio-ingressgateway"
   gcloud compute addresses list --format=json \
-    --project="${KUBEFLOW_PROJECT}" \
-    | jq --arg prefix "${PREFIX}" '.[] | select(.name | startswith($prefix))'
+    --project="${KUBEFLOW_PROJECT}" |
+    jq --arg prefix "${PREFIX}" '.[] | select(.name | startswith($prefix))'
 }
 
 function get_istio_ingressgateway_load_balancer_ip() {
-  get_istio_ingressgateway_compute_address \
-    | jq -rc '.address'
+  get_istio_ingressgateway_compute_address |
+    jq -rc '.address'
 }
 
 function get_cluster_location() {
@@ -195,19 +195,20 @@ function get_host_project_lein() {
   HOST_PROJECT=$1
   gcloud alpha resource-manager liens list -q \
     --project="${HOST_PROJECT}" \
-    --format=json
+    --format=json \
+    "${GCLOUD_FLAGS[@]}"
 }
 
 function get_resource_manager_lein_name() {
   HOST_PROJECT=$1
-  get_host_project_lein "${HOST_PROJECT}" \
-    | jq -rc '[.[] | .name | split("/") | last] | first'
+  get_host_project_lein "${HOST_PROJECT}" |
+    jq -rc '[.[] | .name | split("/") | last] | first'
 }
 
 function resource_manager_liens_delete() {
   HOST_PROJECT=$1
   LIEN_NAME=$(get_resource_manager_lein_name "${HOST_PROJECT}")
   gcloud alpha resource-manager liens delete "${LIEN_NAME}" -q \
-    --project="${HOST_PROJECT}"
+    --project="${HOST_PROJECT}" \
+    "${GCLOUD_FLAGS[@]}"
 }
-
