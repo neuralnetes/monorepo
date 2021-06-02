@@ -4,7 +4,7 @@ metadata:
   name: dex
 data:
   config.yaml: |
-    issuer: http://dex.auth.svc.cluster.local:5556/dex
+    issuer: http://central-dashboard.kubeflow-gvjs.network-gvjs.neuralnetes.com/dex
     storage:
       type: kubernetes
       config:
@@ -42,5 +42,5 @@ data:
         # Connector config values starting with a "$" will read from the environment.
         clientID: $GITHUB_CLIENT_ID
         clientSecret: $GITHUB_CLIENT_SECRET
-        redirectURI: http://dex.auth.svc.cluster.local:5556/dex/callback
+        redirectURI: http://central-dashboard.kubeflow-gvjs.network-gvjs.neuralnetes.com/dex/callback
 
