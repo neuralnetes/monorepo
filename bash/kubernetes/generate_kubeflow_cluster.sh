@@ -607,7 +607,7 @@ cat <<EOF > "kustomize/manifests/flux-kustomization/profiles/overlays/${KUBEFLOW
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: profiles
+  name: kubeflow-profiles
 spec:
   path: kustomize/manifests/profiles/overlays/${KUBEFLOW_PROJECT}
 EOF
