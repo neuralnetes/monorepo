@@ -5,6 +5,7 @@ export SOURCE_FILES=(
   "alias.sh"
   "functions.sh"
   ".envrc-base"
+  ".envrc-python"
   ".envrc-github"
   ".envrc-google"
   ".envrc-grafana"

@@ -4,5 +4,3 @@ export GOBIN="${GOPATH}/bin"
 export HOME_LOCAL_BIN="${HOME}/.local/bin"
 export PATH="${HOME_LOCAL_BIN}:${GOBIN}:${PATH}"
 export EDITOR="code --wait"
-export KUBE_EDITOR="${EDITOR}"
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
