@@ -63,7 +63,15 @@ jobs:
         run: bash "${GITHUB_WORKSPACE}/bash/kubernetes/kustomize_build_kubectl_apply.sh"
       - id: run_flux_reconcile
         name: run flux reconcile
-        run: bash "${GITHUB_WORKSPACE}/bash/kubernetes/flux_reconcile.sh"
+        run: |
+          kubectl get kustomizations.kustomize.toolkit.fluxcd.io -n flux-system -o json \
+            | jq -rc \
+              --arg github_sha "${GITHUB_SHA}" \
+              '.items[] | select(.status.conditions | first | .message | split("/") | last != $github_sha) | .metadata.name' \
+            | while read -r kustomization_name; do
+                flux reconcile kustomization "${kustomization_name}" &
+              done
+          wait
       - id: run_event_success
         name: run event success
         if: ${{ success() }}
