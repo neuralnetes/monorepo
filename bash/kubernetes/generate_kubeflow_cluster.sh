@@ -609,7 +609,13 @@ kind: Kustomization
 metadata:
   name: kubeflow-profiles
 spec:
+  interval: 1m
   path: kustomize/manifests/profiles/overlays/${KUBEFLOW_PROJECT}
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+  targetNamespace: flux-system
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/profiles/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
