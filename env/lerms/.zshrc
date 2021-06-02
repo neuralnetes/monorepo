@@ -6,5 +6,7 @@ export plugins=(
     git
     fzf
     nvm
+    kubectl
+    gcloud
 )
 source "${ZSH}/oh-my-zsh.sh"
