@@ -30,6 +30,7 @@ jobs:
       GITHUB_ACTIONS_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
       GITHUB_OWNER: ${{ github.repository_owner }}
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      GITHUB_USER: ${{ secrets.GH_USER }}
       GITHUB_USER_NAME: ${{ secrets.GH_USER }}
       GITHUB_USER_EMAIL: ${{ secrets.GH_EMAIL }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -41,12 +42,10 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
       - id: run_event_start
         name: run event start
-        run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "start"
-      - id: run_setup_git_config
-        name: run setup git config
-        run: |
-          git config --global user.name "${GITHUB_USER_NAME}"
-          git config --global user.email "${GITHUB_USER_EMAIL}"
+        run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "start"
+      - id: run_setup_git
+        name: run setup git
+        run: bash "${GITHUB_WORKSPACE}/bash/github/setup_git.sh"
       - id: run_setup_github_path
         name: run setup github path
         run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH
@@ -82,12 +81,12 @@ jobs:
           CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}
           CLUSTER_LOCATION: ${{ github.event.inputs.cluster_location }}
           CLUSTER_PROJECT: ${{ github.event.inputs.kubeflow_project }}
-        run: bash bash/github-actions/workflow_dispatch_kustomize_build_kubectl_apply.sh
+        run: bash bash/github/workflow_dispatch_kustomize_build_kubectl_apply.sh
       - id: run_event_success
         name: run event success
         if: ${{ success() }}
-        run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "success"
+        run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "success"
       - id: run_event_failure
         name: run event failure
         if: ${{ failure() }}
-        run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "failure"
+        run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "failure"

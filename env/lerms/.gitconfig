@@ -2,4 +2,4 @@
 	name = Alexander Lerma
 	email = alexander.lerma@neuralnetes.com
 [core]
-	editor = code --wait
+	editor = $EDITOR

@@ -5,7 +5,7 @@
 [![.github/workflows/workflow-dispatch-terragrunt.yaml](https://github.com/neuralnetes/monorepo/actions/workflows/workflow-dispatch-terragrunt.yaml/badge.svg)](https://github.com/neuralnetes/monorepo/actions/workflows/workflow-dispatch-terragrunt.yaml)
 
 ```shell script
-bash bash/github-actions/workflow_dispatch_terragrunt.sh
+bash bash/github/workflow_dispatch_terragrunt.sh
 ```
 
 would trigger a `workflow_dispatch` event with this request
@@ -22,7 +22,7 @@ would trigger a `workflow_dispatch` event with this request
 ```
 
 ```shell script
-bash bash/github-actions/workflow_dispatch_generate_kubeflow_cluster.sh
+bash bash/github/workflow_dispatch_generate_kubeflow_cluster.sh
 ```
 
 would trigger a `workflow_dispatch` event with this request
@@ -44,7 +44,7 @@ would trigger a `workflow_dispatch` event with this request
 
 
 ```shell script
-bash bash/github-actions/workflow_dispatch_kustomize_build_kubectl_apply.sh
+bash bash/github/workflow_dispatch_kustomize_build_kubectl_apply.sh
 ```
 
 would trigger a `workflow_dispatch` event with this request
@@ -66,14 +66,14 @@ copy github event json message posted in slack `#github` channel
 
 ```shell script
 EVENT="$(pbpaste)"
-bash bash/github-actions/debug.sh "${EVENT}"
+bash bash/github/debug.sh "${EVENT}"
 ```
 
 an explicit example without `pbpaste` would look like ...
 
 ```shell script
 EVENT='{"type":"github_actions","data":{"status":"failure","logs":"gs://terraform-neuralnetes/2baf3faf06a907054af376aaac71e0a2789ce860/logs.txt","run":"https://github.com/neuralnetes/monorepo/actions/runs/889505371","env":"gs://terraform-neuralnetes/2baf3faf06a907054af376aaac71e0a2789ce860/env.txt"}}'
-bash bash/github-actions/debug.sh "${EVENT}"
+bash bash/github/debug.sh "${EVENT}"
 ```
 
 this will print out log messages that container keyword "error".

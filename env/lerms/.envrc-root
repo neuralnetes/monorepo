@@ -1,6 +1,6 @@
 #!/bin/bash
-export GITHUB_USER_NAME="lerms"
-export GITHUB_USER_WORKSPACE="${HOME}/go/src/github.com/neuralnetes/monorepo/env/${GITHUB_USER_NAME}"
+export GITHUB_USER="lerms"
+export GITHUB_USER_WORKSPACE="${HOME}/go/src/github.com/neuralnetes/monorepo/env/${GITHUB_USER}"
 export SOURCE_FILES=(
   "alias.sh"
   "functions.sh"

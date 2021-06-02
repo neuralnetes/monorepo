@@ -1,3 +1,3 @@
 #!/bin/bash
-kustomize build --load-restrictor LoadRestrictionsNone "${KUSTOMIZE_PATH}" \
+kustomize build --load-restrictor LoadRestrictionsNone "${CLUSTER_KUSTOMIZE_PATH}" \
   | kubectl apply -f -

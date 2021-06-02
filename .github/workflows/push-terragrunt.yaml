@@ -19,7 +19,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
       - id: terragrunt_run_all_apply
         name: run workflow dispatch terragrunt run-all apply
-        working-directory: ./bash/github-actions
+        working-directory: ./bash/github
         run: |
           export TERRAGRUNT_COMMAND='run-all apply'
           export TERRAGRUNT_WORKING_DIR='terragrunt/live/gcs/non-prod'

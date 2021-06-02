@@ -27,12 +27,10 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
       - id: run_event_start
         name: run event start
-        run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "start"
-      - id: run_setup_git_config
-        name: run setup git config
-        run: |
-          git config --global user.email "${GITHUB_USER_EMAIL}"
-          git config --global user.name "${GITHUB_USER_NAME}"
+        run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "start"
+      - id: run_setup_git
+        name: run setup git
+        run: bash "${GITHUB_WORKSPACE}/bash/github/setup_git.sh"
       - id: run_setup_github_path
         name: run setup github path
         run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH
@@ -61,7 +59,7 @@ jobs:
       - id: run_kustomize_build_kubectl_apply
         name: run kustomize build kubectl apply
         env:
-          KUSTOMIZE_PATH: ${{ github.workspace }}/kustomize/manifests/deploy/overlays/${{ github.event.inputs.cluster_project }}
+          CLUSTER_KUSTOMIZE_PATH: ${{ github.workspace }}/kustomize/manifests/deploy/overlays/${{ github.event.inputs.cluster_project }}
         run: bash "${GITHUB_WORKSPACE}/bash/kubernetes/kustomize_build_kubectl_apply.sh"
       - id: run_flux_reconcile
         name: run flux reconcile
@@ -69,8 +67,8 @@ jobs:
       - id: run_event_success
         name: run event success
         if: ${{ success() }}
-        run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "success"
+        run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "success"
       - id: run_event_failure
         name: run event failure
         if: ${{ failure() }}
-        run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "failure"
+        run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "failure"

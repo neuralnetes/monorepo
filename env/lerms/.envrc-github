@@ -2,16 +2,10 @@
 export GITHUB_OWNER="neuralnetes"
 export GITHUB_REPOSITORY="${GITHUB_OWNER}/monorepo"
 export GITHUB_WORKSPACE="${GOPATH}/src/github.com/${GITHUB_REPOSITORY}"
-export GITHUB_USER_FULL_NAME="Alexander Lerma"
+export GITHUB_USER="lerms"
+export GITHUB_USER_NAME="Alexander Lerma"
 export GITHUB_USER_EMAIL="alexander.lerma@neuralnetes.com"
-export GITHUB_USER_NAME="lerms"
-export GITHUB_USER_WORKSPACE="${GITHUB_WORKSPACE}/env/${GITHUB_USER_NAME}"
+export GITHUB_USER_WORKSPACE="${GITHUB_WORKSPACE}/env/${GITHUB_USER}"
 export GITHUB_REF=$(cd "${GITHUB_WORKSPACE}" && git branch --show-current)
 export GITHUB_SHA=$(cd "${GITHUB_WORKSPACE}" && git rev-parse HEAD)
-cat <<EOF > "${GITHUB_USER_WORKSPACE}/.gitconfig"
-[user]
-	name = ${GITHUB_USER_FULL_NAME}
-	email = ${GITHUB_USER_EMAIL}
-[core]
-	editor = ${EDITOR}
-EOF
+bash "${GITHUB_WORKSPACE}/bash/github/setup_git.sh"

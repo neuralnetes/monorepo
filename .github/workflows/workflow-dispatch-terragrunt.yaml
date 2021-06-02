@@ -28,8 +28,9 @@ jobs:
       GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
       GITHUB_OWNER: ${{ github.repository_owner }}
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      GITHUB_USER_NAME: ${{ secrets.GH_USER }}
-      GITHUB_USER_EMAIL: ${{ secrets.GH_EMAIL }}
+      GITHUB_USER: ${{ secrets.GH_USER }}
+      GITHUB_USER_NAME: ${{ secrets.GH_USER_NAME }}
+      GITHUB_USER_EMAIL: ${{ secrets.GH_USER_EMAIL }}
       GRAFANA_AUTH: ${{ secrets.GRAFANA_AUTH }}
       GRAFANA_ORG_ID: ${{ secrets.GRAFANA_ORG_ID }}
       GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
@@ -47,15 +48,10 @@ jobs:
         token: ${{ secrets.GH_TOKEN }}
     - id: run_event_start
       name: run event start
-      run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "start"
-    - id: setup_git_config
-      name: run setup git config
-      env:
-        GITHUB_USER_NAME: ${{ secrets.GH_USER }}
-        GITHUB_USER_EMAIL: ${{ secrets.GH_EMAIL }}
-      run: |
-        git config --global user.email "${GITHUB_USER_EMAIL}"
-        git config --global user.name "${GITHUB_USER_NAME}"
+      run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "start"
+    - id: run_setup_git
+      name: run setup git
+      run: bash "${GITHUB_WORKSPACE}/bash/github/setup_git.sh"
     - id: setup_github_path
       name: run setup github path
       run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH
@@ -87,8 +83,8 @@ jobs:
     - id: run_event_success
       name: run event success
       if: ${{ success() }}
-      run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "success"
+      run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "success"
     - id: run_event_failure
       name: run event failure
       if: ${{ failure() }}
-      run: bash "${GITHUB_WORKSPACE}/bash/github-actions/event.sh" "failure"
+      run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "failure"
