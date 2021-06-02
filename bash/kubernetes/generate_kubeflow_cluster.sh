@@ -286,15 +286,31 @@ patchesStrategicMerge:
 EOF
 
 # oidc-authservice
-#cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/oidc-authservice/base/patch-config.yaml"
-#kind: ConfigMap
-#
-#EOF
+cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/oidc-authservice/base/patch-config-map.yaml"
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oidc-authservice-parameters
+  namespace: istio-system
+data:
+  OIDC_AUTH_URL: /dex/auth
+  OIDC_PROVIDER: http://central-dashboard.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex
+  OIDC_SCOPES: profile email groups
+  PORT: '"8080"'
+  REDIRECT_URL: /login/oidc
+  SKIP_AUTH_URI: /dex
+  STORE_PATH: /var/lib/authservice/data.db
+  USERID_CLAIM: email
+  USERID_HEADER: kubeflow-userid
+  USERID_PREFIX: ""
+EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/oidc-authservice/base/kustomization.yaml"
 namespace: istio-system
 resources:
 - ../../../../../../kubeflow/base/common/oidc-authservice/base
+patchesStrategicMerge:
+- patch-config-map.yaml
 EOF
 
 ## dex
@@ -305,7 +321,7 @@ metadata:
   name: dex
 data:
   config.yaml: |
-    issuer: http://dex.auth.svc.cluster.local:5556/dex
+    issuer: http://central-dashboard.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex
     storage:
       type: kubernetes
       config:
@@ -343,7 +359,7 @@ data:
         # Connector config values starting with a "$" will read from the environment.
         clientID: \$GITHUB_CLIENT_ID
         clientSecret: \$GITHUB_CLIENT_SECRET
-        redirectURI: http://dex.auth.svc.cluster.local:5556/dex/callback
+        redirectURI: http://central-dashboard.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
 
 EOF
 
