@@ -47,6 +47,7 @@ dependency "container_clusters" {
 }
 
 locals {
+  gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
   workload_identity_users_map = {
     cert-manager = {
       kubernetes_namespace = "cert-manager"
@@ -120,6 +121,15 @@ inputs = {
           kubernetes_service_account = kubernetes_service_account
         }
       ]
+    ],
+    [
+      for kubeflow_user_email in split(",", get_env("KUBEFLOW_USER_EMAILS")) :
+      {
+        project_id                 = dependency.kubeflow_project.outputs.project_id
+        service_account_id         = dependency.service_accounts.outputs.service_accounts_map["kubeflow-user"].email
+        kubernetes_namespace       = replace(replace(kubeflow_user_email, "@", "-"), ".", "-")
+        kubernetes_service_account = "default-editor"
+      }
     ]
   ])
 }

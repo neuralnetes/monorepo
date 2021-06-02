@@ -12,6 +12,7 @@ PATHS=(
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio"
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base"
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base"
+  "kustomize/manifests/profiles/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/deploy/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/external-secrets/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/external-dns/overlays/${KUBEFLOW_PROJECT}"
@@ -20,6 +21,7 @@ PATHS=(
   "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/kubeflow/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/profiles/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/deploy/overlays/${KUBEFLOW_PROJECT}"
 )
@@ -29,8 +31,43 @@ for path in "${PATHS[@]}"; do
   mkdir -p "${path}"
 done
 
-# secrets
 
+cat <<EOF > "kustomize/manifests/profiles/overlays/${KUBEFLOW_PROJECT}/profile.yaml"
+apiVersion: kubeflow.org/v1beta1
+kind: Profile
+metadata:
+  name: alexander-lerma-neuralnetes-com
+spec:
+  owner:
+    kind: User
+    name: alexander.lerma@neuralnetes.com
+  resourceQuotaSpec: {}
+  plugins:
+  - kind: WorkloadIdentity
+    spec:
+      gcpServiceAccount: kubeflow-user@${IAM_PROJECT}.iam.gserviceaccount.com
+---
+apiVersion: kubeflow.org/v1beta1
+kind: Profile
+metadata:
+  name: ian-macdonald-neuralnetes-com
+spec:
+  owner:
+    kind: User
+    name: ian.macdonald@neuralnetes.com
+  resourceQuotaSpec: {}
+  plugins:
+  - kind: WorkloadIdentity
+    spec:
+      gcpServiceAccount: kubeflow-user@${IAM_PROJECT}.iam.gserviceaccount.com
+EOF
+
+cat <<EOF > "kustomize/manifests/profiles/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
+resources:
+- profile.yaml
+EOF
+
+# secrets
 cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/patch-certificate.yaml"
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
@@ -566,6 +603,20 @@ patchesStrategicMerge:
 - patch-flux-kustomization.yaml
 EOF
 
+cat <<EOF > "kustomize/manifests/flux-kustomization/profiles/overlays/${KUBEFLOW_PROJECT}/flux-kustomization.yaml"
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: profiles
+spec:
+  path: kustomize/manifests/profiles/overlays/${KUBEFLOW_PROJECT}
+EOF
+
+cat <<EOF > "kustomize/manifests/flux-kustomization/profiles/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
+resources:
+- flux-kustomization.yaml
+EOF
+
 cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
@@ -645,6 +696,7 @@ resources:
 - ../../../secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}
 - ../../../secrets/istio-system/overlays/${KUBEFLOW_PROJECT}
 - ../../../kubeflow/overlays/${KUBEFLOW_PROJECT}
+- ../../../profiles/overlays/${KUBEFLOW_PROJECT}
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
 EOF

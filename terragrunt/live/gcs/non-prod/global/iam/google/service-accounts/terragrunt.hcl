@@ -26,6 +26,7 @@ inputs = {
       "external-secrets",
       "grafana-cloud",
       "kubeflow",
+      "kubeflow-user",
       "openvpn"
     ] :
     {

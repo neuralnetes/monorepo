@@ -35,5 +35,21 @@ locals {
 }
 
 inputs = {
-  service_account_iam_bindings = []
+  service_account_iam_bindings = [
+    {
+      name = "kubeflow-user-00"
+      bindings = {
+        for role in [
+          "roles/iam.serviceAccountUser",
+          "roles/iam.serviceAccountTokenCreator"
+        ] :
+        role => [
+          for email in split(",", get_env("KUBEFLOW_USER_EMAILS")) :
+          "user:${email}"
+        ]
+      }
+      service_account = dependency.service_accounts.outputs.service_accounts_map["kubeflow-user"].email
+      project         = dependency.iam_project.outputs.project_id
+    }
+  ]
 }
