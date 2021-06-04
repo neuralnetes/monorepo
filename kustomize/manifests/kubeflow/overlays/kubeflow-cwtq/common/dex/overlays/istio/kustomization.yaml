@@ -1,0 +1,6 @@
+namespace: auth
+resources:
+- ../../../../../../../kubeflow/base/common/dex/overlays/istio
+patchesStrategicMerge:
+- patch-config.yaml
+- patch-deployment.yaml
