@@ -58,12 +58,10 @@ jobs:
       run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH
     - id: setup_tfenv
       name: run setup tfenv
-      working-directory: ./bash/terraform
-      run: chmod +x ./setup_tfenv.sh && ./setup_tfenv.sh
+      run: bash bash/terraform/setup_tfenv.sh
     - id: setup_tgenv
       name: run setup tgenv
-      working-directory: ./bash/terragrunt
-      run: chmod +x ./setup_tgenv.sh && ./setup_tgenv.sh
+      run: bash bash/terragrunt/setup_tgenv.sh
     - id: setup_gcloud
       name: run setup gcloud
       uses: google-github-actions/setup-gcloud@master
