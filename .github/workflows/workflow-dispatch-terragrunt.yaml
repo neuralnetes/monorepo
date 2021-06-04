@@ -34,6 +34,7 @@ jobs:
       GRAFANA_AUTH: ${{ secrets.GRAFANA_AUTH }}
       GRAFANA_ORG_ID: ${{ secrets.GRAFANA_ORG_ID }}
       GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
+      KUBEFLOW_USER_EMAILS: ${{ secrets.KUBEFLOW_USER_EMAILS }}
       TERRAGRUNT_CLI_FLAGS: ${{ toJSON(fromJSON(github.event.inputs.terragrunt_cli_flags)) }}
       TERRAGRUNT_COMMAND: ${{ github.event.inputs.terragrunt_command }}
       TERRAGRUNT_WORKING_DIR: ${{ github.workspace }}/${{ github.event.inputs.terragrunt_working_dir }}
