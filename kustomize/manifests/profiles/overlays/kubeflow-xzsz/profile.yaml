@@ -1,0 +1,27 @@
+apiVersion: kubeflow.org/v1beta1
+kind: Profile
+metadata:
+  name: alexander-lerma-neuralnetes-com
+spec:
+  owner:
+    kind: User
+    name: alexander.lerma@neuralnetes.com
+  resourceQuotaSpec: {}
+  plugins:
+  - kind: WorkloadIdentity
+    spec:
+      gcpServiceAccount: kubeflow-user@iam-xzsz.iam.gserviceaccount.com
+---
+apiVersion: kubeflow.org/v1beta1
+kind: Profile
+metadata:
+  name: ian-macdonald-neuralnetes-com
+spec:
+  owner:
+    kind: User
+    name: ian.macdonald@neuralnetes.com
+  resourceQuotaSpec: {}
+  plugins:
+  - kind: WorkloadIdentity
+    spec:
+      gcpServiceAccount: kubeflow-user@iam-xzsz.iam.gserviceaccount.com

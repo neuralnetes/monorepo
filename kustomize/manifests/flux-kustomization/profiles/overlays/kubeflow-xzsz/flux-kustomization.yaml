@@ -1,0 +1,12 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: kubeflow-profiles
+spec:
+  interval: 1m
+  path: kustomize/manifests/profiles/overlays/kubeflow-xzsz
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+  targetNamespace: flux-system
