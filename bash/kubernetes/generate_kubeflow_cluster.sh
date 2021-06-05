@@ -309,6 +309,17 @@ spec:
       number: 80
       name: http
       protocol: HTTP
+    tls:
+      httpsRedirect: true
+    hosts:
+    - '*'
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: istio-certs
     hosts:
     - '*'
 EOF
@@ -487,8 +498,19 @@ spec:
       number: 80
       name: http
       protocol: HTTP
+    tls:
+      httpsRedirect: true
     hosts:
-    - "*"
+    - '*'
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: istio-certs
+    hosts:
+    - '*'
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base/kustomization.yaml"
