@@ -17,3 +17,23 @@ spec:
             serviceAccountSecretRef:
               name: service-account-key
               key: key.json
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: bot+letencrypt-prod@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-staging-account-key
+    solvers:
+      - dns01:
+          clouddns:
+            # The ID of the GCP project
+            project: ${PROJECT_ID}
+            # This is the secret used to access the service account
+            serviceAccountSecretRef:
+              name: service-account-key
+              key: key.json

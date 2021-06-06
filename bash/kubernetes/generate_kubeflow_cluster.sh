@@ -277,6 +277,23 @@ spec:
             serviceAccountSecretRef:
               name: service-account-key
               key: key.json
+
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: bot+letencrypt-prod@${GCP_WORKSPACE_DOMAIN_NAME}
+    solvers:
+      - dns01:
+          clouddns:
+            project: ${NETWORK_PROJECT}
+            serviceAccountSecretRef:
+              name: service-account-key
+              key: key.json
+
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/cert-manager/kustomization.yaml"
