@@ -80,6 +80,14 @@ spec:
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
+  name: istio-certs-letsencrypt-prod
+spec:
+  dnsNames:
+  - '*.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
   name: istio-certs-self-signed
 spec:
   dnsNames:
@@ -277,7 +285,6 @@ spec:
             serviceAccountSecretRef:
               name: service-account-key
               key: key.json
-
 ---
 apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer

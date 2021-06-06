@@ -27,7 +27,7 @@ spec:
     email: bot+letencrypt-prod@example.com
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: letsencrypt-staging-account-key
+      name: letsencrypt-prod-account-key
     solvers:
       - dns01:
           clouddns:
