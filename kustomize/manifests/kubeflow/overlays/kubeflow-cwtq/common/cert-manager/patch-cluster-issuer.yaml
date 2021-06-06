@@ -12,7 +12,6 @@ spec:
             serviceAccountSecretRef:
               name: service-account-key
               key: key.json
-
 ---
 apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
