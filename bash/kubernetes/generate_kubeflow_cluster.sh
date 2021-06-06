@@ -144,8 +144,8 @@ spec:
   data:
     - key: ${KUBEFLOW_PROJECT}-cert-manager-service-account-key
       name: key.json
-      property: key.json
       version: latest
+      isBinary: true
 EOF
 
 # auth
@@ -168,8 +168,8 @@ spec:
   data:
     - key: ${KUBEFLOW_PROJECT}-auth-service-account-key
       name: key.json
-      property: key.json
       version: latest
+      isBinary: true
 ---
 apiVersion: kubernetes-client.io/v1
 kind: ExternalSecret
