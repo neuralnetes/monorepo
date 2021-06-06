@@ -65,7 +65,9 @@ jobs:
         name: run flux reconcile
         run: |
           pip install -r "${GITHUB_WORKSPACE}/python/kubernetes/requirements.txt"
-          python "${GITHUB_WORKSPACE}/python/kubernetes/main.py" --command "flux_reconcile" --args "{}"
+          python "${GITHUB_WORKSPACE}/python/kubernetes/main.py" \
+            --command "flux_reconcile" \
+            --args "{ \"github_sha\": \"${GITHUB_SHA}\" }"
       - id: run_event_success
         name: run event success
         if: ${{ success() }}
