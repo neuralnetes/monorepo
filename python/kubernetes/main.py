@@ -18,19 +18,20 @@ async def run(cmd):
     return result
 
 
-async def flux_reconcile(kustomization_name):
-    return await run(f'flux reconcile kustomization {kustomization_name}')
+async def gather_all(f, xs):
+    return await asyncio.gather(*[f(x) for x in xs])
 
 
-async def flux_reconcile_all(flux_kustomization_names):
-    return await asyncio.gather(*[flux_reconcile(name) for name in flux_kustomization_names])
+async def flux_reconcile(name):
+    return await run(f'flux reconcile kustomization {name}')
 
 
-def get_flux_kustomization_name(flux_kustomization):
-    return flux_kustomization['status']['conditions'][0]['message'].split("/")[-1]
+def get_flux_kustomization_sha(item):
+    return item['status']['conditions'][0]['message'].split("/")[-1]
 
-def get_flux_kustomization_sha(flux_kustomization):
-    return flux_kustomization['status']['conditions'][0]['message'].split("/")[-1]
+
+def get_flux_kustomization_name(item):
+    return item['metadata']['name']
 
 
 async def handle_flux_reconcile(args):
@@ -40,12 +41,12 @@ async def handle_flux_reconcile(args):
                                                                            version="v1beta1",
                                                                            plural="kustomizations",
                                                                            namespace="flux-system")
-    kustomization_names = [
-        item['metadata']['name']
+    names = [
+        get_flux_kustomization_name(item)
         for item in response['items']
         if get_flux_kustomization_sha(item) != github_sha
     ]
-    return await flux_reconcile_all(kustomization_names)
+    return await gather_all(flux_reconcile, names)
 
 
 @click.command()
