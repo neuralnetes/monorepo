@@ -75,6 +75,7 @@ metadata:
   name: istio-certs
 spec:
   dnsNames:
+  - 'central-dashboard.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
   - '*.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
 EOF
 
