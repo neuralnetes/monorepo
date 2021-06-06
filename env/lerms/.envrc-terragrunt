@@ -11,6 +11,7 @@ function run_terragrunt_command() {
 
 export TERRAGRUNT_CLI_FLAGS='[
     "--terragrunt-include-dir global/terraform/**/**",
+    "--terragrunt-include-dir global/dns/**/**",
     "--terragrunt-include-dir global/iam/**/**",
     "--terragrunt-include-dir global/secret/**/**",
     "--terragrunt-include-dir global/artifact/**/**",

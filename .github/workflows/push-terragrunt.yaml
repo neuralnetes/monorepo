@@ -26,6 +26,7 @@ jobs:
           export TERRAGRUNT_CLI_FLAGS="$(
             jq -nrc '[
               "--terragrunt-include-dir global/terraform/**/**",
+              "--terragrunt-include-dir global/dns/**/**",
               "--terragrunt-include-dir global/iam/**/**",
               "--terragrunt-include-dir global/secret/**/**",
               "--terragrunt-include-dir global/artifact/**/**",
