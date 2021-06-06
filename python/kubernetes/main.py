@@ -26,13 +26,15 @@ async def flux_reconcile_all(flux_kustomization_names):
     return await asyncio.gather(*[flux_reconcile(name) for name in flux_kustomization_names])
 
 
+def get_flux_kustomization_name(flux_kustomization):
+    return flux_kustomization['status']['conditions'][0]['message'].split("/")[-1]
+
 def get_flux_kustomization_sha(flux_kustomization):
     return flux_kustomization['status']['conditions'][0]['message'].split("/")[-1]
 
 
 async def handle_flux_reconcile(args):
     github_sha = args['github_sha']
-    is_current_sha = lambda sha: sha == github_sha
     custom = client.CustomObjectsApi()
     (response, _, _) = custom.list_namespaced_custom_object_with_http_info(group="kustomize.toolkit.fluxcd.io",
                                                                            version="v1beta1",
@@ -41,7 +43,7 @@ async def handle_flux_reconcile(args):
     kustomization_names = [
         item['metadata']['name']
         for item in response['items']
-        if not is_current_sha(get_flux_kustomization_sha(item))
+        if get_flux_kustomization_sha(item) != github_sha
     ]
     return await flux_reconcile_all(kustomization_names)
 
