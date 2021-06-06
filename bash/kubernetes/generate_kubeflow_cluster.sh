@@ -344,7 +344,7 @@ spec:
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: istio-certs-self-signed
+      credentialName: istio-certs
     hosts:
     - '*'
 EOF
@@ -533,7 +533,7 @@ spec:
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: istio-certs-self-signed
+      credentialName: istio-certs
     hosts:
     - '*'
 EOF
