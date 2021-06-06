@@ -23,6 +23,6 @@ spec:
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: istio-certs
+      credentialName: istio-certs-self-signed
     hosts:
     - '*'
