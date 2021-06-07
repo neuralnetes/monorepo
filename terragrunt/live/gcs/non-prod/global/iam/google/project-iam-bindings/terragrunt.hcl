@@ -6,6 +6,10 @@ include {
   path = find_in_parent_folders()
 }
 
+dependency "dns_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/dns/google/project"
+}
+
 dependency "artifact_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/artifact/google/project"
 }
@@ -82,18 +86,23 @@ inputs = {
       }
       project = dependency.artifact_project.outputs.project_id
     },
-    # terraform
+    # dns
     {
-      name = "${dependency.terraform_project.outputs.project_id}-00"
+      name     = "${dependency.dns_project.outputs.project_id}-00"
+      bindings = local.terraform_group_default_bindings
+      project  = dependency.dns_project.outputs.project_id
+    },
+    {
+      name = "${dependency.dns_project.outputs.project_id}-01"
       bindings = {
         for project_role in [
-          "roles/storage.admin"
+          "roles/dns.admin"
         ] :
         project_role => [
-          "group:terraform@${local.gcp_workspace_domain_name}"
+          "serviceAccount:${dependency.auth.outputs.email}"
         ]
       }
-      project = dependency.terraform_project.outputs.project_id
+      project = dependency.dns_project.outputs.project_id
     },
     # kubeflow
     {
