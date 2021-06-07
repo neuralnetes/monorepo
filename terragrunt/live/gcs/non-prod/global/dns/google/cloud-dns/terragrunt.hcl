@@ -17,7 +17,6 @@ locals {
 inputs = {
   cloud_dns = flatten([
     for domain in [
-      local.gcp_workspace_domain_name,
       "non-prod.${local.gcp_workspace_domain_name}"
     ] :
     [
