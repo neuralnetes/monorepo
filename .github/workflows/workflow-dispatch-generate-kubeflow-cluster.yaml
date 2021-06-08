@@ -13,6 +13,9 @@ on:
       iam_project:
         description: iam_project
         required: true
+      dns_project:
+        description: dns_project
+        required: true
       kubeflow_project:
         description: kubeflow_project
         required: true
@@ -58,6 +61,7 @@ jobs:
           KUBEFLOW_PROJECT: ${{ github.event.inputs.kubeflow_project }}
           NETWORK_PROJECT: ${{ github.event.inputs.network_project }}
           SECRET_PROJECT: ${{ github.event.inputs.secret_project }}
+          DNS_PROJECT: ${{ github.event.inputs.dns_project }}
         run: bash bash/kubernetes/generate_kubeflow_cluster.sh
       - id: run_git_commit
         name: run git commit
