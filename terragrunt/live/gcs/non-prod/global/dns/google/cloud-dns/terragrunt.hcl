@@ -7,7 +7,7 @@ include {
 }
 
 dependency "dns_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/project"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/dns/google/project"
 }
 
 locals {
