@@ -6,6 +6,7 @@ request_json=$(
     --arg cluster_location "${CLUSTER_LOCATION}" \
     --arg compute_project "${COMPUTE_PROJECT}" \
     --arg iam_project "${IAM_PROJECT}" \
+    --arg dns_project "${DNS_PROJECT}" \
     --arg kubeflow_project "${KUBEFLOW_PROJECT}" \
     --arg network_project "${NETWORK_PROJECT}" \
     --arg secret_project "${SECRET_PROJECT}" \
@@ -17,6 +18,7 @@ request_json=$(
           "compute_project": $compute_project,
           "cluster_location": $cluster_location,
           "iam_project": $iam_project,
+          "dns_project": $dns_project,
           "kubeflow_project": $kubeflow_project,
           "network_project": $network_project,
           "secret_project": $secret_project
