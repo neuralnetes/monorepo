@@ -75,7 +75,7 @@ metadata:
   name: istio-certs
 spec:
   dnsNames:
-  - '*.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
+  - '*.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
 ---
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
@@ -83,7 +83,7 @@ metadata:
   name: istio-certs-letsencrypt-prod
 spec:
   dnsNames:
-  - '*.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
+  - '*.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
 ---
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
@@ -91,7 +91,7 @@ metadata:
   name: istio-certs-self-signed
 spec:
   dnsNames:
-  - '*.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}'
+  - '*.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
 EOF
 
 cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -246,7 +246,7 @@ spec:
         args:
         - --source=service
         - --provider=google
-        - --google-project=${NETWORK_PROJECT}
+        - --google-project=${DNS_PROJECT}
         - --registry=txt
         - --txt-owner-id=${KUBEFLOW_PROJECT}
 EOF
@@ -281,7 +281,7 @@ spec:
     solvers:
       - dns01:
           clouddns:
-            project: ${NETWORK_PROJECT}
+            project: ${DNS_PROJECT}
             serviceAccountSecretRef:
               name: service-account-key
               key: key.json
@@ -296,7 +296,7 @@ spec:
     solvers:
       - dns01:
           clouddns:
-            project: ${NETWORK_PROJECT}
+            project: ${DNS_PROJECT}
             serviceAccountSecretRef:
               name: service-account-key
               key: key.json
@@ -320,7 +320,7 @@ metadata:
   name: istio-ingressgateway
   namespace: istio-system
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: '*.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}.'
+    external-dns.alpha.kubernetes.io/hostname: '*.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}.'
 spec:
   type: LoadBalancer
 EOF
@@ -374,7 +374,7 @@ metadata:
   namespace: istio-system
 data:
   OIDC_AUTH_URL: /dex/auth
-  OIDC_PROVIDER: https://central-dashboard.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex
+  OIDC_PROVIDER: https://central-dashboard.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}/dex
   OIDC_SCOPES: profile email groups
   PORT: '"8080"'
   REDIRECT_URL: /login/oidc
@@ -401,7 +401,7 @@ metadata:
   name: dex
 data:
   config.yaml: |
-    issuer: https://central-dashboard.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex
+    issuer: https://central-dashboard.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}/dex
     storage:
       type: kubernetes
       config:
@@ -430,7 +430,7 @@ data:
         clientSecret: \$GOOGLE_CLIENT_SECRET
 
         # Dex's issuer URL + "/callback"
-        redirectURI: https://central-dashboard.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
+        redirectURI: https://central-dashboard.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
         serviceAccountFilePath: /etc/dex/service-account-key/key.json
     - type: github
       id: github
@@ -439,7 +439,7 @@ data:
         # Connector config values starting with a "$" will read from the environment.
         clientID: \$GITHUB_CLIENT_ID
         clientSecret: \$GITHUB_CLIENT_SECRET
-        redirectURI: https://central-dashboard.${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
+        redirectURI: https://central-dashboard.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
 
 EOF
 
@@ -497,7 +497,7 @@ metadata:
   name: config-domain
   namespace: knative-serving
 data:
-  ${KUBEFLOW_PROJECT}.${NETWORK_PROJECT}.${GCP_WORKSPACE_DOMAIN_NAME}: ""
+  non-prod.${GCP_WORKSPACE_DOMAIN_NAME}: ""
 ---
 apiVersion: v1
 kind: ConfigMap

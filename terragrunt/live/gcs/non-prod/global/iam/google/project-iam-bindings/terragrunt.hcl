@@ -104,6 +104,19 @@ inputs = {
       }
       project = dependency.dns_project.outputs.project_id
     },
+    {
+      name = "${dependency.dns_project.outputs.project_id}-02"
+      bindings = {
+        for project_role in [
+          "roles/dns.admin"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cert-manager"].email}",
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["external-dns"].email}"
+        ]
+      }
+      project = dependency.dns_project.outputs.project_id
+    },
     # kubeflow
     {
       name     = "${dependency.kubeflow_project.outputs.project_id}-00"
