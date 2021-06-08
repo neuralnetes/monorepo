@@ -2,6 +2,7 @@
 source "${GITHUB_WORKSPACE}/bash/gcloud/functions.sh"
 export PROJECTS=$(gcloud projects list --format=json | jq)
 export IAM_PROJECT=$(get_project_id_by_prefix "iam" "${PROJECTS}")
+export DNS_PROJECT=$(get_project_id_by_prefix "dns" "${PROJECTS}")
 export SECRET_PROJECT=$(get_project_id_by_prefix "secret" "${PROJECTS}")
 export NETWORK_PROJECT=$(get_project_id_by_prefix "network" "${PROJECTS}")
 export DATA_PROJECT=$(get_project_id_by_prefix "data" "${PROJECTS}")
