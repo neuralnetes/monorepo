@@ -344,7 +344,7 @@ spec:
       name: http
       protocol: HTTP
     tls:
-      httpsRedirect: true
+      httpsRedirect: false
     hosts:
     - '*'
   - port:
@@ -533,7 +533,7 @@ spec:
       name: http
       protocol: HTTP
     tls:
-      httpsRedirect: true
+      httpsRedirect: false
     hosts:
     - '*'
   - port:
