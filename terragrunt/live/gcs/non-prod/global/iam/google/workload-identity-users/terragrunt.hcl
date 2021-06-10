@@ -105,6 +105,12 @@ locals {
         "dex"
       ]
     }
+    cloud-sdk = {
+      kubernetes_namespace = "cloud-sdk"
+      kubernetes_service_accounts = [
+        "cloud-sdk"
+      ]
+    }
   }
 }
 
