@@ -3,10 +3,4 @@ kind: Kustomization
 metadata:
   name: kubeflow-profiles
 spec:
-  interval: 1m
   path: kustomize/manifests/profiles/overlays/kubeflow-ptlp
-  prune: true
-  sourceRef:
-    name: monorepo
-    kind: GitRepository
-  targetNamespace: flux-system
