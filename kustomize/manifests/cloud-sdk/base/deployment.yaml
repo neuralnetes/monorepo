@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-sdk
+  labels:
+    app: cloud-sdk
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cloud-sdk
+  template:
+    metadata:
+      labels:
+        app: cloud-sdk
+    spec:
+      serviceAccountName: cloud-sdk
+      containers:
+        - name: cloud-sdk
+          image: gcr.io/google.com/cloudsdktool/cloud-sdk:alpine
+          command:
+            - sleep
+            - "3600"

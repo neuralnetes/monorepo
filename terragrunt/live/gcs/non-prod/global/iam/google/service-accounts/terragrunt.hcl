@@ -20,6 +20,7 @@ inputs = {
     for service_account_id in [
       "dex-auth",
       "cert-manager",
+      "cloud-sdk",
       "compute-instance",
       "container-cluster",
       "external-dns",

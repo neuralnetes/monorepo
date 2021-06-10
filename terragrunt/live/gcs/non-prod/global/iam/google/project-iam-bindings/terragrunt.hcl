@@ -112,7 +112,8 @@ inputs = {
         ] :
         project_role => [
           "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cert-manager"].email}",
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["external-dns"].email}"
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["external-dns"].email}",
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cloud-sdk"].email}"
         ]
       }
       project = dependency.dns_project.outputs.project_id

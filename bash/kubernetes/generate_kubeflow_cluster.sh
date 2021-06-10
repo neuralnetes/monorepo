@@ -1,5 +1,6 @@
 #!/bin/bash
 PATHS=(
+  "kustomize/manifests/cloud-sdk/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/external-secrets/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/external-dns/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/secrets/auth/overlays/${KUBEFLOW_PROJECT}"
@@ -31,7 +32,25 @@ for path in "${PATHS[@]}"; do
   mkdir -p "${path}"
 done
 
+# cloud-sdk
+cat <<EOF > "kustomize/manifests/cloud-sdk/overlays/${KUBEFLOW_PROJECT}/patch-service-account.yaml"
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cloud-sdk
+  annotations:
+    iam.gke.io/gcp-service-account: cloud-sdk@${IAM_PROJECT}.iam.gserviceaccount.com
+EOF
 
+cat <<EOF > "kustomize/manifests/cloud-sdk/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
+namespace: cloud-sdk
+resources:
+- ../../base
+patchesStrategicMerge:
+- patch-service-account.yaml
+EOF
+
+# profiles
 cat <<EOF > "kustomize/manifests/profiles/overlays/${KUBEFLOW_PROJECT}/profile.yaml"
 apiVersion: kubeflow.org/v1beta1
 kind: Profile
@@ -665,16 +684,28 @@ kind: Kustomization
 metadata:
   name: kubeflow-profiles
 spec:
-  interval: 1m
   path: kustomize/manifests/profiles/overlays/${KUBEFLOW_PROJECT}
-  prune: true
-  sourceRef:
-    name: monorepo
-    kind: GitRepository
-  targetNamespace: flux-system
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/profiles/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
+resources:
+- ../../base
+resources:
+- flux-kustomization.yaml
+EOF
+
+cat <<EOF > "kustomize/manifests/flux-kustomization/cloud-sdk/overlays/${KUBEFLOW_PROJECT}/flux-kustomization.yaml"
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: cloud-sdk
+spec:
+  path: kustomize/manifests/cloud-sdk/overlays/${KUBEFLOW_PROJECT}
+EOF
+
+cat <<EOF > "kustomize/manifests/flux-kustomization/cloud-sdk/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
+resources:
+- ../../base
 resources:
 - flux-kustomization.yaml
 EOF
@@ -759,6 +790,7 @@ resources:
 - ../../../secrets/istio-system/overlays/${KUBEFLOW_PROJECT}
 - ../../../kubeflow/overlays/${KUBEFLOW_PROJECT}
 - ../../../profiles/overlays/${KUBEFLOW_PROJECT}
+- ../../../cloud-sdk/overlays/${KUBEFLOW_PROJECT}
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
 EOF
