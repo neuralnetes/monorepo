@@ -96,6 +96,7 @@ metadata:
 spec:
   dnsNames:
   - 'kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
+  - 'www.kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
 ---
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
