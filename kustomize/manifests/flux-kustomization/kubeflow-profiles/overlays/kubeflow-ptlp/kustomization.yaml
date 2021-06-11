@@ -1,4 +1,2 @@
 resources:
-- ../../base
-patchesStrategicMerge:
-- patch-flux-kustomization.yaml
+- flux-kustomization.yaml
