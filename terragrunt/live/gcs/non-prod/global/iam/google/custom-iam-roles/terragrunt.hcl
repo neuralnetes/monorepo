@@ -27,9 +27,9 @@ inputs = {
     {
       target_level = "project"
       target_id    = dependency.iam_project.outputs.project_id
-      role_id      = "clientauthconfig-00"
-      title        = "clientauthconfig-00"
-      description  = "clientauthconfig-00"
+      role_id      = "clientauthconfig_00"
+      title        = "clientauthconfig_00"
+      description  = "clientauthconfig_00"
       base_roles   = []
       permissions = [
         "clientauthconfig.brands.get",
