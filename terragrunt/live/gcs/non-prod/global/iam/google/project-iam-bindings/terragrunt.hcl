@@ -113,7 +113,6 @@ inputs = {
         project_role => [
           "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cert-manager"].email}",
           "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["external-dns"].email}",
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cloud-sdk"].email}"
         ]
       }
       project = dependency.dns_project.outputs.project_id
@@ -173,18 +172,6 @@ inputs = {
         ] :
         project_role => [
           "group:terraform@${local.gcp_workspace_domain_name}"
-        ]
-      }
-      project = dependency.kubeflow_project.outputs.project_id
-    },
-    {
-      name = "${dependency.kubeflow_project.outputs.project_id}-04"
-      bindings = {
-        for project_role in [
-          "roles/container.admin"
-        ] :
-        project_role => [
-          "group:kubeflow-default-editors@${local.gcp_workspace_domain_name}"
         ]
       }
       project = dependency.kubeflow_project.outputs.project_id
