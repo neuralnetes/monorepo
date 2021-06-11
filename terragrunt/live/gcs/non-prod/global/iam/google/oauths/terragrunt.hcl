@@ -36,6 +36,9 @@ inputs = {
       application_title = "dex"
       support_email     = "terraform@${local.gcp_workspace_domain_name}"
       project           = dependency.iam_project.outputs.project_id
+      redirect_uris = [
+        "https://kubeflow.non-prod.${local.gcp_workspace_domain_name}/dex/callback"
+      ]
     }
   ]
 }

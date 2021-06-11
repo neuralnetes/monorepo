@@ -1,0 +1,42 @@
+terraform {
+  source = "github.com/neuralnetes/monorepo.git//terraform/modules/google/custom-iam-roles?ref=main"
+}
+
+include {
+  path = find_in_parent_folders()
+}
+
+dependency "iam_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
+}
+
+dependency "service_accounts" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
+}
+
+dependency "auth" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/auth"
+}
+
+locals {
+  gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
+}
+
+inputs = {
+  custom_iam_roles = [
+    {
+      target_level = "project"
+      target_id    = dependency.iam_project.outputs.project_id
+      role_id      = "clientauthconfig-00"
+      title        = "clientauthconfig-00"
+      description  = "clientauthconfig-00"
+      base_roles   = []
+      permissions = [
+        "clientauthconfig.brands.get",
+        "clientauthconfig.clients.create",
+        "clientauthconfig.clients.update"
+      ]
+      members = ["user:alexander.lerma@${local.gcp_workspace_domain_name}"]
+    }
+  ]
+}
