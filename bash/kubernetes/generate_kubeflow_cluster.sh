@@ -95,8 +95,10 @@ metadata:
   name: istio-certs-letsencrypt-staging
 spec:
   dnsNames:
+  - '*.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
   - 'kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
   - 'www.kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
+  - 'yfinance.default.kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
 ---
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
@@ -104,8 +106,10 @@ metadata:
   name: istio-certs-letsencrypt-prod
 spec:
   dnsNames:
+  - '*.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
   - 'kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
   - 'www.kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
+  - 'yfinance.default.kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
 ---
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
@@ -113,8 +117,10 @@ metadata:
   name: istio-certs-self-signed
 spec:
   dnsNames:
+  - '*.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
   - 'kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
   - 'www.kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
+  - 'yfinance.default.kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
 EOF
 
 cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
