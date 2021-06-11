@@ -92,7 +92,7 @@ cat <<EOF > "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJEC
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
-  name: istio-certs
+  name: istio-certs-letsencrypt-staging
 spec:
   dnsNames:
   - 'kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
