@@ -15,6 +15,7 @@ PATHS=(
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base"
   "kustomize/manifests/profiles/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/deploy/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/cloud-sdk/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/external-secrets/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/external-dns/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/secrets/auth/overlays/${KUBEFLOW_PROJECT}"
