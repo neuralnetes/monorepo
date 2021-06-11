@@ -679,7 +679,7 @@ patchesStrategicMerge:
 - patch-flux-kustomization.yaml
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/profiles/overlays/${KUBEFLOW_PROJECT}/flux-kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/profiles/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
@@ -691,11 +691,11 @@ EOF
 cat <<EOF > "kustomize/manifests/flux-kustomization/profiles/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 resources:
 - ../../base
-resources:
-- flux-kustomization.yaml
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/cloud-sdk/overlays/${KUBEFLOW_PROJECT}/flux-kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/cloud-sdk/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:

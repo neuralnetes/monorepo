@@ -4,5 +4,4 @@ resources:
 - ../../flux-git-repositories/base
 - ../../cluster-role-bindings/base
 - ../../nvidia-driver-installer/base
-- ../../cloud-sdk/base
 - flux-kustomization.yaml
