@@ -3,6 +3,6 @@ variable "oauths" {
     application_title = string
     support_email     = string
     project           = string
-    redirect_uris     = string
+    redirect_uris     = list(string)
   }))
 }
