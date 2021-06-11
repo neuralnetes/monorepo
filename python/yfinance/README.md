@@ -7,11 +7,7 @@ curl -X POST "TRIGGER_GOES_HERE"   -H "Content-Type:application/json"   -H "Auth
 ```
 
 ```
-ARTIFACT_REGISTRY_REPOSITORY_URL=us-central1-docker.pkg.dev/artifact-gvjs/cluster-gvjs
+ARTIFACT_REGISTRY_REPOSITORY_URL=us-central1-docker.pkg.dev/artifact-ptlp/cluster-ptlp
 docker build -t "${ARTIFACT_REGISTRY_REPOSITORY_URL}/yfinance" .
 docker push "${ARTIFACT_REGISTRY_REPOSITORY_URL}/yfinance"
-```
-
-```
-
 ```
