@@ -679,20 +679,24 @@ patchesStrategicMerge:
 - patch-flux-kustomization.yaml
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}/flux-kustomization.yaml"
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: kubeflow-profiles
 spec:
+  interval: 1m
   path: kustomize/manifests/kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+  targetNamespace: flux-system
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 resources:
-- ../../base
-patchesStrategicMerge:
-- patch-flux-kustomization.yaml
+- flux-kustomization.yaml
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/cloud-sdk/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
@@ -707,8 +711,8 @@ EOF
 cat <<EOF > "kustomize/manifests/flux-kustomization/cloud-sdk/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 resources:
 - ../../base
-resources:
-- flux-kustomization.yaml
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml
 EOF
 
 cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
