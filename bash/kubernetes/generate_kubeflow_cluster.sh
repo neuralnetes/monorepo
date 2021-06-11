@@ -374,7 +374,7 @@ spec:
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: istio-certs-letsencrypt-staging
+      credentialName: istio-certs-letsencrypt-prod
     hosts:
     - '*'
 EOF
@@ -563,7 +563,7 @@ spec:
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: istio-certs-letsencrypt-staging
+      credentialName: istio-certs-letsencrypt-prod
     hosts:
     - '*'
 EOF
