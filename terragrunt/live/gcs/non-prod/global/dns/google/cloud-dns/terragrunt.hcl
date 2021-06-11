@@ -35,6 +35,15 @@ inputs = {
             records = [
               "${domain}."
             ]
+          },
+          {
+            name = "caa"
+            type = "CAA"
+            ttl  = 300
+            records = [
+              "0 issue \"letsencrypt.org\"",
+              "0 issue \"pki.goog\""
+            ]
           }
         ]
       }
