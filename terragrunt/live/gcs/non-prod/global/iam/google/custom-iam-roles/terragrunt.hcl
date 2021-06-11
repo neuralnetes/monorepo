@@ -36,7 +36,8 @@ inputs = {
         "clientauthconfig.clients.create",
         "clientauthconfig.clients.update"
       ]
-      members = ["user:alexander.lerma@${local.gcp_workspace_domain_name}"]
+      excluded_permissions = []
+      members              = ["user:alexander.lerma@${local.gcp_workspace_domain_name}"]
     }
   ]
 }
