@@ -10,7 +10,7 @@ spec:
   plugins:
   - kind: WorkloadIdentity
     spec:
-      gcpServiceAccount: kubeflow-user@iam-ptlp.iam.gserviceaccount.com
+      gcpServiceAccount: kubeflow-default-editor@iam-ptlp.iam.gserviceaccount.com
 ---
 apiVersion: kubeflow.org/v1beta1
 kind: Profile
@@ -24,4 +24,4 @@ spec:
   plugins:
   - kind: WorkloadIdentity
     spec:
-      gcpServiceAccount: kubeflow-user@iam-ptlp.iam.gserviceaccount.com
+      gcpServiceAccount: kubeflow-default-editor@iam-ptlp.iam.gserviceaccount.com

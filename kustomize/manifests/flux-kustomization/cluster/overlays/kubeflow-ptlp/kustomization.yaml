@@ -8,7 +8,7 @@ resources:
 - ../../../secrets/kubeflow/overlays/kubeflow-ptlp
 - ../../../secrets/istio-system/overlays/kubeflow-ptlp
 - ../../../kubeflow/overlays/kubeflow-ptlp
-- ../../../profiles/overlays/kubeflow-ptlp
+- ../../../kubeflow-profiles/overlays/kubeflow-ptlp
 - ../../../cloud-sdk/overlays/kubeflow-ptlp
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
