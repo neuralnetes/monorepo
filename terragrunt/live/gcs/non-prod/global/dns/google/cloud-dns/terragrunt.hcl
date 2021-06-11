@@ -37,7 +37,7 @@ inputs = {
             ]
           },
           {
-            name = "caa"
+            name = ""
             type = "CAA"
             ttl  = 300
             records = [
