@@ -48,7 +48,7 @@ inputs = {
           "user:${email}"
         ]
       }
-      service_account = dependency.service_accounts.outputs.service_accounts_map["kubeflow-user"].email
+      service_account = dependency.service_accounts.outputs.service_accounts_map["kubeflow-default-editor"].email
       project         = dependency.iam_project.outputs.project_id
     }
   ]

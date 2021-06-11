@@ -13,7 +13,7 @@ PATHS=(
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio"
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base"
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base"
-  "kustomize/manifests/profiles/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/deploy/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/cloud-sdk/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/external-secrets/overlays/${KUBEFLOW_PROJECT}"
@@ -23,7 +23,7 @@ PATHS=(
   "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/kubeflow/overlays/${KUBEFLOW_PROJECT}"
-  "kustomize/manifests/flux-kustomization/profiles/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/deploy/overlays/${KUBEFLOW_PROJECT}"
 )
@@ -52,7 +52,7 @@ patchesStrategicMerge:
 EOF
 
 # profiles
-cat <<EOF > "kustomize/manifests/profiles/overlays/${KUBEFLOW_PROJECT}/profile.yaml"
+cat <<EOF > "kustomize/manifests/kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}/profile.yaml"
 apiVersion: kubeflow.org/v1beta1
 kind: Profile
 metadata:
@@ -65,7 +65,7 @@ spec:
   plugins:
   - kind: WorkloadIdentity
     spec:
-      gcpServiceAccount: kubeflow-user@${IAM_PROJECT}.iam.gserviceaccount.com
+      gcpServiceAccount: kubeflow-default-editor@${IAM_PROJECT}.iam.gserviceaccount.com
 ---
 apiVersion: kubeflow.org/v1beta1
 kind: Profile
@@ -79,10 +79,10 @@ spec:
   plugins:
   - kind: WorkloadIdentity
     spec:
-      gcpServiceAccount: kubeflow-user@${IAM_PROJECT}.iam.gserviceaccount.com
+      gcpServiceAccount: kubeflow-default-editor@${IAM_PROJECT}.iam.gserviceaccount.com
 EOF
 
-cat <<EOF > "kustomize/manifests/profiles/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 resources:
 - profile.yaml
 EOF
@@ -679,16 +679,16 @@ patchesStrategicMerge:
 - patch-flux-kustomization.yaml
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/profiles/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}/patch-flux-kustomization.yaml"
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
   name: kubeflow-profiles
 spec:
-  path: kustomize/manifests/profiles/overlays/${KUBEFLOW_PROJECT}
+  path: kustomize/manifests/kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}
 EOF
 
-cat <<EOF > "kustomize/manifests/flux-kustomization/profiles/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
+cat <<EOF > "kustomize/manifests/flux-kustomization/kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
 resources:
 - ../../base
 patchesStrategicMerge:
@@ -790,7 +790,7 @@ resources:
 - ../../../secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}
 - ../../../secrets/istio-system/overlays/${KUBEFLOW_PROJECT}
 - ../../../kubeflow/overlays/${KUBEFLOW_PROJECT}
-- ../../../profiles/overlays/${KUBEFLOW_PROJECT}
+- ../../../kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}
 - ../../../cloud-sdk/overlays/${KUBEFLOW_PROJECT}
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml

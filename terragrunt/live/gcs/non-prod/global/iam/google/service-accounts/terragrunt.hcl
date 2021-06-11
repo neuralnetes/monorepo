@@ -27,7 +27,8 @@ inputs = {
       "external-secrets",
       "grafana-cloud",
       "kubeflow",
-      "kubeflow-user",
+      "kubeflow-default-editor",
+      "kubeflow-default-viewer",
       "openvpn"
     ] :
     {
