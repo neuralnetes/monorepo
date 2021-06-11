@@ -365,7 +365,7 @@ spec:
       name: http
       protocol: HTTP
     tls:
-      httpsRedirect: false
+      httpsRedirect: true
     hosts:
     - '*'
   - port:
@@ -374,7 +374,7 @@ spec:
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: istio-certs
+      credentialName: istio-certs-letsencrypt-staging
     hosts:
     - '*'
 EOF
@@ -554,7 +554,7 @@ spec:
       name: http
       protocol: HTTP
     tls:
-      httpsRedirect: false
+      httpsRedirect: true
     hosts:
     - '*'
   - port:
@@ -563,7 +563,7 @@ spec:
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: istio-certs
+      credentialName: istio-certs-letsencrypt-staging
     hosts:
     - '*'
 EOF
