@@ -79,7 +79,7 @@ spec:
   plugins:
   - kind: WorkloadIdentity
     spec:
-      gcpServiceAccount: iam-macdonald@${IAM_PROJECT}.iam.gserviceaccount.com
+      gcpServiceAccount: ian-macdonald@${IAM_PROJECT}.iam.gserviceaccount.com
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
