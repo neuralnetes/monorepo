@@ -44,11 +44,11 @@ inputs = {
           ]
         },
         {
-          name                    = dependency.subnetworks.outputs.subnets["us-central1/management-${dependency.random_string.outputs.result}"].id,
+          name                    = dependency.subnetworks.outputs.subnets["us-central1/management-${dependency.random_string.outputs.result}-nodes"].id,
           source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
           secondary_ip_range_names = [
-            dependency.subnetworks.outputs.subnets["us-central1/management-${dependency.random_string.outputs.result}"].secondary_ip_range[0].range_name,
-            dependency.subnetworks.outputs.subnets["us-central1/management-${dependency.random_string.outputs.result}"].secondary_ip_range[1].range_name
+            dependency.subnetworks.outputs.subnets["us-central1/management-${dependency.random_string.outputs.result}-nodes"].secondary_ip_range[0].range_name,
+            dependency.subnetworks.outputs.subnets["us-central1/management-${dependency.random_string.outputs.result}-nodes"].secondary_ip_range[1].range_name
           ]
         }
       ]
