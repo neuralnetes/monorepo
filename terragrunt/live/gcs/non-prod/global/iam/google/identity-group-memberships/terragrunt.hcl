@@ -10,6 +10,14 @@ dependency "service_accounts" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
 }
 
+dependency "service_accounts" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
+}
+
+dependency "service_account_access_tokens" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-account-access-tokens"
+}
+
 dependency "identity_groups" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/identity-groups"
 }
@@ -23,7 +31,7 @@ generate "google_provider" {
   if_exists = "overwrite_terragrunt"
   contents  = <<-EOF
     provider "google" {
-      access_token = "${dependency.auth.outputs.access_token}"
+      access_token = "${dependency.service_account_access_tokens.outputs.service_account_access_tokens_map["terraform"].access_token}"
     }
 EOF
 }
@@ -33,7 +41,7 @@ generate "google_beta_provider" {
   if_exists = "overwrite_terragrunt"
   contents  = <<-EOF
     provider "google-beta" {
-      access_token = "${dependency.auth.outputs.access_token}"
+      access_token = "${dependency.service_account_access_tokens.outputs.service_account_access_tokens_map["terraform"].access_token}"
     }
 EOF
 }

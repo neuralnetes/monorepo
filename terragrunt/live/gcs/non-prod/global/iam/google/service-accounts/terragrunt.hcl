@@ -10,6 +10,11 @@ dependency "iam_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
 }
 
+dependency "terraform_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/project"
+}
+
+
 dependency "random_string" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
 }
@@ -44,5 +49,13 @@ inputs = {
       account_id = service_account_id
     }
   ]
-  service_account_datas = []
+  service_account_datas = [
+    for service_account_id in [
+      "terraform"
+    ] :
+    {
+      project    = dependency.terraform_project.outputs.project_id
+      account_id = service_account_id
+    }
+  ]
 }

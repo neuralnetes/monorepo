@@ -27,13 +27,31 @@ dependency "auth" {
 }
 
 inputs = {
-  service_account_access_tokens = [
-    for service_account_name in ["compute-instance", "container-cluster"] :
-    {
+  service_account_access_tokens = flatten([
+    [
+      for service_account_name in ["compute-instance", "container-cluster"] :
+      {
 
-      lifetime               = "1800s"
-      target_service_account = dependency.service_accounts.outputs.service_accounts_map[service_account_name].email
-      scopes                 = ["userinfo-email", "cloud-platform"]
-    }
-  ]
+        lifetime               = "1800s"
+        target_service_account = dependency.service_accounts.outputs.service_accounts_map[service_account_name].email
+        scopes                 = ["userinfo-email", "cloud-platform"]
+      }
+    ],
+    [
+      for service_account_name in ["terraform"] :
+      {
+
+        lifetime               = "1800s"
+        target_service_account = dependency.service_accounts.outputs.service_account_datas_map[service_account_name].email
+        scopes = [
+          "https://www.googleapis.com/auth/cloud-platform",
+          "https://www.googleapis.com/auth/cloud-identity.groups",
+          "https://www.googleapis.com/auth/cloud-identity.devices.lookup",
+          "https://www.googleapis.com/auth/admin.directory.group",
+          "https://www.googleapis.com/auth/groups",
+          "https://www.googleapis.com/auth/userinfo.email"
+        ]
+      }
+    ]
+  ])
 }
