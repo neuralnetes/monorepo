@@ -32,7 +32,6 @@ inputs = {
       description  = "clientauthconfig_00"
       base_roles   = []
       permissions = [
-        "authconfig.testusers.update",
         "clientauthconfig.brands.create",
         "clientauthconfig.brands.get",
         "clientauthconfig.brands.update",
@@ -42,6 +41,7 @@ inputs = {
         "clientauthconfig.clients.update",
         "iam.serviceAccounts.list",
         "oauthconfig.testusers.get",
+        "oauthconfig.testusers.update",
         "oauthconfig.verification.get",
         "oauthconfig.verification.update",
         "resourcemanager.projects.get",
