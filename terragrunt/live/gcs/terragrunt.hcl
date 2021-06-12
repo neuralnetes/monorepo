@@ -20,23 +20,17 @@ remote_state {
 
 generate "google_provider" {
   path      = "google_provider.tf"
-  if_exists = "overwrite_terragrunt"
+  if_exists = "skip"
   contents  = <<-EOF
-    provider "google" {
-      user_project_override = true
-      billing_project = "${get_env("GCP_PROJECT_ID")}"
-    }
+    provider "google" {}
 EOF
 }
 
 generate "google_beta_provider" {
   path      = "google_beta_provider.tf"
-  if_exists = "overwrite_terragrunt"
+  if_exists = "skip"
   contents  = <<-EOF
-    provider "google-beta" {
-      user_project_override = true
-      billing_project = "${get_env("GCP_PROJECT_ID")}"
-    }
+    provider "google-beta" {}
 EOF
 }
 

@@ -14,6 +14,30 @@ dependency "identity_groups" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/identity-groups"
 }
 
+dependency "auth" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/auth"
+}
+
+generate "google_provider" {
+  path      = "google_provider.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = <<-EOF
+    provider "google" {
+      access_token = "${dependency.auth.outputs.access_token}"
+    }
+EOF
+}
+
+generate "google_beta_provider" {
+  path      = "google_beta_provider.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = <<-EOF
+    provider "google-beta" {
+      access_token = "${dependency.auth.outputs.access_token}"
+    }
+EOF
+}
+
 locals {
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
   kubeflow_admin_emails     = split(",", get_env("KUBEFLOW_ADMIN_EMAILS"))
