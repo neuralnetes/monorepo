@@ -14,7 +14,6 @@ dependency "terraform_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/project"
 }
 
-
 dependency "random_string" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
 }
@@ -42,7 +41,7 @@ locals {
     [
       for email in local.emails :
       replace(
-        replace(email, "@{local.gcp_workspace_domain_name}", ""),
+        replace(email, "@${local.gcp_workspace_domain_name}", ""),
         ".",
         "-"
       )
