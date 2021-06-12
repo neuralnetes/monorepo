@@ -39,7 +39,7 @@ inputs = {
       ],
       [
         for kubeflow_user_email in local.kubeflow_user_emails :
-        replace(kubeflow_user_email, "@${local.gcp_workspace_domain_name}", "")
+        replace(replace(replace(kubeflow_user_email, local.gcp_workspace_domain_name, ""), "@", ""), ".", "-")
       ]
     ]) :
     {
