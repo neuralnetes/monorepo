@@ -56,30 +56,30 @@ cat <<EOF > "kustomize/manifests/kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}/
 apiVersion: kubeflow.org/v1beta1
 kind: Profile
 metadata:
-  name: alexander-lerma-neuralnetes-com
+  name: alexander-lerma
 spec:
   owner:
     kind: User
-    name: alexander.lerma@neuralnetes.com
+    name: alexander.lerma@${GCP_WORKSPACE_DOMAIN_NAME}
   resourceQuotaSpec: {}
   plugins:
   - kind: WorkloadIdentity
     spec:
-      gcpServiceAccount: kubeflow-default-editor@${IAM_PROJECT}.iam.gserviceaccount.com
+      gcpServiceAccount: alexander-lerma@${IAM_PROJECT}.iam.gserviceaccount.com
 ---
 apiVersion: kubeflow.org/v1beta1
 kind: Profile
 metadata:
-  name: ian-macdonald-neuralnetes-com
+  name: ian-macdonald
 spec:
   owner:
     kind: User
-    name: ian.macdonald@neuralnetes.com
+    name: ian.macdonald@${GCP_WORKSPACE_DOMAIN_NAME}
   resourceQuotaSpec: {}
   plugins:
   - kind: WorkloadIdentity
     spec:
-      gcpServiceAccount: kubeflow-default-editor@${IAM_PROJECT}.iam.gserviceaccount.com
+      gcpServiceAccount: iam-macdonald@${IAM_PROJECT}.iam.gserviceaccount.com
 EOF
 
 cat <<EOF > "kustomize/manifests/kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"

@@ -32,10 +32,7 @@ inputs = {
         "external-dns",
         "external-secrets",
         "grafana-cloud",
-        "kubeflow",
-        "kubeflow-default-editor",
-        "kubeflow-default-viewer",
-        "openvpn"
+        "kubeflow"
       ],
       [
         for kubeflow_user_email in local.kubeflow_user_emails :

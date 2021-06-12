@@ -130,15 +130,12 @@ inputs = {
     ],
     [
       for kubeflow_user_email in split(",", get_env("KUBEFLOW_USER_EMAILS")) :
-      [
-        for kubernetes_service_account in ["default-editor", "default-viewer"] :
-        {
-          project_id                 = dependency.kubeflow_project.outputs.project_id
-          service_account_id         = dependency.service_accounts.outputs.service_accounts_map["kubeflow-${kubernetes_service_account}"].email
-          kubernetes_namespace       = replace(replace(kubeflow_user_email, "@", "-"), ".", "-")
-          kubernetes_service_account = kubernetes_service_account
-        }
-      ]
+      {
+        project_id                 = dependency.kubeflow_project.outputs.project_id
+        service_account_id         = dependency.service_accounts.outputs.service_accounts_map[replace(replace(replace(kubeflow_user_email, local.gcp_workspace_domain_name, ""), "@", ""), ".", "-")].email
+        kubernetes_namespace       = replace(replace(replace(kubeflow_user_email, local.gcp_workspace_domain_name, ""), "@", ""), ".", "-")
+        kubernetes_service_account = "default-editor"
+      }
     ]
   ])
 }

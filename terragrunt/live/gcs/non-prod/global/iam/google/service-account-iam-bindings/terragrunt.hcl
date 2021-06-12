@@ -36,19 +36,19 @@ locals {
 
 inputs = {
   service_account_iam_bindings = [
+    for kubeflow_user_email in split(",", get_env("KUBEFLOW_USER_EMAILS")) :
     {
-      name = "kubeflow-user-00"
+      name = replace(replace(replace(kubeflow_user_email, local.gcp_workspace_domain_name, ""), "@", ""), ".", "-")
       bindings = {
         for role in [
           "roles/iam.serviceAccountUser",
           "roles/iam.serviceAccountTokenCreator"
         ] :
         role => [
-          for email in split(",", get_env("KUBEFLOW_USER_EMAILS")) :
-          "user:${email}"
+          "user:${kubeflow_user_email}"
         ]
       }
-      service_account = dependency.service_accounts.outputs.service_accounts_map["kubeflow-default-editor"].email
+      service_account = dependency.service_accounts.outputs.service_accounts_map[replace(replace(replace(kubeflow_user_email, local.gcp_workspace_domain_name, ""), "@", ""), ".", "-")].email
       project         = dependency.iam_project.outputs.project_id
     }
   ]
