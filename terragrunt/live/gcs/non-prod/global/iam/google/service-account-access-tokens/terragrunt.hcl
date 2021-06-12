@@ -43,7 +43,13 @@ inputs = {
 
         lifetime               = "1800s"
         target_service_account = dependency.service_accounts.outputs.service_account_datas_map[service_account_name].email
-        scopes                 = ["userinfo-email", "cloud-platform"]
+        scopes = [
+          "https://www.googleapis.com/auth/cloud-platform",
+          "https://www.googleapis.com/auth/userinfo.email",
+          "https://www.googleapis.com/auth/cloud-identity.groups",
+          "https://www.googleapis.com/auth/admin.directory.user",
+          "https://www.googleapis.com/auth/admin.directory.group"
+        ]
       }
     ]
   ])

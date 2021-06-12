@@ -36,8 +36,6 @@ generate "google_provider" {
   contents  = <<-EOF
     provider "google" {
       access_token = "${dependency.service_account_access_tokens.outputs.service_account_access_tokens_map["terraform"].access_token}"
-      user_project_override = true
-      billing_project = "${dependency.terraform_project.outputs.project_id}"
     }
 EOF
 }
@@ -48,8 +46,6 @@ generate "google_beta_provider" {
   contents  = <<-EOF
     provider "google-beta" {
       access_token = "${dependency.service_account_access_tokens.outputs.service_account_access_tokens_map["terraform"].access_token}"
-      user_project_override = true
-      billing_project = "${dependency.terraform_project.outputs.project_id}"
     }
 EOF
 }
