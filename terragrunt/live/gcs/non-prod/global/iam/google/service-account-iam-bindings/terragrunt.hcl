@@ -56,7 +56,12 @@ locals {
       email = email
     }
   }
-  service_account_iam_bindings = values(merge(kubeflow_users_map, kubeflow_admins_map))
+  service_account_iam_bindings = values(
+    merge(
+      local.kubeflow_users_map,
+      local.kubeflow_admins_map
+    )
+  )
 }
 
 inputs = {
