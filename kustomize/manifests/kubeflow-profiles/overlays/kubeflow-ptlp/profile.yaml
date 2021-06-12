@@ -1,7 +1,7 @@
 apiVersion: kubeflow.org/v1beta1
 kind: Profile
 metadata:
-  name: alexander-lerma-neuralnetes-com
+  name: alexander-lerma
 spec:
   owner:
     kind: User
@@ -10,12 +10,12 @@ spec:
   plugins:
   - kind: WorkloadIdentity
     spec:
-      gcpServiceAccount: kubeflow-default-editor@iam-ptlp.iam.gserviceaccount.com
+      gcpServiceAccount: alexander-lerma@iam-ptlp.iam.gserviceaccount.com
 ---
 apiVersion: kubeflow.org/v1beta1
 kind: Profile
 metadata:
-  name: ian-macdonald-neuralnetes-com
+  name: ian-macdonald
 spec:
   owner:
     kind: User
@@ -24,4 +24,4 @@ spec:
   plugins:
   - kind: WorkloadIdentity
     spec:
-      gcpServiceAccount: kubeflow-default-editor@iam-ptlp.iam.gserviceaccount.com
+      gcpServiceAccount: ian-macdonald@iam-ptlp.iam.gserviceaccount.com
