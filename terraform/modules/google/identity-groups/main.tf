@@ -7,6 +7,7 @@ locals {
 
 resource "google_cloud_identity_group" "identity_groups" {
   for_each     = local.identity_groups_map
+  provider     = google-beta
   display_name = each.value["display_name"]
   parent       = each.value["parent"]
   group_key {
