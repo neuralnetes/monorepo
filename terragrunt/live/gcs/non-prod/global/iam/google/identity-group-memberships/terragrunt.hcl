@@ -22,8 +22,12 @@ dependency "identity_groups" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/identity-groups"
 }
 
-dependency "auth" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/auth"
+dependency "terraform_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/project"
+}
+
+dependency "service_account_access_tokens" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-account-access-tokens"
 }
 
 generate "google_provider" {
@@ -32,6 +36,8 @@ generate "google_provider" {
   contents  = <<-EOF
     provider "google" {
       access_token = "${dependency.service_account_access_tokens.outputs.service_account_access_tokens_map["terraform"].access_token}"
+      user_project_override = true
+      billing_project = "${dependency.terraform_project.outputs.project_id}"
     }
 EOF
 }
@@ -42,6 +48,8 @@ generate "google_beta_provider" {
   contents  = <<-EOF
     provider "google-beta" {
       access_token = "${dependency.service_account_access_tokens.outputs.service_account_access_tokens_map["terraform"].access_token}"
+      user_project_override = true
+      billing_project = "${dependency.terraform_project.outputs.project_id}"
     }
 EOF
 }

@@ -10,8 +10,8 @@ dependency "terraform_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/project"
 }
 
-dependency "auth" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/auth"
+dependency "service_account_access_tokens" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-account-access-tokens"
 }
 
 generate "google_provider" {
@@ -19,7 +19,7 @@ generate "google_provider" {
   if_exists = "overwrite_terragrunt"
   contents  = <<-EOF
     provider "google" {
-      access_token = "${dependency.auth.outputs.access_token}"
+      access_token = "${dependency.service_account_access_tokens.outputs.service_account_access_tokens_map["terraform"].access_token}"
       user_project_override = true
       billing_project = "${dependency.terraform_project.outputs.project_id}"
     }
@@ -31,7 +31,7 @@ generate "google_beta_provider" {
   if_exists = "overwrite_terragrunt"
   contents  = <<-EOF
     provider "google-beta" {
-      access_token = "${dependency.auth.outputs.access_token}"
+      access_token = "${dependency.service_account_access_tokens.outputs.service_account_access_tokens_map["terraform"].access_token}"
       user_project_override = true
       billing_project = "${dependency.terraform_project.outputs.project_id}"
     }
