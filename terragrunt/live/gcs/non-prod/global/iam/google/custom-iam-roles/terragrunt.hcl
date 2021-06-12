@@ -34,7 +34,11 @@ inputs = {
       permissions = [
         "clientauthconfig.brands.get",
         "clientauthconfig.clients.create",
-        "clientauthconfig.clients.update"
+        "clientauthconfig.clients.update",
+        "clientauthconfig.brands.create",
+        "clientauthconfig.brands.update",
+        "oauthconfig.verification.update",
+        "authconfig.testusers.update"
       ]
       excluded_permissions = []
       members              = ["user:alexander.lerma@${local.gcp_workspace_domain_name}"]
