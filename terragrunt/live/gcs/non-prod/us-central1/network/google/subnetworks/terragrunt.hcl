@@ -54,7 +54,7 @@ inputs = {
       subnet_private_access     = "true"
       subnet_flow_logs          = "true"
       subnet_flow_logs_metadata = "INCLUDE_ALL_METADATA"
-      description               = "management-${dependency.random_string.outputs.result}"
+      description               = "management-${dependency.random_string.outputs.result}-nodes"
     }
   ]
   secondary_ranges = {
@@ -76,7 +76,7 @@ inputs = {
         )
       }
     ]
-    "management-${dependency.random_string.outputs.result}" = [
+    "management-${dependency.random_string.outputs.result}-nodes" = [
       {
         range_name = "management-${dependency.random_string.outputs.result}-pods"
         ip_cidr_range = cidrsubnet(
