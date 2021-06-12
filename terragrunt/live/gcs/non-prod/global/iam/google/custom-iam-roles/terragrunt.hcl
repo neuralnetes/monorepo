@@ -125,6 +125,7 @@ inputs = {
         title        = replace("kubeflow_admin_${project}", "-", "_")
         description  = replace("kubeflow_admin_${project}", "-", "_")
         base_roles = [
+          "roles/viewer",
           "roles/artifactregistry.writer"
         ]
         permissions          = []
@@ -144,7 +145,9 @@ inputs = {
         role_id      = replace("kubeflow_admin_${project}", "-", "_")
         title        = replace("kubeflow_admin_${project}", "-", "_")
         description  = replace("kubeflow_admin_${project}", "-", "_")
-        base_roles   = []
+        base_roles = [
+          "roles/viewer"
+        ]
         permissions = [
           "clientauthconfig.brands.create",
           "clientauthconfig.brands.get",
@@ -179,6 +182,7 @@ inputs = {
         title        = replace("kubeflow_admin_${project}", "-", "_")
         description  = replace("kubeflow_admin_${project}", "-", "_")
         base_roles = [
+          "roles/viewer",
           "roles/compute.admin",
           "roles/container.admin"
         ]
@@ -200,7 +204,7 @@ inputs = {
         title        = replace("kubeflow_admin_${project}", "-", "_")
         description  = replace("kubeflow_admin_${project}", "-", "_")
         base_roles = [
-          "roles/storage.viewer"
+          "roles/viewer"
         ]
         permissions          = []
         excluded_permissions = []
@@ -220,7 +224,7 @@ inputs = {
         title        = replace("kubeflow_admin_${project}", "-", "_")
         description  = replace("kubeflow_admin_${project}", "-", "_")
         base_roles = [
-          "roles/secretmanager.viewer"
+          "roles/viewer"
         ]
         permissions          = []
         excluded_permissions = []
