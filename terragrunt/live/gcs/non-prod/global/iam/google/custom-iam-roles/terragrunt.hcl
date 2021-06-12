@@ -32,13 +32,20 @@ inputs = {
       description  = "clientauthconfig_00"
       base_roles   = []
       permissions = [
-        "clientauthconfig.brands.get",
-        "clientauthconfig.clients.create",
-        "clientauthconfig.clients.update",
+        "authconfig.testusers.update",
         "clientauthconfig.brands.create",
+        "clientauthconfig.brands.get",
         "clientauthconfig.brands.update",
+        "clientauthconfig.clients.create",
+        "clientauthconfig.clients.get",
+        "clientauthconfig.clients.list",
+        "clientauthconfig.clients.update",
+        "iam.serviceAccounts.list",
+        "oauthconfig.testusers.get",
+        "oauthconfig.verification.get",
         "oauthconfig.verification.update",
-        "authconfig.testusers.update"
+        "resourcemanager.projects.get",
+        "serviceusage.services.list"
       ]
       excluded_permissions = []
       members              = ["user:alexander.lerma@${local.gcp_workspace_domain_name}"]
