@@ -56,24 +56,12 @@ dependency "auth" {
 
 locals {
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
-  terraform_group_default_bindings = {
-    for project_role in [
-      "roles/viewer"
-    ] :
-    project_role => [
-      "group:terraform@${local.gcp_workspace_domain_name}"
-    ]
-  }
+  kubeflow_user_emails      = split(",", get_env("KUBEFLOW_USER_EMAILS"))
 }
 
 inputs = {
   project_iam_bindings = [
     # artifact
-    {
-      name     = "${dependency.artifact_project.outputs.project_id}-00"
-      bindings = local.terraform_group_default_bindings
-      project  = dependency.artifact_project.outputs.project_id
-    },
     {
       name = "${dependency.artifact_project.outputs.project_id}-01"
       bindings = {
@@ -81,17 +69,13 @@ inputs = {
           "roles/artifactregistry.writer"
         ] :
         project_role => [
-          "group:terraform@${local.gcp_workspace_domain_name}",
+          for kubeflow_user_email in local.kubeflow_user_emails :
+          "user:${kubeflow_user_email}"
         ]
       }
       project = dependency.artifact_project.outputs.project_id
     },
     # dns
-    {
-      name     = "${dependency.dns_project.outputs.project_id}-00"
-      bindings = local.terraform_group_default_bindings
-      project  = dependency.dns_project.outputs.project_id
-    },
     {
       name = "${dependency.dns_project.outputs.project_id}-01"
       bindings = {
@@ -118,11 +102,6 @@ inputs = {
       project = dependency.dns_project.outputs.project_id
     },
     # kubeflow
-    {
-      name     = "${dependency.kubeflow_project.outputs.project_id}-00"
-      bindings = local.terraform_group_default_bindings
-      project  = dependency.kubeflow_project.outputs.project_id
-    },
     {
       name = "${dependency.kubeflow_project.outputs.project_id}-01"
       bindings = {
@@ -171,17 +150,13 @@ inputs = {
           "roles/container.admin"
         ] :
         project_role => [
-          "group:terraform@${local.gcp_workspace_domain_name}"
+          for kubeflow_user_email in local.kubeflow_user_emails :
+          "user:${kubeflow_user_email}"
         ]
       }
       project = dependency.kubeflow_project.outputs.project_id
     },
     # compute
-    {
-      name     = "${dependency.compute_project.outputs.project_id}-00"
-      bindings = local.terraform_group_default_bindings
-      project  = dependency.compute_project.outputs.project_id
-    },
     {
       name = "${dependency.compute_project.outputs.project_id}-01"
       bindings = {
@@ -225,17 +200,13 @@ inputs = {
           "roles/container.admin"
         ] :
         project_role => [
-          "group:terraform@${local.gcp_workspace_domain_name}"
+          for kubeflow_user_email in local.kubeflow_user_emails :
+          "user:${kubeflow_user_email}"
         ]
       }
       project = dependency.compute_project.outputs.project_id
     },
     # data
-    {
-      name     = "${dependency.data_project.outputs.project_id}-00"
-      bindings = local.terraform_group_default_bindings
-      project  = dependency.data_project.outputs.project_id
-    },
     {
       name = "${dependency.data_project.outputs.project_id}-01"
       bindings = {
@@ -265,11 +236,6 @@ inputs = {
       project = dependency.data_project.outputs.project_id
     },
     # iam
-    {
-      name     = "${dependency.iam_project.outputs.project_id}-00"
-      bindings = local.terraform_group_default_bindings
-      project  = dependency.iam_project.outputs.project_id
-    },
     {
       name = "${dependency.iam_project.outputs.project_id}-01"
       bindings = {
@@ -331,11 +297,6 @@ inputs = {
       project = dependency.network_project.outputs.project_id
     },
     # secret
-    {
-      name     = "${dependency.secret_project.outputs.project_id}-00"
-      bindings = local.terraform_group_default_bindings
-      project  = dependency.secret_project.outputs.project_id
-    },
     {
       name = "${dependency.secret_project.outputs.project_id}-01"
       bindings = {
