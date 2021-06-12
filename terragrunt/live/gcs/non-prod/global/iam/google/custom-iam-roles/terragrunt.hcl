@@ -10,92 +10,117 @@ dependency "iam_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
 }
 
+dependency "kubeflow_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
+}
+
 dependency "service_accounts" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
 }
 
-dependency "auth" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/auth"
+dependency "identity_groups" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/identity-groups"
 }
 
 locals {
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
-  kubeflow_user_emails      = split(",", get_env("KUBEFLOW_USER_EMAILS"))
-  kubeflow_users_map = {
-    for kubeflow_user_email in local.kubeflow_user_emails :
-    kubeflow_user_email => {
-      user = kubeflow_user_email
-      serviceAccount = replace(
-        replace(kubeflow_user_email, "@{local.gcp_workspace_domain_name}", ""),
-        ".",
-        "-"
-      )
-    }
-  }
-  kubeflow_admin_emails = split(",", get_env("KUBEFLOW_ADMIN_EMAILS"))
-  kubeflow_admins_map = {
-    for kubeflow_user_email in local.kubeflow_user_emails :
-    kubeflow_admin_email => {
-      user = kubeflow_admin_email
-      serviceAccount = replace(
-        replace(kubeflow_admin_email, "@{local.gcp_workspace_domain_name}", ""),
-        ".",
-        "-"
-      )
-    }
-  }
 }
 
 inputs = {
   custom_iam_roles = flatten([
+    # kubeflow-user # kubeflow-user # kubeflow-user # kubeflow-user # kubeflow-user # kubeflow-user #
     [
       for project in [
         dependency.artifact_project.outputs.project_id,
-        dependency.compute_project.outputs.project_id,
-        dependency.data_project.outputs.project_id,
-        dependency.kubeflow_project.outputs.project_id,
-        dependency.network_project.outputs.project_id,
-        dependency.secret_project.outputs.project_id
       ] :
       {
         target_level = "project"
-        target_id    = dependency.kubeflow_project.outputs.project_id
-        role_id      = replace("kubeflow_users_${project}", "-", "_")
-        title        = replace("kubeflow_users_${project}", "-", "_")
-        description  = replace("kubeflow_users_${project}", "-", "_")
+        target_id    = project
+        role_id      = replace("kubeflow_user_${project}", "-", "_")
+        title        = replace("kubeflow_user_${project}", "-", "_")
+        description  = replace("kubeflow_user_${project}", "-", "_")
         base_roles = [
-          "roles/artifactregistry.writer",
-          "roles/container.clusterViewer",
-          "roles/iap.httpsResourceAccessor"
+          "roles/artifactregistry.reader"
         ]
-        permissions = [
-          "roles/artifactregistry.writer"
-        ]
+        permissions          = []
         excluded_permissions = []
         members = [
-          for kubeflow_user_email, kubeflow_user in local.kubeflow_users_map :
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map[kubeflow_user["serviceAccount"]]}"
+          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-user"].group_key[0].id}"
+        ]
+      }
+    ],
+    [
+      for project in [
+        dependency.kubeflow_project.outputs.project_id,
+      ] :
+      {
+        target_level = "project"
+        target_id    = project
+        role_id      = replace("kubeflow_user_${project}", "-", "_")
+        title        = replace("kubeflow_user_${project}", "-", "_")
+        description  = replace("kubeflow_user_${project}", "-", "_")
+        base_roles = [
+          "roles/container.clusterViewer"
+        ]
+        permissions          = []
+        excluded_permissions = []
+        members = [
+          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-user"].group_key[0].id}"
+        ]
+      }
+    ],
+    [
+      for project in [
+        dependency.data_project.outputs.project_id,
+      ] :
+      {
+        target_level = "project"
+        target_id    = project
+        role_id      = replace("kubeflow_user_${project}", "-", "_")
+        title        = replace("kubeflow_user_${project}", "-", "_")
+        description  = replace("kubeflow_user_${project}", "-", "_")
+        base_roles = [
+          "roles/storage.viewer"
+        ]
+        permissions          = []
+        excluded_permissions = []
+        members = [
+          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-user"].group_key[0].id}"
+        ]
+      }
+    ],
+    # kubeflow-admin
+    [
+      for project in [
+        dependency.artifact_project.outputs.project_id,
+      ] :
+      {
+        target_level = "project"
+        target_id    = project
+        role_id      = replace("kubeflow_admin_${project}", "-", "_")
+        title        = replace("kubeflow_admin_${project}", "-", "_")
+        description  = replace("kubeflow_admin_${project}", "-", "_")
+        base_roles = [
+          "roles/artifactregistry.writer"
+        ]
+        permissions          = []
+        excluded_permissions = []
+        members = [
+          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-admin"].group_key[0].id}"
         ]
       }
     ],
     [
       for project in [
         dependency.iam_project.outputs.project_id,
-        dependency.compute_project.outputs.project_id,
-        dependency.data_project.outputs.project_id,
-        dependency.kubeflow_project.outputs.project_id,
-        dependency.network_project.outputs.project_id,
-        dependency.secret_project.outputs.project_id
       ] :
       {
         target_level = "project"
-        target_id    = dependency.kubeflow_project.outputs.project_id
-        role_id      = replace("kubeflow_admins_${project}", "-", "_")
-        title        = replace("kubeflow_admins_${project}", "-", "_")
-        description  = replace("kubeflow_admins_${project}", "-", "_")
-        base_roles = [
-          "roles/viewer",
-        ]
+        target_id    = project
+        role_id      = replace("kubeflow_admin_${project}", "-", "_")
+        title        = replace("kubeflow_admin_${project}", "-", "_")
+        description  = replace("kubeflow_admin_${project}", "-", "_")
+        base_roles   = []
         permissions = [
           "clientauthconfig.brands.create",
           "clientauthconfig.brands.get",
@@ -114,10 +139,71 @@ inputs = {
         ]
         excluded_permissions = []
         members = [
-          for kubeflow_admin_email, kubeflow_admin in local.kubeflow_admins_map :
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map[kubeflow_user["serviceAccount"]]}"
+          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-admin"].group_key[0].id}"
         ]
       }
-    ]
+    ],
+    [
+      for project in [
+        dependency.kubeflow_project.outputs.project_id,
+        dependency.compute_project.outputs.project_id,
+      ] :
+      {
+        target_level = "project"
+        target_id    = project
+        role_id      = replace("kubeflow_admin_${project}", "-", "_")
+        title        = replace("kubeflow_admin_${project}", "-", "_")
+        description  = replace("kubeflow_admin_${project}", "-", "_")
+        base_roles = [
+          "roles/compute.admin",
+          "roles/container.admin"
+        ]
+        permissions          = []
+        excluded_permissions = []
+        members = [
+          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-admin"].group_key[0].id}"
+        ]
+      }
+    ],
+    [
+      for project in [
+        dependency.data_project.outputs.project_id,
+      ] :
+      {
+        target_level = "project"
+        target_id    = project
+        role_id      = replace("kubeflow_admin_${project}", "-", "_")
+        title        = replace("kubeflow_admin_${project}", "-", "_")
+        description  = replace("kubeflow_admin_${project}", "-", "_")
+        base_roles = [
+          "roles/storage.viewer"
+        ]
+        permissions          = []
+        excluded_permissions = []
+        members = [
+          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-admin"].group_key[0].id}"
+        ]
+      }
+    ],
+    [
+      for project in [
+        dependency.secret_project.outputs.project_id,
+      ] :
+      {
+        target_level = "project"
+        target_id    = project
+        role_id      = replace("kubeflow_admin_${project}", "-", "_")
+        title        = replace("kubeflow_admin_${project}", "-", "_")
+        description  = replace("kubeflow_admin_${project}", "-", "_")
+        base_roles = [
+          "roles/secretmanager.viewer"
+        ]
+        permissions          = []
+        excluded_permissions = []
+        members = [
+          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-admin"].group_key[0].id}"
+        ]
+      }
+    ],
   ])
 }
