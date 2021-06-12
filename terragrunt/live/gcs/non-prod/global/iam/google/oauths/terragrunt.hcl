@@ -33,3 +33,5 @@ locals {
 inputs = {
   oauths = []
 }
+
+skip = true

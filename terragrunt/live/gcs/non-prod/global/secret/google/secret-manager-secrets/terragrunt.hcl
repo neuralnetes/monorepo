@@ -26,10 +26,6 @@ dependency "service_account_keys" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-account-keys"
 }
 
-dependency "oauths" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/oauths"
-}
-
 dependency "cloud_sqls" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/data/google/cloud-sqls"
 }
@@ -74,8 +70,6 @@ inputs = {
       project_id = dependency.secret_project.outputs.project_id
       secret_id  = "${dependency.kubeflow_project.outputs.project_id}-auth-dex-secrets"
       secret_data = jsonencode({
-        //        GOOGLE_CLIENT_ID     = dependency.oauths.outputs.clients_map["dex"].client_id
-        //        GOOGLE_CLIENT_SECRET = dependency.oauths.outputs.clients_map["dex"].secret
         GOOGLE_CLIENT_ID     = get_env("GOOGLE_CLIENT_ID")
         GOOGLE_CLIENT_SECRET = get_env("GOOGLE_CLIENT_SECRET")
         GITHUB_CLIENT_ID     = get_env("GITHUB_CLIENT_ID")
