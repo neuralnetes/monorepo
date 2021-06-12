@@ -1,20 +1,12 @@
-variable "memberships" {
-  type = list(object({
-    group         = string
-    roles_name    = string
-    member_key_id = string
-  }))
-}
-
 locals {
-  memberships_map = {
-    for membership in var.memberships :
+  identity_group_memberships_map = {
+    for membership in var.identity_group_memberships :
     membership["name"] => membership
   }
 }
 
-resource "google_cloud_identity_group_membership" "memberships" {
-  for_each = local.memberships_map
+resource "google_cloud_identity_group_membership" "identity_group_memberships" {
+  for_each = local.identity_group_memberships_map
   group    = each.value["group"]
   roles {
     name = each.value["roles_name"]
@@ -22,8 +14,4 @@ resource "google_cloud_identity_group_membership" "memberships" {
   member_key {
     id = each.value["member_key_id"]
   }
-}
-
-output "memberships_map" {
-  value = google_cloud_identity_group_membership.memberships
 }

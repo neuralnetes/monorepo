@@ -56,38 +56,11 @@ dependency "auth" {
 
 locals {
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
-  kubeflow_user_emails      = split(",", get_env("KUBEFLOW_USER_EMAILS"))
 }
 
 inputs = {
   project_iam_bindings = [
-    # artifact
-    {
-      name = "${dependency.artifact_project.outputs.project_id}-01"
-      bindings = {
-        for project_role in [
-          "roles/artifactregistry.writer"
-        ] :
-        project_role => [
-          for kubeflow_user_email in local.kubeflow_user_emails :
-          "user:${kubeflow_user_email}"
-        ]
-      }
-      project = dependency.artifact_project.outputs.project_id
-    },
     # dns
-    {
-      name = "${dependency.dns_project.outputs.project_id}-01"
-      bindings = {
-        for project_role in [
-          "roles/dns.admin"
-        ] :
-        project_role => [
-          "serviceAccount:${dependency.auth.outputs.email}"
-        ]
-      }
-      project = dependency.dns_project.outputs.project_id
-    },
     {
       name = "${dependency.dns_project.outputs.project_id}-02"
       bindings = {
@@ -102,18 +75,6 @@ inputs = {
       project = dependency.dns_project.outputs.project_id
     },
     # kubeflow
-    {
-      name = "${dependency.kubeflow_project.outputs.project_id}-01"
-      bindings = {
-        for project_role in [
-          "roles/compute.admin"
-        ] :
-        project_role => [
-          "serviceAccount:${dependency.auth.outputs.email}"
-        ]
-      }
-      project = dependency.kubeflow_project.outputs.project_id
-    },
     {
       name = "${dependency.kubeflow_project.outputs.project_id}-02"
       bindings = {
@@ -143,32 +104,7 @@ inputs = {
       }
       project = dependency.kubeflow_project.outputs.project_id
     },
-    {
-      name = "${dependency.kubeflow_project.outputs.project_id}-04"
-      bindings = {
-        for project_role in [
-          "roles/container.admin"
-        ] :
-        project_role => [
-          for kubeflow_user_email in local.kubeflow_user_emails :
-          "user:${kubeflow_user_email}"
-        ]
-      }
-      project = dependency.kubeflow_project.outputs.project_id
-    },
     # compute
-    {
-      name = "${dependency.compute_project.outputs.project_id}-01"
-      bindings = {
-        for project_role in [
-          "roles/compute.admin"
-        ] :
-        project_role => [
-          "serviceAccount:${dependency.auth.outputs.email}"
-        ]
-      }
-      project = dependency.compute_project.outputs.project_id
-    },
     {
       name = "${dependency.compute_project.outputs.project_id}-02"
       bindings = {
@@ -177,31 +113,6 @@ inputs = {
         ] :
         project_role => [
           "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["grafana-cloud"].email}"
-        ]
-      }
-      project = dependency.compute_project.outputs.project_id
-    },
-    {
-      name = "${dependency.compute_project.outputs.project_id}-03"
-      bindings = {
-        for project_role in [
-          "roles/viewer"
-        ] :
-        project_role => [
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["compute-instance"].email}"
-        ]
-      }
-      project = dependency.compute_project.outputs.project_id
-    },
-    {
-      name = "${dependency.compute_project.outputs.project_id}-04"
-      bindings = {
-        for project_role in [
-          "roles/container.admin"
-        ] :
-        project_role => [
-          for kubeflow_user_email in local.kubeflow_user_emails :
-          "user:${kubeflow_user_email}"
         ]
       }
       project = dependency.compute_project.outputs.project_id
