@@ -6,28 +6,8 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "dns_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/dns/google/project"
-}
-
 dependency "artifact_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/artifact/google/project"
-}
-
-dependency "iam_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
-}
-
-dependency "terraform_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/project"
-}
-
-dependency "service_accounts" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
-}
-
-dependency "kubeflow_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
 }
 
 dependency "compute_project" {
@@ -38,6 +18,18 @@ dependency "data_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/google/project"
 }
 
+dependency "dns_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/dns/google/project"
+}
+
+dependency "iam_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
+}
+
+dependency "kubeflow_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
+}
+
 dependency "network_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/project"
 }
@@ -46,12 +38,12 @@ dependency "secret_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/secret/google/project"
 }
 
-dependency "random_string" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
+dependency "terraform_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/project"
 }
 
-dependency "auth" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/auth"
+dependency "service_accounts" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
 }
 
 locals {
