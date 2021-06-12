@@ -31,16 +31,17 @@ inputs = {
     [
       for service_account_name in ["compute-instance", "container-cluster"] :
       {
-
         lifetime               = "1800s"
         target_service_account = dependency.service_accounts.outputs.service_accounts_map[service_account_name].email
-        scopes                 = ["userinfo-email", "cloud-platform"]
+        scopes = [
+          "https://www.googleapis.com/auth/cloud-platform",
+          "https://www.googleapis.com/auth/userinfo.email"
+        ]
       }
     ],
     [
       for service_account_name in ["terraform"] :
       {
-
         lifetime               = "1800s"
         target_service_account = dependency.service_accounts.outputs.service_account_datas_map[service_account_name].email
         scopes = [
