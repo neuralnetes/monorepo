@@ -112,28 +112,53 @@ locals {
       ]
     }
   }
+  kubeflow_admin_emails = split(",", get_env("KUBEFLOW_ADMIN_EMAILS"))
+  kubeflow_admins_map = {
+    for email in local.kubeflow_admin_emails :
+    email => {
+      name = replace(
+        replace(email, "@{local.gcp_workspace_domain_name}", ""),
+        ".",
+        "-"
+      )
+      email = email
+    }
+  }
+  kubeflow_user_emails = split(",", get_env("KUBEFLOW_USER_EMAILS"))
+  kubeflow_users_map = {
+    for email in local.kubeflow_user_emails :
+    email => {
+      name = replace(
+        replace(email, "@{local.gcp_workspace_domain_name}", ""),
+        ".",
+        "-"
+      )
+      email = email
+    }
+  }
+  workload_identity_users = values(merge(kubeflow_users_map, kubeflow_admins_map))
 }
 
 inputs = {
   workload_identity_users = flatten([
     [
-      for service_account_name, workload_identity_user in local.workload_identity_users_map :
+      for name, workload_identity_user in local.workload_identity_users_map :
       [
         for kubernetes_service_account in workload_identity_user["kubernetes_service_accounts"] :
         {
           project_id                 = dependency.kubeflow_project.outputs.project_id
-          service_account_id         = dependency.service_accounts.outputs.service_accounts_map[service_account_name].email
+          service_account_id         = dependency.service_accounts.outputs.service_accounts_map[name].email
           kubernetes_namespace       = workload_identity_user["kubernetes_namespace"]
           kubernetes_service_account = kubernetes_service_account
         }
       ]
     ],
     [
-      for kubeflow_user_email in split(",", get_env("KUBEFLOW_USER_EMAILS")) :
+      for email, workload_identity_user in local.workload_identity_users :
       {
         project_id                 = dependency.kubeflow_project.outputs.project_id
-        service_account_id         = dependency.service_accounts.outputs.service_accounts_map[replace(replace(replace(kubeflow_user_email, local.gcp_workspace_domain_name, ""), "@", ""), ".", "-")].email
-        kubernetes_namespace       = replace(replace(replace(kubeflow_user_email, local.gcp_workspace_domain_name, ""), "@", ""), ".", "-")
+        service_account_id         = dependency.service_accounts.outputs.service_accounts_map[workload_identity_user["name"]].email
+        kubernetes_namespace       = workload_identity_user["name"]
         kubernetes_service_account = "default-editor"
       }
     ]

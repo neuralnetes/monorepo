@@ -32,10 +32,51 @@ dependency "auth" {
 
 locals {
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
-  kubeflow_user_emails      = split(",", get_env("KUBEFLOW_USER_EMAILS"))
   kubeflow_admin_emails     = split(",", get_env("KUBEFLOW_ADMIN_EMAILS"))
+  kubeflow_admins_map = {
+    for email in local.kubeflow_admin_emails :
+    email => {
+      name = replace(
+        replace(email, "@{local.gcp_workspace_domain_name}", ""),
+        ".",
+        "-"
+      )
+      email = email
+    }
+  }
+  kubeflow_user_emails = split(",", get_env("KUBEFLOW_USER_EMAILS"))
+  kubeflow_users_map = {
+    for email in local.kubeflow_user_emails :
+    email => {
+      name = replace(
+        replace(email, "@{local.gcp_workspace_domain_name}", ""),
+        ".",
+        "-"
+      )
+      email = email
+    }
+  }
+  service_account_iam_bindings = values(merge(kubeflow_users_map, kubeflow_admins_map))
 }
 
 inputs = {
-  service_account_iam_bindings = flatten([])
+  service_account_iam_bindings = flatten([
+    [
+      for service_account_iam_binding in local.service_account_iam_bindings :
+      {
+        name = service_account_iam_binding["name"]
+        bindings = {
+          for role in [
+            "roles/iam.serviceAccountUser",
+            "roles/iam.serviceAccountTokenCreator",
+          ] :
+          role => [
+            "user:${email}"
+          ]
+        }
+        service_account = dependency.service_accounts.outputs.service_accounts_map[service_account_iam_binding["name"]].email
+        project         = dependency.iam_project.outputs.project_id
+      }
+    ]
+  ])
 }
