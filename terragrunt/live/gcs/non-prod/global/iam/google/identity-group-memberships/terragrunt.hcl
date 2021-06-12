@@ -38,11 +38,11 @@ generate "google_provider" {
       billing_project = "${dependency.terraform_project.outputs.project_id}"
       user_project_override = true
       scopes = [
-        "https://www.googleapis.com/auth/cloud-platform",
-        "https://www.googleapis.com/auth/userinfo.email",
-        "https://www.googleapis.com/auth/cloud-identity.groups",
+        "https://www.googleapis.com/auth/admin.directory.group",
         "https://www.googleapis.com/auth/admin.directory.user",
-        "https://www.googleapis.com/auth/admin.directory.group"
+        "https://www.googleapis.com/auth/cloud-identity.groups",
+        "https://www.googleapis.com/auth/cloud-platform",
+        "https://www.googleapis.com/auth/userinfo.email"
       ]
     }
 EOF
@@ -56,11 +56,11 @@ generate "google_beta_provider" {
       billing_project = "${dependency.terraform_project.outputs.project_id}"
       user_project_override = true
       scopes = [
-        "https://www.googleapis.com/auth/cloud-platform",
-        "https://www.googleapis.com/auth/userinfo.email",
-        "https://www.googleapis.com/auth/cloud-identity.groups",
+        "https://www.googleapis.com/auth/admin.directory.group",
         "https://www.googleapis.com/auth/admin.directory.user",
-        "https://www.googleapis.com/auth/admin.directory.group"
+        "https://www.googleapis.com/auth/cloud-identity.groups",
+        "https://www.googleapis.com/auth/cloud-platform",
+        "https://www.googleapis.com/auth/userinfo.email"
       ]
     }
 EOF
@@ -91,19 +91,19 @@ locals {
 inputs = {
   identity_group_memberships = flatten([
     [
-      for email, service_account_id in local.kubeflow_users_map :
+      for email, service_account_id in local.kubeflow_admin_service_account_ids_map :
       {
-        name          = "kubeflow-user-${service_account_id}"
-        group         = dependency.identity_groups.outputs.identity_groups_map["kubeflow-user"].group_key[0].id
+        name          = "kubeflow-admin-${service_account_id}"
+        group         = dependency.identity_groups.outputs.identity_groups_map["kubeflow-admin"].group_key[0].id
         roles_name    = "MEMBER"
         member_key_id = dependency.service_accounts.outputs.service_accounts_map[service_account_id].email
       }
     ],
     [
-      for email, service_account_id in local.kubeflow_admins_map :
+      for email, service_account_id in local.kubeflow_user_service_account_ids_map :
       {
-        name          = "kubeflow-admin-${service_account_id}"
-        group         = dependency.identity_groups.outputs.identity_groups_map["kubeflow-admin"].group_key[0].id
+        name          = "kubeflow-user-${service_account_id}"
+        group         = dependency.identity_groups.outputs.identity_groups_map["kubeflow-user"].group_key[0].id
         roles_name    = "MEMBER"
         member_key_id = dependency.service_accounts.outputs.service_accounts_map[service_account_id].email
       }

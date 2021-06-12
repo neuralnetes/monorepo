@@ -1,7 +1,8 @@
 #!/bin/bash
+export GITHUB_WORKSPACE="${GOPATH}/src/github.com/${GITHUB_REPOSITORY}"
+source "${GITHUB_WORKSPACE}/github/functions.sh"
 export GITHUB_OWNER="neuralnetes"
 export GITHUB_REPOSITORY="${GITHUB_OWNER}/monorepo"
-export GITHUB_WORKSPACE="${GOPATH}/src/github.com/${GITHUB_REPOSITORY}"
 export GITHUB_USER="lerms"
 export GITHUB_USER_NAME="Alexander Lerma"
 export GITHUB_USER_EMAIL="alexander.lerma@neuralnetes.com"

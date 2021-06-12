@@ -212,3 +212,9 @@ function resource_manager_liens_delete() {
     --project="${HOST_PROJECT}" \
     "${GCLOUD_FLAGS[@]}"
 }
+
+function get_iam_role_included_permissions() {
+    ROLE=$1
+    gcloud iam roles describe "${ROLE}" --format=json \
+      | jq -rc '.includedPermissions[]'
+}
