@@ -16,9 +16,11 @@ dependency "service_account_access_tokens" {
 
 generate "google_provider" {
   path      = "google_provider.tf"
-  if_exists = "overwrite_terragrunt"
+  if_exists = "overwrite"
   contents  = <<-EOF
     provider "google" {
+      billing_project = "${dependency.terraform_project.outputs.project_id}"
+      user_project_override = true
       scopes = [
         "https://www.googleapis.com/auth/cloud-platform",
         "https://www.googleapis.com/auth/userinfo.email",
@@ -32,9 +34,11 @@ EOF
 
 generate "google_beta_provider" {
   path      = "google_beta_provider.tf"
-  if_exists = "overwrite_terragrunt"
+  if_exists = "overwrite"
   contents  = <<-EOF
     provider "google-beta" {
+      billing_project = "${dependency.terraform_project.outputs.project_id}"
+      user_project_override = true
       scopes = [
         "https://www.googleapis.com/auth/cloud-platform",
         "https://www.googleapis.com/auth/userinfo.email",

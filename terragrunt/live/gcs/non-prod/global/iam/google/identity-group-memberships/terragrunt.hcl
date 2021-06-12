@@ -32,20 +32,36 @@ dependency "service_account_access_tokens" {
 
 generate "google_provider" {
   path      = "google_provider.tf"
-  if_exists = "overwrite_terragrunt"
+  if_exists = "overwrite"
   contents  = <<-EOF
     provider "google" {
-      access_token = "${dependency.service_account_access_tokens.outputs.service_account_access_tokens_map["terraform"].access_token}"
+      billing_project = "${dependency.terraform_project.outputs.project_id}"
+      user_project_override = true
+      scopes = [
+        "https://www.googleapis.com/auth/cloud-platform",
+        "https://www.googleapis.com/auth/userinfo.email",
+        "https://www.googleapis.com/auth/cloud-identity.groups",
+        "https://www.googleapis.com/auth/admin.directory.user",
+        "https://www.googleapis.com/auth/admin.directory.group"
+      ]
     }
 EOF
 }
 
 generate "google_beta_provider" {
   path      = "google_beta_provider.tf"
-  if_exists = "overwrite_terragrunt"
+  if_exists = "overwrite"
   contents  = <<-EOF
     provider "google-beta" {
-      access_token = "${dependency.service_account_access_tokens.outputs.service_account_access_tokens_map["terraform"].access_token}"
+      billing_project = "${dependency.terraform_project.outputs.project_id}"
+      user_project_override = true
+      scopes = [
+        "https://www.googleapis.com/auth/cloud-platform",
+        "https://www.googleapis.com/auth/userinfo.email",
+        "https://www.googleapis.com/auth/cloud-identity.groups",
+        "https://www.googleapis.com/auth/admin.directory.user",
+        "https://www.googleapis.com/auth/admin.directory.group"
+      ]
     }
 EOF
 }

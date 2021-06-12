@@ -63,7 +63,7 @@ inputs = {
             "user:${email}"
           ]
         }
-        service_account = dependency.service_accounts.outputs.service_accounts_map[name].email
+        service_account = dependency.service_accounts.outputs.service_accounts_map[service_account_id].email
         project         = dependency.iam_project.outputs.project_id
       }
     ]
