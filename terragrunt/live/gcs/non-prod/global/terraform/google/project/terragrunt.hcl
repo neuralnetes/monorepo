@@ -11,6 +11,7 @@ inputs = {
   activate_apis = [
     "admin.googleapis.com",
     "cloudbilling.googleapis.com",
+    "cloudidentity.googleapis.com",
     "cloudresourcemanager.googleapis.com",
     "compute.googleapis.com",
     "container.googleapis.com",
