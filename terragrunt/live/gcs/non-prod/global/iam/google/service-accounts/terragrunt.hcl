@@ -28,11 +28,11 @@ locals {
   ]))
   service_account_ids = flatten([
     [
-      "dex-auth",
       "cert-manager",
       "cloud-sdk",
       "compute-instance",
       "container-cluster",
+      "dex-auth",
       "external-dns",
       "external-secrets",
       "grafana-cloud",
