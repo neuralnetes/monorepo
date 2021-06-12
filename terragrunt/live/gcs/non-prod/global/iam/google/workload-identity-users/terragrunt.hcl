@@ -136,7 +136,12 @@ locals {
       email = email
     }
   }
-  workload_identity_users = values(merge(kubeflow_users_map, kubeflow_admins_map))
+  workload_identity_users = values(
+    merge(
+      local.kubeflow_users_map,
+      local.kubeflow_admins_map
+    )
+  )
 }
 
 inputs = {
