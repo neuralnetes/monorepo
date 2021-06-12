@@ -104,7 +104,7 @@ inputs = {
         title        = replace("kubeflow_user_${project}", "-", "_")
         description  = replace("kubeflow_user_${project}", "-", "_")
         base_roles = [
-          "roles/storage.viewer"
+          "roles/storage.admin"
         ]
         permissions          = []
         excluded_permissions = []
