@@ -22,28 +22,38 @@ dependency "random_string" {
 locals {
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
   kubeflow_user_emails      = split(",", get_env("KUBEFLOW_USER_EMAILS"))
+  kubeflow_admin_emails     = split(",", get_env("KUBEFLOW_ADMIN_EMAILS"))
+  emails = toset(flatten([
+    local.kubeflow_user_emails,
+    local.kubeflow_admin_emails
+  ]))
+  service_account_ids = flatten([
+    [
+      "dex-auth",
+      "cert-manager",
+      "cloud-sdk",
+      "compute-instance",
+      "container-cluster",
+      "external-dns",
+      "external-secrets",
+      "grafana-cloud",
+      "kubeflow"
+    ],
+    [
+      for email in local.emails :
+      replace(
+        replace(email, "@{local.gcp_workspace_domain_name}", ""),
+        ".",
+        "-"
+      )
+    ]
+  ])
 }
 
 # test
 inputs = {
   service_accounts = [
-    for service_account_id in flatten([
-      [
-        "dex-auth",
-        "cert-manager",
-        "cloud-sdk",
-        "compute-instance",
-        "container-cluster",
-        "external-dns",
-        "external-secrets",
-        "grafana-cloud",
-        "kubeflow"
-      ],
-      [
-        for kubeflow_user_email in local.kubeflow_user_emails :
-        replace(replace(replace(kubeflow_user_email, local.gcp_workspace_domain_name, ""), "@", ""), ".", "-")
-      ]
-    ]) :
+    for service_account_id in local.service_account_ids :
     {
       project    = dependency.iam_project.outputs.project_id
       account_id = service_account_id
