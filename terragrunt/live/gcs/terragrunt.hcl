@@ -22,7 +22,10 @@ generate "google_provider" {
   path      = "google_provider.tf"
   if_exists = "overwrite_terragrunt"
   contents  = <<-EOF
-    provider "google" {}
+    provider "google" {
+      user_project_override = true
+      billing_project = "${get_env("GCP_PROJECT_ID")}"
+    }
 EOF
 }
 
@@ -30,7 +33,10 @@ generate "google_beta_provider" {
   path      = "google_beta_provider.tf"
   if_exists = "overwrite_terragrunt"
   contents  = <<-EOF
-    provider "google-beta" {}
+    provider "google-beta" {
+      user_project_override = true
+      billing_project = "${get_env("GCP_PROJECT_ID")}"
+    }
 EOF
 }
 
