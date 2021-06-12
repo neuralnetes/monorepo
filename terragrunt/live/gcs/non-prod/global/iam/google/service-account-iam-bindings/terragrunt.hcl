@@ -37,39 +37,5 @@ locals {
 }
 
 inputs = {
-  service_account_iam_bindings = flatten([
-    [
-      {
-        name = replace(replace(replace(kubeflow_user_email, local.gcp_workspace_domain_name, ""), "@", ""), ".", "-")
-        bindings = {
-          for role in [
-            "roles/iam.serviceAccountUser",
-            "roles/iam.serviceAccountTokenCreator"
-          ] :
-          role => [
-            "group:${dependency.identity_groups.outputs.groups_map["kubeflow-user"].group_key[0].id}"
-          ]
-        }
-        service_account = dependency.service_accounts.outputs.service_accounts_map[replace(replace(replace(kubeflow_user_email, local.gcp_workspace_domain_name, ""), "@", ""), ".", "-")].email
-        project         = dependency.iam_project.outputs.project_id
-      },
-    ],
-    [
-      for impersonation_service_account in ["container-cluster"] :
-      {
-        name = replace(replace(replace(kubeflow_admin_email, local.gcp_workspace_domain_name, ""), "@", ""), ".", "-")
-        bindings = {
-          for role in [
-            "roles/iam.serviceAccountUser",
-            "roles/iam.serviceAccountTokenCreator"
-          ] :
-          role => [
-            "group:${dependency.identity_groups.outputs.groups_map["kubeflow-admin"].group_key[0].id}"
-          ]
-        }
-        service_account = dependency.service_accounts.outputs.service_accounts_map[impersonation_service_account].email
-        project         = dependency.iam_project.outputs.project_id
-      }
-    ]
-  ])
+  service_account_iam_bindings = flatten([])
 }
