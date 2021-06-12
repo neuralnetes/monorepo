@@ -117,7 +117,7 @@ locals {
     for email in local.kubeflow_admin_emails :
     email => {
       name = replace(
-        replace(email, "@{local.gcp_workspace_domain_name}", ""),
+        replace(email, "@${local.gcp_workspace_domain_name}", ""),
         ".",
         "-"
       )
@@ -129,7 +129,7 @@ locals {
     for email in local.kubeflow_user_emails :
     email => {
       name = replace(
-        replace(email, "@{local.gcp_workspace_domain_name}", ""),
+        replace(email, "@${local.gcp_workspace_domain_name}", ""),
         ".",
         "-"
       )
