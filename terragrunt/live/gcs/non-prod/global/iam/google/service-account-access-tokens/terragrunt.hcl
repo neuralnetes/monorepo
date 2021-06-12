@@ -29,10 +29,10 @@ dependency "auth" {
 inputs = {
   service_account_access_tokens = flatten([
     [
-      for service_account_name in ["compute-instance", "container-cluster"] :
+      for service_account_id in ["compute-instance", "container-cluster"] :
       {
         lifetime               = "1800s"
-        target_service_account = dependency.service_accounts.outputs.service_accounts_map[service_account_name].email
+        target_service_account = dependency.service_accounts.outputs.service_accounts_map[service_account_id].email
         scopes = [
           "https://www.googleapis.com/auth/cloud-platform",
           "https://www.googleapis.com/auth/userinfo.email"
@@ -40,10 +40,10 @@ inputs = {
       }
     ],
     [
-      for service_account_name in ["terraform"] :
+      for service_account_id in ["terraform"] :
       {
         lifetime               = "1800s"
-        target_service_account = dependency.service_accounts.outputs.service_account_datas_map[service_account_name].email
+        target_service_account = dependency.service_accounts.outputs.service_account_datas_map[service_account_id].email
         scopes = [
           "https://www.googleapis.com/auth/cloud-platform",
           "https://www.googleapis.com/auth/userinfo.email",

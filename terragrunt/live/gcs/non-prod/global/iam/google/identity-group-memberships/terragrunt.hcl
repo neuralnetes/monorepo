@@ -53,50 +53,44 @@ EOF
 locals {
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
   kubeflow_admin_emails     = split(",", get_env("KUBEFLOW_ADMIN_EMAILS"))
-  kubeflow_admins_map = {
+  kubeflow_admin_service_account_ids_map = {
     for email in local.kubeflow_admin_emails :
-    email => {
-      name = replace(
-        replace(email, "@${local.gcp_workspace_domain_name}", ""),
-        ".",
-        "-"
-      )
-      email = email
-    }
+    email => replace(
+      split("@", email)[0],
+      ".",
+      "-"
+    )
   }
   kubeflow_user_emails = split(",", get_env("KUBEFLOW_USER_EMAILS"))
-  kubeflow_users_map = {
+  kubeflow_user_service_account_ids_map = {
     for email in local.kubeflow_user_emails :
-    email => {
-      name = replace(
-        replace(email, "@${local.gcp_workspace_domain_name}", ""),
-        ".",
-        "-"
-      )
-      email = email
-    }
+    email => replace(
+      split("@", email)[0],
+      ".",
+      "-"
+    )
   }
 }
 
 inputs = {
   identity_group_memberships = flatten([
     [
-      for email, kubeflow_user in local.kubeflow_users_map :
+      for email, service_account_id in local.kubeflow_users_map :
       {
-        name          = "kubeflow-user-${kubeflow_user["name"]}"
+        name          = "kubeflow-user-${service_account_id}"
         group         = dependency.identity_groups.outputs.identity_groups_map["kubeflow-user"].group_key[0].id
         roles_name    = "MEMBER"
-        member_key_id = dependency.service_accounts.outputs.service_accounts_map[kubeflow_user["name"]].email
+        member_key_id = dependency.service_accounts.outputs.service_accounts_map[service_account_id].email
       }
     ],
     [
-      for email, kubeflow_admin in local.kubeflow_admins_map :
+      for email, service_account_id in local.kubeflow_admins_map :
       {
-        name          = "kubeflow-admin-${kubeflow_admin["name"]}"
+        name          = "kubeflow-admin-${service_account_id}"
         group         = dependency.identity_groups.outputs.identity_groups_map["kubeflow-admin"].group_key[0].id
         roles_name    = "MEMBER"
-        member_key_id = dependency.service_accounts.outputs.service_accounts_map[kubeflow_admin["name"]].email
+        member_key_id = dependency.service_accounts.outputs.service_accounts_map[service_account_id].email
       }
-    ],
+    ]
   ])
 }

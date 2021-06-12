@@ -113,57 +113,41 @@ locals {
     }
   }
   kubeflow_admin_emails = split(",", get_env("KUBEFLOW_ADMIN_EMAILS"))
-  kubeflow_admins_map = {
-    for email in local.kubeflow_admin_emails :
-    email => {
-      name = replace(
-        replace(email, "@${local.gcp_workspace_domain_name}", ""),
-        ".",
-        "-"
-      )
-      email = email
-    }
-  }
-  kubeflow_user_emails = split(",", get_env("KUBEFLOW_USER_EMAILS"))
-  kubeflow_users_map = {
-    for email in local.kubeflow_user_emails :
-    email => {
-      name = replace(
-        replace(email, "@${local.gcp_workspace_domain_name}", ""),
-        ".",
-        "-"
-      )
-      email = email
-    }
-  }
-  workload_identity_users = values(
-    merge(
-      local.kubeflow_users_map,
-      local.kubeflow_admins_map
+  kubeflow_user_emails  = split(",", get_env("KUBEFLOW_USER_EMAILS"))
+  emails = toset(flatten([
+    local.kubeflow_user_emails,
+    local.kubeflow_admin_emails
+  ]))
+  service_account_ids_map = {
+    for email in local.emails :
+    email => replace(
+      split("@", email)[0],
+      ".",
+      "-"
     )
-  )
+  }
 }
 
 inputs = {
   workload_identity_users = flatten([
     [
-      for name, workload_identity_user in local.workload_identity_users_map :
+      for service_account_id, workload_identity_user in local.workload_identity_users_map :
       [
         for kubernetes_service_account in workload_identity_user["kubernetes_service_accounts"] :
         {
           project_id                 = dependency.kubeflow_project.outputs.project_id
-          service_account_id         = dependency.service_accounts.outputs.service_accounts_map[name].email
+          service_account_id         = dependency.service_accounts.outputs.service_accounts_map[service_account_id].email
           kubernetes_namespace       = workload_identity_user["kubernetes_namespace"]
           kubernetes_service_account = kubernetes_service_account
         }
       ]
     ],
     [
-      for workload_identity_user in local.workload_identity_users :
+      for email, service_account_id in local.service_account_ids_map :
       {
         project_id                 = dependency.kubeflow_project.outputs.project_id
-        service_account_id         = dependency.service_accounts.outputs.service_accounts_map[workload_identity_user["name"]].email
-        kubernetes_namespace       = workload_identity_user["name"]
+        service_account_id         = dependency.service_accounts.outputs.service_accounts_map[service_account_id].email
+        kubernetes_namespace       = service_account_id
         kubernetes_service_account = "default-editor"
       }
     ]

@@ -19,7 +19,13 @@ generate "google_provider" {
   if_exists = "overwrite_terragrunt"
   contents  = <<-EOF
     provider "google" {
-      scopes = "${local.scopes}"
+      scopes = [
+        "https://www.googleapis.com/auth/cloud-platform",
+        "https://www.googleapis.com/auth/userinfo.email",
+        "https://www.googleapis.com/auth/cloud-identity.groups",
+        "https://www.googleapis.com/auth/admin.directory.user",
+        "https://www.googleapis.com/auth/admin.directory.group"
+      ]
     }
 EOF
 }
@@ -29,7 +35,13 @@ generate "google_beta_provider" {
   if_exists = "overwrite_terragrunt"
   contents  = <<-EOF
     provider "google-beta" {
-      scopes = "${local.scopes}"
+      scopes = [
+        "https://www.googleapis.com/auth/cloud-platform",
+        "https://www.googleapis.com/auth/userinfo.email",
+        "https://www.googleapis.com/auth/cloud-identity.groups",
+        "https://www.googleapis.com/auth/admin.directory.user",
+        "https://www.googleapis.com/auth/admin.directory.group"
+      ]
     }
 EOF
 }
@@ -37,13 +49,6 @@ EOF
 locals {
   gcp_workspace_customer_id = get_env("GCP_WORKSPACE_CUSTOMER_ID")
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
-  scopes = [
-    "https://www.googleapis.com/auth/cloud-platform",
-    "https://www.googleapis.com/auth/userinfo.email",
-    "https://www.googleapis.com/auth/cloud-identity.groups",
-    "https://www.googleapis.com/auth/admin.directory.user",
-    "https://www.googleapis.com/auth/admin.directory.group"
-  ]
 }
 
 inputs = {

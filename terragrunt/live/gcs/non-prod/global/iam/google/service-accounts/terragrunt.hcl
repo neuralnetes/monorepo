@@ -41,7 +41,7 @@ locals {
     [
       for email in local.emails :
       replace(
-        replace(email, "@${local.gcp_workspace_domain_name}", ""),
+        split("@", email)[0],
         ".",
         "-"
       )
