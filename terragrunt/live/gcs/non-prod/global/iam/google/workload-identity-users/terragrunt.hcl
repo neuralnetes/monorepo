@@ -159,7 +159,7 @@ inputs = {
       ]
     ],
     [
-      for email, workload_identity_user in local.workload_identity_users :
+      for workload_identity_user in local.workload_identity_users :
       {
         project_id                 = dependency.kubeflow_project.outputs.project_id
         service_account_id         = dependency.service_accounts.outputs.service_accounts_map[workload_identity_user["name"]].email

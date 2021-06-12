@@ -76,7 +76,7 @@ inputs = {
             "roles/iam.serviceAccountTokenCreator",
           ] :
           role => [
-            "user:${email}"
+            "user:${service_account_iam_binding["email"]}"
           ]
         }
         service_account = dependency.service_accounts.outputs.service_accounts_map[service_account_iam_binding["name"]].email
