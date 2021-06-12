@@ -14,23 +14,34 @@ dependency "random_string" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
 }
 
+locals {
+  gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
+  kubeflow_user_emails      = split(",", get_env("KUBEFLOW_USER_EMAILS"))
+}
+
 # test
 inputs = {
   service_accounts = [
-    for service_account_id in [
-      "dex-auth",
-      "cert-manager",
-      "cloud-sdk",
-      "compute-instance",
-      "container-cluster",
-      "external-dns",
-      "external-secrets",
-      "grafana-cloud",
-      "kubeflow",
-      "kubeflow-default-editor",
-      "kubeflow-default-viewer",
-      "openvpn"
-    ] :
+    for service_account_id in flatten([
+      [
+        "dex-auth",
+        "cert-manager",
+        "cloud-sdk",
+        "compute-instance",
+        "container-cluster",
+        "external-dns",
+        "external-secrets",
+        "grafana-cloud",
+        "kubeflow",
+        "kubeflow-default-editor",
+        "kubeflow-default-viewer",
+        "openvpn"
+      ],
+      [
+        for kubeflow_user_email in local.kubeflow_user_emails :
+        replace(kubeflow_user_email, "@${local.gcp_workspace_domain_name}", "")
+      ]
+    ]) :
     {
       project    = dependency.iam_project.outputs.project_id
       account_id = service_account_id

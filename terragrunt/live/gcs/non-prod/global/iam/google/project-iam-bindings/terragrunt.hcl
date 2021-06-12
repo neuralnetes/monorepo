@@ -208,21 +208,6 @@ inputs = {
     },
     # data
     {
-      name = "${dependency.data_project.outputs.project_id}-01"
-      bindings = {
-        for project_role in [
-          "roles/cloudsql.admin",
-          "roles/storage.admin",
-          "roles/bigquery.admin",
-          "roles/pubsub.admin",
-        ] :
-        project_role => [
-          "serviceAccount:${dependency.auth.outputs.email}"
-        ]
-      }
-      project = dependency.data_project.outputs.project_id
-    },
-    {
       name = "${dependency.data_project.outputs.project_id}-02"
       bindings = {
         for project_role in [
@@ -236,53 +221,7 @@ inputs = {
       project = dependency.data_project.outputs.project_id
     },
     # iam
-    {
-      name = "${dependency.iam_project.outputs.project_id}-01"
-      bindings = {
-        for project_role in [
-          "roles/iam.serviceAccountAdmin",
-          "roles/iam.serviceAccountUser",
-          "roles/iam.serviceAccountKeyAdmin",
-          "roles/iam.serviceAccountTokenCreator"
-        ] :
-        project_role => [
-          "serviceAccount:${dependency.auth.outputs.email}"
-        ]
-      }
-      project = dependency.iam_project.outputs.project_id
-    },
     # network
-    {
-      name     = "${dependency.network_project.outputs.project_id}-00"
-      bindings = local.terraform_group_default_bindings
-      project  = dependency.network_project.outputs.project_id
-    },
-    {
-      name = "${dependency.network_project.outputs.project_id}-01"
-      bindings = {
-        for project_role in [
-          "roles/compute.admin",
-          "roles/dns.admin"
-        ] :
-        project_role => [
-          "serviceAccount:${dependency.auth.outputs.email}",
-        ]
-      }
-      project = dependency.network_project.outputs.project_id
-    },
-    {
-      name = "${dependency.network_project.outputs.project_id}-02"
-      bindings = {
-        for project_role in [
-          "roles/compute.networkUser"
-        ] :
-        project_role => [
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["compute-instance"].email}",
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["container-cluster"].email}"
-        ]
-      }
-      project = dependency.network_project.outputs.project_id
-    },
     {
       name = "${dependency.network_project.outputs.project_id}-03"
       bindings = {
@@ -297,18 +236,6 @@ inputs = {
       project = dependency.network_project.outputs.project_id
     },
     # secret
-    {
-      name = "${dependency.secret_project.outputs.project_id}-01"
-      bindings = {
-        for project_role in [
-          "roles/secretmanager.admin"
-        ] :
-        project_role => [
-          "serviceAccount:${dependency.auth.outputs.email}",
-        ]
-      }
-      project = dependency.secret_project.outputs.project_id
-    },
     {
       name = "${dependency.secret_project.outputs.project_id}-02"
       bindings = {
