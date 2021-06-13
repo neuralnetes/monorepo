@@ -1,4 +1,3 @@
-#!/bin/bash
-export GRAFANA_AUTH=""
-export GRAFANA_ORG_ID="1"
-export GRAFANA_URL="https://neuralnetes.grafana.net"
+GRAFANA_AUTH=""
+GRAFANA_ORG_ID="1"
+GRAFANA_URL="https://neuralnetes.grafana.net"

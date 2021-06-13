@@ -12,8 +12,8 @@ function get_github_sha_short() {
 }
 
 function get_git_config_global() {
-  git config --global --list \
-    | cat
+  git config --global --list |
+    cat
 }
 
 function get_github_username_workspace() {
@@ -37,19 +37,19 @@ function get_github_workspace() {
 }
 
 function get_github_repository() {
-  git remote get-url origin \
-    | tr ":" "\n" \
-    | tail -n 1 \
-    | cut -d '.' -f 1
+  git remote get-url origin |
+    tr ":" "\n" |
+    tail -n 1 |
+    cut -d '.' -f 1
 }
 
 function get_github_owner() {
-  get_github_repository \
-    | cut -d '/' -f 1
+  get_github_repository |
+    cut -d '/' -f 1
 }
 
 function setup_gitconfig() {
-  cat <<EOF > "${HOME}/.gitconfig"
+  cat <<EOF >"${HOME}/.gitconfig"
 [user]
   email = ${GITHUB_EMAIL}
   name = ${GITHUB_NAME}
@@ -66,7 +66,7 @@ function setup_oh_my_zsh() {
 }
 
 function setup_zshrc() {
-  cat <<EOF > "${HOME}/.zshrc"
+  cat <<EOF >"${HOME}/.zshrc"
 export ZSH="\${HOME}/.oh-my-zsh"
 export ZSH_THEME="robbyrussell"
 export plugins=(
@@ -80,20 +80,3 @@ source "\${HOME}/.envrc"
 EOF
 }
 
-function setup_workspace() {
-  echo "GITHUB_USERNAME_WORKSPACE=${GITHUB_USERNAME_WORKSPACE}"
-  source "${GITHUB_USERNAME_WORKSPACE}/.envrc-root"
-  ln -fs "${GITHUB_USERNAME_WORKSPACE}/.envrc-root" "${HOME}/.envrc"
-  setup_gitconfig
-  setup_oh_my_zsh
-  setup_zshrc
-  setup_pyenv
-  setup_pyenv_virtualenv
-  setup_tfenv
-  setup_tgenv
-  setup_kubectl
-  setup_kustomize
-  setup_kubectx
-  setup_flux
-  setup_mc
-}

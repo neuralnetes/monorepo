@@ -27,6 +27,6 @@ request_json=$(
     '
 )
 echo "${request_json}" | jq
-workflow=$(bash "${GITHUB_WORKSPACE}/bash/github/find_workflow_by_path.sh"  ".github/workflows/workflow-dispatch-generate-kubeflow-cluster.yaml")
+workflow=$(bash "${GITHUB_WORKSPACE}/bash/github/find_workflow_by_path.sh" ".github/workflows/workflow-dispatch-generate-kubeflow-cluster.yaml")
 workflow_id=$(echo "${workflow}" | jq '.id')
 bash "${GITHUB_WORKSPACE}/bash/github/workflow_dispatch.sh" "${workflow_id}" "${request_json}"

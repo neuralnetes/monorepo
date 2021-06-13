@@ -1,4 +1,3 @@
-#!/bin/bash
-export GOPATH="${HOME}/go"
-export GOBIN="${GOPATH}/bin"
-export PATH="${GOBIN}:${PATH}"
+GOPATH="${HOME}/go"
+GOBIN="${GOPATH}/bin"
+PATH="${GOBIN}:${PATH}"

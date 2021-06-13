@@ -41,7 +41,7 @@ function setup_tgenv() {
 }
 
 function update_terragrunt_version() {
-  tgenv list-remote \
-    | head -n 1 \
-    > "${GITHUB_WORKSPACE}/.terragrunt-version"
+  tgenv list-remote |
+    head -n 1 \
+      >"${GITHUB_WORKSPACE}/.terragrunt-version"
 }

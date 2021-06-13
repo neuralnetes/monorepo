@@ -1,17 +1,17 @@
 #!/bin/bash
 function get_istio_ingressgateway_service() {
-    kubectl get service -n istio-system -o json istio-ingressgateway \
-      | jq
+  kubectl get service -n istio-system -o json istio-ingressgateway |
+    jq
 }
 
 function get_istio_ingressgateway_service_type() {
-  get_istio_ingressgateway_service \
-    | jq -rc '.spec.type'
+  get_istio_ingressgateway_service |
+    jq -rc '.spec.type'
 }
 
 function get_istio_ingressgateway_loadbalancer_ip() {
-  get_istio_ingressgateway_service \
-    | jq -rc '.status.loadBalancer.ingress | first | .ip'
+  get_istio_ingressgateway_service |
+    jq -rc '.status.loadBalancer.ingress | first | .ip'
 }
 
 function get_istio_ingressgateway_loadbalancer_dns() {
@@ -44,7 +44,7 @@ function setup_kubectl_linux_amd64() {
 
 function setup_kustomize() {
   curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" \
-    > "${GITHUB_WORKSPACE}/install_kustomize.sh"
+    >"${GITHUB_WORKSPACE}/install_kustomize.sh"
   bash "${GITHUB_WORKSPACE}/install_kustomize.sh" "${HOME}/.local/bin"
   rm "${GITHUB_WORKSPACE}/install_kustomize.sh"
 }

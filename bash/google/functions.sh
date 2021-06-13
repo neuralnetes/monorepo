@@ -1,15 +1,24 @@
 #!/bin/bash
 function setup_gcloud() {
+  if [[ -z "${HOME}/google-cloud-sdk" ]]; then
+    exit 0
+  fi
   GOOGLE_CLOUD_SDK_ARCHIVE=$1
   curl -s -O "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${GOOGLE_CLOUD_SDK_ARCHIVE}"
   tar fxz "${GOOGLE_CLOUD_SDK_ARCHIVE}"
   rm -rf "${GOOGLE_CLOUD_SDK_ARCHIVE}"
-  rm -rf "${HOME}/google-cloud-sdk"
-  rm -rf "${HOME}/.config/gcloud"
   mv "google-cloud-sdk" "${HOME}"
   ln -fs "${HOME}/google-cloud-sdk/bin"/* "${HOME}/.local/bin"
   gcloud version
   gcloud components install -q beta alpha
+}
+
+function setup_gcloud_macos() {
+  setup_gcloud "google-cloud-sdk-342.0.0-darwin-x86_64.tar.gz"
+}
+
+function setup_gcloud_linux() {
+  setup_gcloud "google-cloud-sdk-342.0.0-linux-x86_64.tar.gz"
 }
 
 function get_project_id_by_prefix() {
@@ -216,9 +225,9 @@ function resource_manager_liens_delete() {
 }
 
 function get_iam_role_included_permissions() {
-    ROLE=$1
-    gcloud iam roles describe "${ROLE}" --format=json \
-      | jq -rc '.includedPermissions[]'
+  ROLE=$1
+  gcloud iam roles describe "${ROLE}" --format=json |
+    jq -rc '.includedPermissions[]'
 }
 
 function setup_kubectx() {

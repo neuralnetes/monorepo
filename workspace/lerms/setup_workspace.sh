@@ -1,9 +1,11 @@
 #!/bin/bash
 export OS="darwin"
 export ARCH="amd64"
-export PATH="${HOME}/.local/bin:${PATH}"
+export HOME_LOCAL_BIN="${HOME}/.local/bin"
+export PATH="${HOME_LOCAL_BIN}:${PATH}"
 export EDITOR="code --editor"
 export GITHUB_NAME="Alexander Lerma"
 export GITHUB_EMAIL="alexander.lerma@neuralnetes.com"
-source "${GITHUB_WORKSPACE}/bash/github/functions.sh"
-setup_workspace
+export GITHUB_BASE_WORKSPACE="${GITHUB_WORKSPACE}/workspace/base"
+bash "${GITHUB_BASE_WORKSPACE}/generate.sh"
+source "${GITHUB_BASE_WORKSPACE}/generate.sh"
