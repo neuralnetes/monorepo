@@ -1,9 +1,6 @@
 #!/bin/bash
 source "${GITHUB_WORKSPACE}/bash/gcloud/functions.sh"
-#export IMPERSONATE_SERVICE_ACCOUNT=terraform@terraform-neuralnetes.iam.gserviceaccount.com
-#export GCLOUD_FLAGS=(
-#  "--impersonate-service-account=${IMPERSONATE_SERVICE_ACCOUNT}"
-#)
+
 SERVICE_PROJECTS=($(get_service_projects))
 for project_id in "${SERVICE_PROJECTS[@]}"; do
   echo "${project_id}"

@@ -1,5 +1,14 @@
 # monorepo
 
+#### setup workspace
+
+```
+export GITHUB_WORKSPACE="$(git rev-parse --show-toplevel)"
+export GITHUB_USERNAME="lerms"
+export GITHUB_USERNAME_WORKSPACE="${GITHUB_WORKSPACE}/workspace/${GITHUB_USERNAME}"
+bash "${GITHUB_USERNAME_WORKSPACE}/setup_workspace.sh"
+```
+
 #### github actions
 
 [![.github/workflows/workflow-dispatch-terragrunt.yaml](https://github.com/neuralnetes/monorepo/actions/workflows/workflow-dispatch-terragrunt.yaml/badge.svg)](https://github.com/neuralnetes/monorepo/actions/workflows/workflow-dispatch-terragrunt.yaml)

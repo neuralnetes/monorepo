@@ -1,22 +1,99 @@
 #!/bin/bash
 function get_github_ref() {
-  cd "${GITHUB_WORKSPACE}" && git branch --show-current
+  git branch --show-current "$(get_github_workspace)"
 }
 
 function get_github_sha() {
-  cd "${GITHUB_WORKSPACE}" && git rev-parse HEAD
+  git rev-parse HEAD "$(get_github_workspace)"
 }
 
 function get_github_sha_short() {
-  cd "${GITHUB_WORKSPACE}" && git rev-parse --short HEAD
+  git rev-parse --short HEAD "$(get_github_workspace)"
 }
 
-function setup_git() {
+function get_git_config_global() {
+  git config --global --list \
+    | cat
+}
+
+function get_github_username_workspace() {
+  echo "$(get_github_workspace)/workspace/$(get_github_username)"
+}
+
+function get_github_name() {
+  git config --global user.name
+}
+
+function get_github_email() {
+  git config --global user.email
+}
+
+function get_github_username() {
+  git config --global user.username
+}
+
+function get_github_workspace() {
+  git rev-parse --show-toplevel
+}
+
+function get_github_repository() {
+  git remote get-url origin \
+    | tr ":" "\n" \
+    | tail -n 1 \
+    | cut -d '.' -f 1
+}
+
+function get_github_owner() {
+  get_github_repository \
+    | cut -d '/' -f 1
+}
+
+function setup_gitconfig() {
   cat <<EOF > "${HOME}/.gitconfig"
 [user]
-	name = ${GITHUB_USER_NAME}
-	email = ${GITHUB_USER_EMAIL}
+  email = ${GITHUB_EMAIL}
+  name = ${GITHUB_NAME}
+  username = ${GITHUB_USERNAME}
 [core]
-	editor = \$EDITOR
+  editor = \$EDITOR
+[init]
+  defaultBranch = main
 EOF
+}
+
+function setup_oh_my_zsh() {
+  bash -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+}
+
+function setup_zshrc() {
+  cat <<EOF > "${HOME}/.zshrc"
+export ZSH="\${HOME}/.oh-my-zsh"
+export ZSH_THEME="robbyrussell"
+export plugins=(
+    git
+    fzf
+    kubectl
+    gcloud
+)
+source "\${ZSH}/oh-my-zsh.sh"
+source "\${HOME}/.envrc"
+EOF
+}
+
+function setup_workspace() {
+  echo "GITHUB_USERNAME_WORKSPACE=${GITHUB_USERNAME_WORKSPACE}"
+  source "${GITHUB_USERNAME_WORKSPACE}/.envrc-root"
+  ln -fs "${GITHUB_USERNAME_WORKSPACE}/.envrc-root" "${HOME}/.envrc"
+  setup_gitconfig
+  setup_oh_my_zsh
+  setup_zshrc
+  setup_pyenv
+  setup_pyenv_virtualenv
+  setup_tfenv
+  setup_tgenv
+  setup_kubectl
+  setup_kustomize
+  setup_kubectx
+  setup_flux
+  setup_mc
 }

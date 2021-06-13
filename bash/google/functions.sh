@@ -37,8 +37,13 @@ function get_cluster_name() {
     jq -rc '.name'
 }
 
+function get_kubeflow_project() {
+  PROJECTS=$(get_projects)
+  get_project_id_by_prefix "kubeflow" "${PROJECTS}"
+}
+
 function get_cluster_project() {
-  echo "${KUBEFLOW_PROJECT}"
+  get_kubeflow_project
 }
 
 function get_cluster_location() {
@@ -80,11 +85,8 @@ function get_subnetwork_self_link() {
     jq -rc '.selfLink'
 }
 
-function get_cluster_credentials() {
-  gcloud container clusters get-credentials \
-    --project="${KUBEFLOW_PROJECT}" \
-    --zone=us-central1-a \
-    "${CLUSTER_NAME}"
+function get_projects() {
+  gcloud projects list --format=json
 }
 
 function get_compute_instance_by_name_prefix() {
@@ -217,4 +219,14 @@ function get_iam_role_included_permissions() {
     ROLE=$1
     gcloud iam roles describe "${ROLE}" --format=json \
       | jq -rc '.includedPermissions[]'
+}
+
+function setup_kubectx() {
+  CLUSTER_PROJECT="$(get_cluster_project)"
+  CLUSTER_NAME="$(get_cluster_name)"
+  CLUSTER_LOCATION="$(get_cluster_location)"
+  gcloud container clusters get-credentials \
+    --project="${CLUSTER_PROJECT}" \
+    --zone="${CLUSTER_LOCATION}" \
+    "${CLUSTER_NAME}"
 }

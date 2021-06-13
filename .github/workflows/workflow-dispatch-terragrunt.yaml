@@ -31,9 +31,9 @@ jobs:
       GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
       GITHUB_OWNER: ${{ github.repository_owner }}
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      GITHUB_USER: ${{ secrets.GH_USER }}
-      GITHUB_USER_NAME: ${{ secrets.GH_USER_NAME }}
-      GITHUB_USER_EMAIL: ${{ secrets.GH_USER_EMAIL }}
+      GITHUB_USERNAME: ${{ secrets.GH_USERNAME }}
+      GITHUB_NAME: ${{ secrets.GH_NAME }}
+      GITHUB_EMAIL: ${{ secrets.GH_USER_EMAIL }}
       GRAFANA_AUTH: ${{ secrets.GRAFANA_AUTH }}
       GRAFANA_ORG_ID: ${{ secrets.GRAFANA_ORG_ID }}
       GRAFANA_URL: ${{ secrets.GRAFANA_URL }}

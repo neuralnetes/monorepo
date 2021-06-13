@@ -1,0 +1,34 @@
+#!/bin/bash
+source "$(git rev-parse --show-toplevel)/bash/google/functions.sh"
+#export PROJECTS=$(gcloud projects list --format=json | jq)
+#export IAM_PROJECT=$(get_project_id_by_prefix "iam" "${PROJECTS}")
+#export DNS_PROJECT=$(get_project_id_by_prefix "dns" "${PROJECTS}")
+#export SECRET_PROJECT=$(get_project_id_by_prefix "secret" "${PROJECTS}")
+#export NETWORK_PROJECT=$(get_project_id_by_prefix "network" "${PROJECTS}")
+#export DATA_PROJECT=$(get_project_id_by_prefix "data" "${PROJECTS}")
+#export COMPUTE_PROJECT=$(get_project_id_by_prefix "compute" "${PROJECTS}")
+#export KUBEFLOW_PROJECT=$(get_project_id_by_prefix "kubeflow" "${PROJECTS}")
+#export ARTIFACT_PROJECT=$(get_project_id_by_prefix "artifact" "${PROJECTS}")
+#export NETWORK=$(get_network)
+#export NETWORK_NAME=$(get_network_name)
+#export NETWORK_SELF_LINK=$(get_network_self_link)
+#export SUBNETWORK=$(get_subnetwork)
+#export SUBNETWORK_NAME=$(get_subnetwork_name)
+#export SUBNETWORK_SELF_LINK=$(get_subnetwork_self_link)
+#export CLUSTER=$(get_cluster)
+#export CLUSTER_NAME=$(get_cluster_name)
+#export CLUSTER_LOCATION=$(get_cluster_location)
+#export CLUSTER_PROJECT=$(get_cluster_project)
+#export CLUSTER_INSTANCE_GROUPS=$(get_cluster_instance_groups)
+#export CLUSTER_INSTANCE_GROUP_SELF_LINKS=$(get_cluster_instance_group_self_links)
+#export CLOUD_DNS_MANAGED_ZONES=$(get_dns_managed_zones)
+#export CLOUD_DNS_NAME_SERVERS=$(get_dns_name_servers)
+#export ARTIFACT_REGISTRY_REPOSITORY_URL=$(get_artifact_registry_repository_url)
+#export ARTIFACT_REGISTRY_REPOSITORY_HOST=$(get_artifact_registry_repository_host)
+#export GCP_BILLING_ACCOUNT_ID=$(get_billing_account_id)
+#export GCP_ORGANIZATION_ID=$(get_organization_id)
+export GCP_ORGANIZATION="neuralnetes"
+export GCP_PROJECT_ID="terraform-${GCP_ORGANIZATION}"
+export GCP_WORKSPACE_DOMAIN_NAME="${GCP_ORGANIZATION}.com"
+export GCS_TERRAFORM_REMOTE_STATE_BUCKET="terraform-${GCP_ORGANIZATION}"
+export GCS_TERRAFORM_REMOTE_STATE_LOCATION="US"

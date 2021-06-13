@@ -33,9 +33,9 @@ jobs:
       GITHUB_ACTIONS_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
       GITHUB_OWNER: ${{ github.repository_owner }}
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      GITHUB_USER: ${{ secrets.GH_USER }}
-      GITHUB_USER_NAME: ${{ secrets.GH_USER }}
-      GITHUB_USER_EMAIL: ${{ secrets.GH_EMAIL }}
+      GITHUB_USERNAME: ${{ secrets.GH_USERNAME }}
+      GITHUB_NAME: ${{ secrets.GH_USERNAME }}
+      GITHUB_EMAIL: ${{ secrets.GH_EMAIL }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     steps:
       - id: run_checkout

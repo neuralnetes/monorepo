@@ -1,0 +1,5 @@
+#!/bin/bash
+export TF_INPUT="false"
+export TF_LOG="JSON"
+export TF_LOG_FILE="${GITHUB_USERNAME_WORKSPACE}/tf_logs.txt"
+export TGENV_AUTO_INSTALL="true"

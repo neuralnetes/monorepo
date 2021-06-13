@@ -1,6 +1,0 @@
-#!/bin/bash
-export GOPATH="${HOME}/go"
-export GOBIN="${GOPATH}/bin"
-export HOME_LOCAL_BIN="${HOME}/.local/bin"
-export PATH="${HOME_LOCAL_BIN}:${GOBIN}:${PATH}"
-export EDITOR="code --wait"

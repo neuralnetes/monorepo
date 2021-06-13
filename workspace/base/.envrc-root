@@ -1,0 +1,20 @@
+#!/bin/bash
+export GITHUB_BASE_WORKSPACE="${GITHUB_WORKSPACE}/workspace/base"
+SOURCE_PATHS=(
+  "${GITHUB_BASE_WORKSPACE}/.envrc-python"
+  "${GITHUB_BASE_WORKSPACE}/.envrc-grafana"
+  "${GITHUB_BASE_WORKSPACE}/.envrc-kubernetes"
+  "${GITHUB_BASE_WORKSPACE}/.envrc-terragrunt"
+  "${GITHUB_BASE_WORKSPACE}/.envrc-github"
+  "${GITHUB_BASE_WORKSPACE}/.envrc-google"
+  "${GITHUB_WORKSPACE}/bash/github/functions.sh"
+  "${GITHUB_WORKSPACE}/bash/google/functions.sh"
+  "${GITHUB_WORKSPACE}/bash/python/functions.sh"
+  "${GITHUB_WORKSPACE}/bash/kubernetes/alias.sh"
+  "${GITHUB_WORKSPACE}/bash/kubernetes/functions.sh"
+  "${GITHUB_WORKSPACE}/bash/terraform/functions.sh"
+  "${GITHUB_WORKSPACE}/bash/terragrunt/functions.sh"
+)
+for source_path in "${SOURCE_PATHS[@]}"; do
+  source "${source_path}"
+done

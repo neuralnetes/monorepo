@@ -1,0 +1,9 @@
+#!/bin/bash
+export GITHUB_BASE_WORKSPACE="${GITHUB_WORKSPACE}/workspace/base"
+export GITHUB_USERNAME_WORKSPACE="${GITHUB_WORKSPACE}/workspace/${GITHUB_USERNAME}"
+SOURCE_PATHS=(
+  "${GITHUB_BASE_WORKSPACE}/.envrc-root"
+)
+for source_path in "${SOURCE_PATHS[@]}"; do
+  source "${source_path}"
+done
