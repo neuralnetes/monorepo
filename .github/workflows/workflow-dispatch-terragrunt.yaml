@@ -39,7 +39,7 @@ jobs:
       GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
       KUBEFLOW_USER_EMAILS: ${{ secrets.KUBEFLOW_USER_EMAILS }}
       KUBEFLOW_ADMIN_EMAILS: ${{ secrets.KUBEFLOW_ADMIN_EMAILS }}
-      TERRAGRUNT_CLI_FLAGS: ${{ toJSON(fromJSON(github.event.inputs.terragrunt_cli_flags)) }}
+      TERRAGRUNT_CLI_FLAGS: ${{ github.event.inputs.terragrunt_cli_flags }}
       TERRAGRUNT_COMMAND: ${{ github.event.inputs.terragrunt_command }}
       TERRAGRUNT_WORKING_DIR: ${{ github.workspace }}/${{ github.event.inputs.terragrunt_working_dir }}
       TF_INPUT: false
@@ -56,16 +56,16 @@ jobs:
       run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" &&  post_slack_event "start"
     - id: run_setup_git
       name: run setup git
-      run: bash "${GITHUB_WORKSPACE}/bash/github/setup_git.sh"
+      run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" &&  setup_gitconfig
     - id: setup_github_path
       name: run setup github path
       run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH
     - id: setup_tfenv
       name: run setup tfenv
-      run: bash "${GITHUB_WORKSPACE}/bash/terraform/setup_tfenv.sh"
+      run: source "${GITHUB_WORKSPACE}/bash/terraform/functions.sh" &&  setup_tfenv
     - id: setup_tgenv
       name: run setup tgenv
-      run: bash "${GITHUB_WORKSPACE}/bash/terragrunt/setup_tgenv.sh"
+      run: source "${GITHUB_WORKSPACE}/bash/terragrunt/functions.sh" &&  setup_tgenv
     - id: setup_gcloud
       name: run setup gcloud
       uses: google-github-actions/setup-gcloud@master
@@ -75,19 +75,18 @@ jobs:
     - id: terragrunt_command
       name: run terragrunt command
       run: |
-        terragrunt_cli_flags=($(echo "${TERRAGRUNT_CLI_FLAGS}" | jq -rc '@sh' | tr -d \'\"))
         command=(
           terragrunt
           ${TERRAGRUNT_COMMAND}
-          ${terragrunt_cli_flags[@]}
+          ${TERRAGRUNT_CLI_FLAGS}
         )
         echo "command: ${command[@]}"
         "${command[@]}"
     - id: run_event_success
       name: run event success
       if: ${{ success() }}
-      run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "success"
+      run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" &&  post_slack_event "success"
     - id: run_event_failure
       name: run event failure
       if: ${{ failure() }}
-      run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "failure"
+      run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" &&  post_slack_event "failure"
