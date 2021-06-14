@@ -274,6 +274,12 @@ function post_slack_event() {
     post_slack_webhook
 }
 
+function post_slack_webhook() {
+  curl -X POST -H 'Content-type: application/json' \
+    --data "${SLACK_WEBHOOK_DATA}" \
+    "${SLACK_WEBHOOK}"
+}
+
 function debug_slack_event() {
   EVENT=$1
   EVENT_DATA_RUN=$(echo "${EVENT}" | jq -rc '.data.run')
