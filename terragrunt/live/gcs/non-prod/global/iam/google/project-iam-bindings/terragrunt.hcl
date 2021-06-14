@@ -75,18 +75,6 @@ inputs = {
       name = "${dependency.kubeflow_project.outputs.project_id}-01"
       bindings = {
         for project_role in [
-          "roles/container.clusterViewer"
-        ] :
-        project_role => [
-          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-user"].group_key[0].id}"
-        ]
-      }
-      project = dependency.kubeflow_project.outputs.project_id
-    },
-    {
-      name = "${dependency.kubeflow_project.outputs.project_id}-01"
-      bindings = {
-        for project_role in [
           "roles/container.admin"
         ] :
         project_role => [
@@ -99,6 +87,18 @@ inputs = {
       name = "${dependency.kubeflow_project.outputs.project_id}-02"
       bindings = {
         for project_role in [
+          "roles/container.clusterViewer"
+        ] :
+        project_role => [
+          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-user"].group_key[0].id}"
+        ]
+      }
+      project = dependency.kubeflow_project.outputs.project_id
+    },
+    {
+      name = "${dependency.kubeflow_project.outputs.project_id}-03"
+      bindings = {
+        for project_role in [
           "roles/monitoring.viewer"
         ] :
         project_role => [
@@ -108,7 +108,7 @@ inputs = {
       project = dependency.kubeflow_project.outputs.project_id
     },
     {
-      name = "${dependency.kubeflow_project.outputs.project_id}-03"
+      name = "${dependency.kubeflow_project.outputs.project_id}-04"
       bindings = {
         for project_role in [
           "roles/logging.logWriter",
