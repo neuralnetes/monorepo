@@ -19,23 +19,6 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
       - id: terragrunt_run_all_apply
         name: run workflow dispatch terragrunt run-all apply
-        working-directory: ./bash/github
         run: |
-          export TERRAGRUNT_COMMAND='run-all apply'
-          export TERRAGRUNT_WORKING_DIR='terragrunt/live/gcs/non-prod'
-          export TERRAGRUNT_CLI_FLAGS=(
-            "--terragrunt-include-dir global/terraform/**/**",
-            "--terragrunt-include-dir global/dns/**/**",
-            "--terragrunt-include-dir global/iam/**/**",
-            "--terragrunt-include-dir global/secret/**/**",
-            "--terragrunt-include-dir global/artifact/**/**",
-            "--terragrunt-include-dir global/network/**/**",
-            "--terragrunt-include-dir global/data/**/**",
-            "--terragrunt-include-dir global/compute/**/**",
-            "--terragrunt-include-dir global/kubeflow/**/**",
-            "--terragrunt-include-dir us-central1/network/**/**",
-            "--terragrunt-include-dir us-central1/data/**/**",
-            "--terragrunt-include-dir us-central1/compute/**/**",
-            "--terragrunt-include-dir us-central1/kubeflow/**/**"
-          )
-          chmod +x ./workflow_dispatch_terragrunt.sh && ./workflow_dispatch_terragrunt.sh
+          source "${GITHUB_WORKSPACE}/bash/github/functions.sh"
+          post_github_workflow_dispatch_terragrunt_non_prod

@@ -98,12 +98,13 @@ function get_github_workflows() {
 
 # https://docs.github.com/en/rest/reference/actions#create-a-workflow-dispatch-event
 function post_github_workflow_dispatch() {
-curl -s \
-  -X POST \
-  -H "Accept: application/vnd.github.v3+json" \
-  -H "Authorization: token ${GITHUB_TOKEN}" \
-  "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/${GITHUB_WORKFLOW_ID}/dispatches" \
-  -d "${GITHUB_WORKFLOW_DISPATCH}"
+  echo "${GITHUB_WORKFLOW_DISPATCH}"
+  curl -s \
+    -X POST \
+    -H "Accept: application/vnd.github.v3+json" \
+    -H "Authorization: token ${GITHUB_TOKEN}" \
+    "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/${GITHUB_WORKFLOW_ID}/dispatches" \
+    -d "${GITHUB_WORKFLOW_DISPATCH}"
 }
 
 # https://docs.github.com/en/rest/reference/actions#list-repository-workflows
@@ -140,7 +141,7 @@ function post_github_workflow_dispatch_gcloud_projects_delete() {
       '
   )
   GITHUB_WORKFLOW_PATH=".github/workflows/workflow-dispatch-gcloud-projects-delete.yaml"
-  GITHUB_WORKFLOW=$(get_github_actions_workflow_by_path)
+  GITHUB_WORKFLOW=$(get_github_workflow_by_path)
   GITHUB_WORKFLOW_ID=$(echo "${GITHUB_WORKFLOW}" | jq '.id')
   post_github_workflow_dispatch
 }
@@ -174,7 +175,7 @@ function post_github_workflow_dispatch_generate_kubeflow_cluster() {
       '
   )
   GITHUB_WORKFLOW_PATH=".github/workflows/workflow-dispatch-generate-kubeflow-cluster.yaml"
-  GITHUB_WORKFLOW=$(get_github_actions_workflow_by_path)
+  GITHUB_WORKFLOW=$(get_github_workflow_by_path)
   GITHUB_WORKFLOW_ID=$(echo "${GITHUB_WORKFLOW}" | jq '.id')
   post_github_workflow_dispatch
 }
@@ -198,7 +199,7 @@ function post_github_workflow_dispatch_generate_kustomize_build_kubectl_apply() 
       '
   )
   GITHUB_WORKFLOW_PATH=".github/workflows/workflow-dispatch-kustomize-build-kubectl-apply.yaml"
-  GITHUB_WORKFLOW=$(get_github_actions_workflow_by_path)
+  GITHUB_WORKFLOW=$(get_github_workflow_by_path)
   GITHUB_WORKFLOW_ID=$(echo "${GITHUB_WORKFLOW}" | jq '.id')
   post_github_workflow_dispatch
 }
@@ -209,7 +210,7 @@ function post_github_workflow_dispatch_terragrunt() {
       --arg ref "${GITHUB_REF}" \
       --arg terragrunt_working_dir "${TERRAGRUNT_WORKING_DIR}" \
       --arg terragrunt_command "${TERRAGRUNT_COMMAND}" \
-      --arg terragrunt_cli_flags "${TERRAGRUNT_CLI_FLAGS}" \
+      --arg terragrunt_cli_flags "${TERRAGRUNT_CLI_FLAGS[*]}" \
       '
         {
           "ref": $ref,
@@ -222,9 +223,31 @@ function post_github_workflow_dispatch_terragrunt() {
       '
   )
   GITHUB_WORKFLOW_PATH=".github/workflows/workflow-dispatch-terragrunt.yaml"
-  GITHUB_WORKFLOW=$(get_github_actions_workflow_by_path)
+  GITHUB_WORKFLOW=$(get_github_workflow_by_path)
   GITHUB_WORKFLOW_ID=$(echo "${GITHUB_WORKFLOW}" | jq '.id')
   post_github_workflow_dispatch
+}
+
+function post_github_workflow_dispatch_terragrunt_non_prod() {
+    TERRAGRUNT_CLI_FLAGS=(
+      "--terragrunt-working-dir terragrunt/live/gcs/non-prod"
+      "--terragrunt-include-dir global/terraform/**/**"
+      "--terragrunt-include-dir global/dns/**/**"
+      "--terragrunt-include-dir global/iam/**/**"
+      "--terragrunt-include-dir global/secret/**/**"
+      "--terragrunt-include-dir global/artifact/**/**"
+      "--terragrunt-include-dir global/network/**/**"
+      "--terragrunt-include-dir global/data/**/**"
+      "--terragrunt-include-dir global/compute/**/**"
+      "--terragrunt-include-dir global/kubeflow/**/**"
+      "--terragrunt-include-dir us-central1/network/**/**"
+      "--terragrunt-include-dir us-central1/data/**/**"
+      "--terragrunt-include-dir us-central1/compute/**/**"
+      "--terragrunt-include-dir us-central1/kubeflow/**/**"
+  )
+  TERRAGRUNT_WORKING_DIR="terragrunt/live/gcs/non-prod"
+  TERRAGRUNT_COMMAND="run-all apply"
+  post_github_workflow_dispatch_terragrunt
 }
 
 function post_slack_event() {
