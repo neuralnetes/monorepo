@@ -54,10 +54,6 @@ locals {
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
 }
 
-locals {
-  gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
-}
-
 inputs = {
   project_iam_bindings = [
     # dns
