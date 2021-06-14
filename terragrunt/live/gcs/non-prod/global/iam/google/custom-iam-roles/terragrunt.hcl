@@ -58,14 +58,12 @@ inputs = {
         dependency.kubeflow_project.outputs.project_id,
       ] :
       {
-        target_level = "project"
-        target_id    = project
-        role_id      = replace("kubeflow_user_${project}", "-", "_")
-        title        = replace("kubeflow_user_${project}", "-", "_")
-        description  = replace("kubeflow_user_${project}", "-", "_")
-        base_roles = [
-          "roles/container.clusterViewer"
-        ]
+        target_level         = "project"
+        target_id            = project
+        role_id              = replace("kubeflow_user_${project}", "-", "_")
+        title                = replace("kubeflow_user_${project}", "-", "_")
+        description          = replace("kubeflow_user_${project}", "-", "_")
+        base_roles           = []
         permissions          = []
         excluded_permissions = []
         members = [
@@ -79,14 +77,12 @@ inputs = {
         dependency.kubeflow_project.outputs.project_id,
       ] :
       {
-        target_level = "project"
-        target_id    = project
-        role_id      = replace("kubeflow_admin_${project}", "-", "_")
-        title        = replace("kubeflow_admin_${project}", "-", "_")
-        description  = replace("kubeflow_admin_${project}", "-", "_")
-        base_roles = [
-          "roles/container.admin"
-        ]
+        target_level         = "project"
+        target_id            = project
+        role_id              = replace("kubeflow_admin_${project}", "-", "_")
+        title                = replace("kubeflow_admin_${project}", "-", "_")
+        description          = replace("kubeflow_admin_${project}", "-", "_")
+        base_roles           = []
         permissions          = []
         excluded_permissions = []
         members = [
