@@ -5,7 +5,7 @@
 ```
 export GITHUB_WORKSPACE=$(git rev-parse --show-toplevel)
 export GITHUB_USERNAME=lerms
-bash "${GITHUB_WORKSPACE}/bash/github/setup.sh"
+bash "${GITHUB_WORKSPACE}/workspace/base/setup.sh"
 ```
 
 #### github actions

@@ -1,19 +1,4 @@
 #!/bin/bash
-FUNCTION_PATHS=(
-  "bash/base/functions.sh"
-  "bash/github/functions.sh"
-  "bash/google/functions.sh"
-  "bash/python/functions.sh"
-  "bash/kubernetes/functions.sh"
-  "bash/terraform/functions.sh"
-  "bash/terragrunt/functions.sh"
-)
-
-for functions in "${FUNCTION_PATHS[@]}"; do
-  echo "source \"\${GITHUB_WORKSPACE}/${functions}\"" >>"${GITHUB_BASE_FUNCTION_FILE}"
-  echo >>"${GITHUB_BASE_FUNCTION_FILE}"
-done
-
 ENVRC_PATHS=(
   "${GITHUB_BASE_WORKSPACE}/.envrc-go"
   "${GITHUB_BASE_WORKSPACE}/.envrc-python"

@@ -1,5 +1,5 @@
 function setup_kubectl() {
-  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/${OS}/${ARCH}/kubectl"
+  curl -s -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/${OS}/${ARCH}/kubectl"
   chmod +x kubectl
   mv kubectl "${HOME}/.local/bin"
 }
