@@ -34,7 +34,7 @@ jobs:
       GITHUB_OWNER: ${{ github.repository_owner }}
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       GITHUB_USERNAME: ${{ secrets.GH_USERNAME }}
-      GITHUB_NAME: ${{ secrets.GH_USERNAME }}
+      GITHUB_NAME: ${{ secrets.GH_NAME }}
       GITHUB_EMAIL: ${{ secrets.GH_EMAIL }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     steps:
@@ -45,10 +45,10 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
       - id: run_event_start
         name: run event start
-        run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "start"
+        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" &&  post_slack_event "start"
       - id: run_setup_git
         name: run setup git
-        run: bash "${GITHUB_WORKSPACE}/bash/github/setup_git.sh"
+        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" &&  setup_gitconfig
       - id: run_setup_github_path
         name: run setup github path
         run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH

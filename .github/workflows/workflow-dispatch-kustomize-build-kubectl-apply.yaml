@@ -27,7 +27,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
       - id: run_event_start
         name: run event start
-        run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "start"
+        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" &&  post_slack_event "start"
       - id: run_setup_git
         name: run setup git
         run: bash "${GITHUB_WORKSPACE}/bash/github/setup_git.sh"
