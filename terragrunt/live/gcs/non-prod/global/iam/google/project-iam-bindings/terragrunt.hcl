@@ -46,6 +46,14 @@ dependency "service_accounts" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
 }
 
+dependency "identity_groups" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/identity-groups"
+}
+
+locals {
+  gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
+}
+
 locals {
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
 }
@@ -67,6 +75,30 @@ inputs = {
       project = dependency.dns_project.outputs.project_id
     },
     # kubeflow
+    {
+      name = "${dependency.kubeflow_project.outputs.project_id}-01"
+      bindings = {
+        for project_role in [
+          "roles/container.clusterViewer"
+        ] :
+        project_role => [
+          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-user"].group_key[0].id}"
+        ]
+      }
+      project = dependency.kubeflow_project.outputs.project_id
+    },
+    {
+      name = "${dependency.kubeflow_project.outputs.project_id}-01"
+      bindings = {
+        for project_role in [
+          "roles/container.clusterViewer"
+        ] :
+        project_role => [
+          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-admin"].group_key[0].id}"
+        ]
+      }
+      project = dependency.kubeflow_project.outputs.project_id
+    },
     {
       name = "${dependency.kubeflow_project.outputs.project_id}-02"
       bindings = {
