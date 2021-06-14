@@ -1,3 +1,4 @@
+#!/bin/bash
 function setup_kubectl() {
   curl -s -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/${OS}/${ARCH}/kubectl"
   chmod +x kubectl

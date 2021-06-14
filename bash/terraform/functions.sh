@@ -1,3 +1,4 @@
+#!/bin/bash
 function setup_tfenv() {
   TFENV_ROOT="${HOME}/.tfenv"
   if [[ ! -d "${TFENV_ROOT}" ]]; then

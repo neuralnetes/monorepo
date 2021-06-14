@@ -1,3 +1,4 @@
+#!/bin/bash
 source "${GITHUB_WORKSPACE}/bash/base/functions.sh"
 source "${GITHUB_WORKSPACE}/bash/github/functions.sh"
 source "${GITHUB_WORKSPACE}/bash/google/functions.sh"

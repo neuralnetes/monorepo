@@ -1,3 +1,4 @@
+#!/bin/bash
 function setup_gcloud() {
   if [[ ! -d "${HOME}/google-cloud-sdk" ]]; then
     VERSION=344.0.0
@@ -27,16 +28,55 @@ function get_container_cluster_credentials() {
     "${GCLOUD_FLAGS[@]}"
 }
 
-function get_organization_id() {
+function get_impersonate_service_account() {
+  echo "terraform@terraform-neuralnetes.iam.gserviceaccount.com"
+}
+
+function get_gcloud_flags() {
+  GCLOUD_FLAGS=(
+    "--format=json"
+    "--impersonate-service-account=$(get_impersonate_service_account)"
+  )
+  echo "${GCLOUD_FLAGS[@]}"
+}
+
+function get_organization() {
   gcloud organizations list \
     --format=json \
     "${GCLOUD_FLAGS[@]}" \
-    | jq -rc 'first | .name | split("/") | last'
+    | jq 'first'
+}
+
+function get_organization_display_name() {
+  get_organization \
+    | jq -rc '.displayName'
+}
+
+function get_organization_id() {
+  get_organization \
+    | jq -rc '.name | split("/") | last'
+}
+
+function get_gcp_workspace_customer_id() {
+  get_organization \
+    | jq -rc '.owner.directoryCustomerId'
+}
+
+function get_gcp_workspace_domain_name() {
+  get_organization_display_name
+}
+
+function get_gcs_terraform_remote_state_bucket() {
+  echo "terraform-neuralnetes"
+}
+
+function get_gcs_terraform_remote_state_location() {
+  echo "US"
 }
 
 function get_project_id_by_prefix() {
   PREFIX=$1
-  echo "${PROJECTS}" |
+  get_projects |
     jq -rc --arg prefix "${PREFIX}" \
     '.[] | select(.projectId | startswith($prefix)) | .projectId'
 }
@@ -66,44 +106,44 @@ function get_cluster_name() {
 
 function get_projects() {
  gcloud projects list --format=json \
-  "${GCLOUD_FLAGS[@]}" \
-  | jq
+    "${GCLOUD_FLAGS[@]}" \
+    | jq
 }
 
 function get_terraform_project() {
-  get_project_id_by_prefix "terraform" "${PROJECTS}"
+  get_project_id_by_prefix "terraform"
 }
 
 function get_dns_project() {
-  get_project_id_by_prefix "dns" "${PROJECTS}"
+  get_project_id_by_prefix "dns"
 }
 
 function get_iam_project() {
-  get_project_id_by_prefix "iam" "${PROJECTS}"
+  get_project_id_by_prefix "iam"
 }
 
 function get_network_project() {
-  get_project_id_by_prefix "network" "${PROJECTS}"
+  get_project_id_by_prefix "network"
 }
 
 function get_secret_project() {
-  get_project_id_by_prefix "secret" "${PROJECTS}"
+  get_project_id_by_prefix "secret"
 }
 
 function get_kubeflow_project() {
-  get_project_id_by_prefix "kubeflow" "${PROJECTS}"
+  get_project_id_by_prefix "kubeflow"
 }
 
 function get_compute_project() {
-  get_project_id_by_prefix "compute" "${PROJECTS}"
+  get_project_id_by_prefix "compute"
 }
 
 function get_data_project() {
-  get_project_id_by_prefix "data" "${PROJECTS}"
+  get_project_id_by_prefix "data"
 }
 
 function get_artifact_project() {
-  get_project_id_by_prefix "artifact" "${PROJECTS}"
+  get_project_id_by_prefix "artifact"
 }
 
 function get_cluster_project() {

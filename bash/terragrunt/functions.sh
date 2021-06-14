@@ -1,3 +1,4 @@
+#!/bin/bash
 function setup_tgenv() {
   TGENV_ROOT="${HOME}/.tgenv"
   if [[ ! -d "${TGENV_ROOT}" ]]; then

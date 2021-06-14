@@ -1,3 +1,4 @@
+#!/bin/bash
 function setup_gitconfig() {
   cat <<EOF >"${HOME}/.gitconfig"
 [user]
