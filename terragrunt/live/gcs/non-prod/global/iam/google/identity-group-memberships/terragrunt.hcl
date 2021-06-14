@@ -10,20 +10,12 @@ dependency "service_accounts" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
 }
 
-dependency "service_accounts" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
-}
-
 dependency "identity_groups" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/identity-groups"
 }
 
 dependency "terraform_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/project"
-}
-
-dependency "service_account_access_tokens" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-account-access-tokens"
 }
 
 generate "google_provider" {
