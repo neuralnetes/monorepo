@@ -1,3 +1,18 @@
+function setup_tgenv() {
+  TGENV_ROOT="${HOME}/.tgenv"
+  if [[ ! -d "${TGENV_ROOT}" ]]; then
+    git clone https://github.com/cunymatthieu/tgenv.git "${TGENV_ROOT}"
+    ln -fs "${TGENV_ROOT}/bin"/* "${HOME}/.local/bin"
+    tgenv install
+  fi
+}
+
+function update_terragrunt_version() {
+  tgenv list-remote |
+    head -n 1 \
+      >"${GITHUB_WORKSPACE}/.terragrunt-version"
+}
+
 function terragrunt_non_prod() {
   TERRAGRUNT_CLI_FLAGS=(
     "--terragrunt-working-dir terragrunt/live/gcs/non-prod"
@@ -31,17 +46,4 @@ function terragrunt_non_prod_run_all_plan() {
 function terragrunt_non_prod_run_all_output() {
   TERRAGRUNT_COMMAND='run-all output'
   terragrunt_non_prod
-}
-
-function setup_tgenv() {
-  rm -rf "${HOME}/.tgenv"
-  git clone https://github.com/cunymatthieu/tgenv.git "${HOME}/.tgenv"
-  ln -fs "${HOME}/.tgenv/bin"/* "${HOME}/.local/bin"
-  tgenv install
-}
-
-function update_terragrunt_version() {
-  tgenv list-remote |
-    head -n 1 \
-      >"${GITHUB_WORKSPACE}/.terragrunt-version"
 }

@@ -1,43 +1,61 @@
-#!/bin/bash
 function setup_gcloud() {
-  if [[ -z "${HOME}/google-cloud-sdk" ]]; then
-    exit 0
+  if [[ ! -d "${HOME}/google-cloud-sdk" ]]; then
+    VERSION=344.0.0
+    GOOGLE_CLOUD_SDK_ARCHIVE="google-cloud-sdk-${VERSION}-${OS}-x86_64.tar.gz"
+    curl -s -O "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${GOOGLE_CLOUD_SDK_ARCHIVE}"
+    tar fxz "${GOOGLE_CLOUD_SDK_ARCHIVE}"
+    rm -rf "${GOOGLE_CLOUD_SDK_ARCHIVE}"
+    mv "google-cloud-sdk" "${HOME}"
+    ln -fs "${HOME}/google-cloud-sdk/bin"/* "${HOME}/.local/bin"
+    gcloud version
+    gcloud components install -q beta alpha
   fi
-  GOOGLE_CLOUD_SDK_ARCHIVE=$1
-  curl -s -O "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${GOOGLE_CLOUD_SDK_ARCHIVE}"
-  tar fxz "${GOOGLE_CLOUD_SDK_ARCHIVE}"
-  rm -rf "${GOOGLE_CLOUD_SDK_ARCHIVE}"
-  mv "google-cloud-sdk" "${HOME}"
-  ln -fs "${HOME}/google-cloud-sdk/bin"/* "${HOME}/.local/bin"
-  gcloud version
-  gcloud components install -q beta alpha
 }
 
-function setup_gcloud_macos() {
-  setup_gcloud "google-cloud-sdk-342.0.0-darwin-x86_64.tar.gz"
+function setup_kubectx() {
+  get_container_cluster_credentials
 }
 
-function setup_gcloud_linux() {
-  setup_gcloud "google-cloud-sdk-342.0.0-linux-x86_64.tar.gz"
+function get_container_cluster_credentials() {
+  CLUSTER_PROJECT="$(get_cluster_project)"
+  CLUSTER_NAME="$(get_cluster_name)"
+  CLUSTER_LOCATION="$(get_cluster_location)"
+  gcloud container clusters get-credentials \
+    "${CLUSTER_NAME}" \
+    --project="${CLUSTER_PROJECT}" \
+    --zone="${CLUSTER_LOCATION}" \
+    "${GCLOUD_FLAGS[@]}"
+}
+
+function get_organization_id() {
+  gcloud organizations list \
+    --format=json \
+    "${GCLOUD_FLAGS[@]}" \
+    | jq -rc 'first | .name | split("/") | last'
 }
 
 function get_project_id_by_prefix() {
-  PROJECT_ID_PREFIX=$1
-  PROJECTS=$2
+  PREFIX=$1
   echo "${PROJECTS}" |
-    jq -rc --arg project_id_prefix "${PROJECT_ID_PREFIX}" \
-      '.[] | select(.projectId | startswith($project_id_prefix)) | .projectId'
+    jq -rc --arg prefix "${PREFIX}" \
+    '.[] | select(.projectId | startswith($prefix)) | .projectId'
+}
+
+function get_organizations() {
+  gcloud organizations list "${GCLOUD_FLAGS[@]}"
 }
 
 function get_billing_account_id() {
-  gcloud beta billing accounts list --format=json |
-    jq -rc '[.[] | .name ] | sort | first'
+  gcloud beta billing accounts list \
+    "${GCLOUD_FLAGS[@]}" \
+    | jq 'first | .name'
 }
 
 function get_cluster() {
   gcloud container clusters list \
     --project="${KUBEFLOW_PROJECT}" \
-    --format=json |
+    --format=json \
+    "${GCLOUD_FLAGS[@]}" |
     jq 'first'
 }
 
@@ -46,9 +64,46 @@ function get_cluster_name() {
     jq -rc '.name'
 }
 
+function get_projects() {
+ gcloud projects list --format=json \
+  "${GCLOUD_FLAGS[@]}" \
+  | jq
+}
+
+function get_terraform_project() {
+  get_project_id_by_prefix "terraform" "${PROJECTS}"
+}
+
+function get_dns_project() {
+  get_project_id_by_prefix "dns" "${PROJECTS}"
+}
+
+function get_iam_project() {
+  get_project_id_by_prefix "iam" "${PROJECTS}"
+}
+
+function get_network_project() {
+  get_project_id_by_prefix "network" "${PROJECTS}"
+}
+
+function get_secret_project() {
+  get_project_id_by_prefix "secret" "${PROJECTS}"
+}
+
 function get_kubeflow_project() {
-  PROJECTS=$(get_projects)
   get_project_id_by_prefix "kubeflow" "${PROJECTS}"
+}
+
+function get_compute_project() {
+  get_project_id_by_prefix "compute" "${PROJECTS}"
+}
+
+function get_data_project() {
+  get_project_id_by_prefix "data" "${PROJECTS}"
+}
+
+function get_artifact_project() {
+  get_project_id_by_prefix "artifact" "${PROJECTS}"
 }
 
 function get_cluster_project() {
@@ -56,131 +111,123 @@ function get_cluster_project() {
 }
 
 function get_cluster_location() {
-  get_cluster |
-    jq -rc '.zone'
+  get_cluster \
+    | jq -rc '.zone'
 }
 
 function get_network() {
   gcloud compute networks list \
     --project="${NETWORK_PROJECT}" \
-    --format=json |
-    jq 'first'
+    --format=json \
+    "${GCLOUD_FLAGS[@]}" \
+    | jq 'first'
 }
 
 function get_network_name() {
-  get_network |
-    jq -rc '.name'
+  get_network \
+    | jq -rc '.name'
 }
 
 function get_network_self_link() {
-  get_network |
-    jq -rc '.selfLink'
+  get_network \
+    | jq -rc '.selfLink'
 }
 
 function get_subnetwork() {
   gcloud compute networks subnets list \
     --project="${NETWORK_PROJECT}" \
-    --format=json |
-    jq 'first'
+    --format=json \
+    "${GCLOUD_FLAGS[@]}" \
+    | jq 'first'
 }
 
 function get_subnetwork_name() {
-  get_subnetwork |
-    jq -rc '.name'
+  get_subnetwork \
+    | jq -rc '.name'
 }
 
 function get_subnetwork_self_link() {
-  get_subnetwork |
-    jq -rc '.selfLink'
-}
-
-function get_projects() {
-  gcloud projects list --format=json
+  get_subnetwork \
+    | jq -rc '.selfLink'
 }
 
 function get_compute_instance_by_name_prefix() {
   PREFIX=$1
   gcloud compute instances list --format=json \
-    --project="${COMPUTE_PROJECT}" |
-    jq --arg prefix "${PREFIX}" '.[] | select(.name | startswith($prefix)) | first'
+    --project="${COMPUTE_PROJECT}" \
+    --format=json \
+    "${GCLOUD_FLAGS[@]}" \
+    | jq --arg prefix "${PREFIX}" '.[] | select(.name | startswith($prefix)) | first'
 }
 
 function get_cluster_instance_groups() {
   gcloud compute instance-groups list \
     --project="${KUBEFLOW_PROJECT}" \
-    --format=json |
-    jq --arg cluster_name "${CLUSTER_NAME}" \
-      '.[] | select(.name | contains($cluster_name))' |
-    jq -s
+    --format=json \
+    "${GCLOUD_FLAGS[@]}" \
+    | jq --arg cluster_name "${CLUSTER_NAME}" '[.[] | select(.name | contains($cluster_name))]'
 }
 
 function get_cluster_instance_group_self_links() {
-  get_cluster_instance_groups |
-    jq '.[] | .selfLink' |
-    jq -s
+  get_cluster_instance_groups \
+    | jq '[.[] | .selfLink]'
 }
 
 function get_istio_ingressgateway_compute_address() {
   PREFIX="istio-ingressgateway"
-  gcloud compute addresses list --format=json \
-    --project="${KUBEFLOW_PROJECT}" |
-    jq --arg prefix "${PREFIX}" '.[] | select(.name | startswith($prefix))'
+  gcloud compute addresses list \
+    --format=json \
+    --project="${KUBEFLOW_PROJECT}" \
+    "${GCLOUD_FLAGS[@]}" \
+    | jq --arg prefix "${PREFIX}" '.[] | select(.name | startswith($prefix))'
 }
 
 function get_istio_ingressgateway_load_balancer_ip() {
-  get_istio_ingressgateway_compute_address |
-    jq -rc '.address'
+  get_istio_ingressgateway_compute_address \
+    | jq -rc '.address'
 }
 
 function get_cluster_location() {
-  get_cluster |
-    jq -rc '.zone'
+  get_cluster \
+    | jq -rc '.zone'
 }
 
 function get_dns_managed_zones() {
   gcloud dns managed-zones list \
     --project="${NETWORK_PROJECT}" \
-    --format=json |
-    jq
+    --format=json \
+    "${GCLOUD_FLAGS[@]}" \
+    | jq
 }
 
 function get_dns_name_servers() {
-  get_dns_managed_zones |
-    jq '[.[] | .nameServers[]] | unique'
+  get_dns_managed_zones \
+    | jq '[.[] | .nameServers[]] | unique'
+}
+
+function get_artifact_registry_repository() {
+  gcloud artifacts repositories list -q \
+    --project="${ARTIFACT_PROJECT}" \
+    --format=json \
+    "${GCLOUD_FLAGS[@]}"
 }
 
 function get_artifact_registry_repository_id() {
-  gcloud artifacts repositories list -q \
-    --project="${ARTIFACT_PROJECT}" \
-    --format=json |
-    jq -rc 'first | .name | split("/") | last'
+  echo "${ARTIFACT_REGISTRY_REPOSITORY}" \
+    | jq -rc 'first | .name | split("/") | last'
 }
 
 function get_artifact_registry_repository_location() {
-  gcloud artifacts repositories list -q \
-    --project="${ARTIFACT_PROJECT}" \
-    --format=json |
-    jq -rc 'first |  .name | split("/") | .[3]'
+  echo "${ARTIFACT_REGISTRY_REPOSITORY}" \
+    | jq -rc 'first |  .name | split("/") | .[3]'
 }
 
 function get_artifact_registry_repository_host() {
-  REPOSITORY_LOCATION=$(get_artifact_registry_repository_location)
-  echo "${REPOSITORY_LOCATION}-docker.pkg.dev"
+  echo "${ARTIFACT_REGISTRY_REPOSITORY_LOCATION}-docker.pkg.dev"
 }
 
 function get_artifact_registry_repository_url() {
-  REPOSITORY_ID=$(get_artifact_registry_repository_id)
-  REPOSITORY_LOCATION=$(get_artifact_registry_repository_location)
-  echo "${REPOSITORY_LOCATION}-docker.pkg.dev/${ARTIFACT_PROJECT}/${REPOSITORY_ID}"
-}
-
-function get_container_cluster_credentials() {
-  CLUSTER_NAME=$1
-  CLUSTER_PROJECT=$2
-  CLUSTER_LOCATION=$3
-  gcloud container clusters get-credentials "${CLUSTER_NAME}" \
-    --project="${CLUSTER_PROJECT}" \
-    --zone="${CLUSTER_LOCATION}"
+  echo "${ARTIFACT_REGISTRY_REPOSITORY_HOST}/${ARTIFACT_PROJECT}/${REPOSITORY_ID}"
 }
 
 function get_service_projects() {
@@ -212,8 +259,8 @@ function get_host_project_lein() {
 
 function get_resource_manager_lein_name() {
   HOST_PROJECT=$1
-  get_host_project_lein "${HOST_PROJECT}" |
-    jq -rc '[.[] | .name | split("/") | last] | first'
+  get_host_project_lein "${HOST_PROJECT}" \
+    | jq -rc '[.[] | .name | split("/") | last] | first'
 }
 
 function resource_manager_liens_delete() {
@@ -226,16 +273,117 @@ function resource_manager_liens_delete() {
 
 function get_iam_role_included_permissions() {
   ROLE=$1
-  gcloud iam roles describe "${ROLE}" --format=json |
-    jq -rc '.includedPermissions[]'
+  gcloud iam roles describe "${ROLE}" --format=json \
+    | jq -rc '.includedPermissions[]'
 }
 
-function setup_kubectx() {
-  CLUSTER_PROJECT="$(get_cluster_project)"
-  CLUSTER_NAME="$(get_cluster_name)"
-  CLUSTER_LOCATION="$(get_cluster_location)"
-  gcloud container clusters get-credentials \
-    --project="${CLUSTER_PROJECT}" \
-    --zone="${CLUSTER_LOCATION}" \
-    "${CLUSTER_NAME}"
+function projects_delete() {
+  SERVICE_PROJECTS=($(get_service_projects))
+  for project_id in "${SERVICE_PROJECTS[@]}"; do
+    echo "${project_id}"
+    gcloud projects delete "${project_id}" -q "${GCLOUD_FLAGS[@]}"
+  done
+
+  HOST_PROJECTS=($(get_host_projects))
+  for project_id in "${HOST_PROJECTS[@]}"; do
+    echo "${project_id}"
+    resource_manager_liens_delete "${project_id}"
+    gcloud projects delete "${project_id}" -q "${GCLOUD_FLAGS[@]}"
+  done
+
+  gsutil rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/**/*"
+}
+
+function organization_bootstrap() {
+  ORGANIZATION="neuralnetes.com"
+  ORGANIZATION_IAM_ROLES=(
+    "roles/billing.admin"
+    "roles/compute.admin"
+    "roles/container.admin"
+    "roles/iam.organizationRoleAdmin"
+    "roles/iam.serviceAccountAdmin"
+    "roles/iam.serviceAccountKeyAdmin"
+    "roles/iam.serviceAccountTokenCreator"
+    "roles/iam.serviceAccountUser"
+    "roles/identityplatform.admin"
+    "roles/identitytoolkit.admin"
+    "roles/resourcemanager.folderAdmin"
+    "roles/resourcemanager.organizationAdmin"
+    "roles/resourcemanager.projectCreator"
+    "roles/serviceusage.serviceUsageAdmin"
+    "roles/storage.admin"
+  )
+  PROJECT="terraform-neuralnetes"
+  SERVICE_ACCOUNT_NAME="terraform"
+  SERVICE_ACCOUNT_EMAIL="${SERVICE_ACCOUNT_NAME}@${PROJECT}.iam.gserviceaccount.com"
+
+  echo "log in with super administrator google account"
+  gcloud auth login
+
+  ORGANIZATION_ID=$(
+    gcloud organizations list --format=json |
+      jq -rc --arg display_name "${ORGANIZATION}" \
+        '.[] | select(.displayName == $display_name) | .name | split("/") | last'
+  )
+
+  gcloud projects create "${PROJECT}"
+
+  PROJECT_SERVICES=(
+    "admin.googleapis.com"
+    "bigquery.googleapis.com"
+    "bigquerystorage.googleapis.com"
+    "cloudbilling.googleapis.com"
+    "cloudresourcemanager.googleapis.com"
+    "cloudtrace.googleapis.com"
+    "compute.googleapis.com"
+    "container.googleapis.com"
+    "containerregistry.googleapis.com"
+    "deploymentmanager.googleapis.com"
+    "iam.googleapis.com"
+    "iamcredentials.googleapis.com"
+    "logging.googleapis.com"
+    "monitoring.googleapis.com"
+    "oslogin.googleapis.com"
+    "pubsub.googleapis.com"
+    "servicemanagement.googleapis.com"
+    "servicenetworking.googleapis.com"
+    "serviceusage.googleapis.com"
+    "sqladmin.googleapis.com"
+    "storage-api.googleapis.com"
+    "storage.googleapis.com"
+  )
+
+  for project_service in "${PROJECT_SERVICES[@]}"; do
+    echo "enabling ${project_service}"
+    gcloud services enable "${project_service}" \
+      --project="${PROJECT}"
+  done
+
+  gcloud iam service-accounts create "${SERVICE_ACCOUNT_NAME}" \
+    --description="${SERVICE_ACCOUNT_NAME}" \
+    --display-name="${SERVICE_ACCOUNT_NAME}" \
+    --project="${PROJECT}"
+
+  for role in "${ORGANIZATION_IAM_ROLES[@]}"; do
+    gcloud organizations add-iam-policy-binding "${ORGANIZATION_ID}" \
+      --member="serviceAccount:${SERVICE_ACCOUNT_EMAIL}" \
+      --role="${role}" \
+      "${GCLOUD_FLAGS[@]}"
+  done
+
+  SERVICE_ACCOUNT_KEY="key.json"
+  gcloud iam service-accounts keys create "${SERVICE_ACCOUNT_KEY}" \
+    --iam-account="${SERVICE_ACCOUNT_EMAIL}" \
+    --project="${PROJECT}" \
+    "${GCLOUD_FLAGS[@]}"
+
+  echo "store this secret in github secret"
+  echo "${SERVICE_ACCOUNT_KEY}"
+  cat "${SERVICE_ACCOUNT_KEY}"
+}
+
+function watch_dns() {
+  url="https://dns.google/resolve?name=kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}&type=A"
+  command="curl -s '${url}' | jq '.Answer'"
+  watch -d -n 2 "${command}"
 }

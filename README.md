@@ -3,10 +3,9 @@
 #### setup workspace
 
 ```
-export GITHUB_WORKSPACE="$(git rev-parse --show-toplevel)"
-export GITHUB_USERNAME="lerms"
-export GITHUB_USERNAME_WORKSPACE="${GITHUB_WORKSPACE}/workspace/${GITHUB_USERNAME}"
-bash "${GITHUB_USERNAME_WORKSPACE}/setup_workspace.sh"
+export GITHUB_WORKSPACE=$(git rev-parse --show-toplevel)
+export GITHUB_USERNAME=lerms
+bash "${GITHUB_WORKSPACE}/bash/github/setup.sh"
 ```
 
 #### github actions

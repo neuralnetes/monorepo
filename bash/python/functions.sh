@@ -1,4 +1,3 @@
-#!/bin/bash
 function setup_pyenv() {
   export PYENV_ROOT="$HOME/.pyenv"
   if [[ ! -d "${PYENV_ROOT}" ]]; then

@@ -1,4 +1,4 @@
 TF_INPUT="false"
 TF_LOG="JSON"
-TF_LOG_FILE="${GITHUB_USERNAME_WORKSPACE}/tf_logs.txt"
+TF_LOG_FILE="/terraform.txt"
 TGENV_AUTO_INSTALL="true"

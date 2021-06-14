@@ -17,3 +17,4 @@ tmp
 .envrc
 env.txt
 logs.txt
+.secret
