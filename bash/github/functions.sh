@@ -26,14 +26,11 @@ export plugins=(
     git
     fzf
     kubectl
-    gcloud
 )
 export GITHUB_WORKSPACE=$(get_github_workspace)
 export GITHUB_USER=$(get_github_username)
 source "\${ZSH}/oh-my-zsh.sh"
-source "\${GITHUB_WORKSPACE}/workspace/base/functions.sh"
-source "\${GITHUB_WORKSPACE}/workspace/base/.envrc"
-source "\${GITHUB_WORKSPACE}/workspace/\${GITHUB_USER}/.envrc"
+source "\${GITHUB_WORKSPACE}/bash/workspace/.envrc"
 EOF
 }
 
@@ -57,7 +54,7 @@ function get_git_config_global() {
 function get_github_username_workspace() {
   GITHUB_WORKSPACE=$(get_github_workspace)
   GITHUB_USERNAME=$(get_github_username)
-  echo "${GITHUB_WORKSPACE}/workspace/${GITHUB_USERNAME}"
+  echo "${GITHUB_WORKSPACE}/bash/workspace/${GITHUB_USERNAME}"
 }
 
 function get_github_name() {

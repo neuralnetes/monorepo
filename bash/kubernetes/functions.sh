@@ -24,6 +24,11 @@ function setup_mc() {
 
 function setup_flux() {
   if [[ ! -f "${HOME}/.local/bin/flux" ]]; then
+    if [[ "${OS}" == "darwin" ]]; then
+      OS="Darwin"
+    elif [[ "${OS}" == "linux" ]]; then
+      OS="Linux"
+    fi
     wget https://fluxcd.io/install.sh
     bash "${GITHUB_WORKSPACE}/install.sh" "${HOME}/.local/bin"
     rm -rf "${GITHUB_WORKSPACE}/install.sh"

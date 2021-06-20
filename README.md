@@ -3,9 +3,17 @@
 #### setup workspace
 
 ```
+mkdir -p "${HOME}/.local/bin"
+export PATH="${HOME}/.local/bin:${PATH}"
+export OS="darwin"
+export ARCH="amd64"
 export GITHUB_WORKSPACE=$(git rev-parse --show-toplevel)
 export GITHUB_USERNAME=lerms
-bash "${GITHUB_WORKSPACE}/workspace/base/setup.sh"
+export GITHUB_USER="Alexander Lerma"
+export GITHUB_EMAIL="alexander.lerma@neuralnetes.com"
+source "${GITHUB_WORKSPACE}/bash/workspace/functions.sh"
+setup_workspace
+source "${HOME}/.zshrc"
 ```
 
 #### github actions
