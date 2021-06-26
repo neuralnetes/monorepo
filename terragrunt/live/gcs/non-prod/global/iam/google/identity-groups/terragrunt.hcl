@@ -55,9 +55,10 @@ inputs = {
   identity_groups = [
     for display_name in ["kubeflow-user", "kubeflow-admin"] :
     {
-      display_name = display_name
-      parent       = "customers/${local.gcp_workspace_customer_id}"
-      group_key_id = "${display_name}@${local.gcp_workspace_domain_name}"
+      display_name         = display_name
+      parent               = "customers/${local.gcp_workspace_customer_id}"
+      group_key_id         = "${display_name}@${local.gcp_workspace_domain_name}"
+      initial_group_config = "WITH_INITIAL_OWNER"
     }
   ]
 }
