@@ -78,7 +78,8 @@ inputs = {
           "roles/container.admin"
         ] :
         project_role => [
-          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-admin"].group_key[0].id}"
+          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-admin"].group_key[0].id}",
+          "user:alexander.lerma@${local.gcp_workspace_domain_name}"
         ]
       }
       project = dependency.kubeflow_project.outputs.project_id
