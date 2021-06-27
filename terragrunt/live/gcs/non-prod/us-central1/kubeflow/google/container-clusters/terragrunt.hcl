@@ -70,6 +70,7 @@ inputs = {
           min_count    = 3
           name         = "cluster-${dependency.random_string.outputs.result}-cpu-01"
           preemptible  = true
+          image_type   = "COS"
         },
         {
           accelerator_count = 1
@@ -79,6 +80,7 @@ inputs = {
           min_count         = 0
           name              = "cluster-${dependency.random_string.outputs.result}-gpu-01"
           preemptible       = true
+          image_type        = "COS"
         }
       ]
       node_pools_tags = {
