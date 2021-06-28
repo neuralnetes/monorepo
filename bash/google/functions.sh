@@ -18,9 +18,18 @@ function setup_kubectx() {
 }
 
 function get_container_cluster_credentials() {
-  CLUSTER_PROJECT="$(get_cluster_project)"
-  CLUSTER_NAME="$(get_cluster_name)"
-  CLUSTER_LOCATION="$(get_cluster_location)"
+  if [[ -z "${CLUSTER_PROJECT}" ]]; then
+    CLUSTER_PROJECT="$(get_cluster_project)"
+  fi
+  if [[ -z "${CLUSTER_NAME}" ]]; then
+    CLUSTER_NAME="$(get_cluster_name)"
+  fi
+  if [[ -z "${CLUSTER_LOCATION}" ]]; then
+    CLUSTER_LOCATION="$(get_cluster_location)"
+  fi
+  if [[ -z "${GCLOUD_FLAGS}" ]]; then
+    GCLOUD_FLAGS=()
+  fi
   gcloud container clusters get-credentials \
     "${CLUSTER_NAME}" \
     --project="${CLUSTER_PROJECT}" \
