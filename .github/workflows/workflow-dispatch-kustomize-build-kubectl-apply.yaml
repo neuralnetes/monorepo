@@ -11,7 +11,7 @@ on:
         description: cluster_project
         required: true
 jobs:
-  terragrunt:
+  kustomize_build_kubectl_apply:
     runs-on: ubuntu-latest
     env:
       GITHUB_ACTIONS_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
