@@ -19,6 +19,8 @@ jobs:
       GITHUB_NAME: ${{ secrets.GH_USERNAME }}
       GITHUB_EMAIL: ${{ secrets.GH_EMAIL }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      OS: linux
+      ARCH: amd64
     steps:
       - id: run_checkout
         name: run checkout
@@ -36,31 +38,27 @@ jobs:
         run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH
       - id: run_setup_kubectl
         name: run setup kubectl
-        run: bash bash/kubernetes/setup_kubectl_linux.sh
+        run: source "${GITHUB_WORKSPACE}/bash/kubernetes/functions.sh" && setup_kubectl
       - id: run_setup_kustomize
         name: run setup kustomize
-        run: bash bash/kubernetes/setup_kustomize.sh
+        run: source "${GITHUB_WORKSPACE}/bash/kubernetes/functions.sh" && setup_kustomize
       - id: run_setup_flux
         name: run setup flux
-        run: bash bash/kubernetes/setup_flux.sh
+        run: source "${GITHUB_WORKSPACE}/bash/kubernetes/functions.sh" && setup_flux
       - id: run_setup_gcloud
         name: run setup gcloud
         uses: google-github-actions/setup-gcloud@master
         with:
           service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
           export_default_credentials: true
-      - id: run_setup_kubectx
-        name: run setup kubectx
-        env:
-          CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}
-          CLUSTER_PROJECT: ${{ github.event.inputs.cluster_project }}
-          CLUSTER_LOCATION: ${{ github.event.inputs.cluster_location }}
-        run: bash "${GITHUB_WORKSPACE}/bash/kubernetes/setup_kubectx.sh"
+      - id: run_gcloud_get_container_cluster_credentials
+        name: run gcloud get container cluster credentials
+        run: source "${GITHUB_WORKSPACE}/bash/google/functions.sh" && get_container_cluster_credentials
       - id: run_kustomize_build_kubectl_apply
         name: run kustomize build kubectl apply
         env:
           CLUSTER_KUSTOMIZE_PATH: ${{ github.workspace }}/kustomize/manifests/deploy/overlays/${{ github.event.inputs.cluster_project }}
-        run: bash "${GITHUB_WORKSPACE}/bash/kubernetes/kustomize_build_kubectl_apply.sh"
+        run: source "${GITHUB_WORKSPACE}/bash/kubernetes/functions.sh" && kbkaf
       - id: run_flux_reconcile
         name: run flux reconcile
         run: |
@@ -71,8 +69,8 @@ jobs:
       - id: run_event_success
         name: run event success
         if: ${{ success() }}
-        run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "success"
+        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" &&  post_slack_event "success"
       - id: run_event_failure
         name: run event failure
         if: ${{ failure() }}
-        run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "failure"
+        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" &&  post_slack_event "failure"
