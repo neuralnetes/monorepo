@@ -53,6 +53,10 @@ jobs:
           export_default_credentials: true
       - id: run_gcloud_get_container_cluster_credentials
         name: run gcloud get container cluster credentials
+        env:
+          CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}
+          CLUSTER_PROJECT: ${{ github.event.inputs.cluster_project }}
+          CLUSTER_LOCATION: ${{ github.event.inputs.cluster_location }}
         run: source "${GITHUB_WORKSPACE}/bash/google/functions.sh" && get_container_cluster_credentials
       - id: run_kustomize_build_kubectl_apply
         name: run kustomize build kubectl apply
