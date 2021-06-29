@@ -35,40 +35,6 @@ function setup_flux() {
   fi
 }
 
-function kaf() {
-    kubectl apply -f -
-}
-
-function kdelf() {
-    kubectl delete -f -
-}
-
-function frk() {
-    flux reconcile kustomization
-}
-
-function kfmt() {
-    kustomize cfg fmt -R
-}
-
-function kb() {
-    KUSTOMIZATION_PATH=$1
-    kustomize build --load-restrictor LoadRestrictionsNone "${KUSTOMIZATION_PATH}"
-}
-
-function kbdelf() {
-    KUSTOMIZATION_PATH=$1
-    kb "${KUSTOMIZATION_PATH}" \
-      | kdelf
-}
-
-
-function kbkaf() {
-    KUSTOMIZATION_PATH=$1
-    kb "${KUSTOMIZATION_PATH}" \
-      | kaf
-}
-
 function get_istio_ingressgateway_service() {
   kubectl get service -n istio-system -o json istio-ingressgateway |
     jq

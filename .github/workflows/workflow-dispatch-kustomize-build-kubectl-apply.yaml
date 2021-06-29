@@ -62,7 +62,7 @@ jobs:
         name: run kustomize build kubectl apply
         env:
           KUSTOMIZATION_PATH: ${{ github.workspace }}/kustomize/manifests/deploy/overlays/${{ github.event.inputs.cluster_project }}
-        run: source "${GITHUB_WORKSPACE}/bash/kubernetes/functions.sh" && kbkaf
+        run: kustomize build --load-restrictor LoadRestrictionsNone "${KUSTOMIZATION_PATH}" | kubectl apply -f -
       - id: run_flux_reconcile
         name: run flux reconcile
         run: |
