@@ -178,7 +178,7 @@ function post_github_workflow_dispatch_generate_kubeflow_cluster() {
   post_github_workflow_dispatch
 }
 
-function post_github_workflow_dispatch_generate_kustomize_build_kubectl_apply() {
+function post_github_workflow_dispatch_kustomize_build_kubectl_apply() {
   GITHUB_WORKFLOW_DISPATCH=$(
     jq -n \
       --arg ref "${GITHUB_REF}" \

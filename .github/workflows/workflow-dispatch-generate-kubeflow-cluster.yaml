@@ -85,12 +85,12 @@ jobs:
           CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}
           CLUSTER_LOCATION: ${{ github.event.inputs.cluster_location }}
           CLUSTER_PROJECT: ${{ github.event.inputs.kubeflow_project }}
-        run: bash bash/github/workflow_dispatch_kustomize_build_kubectl_apply.sh
+        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" && post_github_workflow_dispatch_kustomize_build_kubectl_apply
       - id: run_event_success
         name: run event success
         if: ${{ success() }}
-        run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "success"
+        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" &&  post_slack_event "success"
       - id: run_event_failure
         name: run event failure
         if: ${{ failure() }}
-        run: bash "${GITHUB_WORKSPACE}/bash/github/event.sh" "failure"
+        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" &&  post_slack_event "failure"
