@@ -44,7 +44,7 @@ async def handle_flux_reconcile(args):
     names = [
         get_flux_kustomization_name(item)
         for item in response['items']
-        if get_flux_kustomization_sha(item) != github_sha
+        if 'status' in item and get_flux_kustomization_sha(item) != github_sha
     ]
     return await gather_all(flux_reconcile, names)
 
