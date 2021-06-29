@@ -65,8 +65,8 @@ inputs = {
       network_project_id     = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
       node_pools = [
         {
-          machine_type = "e2-micro"
-          max_count    = 20
+          machine_type = "e2-medium"
+          max_count    = 10
           min_count    = 3
           name         = "cluster-${dependency.random_string.outputs.result}-cpu-01"
           preemptible  = true
