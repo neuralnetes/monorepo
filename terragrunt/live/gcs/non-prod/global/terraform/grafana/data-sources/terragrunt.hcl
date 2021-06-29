@@ -52,3 +52,5 @@ EOF
 inputs = {
   stackdriver_data_sources = []
 }
+
+skip = true
