@@ -6,12 +6,12 @@
 mkdir -p "${HOME}/.local/bin"
 export PATH="${HOME}/.local/bin:${PATH}"
 export OS="darwin"
-export ARCH="amd64"
+export ARCH="arm64"
 export GITHUB_WORKSPACE=$(git rev-parse --show-toplevel)
 export GITHUB_USERNAME=lerms
-export GITHUB_USER="Alexander Lerma"
+export GITHUB_NAME="Alexander Lerma"
 export GITHUB_EMAIL="alexander.lerma@neuralnetes.com"
-source "${GITHUB_WORKSPACE}/bash/workspace/functions.sh"
+source "${GITHUB_WORKSPACE}/bash/workspace/${OS}-${ARCH}/.envrc-root"
 setup_workspace
 source "${HOME}/.zshrc"
 ```

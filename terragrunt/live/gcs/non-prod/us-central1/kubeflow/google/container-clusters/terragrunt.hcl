@@ -65,12 +65,11 @@ inputs = {
       network_project_id     = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
       node_pools = [
         {
-          machine_type = "e2-medium"
-          max_count    = 10
+          machine_type = "e2-standard-4"
+          max_count    = 5
           min_count    = 3
           name         = "cluster-${dependency.random_string.outputs.result}-cpu-01"
           preemptible  = true
-          image_type   = "COS"
         },
         {
           accelerator_count = 1
@@ -80,12 +79,10 @@ inputs = {
           min_count         = 0
           name              = "cluster-${dependency.random_string.outputs.result}-gpu-01"
           preemptible       = true
-          image_type        = "COS"
         }
       ]
       node_pools_tags = {
         all = [
-          //          dependency.tags.outputs.tags_map["private"],
           dependency.tags.outputs.tags_map["public"]
         ]
       }
@@ -101,9 +98,8 @@ inputs = {
       subnetwork               = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].name
       create_service_account   = true
       service_account          = ""
-      //      service_account          = dependency.service_accounts.outputs.service_accounts_map["container-cluster"].email
-      zones                 = ["us-central1-a"]
-      grant_registry_access = true
+      zones                    = ["us-central1-a"]
+      grant_registry_access    = true
       registry_project_ids = [
         dependency.artifact_project.outputs.project_id
       ]

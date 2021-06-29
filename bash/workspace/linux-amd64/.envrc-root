@@ -1,0 +1,7 @@
+#!/bin/bash
+export GITHUB_WORKSPACE=$(git rev-parse --show-toplevel)
+export PATH="${HOME}/.local/bin:${PATH}"
+export OS="linux"
+export ARCH="amd64"
+export EDITOR="vim"
+source "${GITHUB_WORKSPACE}/bash/workspace/base/.envrc-root"

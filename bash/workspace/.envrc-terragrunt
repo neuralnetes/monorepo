@@ -1,5 +1,0 @@
-#!/bin/bash
-TF_INPUT="false"
-TF_LOG="JSON"
-TF_LOG_FILE="/terraform.txt"
-TGENV_AUTO_INSTALL="true"

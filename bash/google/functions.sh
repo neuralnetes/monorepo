@@ -13,10 +13,6 @@ function setup_gcloud() {
   fi
 }
 
-function setup_kubectx() {
-  get_container_cluster_credentials
-}
-
 function get_container_cluster_credentials() {
   if [[ -z "${CLUSTER_PROJECT}" ]]; then
     CLUSTER_PROJECT="$(get_cluster_project)"

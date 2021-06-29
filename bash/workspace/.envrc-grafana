@@ -1,4 +1,0 @@
-#!/bin/bash
-GRAFANA_AUTH=""
-GRAFANA_ORG_ID="1"
-GRAFANA_URL="https://neuralnetes.grafana.net"

@@ -27,10 +27,14 @@ export plugins=(
     fzf
     kubectl
 )
-export GITHUB_WORKSPACE=$(get_github_workspace)
-export GITHUB_USER=$(get_github_username)
+export GITHUB_WORKSPACE="${GITHUB_WORKSPACE}"
+export GITHUB_NAME="${GITHUB_NAME}"
+export GITHUB_EMAIL="${GITHUB_EMAIL}"
+export GITHUB_USERNAME="${GITHUB_USERNAME}"
 source "\${ZSH}/oh-my-zsh.sh"
-source "\${GITHUB_WORKSPACE}/bash/workspace/.envrc"
+source "${GITHUB_WORKSPACE}/bash/workspace/${OS}-${ARCH}/.envrc-root"
+eval "\$(pyenv init -)"
+eval "\$(pyenv virtualenv-init -)"
 EOF
 }
 
@@ -49,12 +53,6 @@ function get_github_sha_short() {
 function get_git_config_global() {
   git config --global --list |
     cat
-}
-
-function get_github_username_workspace() {
-  GITHUB_WORKSPACE=$(get_github_workspace)
-  GITHUB_USERNAME=$(get_github_username)
-  echo "${GITHUB_WORKSPACE}/bash/workspace/${GITHUB_USERNAME}"
 }
 
 function get_github_name() {
@@ -276,18 +274,4 @@ function post_slack_webhook() {
   curl -X POST -H 'Content-type: application/json' \
     --data "${SLACK_WEBHOOK_DATA}" \
     "${SLACK_WEBHOOK}"
-}
-
-function debug_slack_event() {
-  EVENT=$1
-  EVENT_DATA_RUN=$(echo "${EVENT}" | jq -rc '.data.run')
-  EVENT_DATA_LOGS=$(echo "${EVENT}" | jq -rc '.data.logs')
-  EVENT_DATA_ENV=$(echo "${EVENT}" | jq -rc '.data.env')
-  GITHUB_USERNAME_WORKSPACE=$(get_github_username_workspace)
-  echo "${EVENT_DATA_RUN}"
-  gsutil cp "${EVENT_DATA_LOGS}" "${GITHUB_USERNAME_WORKSPACE}/logs.txt"
-  gsutil cp "${EVENT_DATA_ENV}" "${GITHUB_USERNAME_WORKSPACE}/env.txt"
-  cat "${GITHUB_USERNAME_WORKSPACE}/logs.txt" \
-    | jq -s '.[] | select(.["@message"] | contains("error")) | .["@message"]'
-  cat "${GITHUB_USERNAME_WORKSPACE}/env.txt"
 }

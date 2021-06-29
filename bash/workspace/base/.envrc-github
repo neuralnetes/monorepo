@@ -1,0 +1,5 @@
+#!/bin/bash
+export GITHUB_REF=$(get_github_ref)
+export GITHUB_SHA=$(get_github_sha)
+export GITHUB_OWNER=$(get_github_owner)
+export GITHUB_REPOSITORY=$(get_github_repository)

@@ -1,9 +1,0 @@
-#!/bin/bash
-KUBE_EDITOR="${EDITOR}"
-FLUX2_VERSION="v0.13.4"
-KUBEFLOW_VERSION="v1.3.0"
-KUSTOMIZATION_PATH=$(get_kustomization_path)
-ISTIO_INGRESSGATEWAY_SERVICE=$(get_istio_ingressgateway_service)
-ISTIO_INGRESSGATEWAY_SERVICE_TYPE=$(get_istio_ingressgateway_service_type)
-ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP=$(get_istio_ingressgateway_loadbalancer_ip)
-ISTIO_INGRESSGATEWAY_LOAD_BALANCER_DNS=$(get_istio_ingressgateway_loadbalancer_dns)

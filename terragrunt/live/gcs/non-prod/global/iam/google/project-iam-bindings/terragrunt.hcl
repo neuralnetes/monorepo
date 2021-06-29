@@ -75,6 +75,7 @@ inputs = {
       name = "${dependency.kubeflow_project.outputs.project_id}-01"
       bindings = {
         for project_role in [
+          "roles/viewer",
           "roles/container.admin"
         ] :
         project_role => [
@@ -87,6 +88,8 @@ inputs = {
       name = "${dependency.kubeflow_project.outputs.project_id}-02"
       bindings = {
         for project_role in [
+          "roles/viewer",
+          "roles/iap.httpsResourceAccessor",
           "roles/container.clusterViewer"
         ] :
         project_role => [
