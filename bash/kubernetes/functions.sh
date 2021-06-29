@@ -89,7 +89,7 @@ function get_istio_ingressgateway_loadbalancer_dns() {
     jq -rc '.metadata.annotations["external-dns.alpha.kubernetes.io/hostname"]'
 }
 
-function get_cluster_kustomize_path() {
+function get_kustomization_path() {
   echo "${GITHUB_WORKSPACE}/kustomize/manifests/deploy/overlays/${CLUSTER_PROJECT}"
 }
 

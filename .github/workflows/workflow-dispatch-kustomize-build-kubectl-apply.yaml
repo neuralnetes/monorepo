@@ -61,7 +61,7 @@ jobs:
       - id: run_kustomize_build_kubectl_apply
         name: run kustomize build kubectl apply
         env:
-          CLUSTER_KUSTOMIZE_PATH: ${{ github.workspace }}/kustomize/manifests/deploy/overlays/${{ github.event.inputs.cluster_project }}
+          KUSTOMIZATION_PATH: ${{ github.workspace }}/kustomize/manifests/deploy/overlays/${{ github.event.inputs.cluster_project }}
         run: source "${GITHUB_WORKSPACE}/bash/kubernetes/functions.sh" && kbkaf
       - id: run_flux_reconcile
         name: run flux reconcile
