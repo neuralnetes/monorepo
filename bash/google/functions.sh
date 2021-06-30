@@ -327,6 +327,14 @@ function projects_delete() {
   for project_id in "${SERVICE_PROJECTS[@]}"; do
     echo "${project_id}"
     gcloud projects delete "${project_id}" -q "${GCLOUD_FLAGS[@]}"
+    project_prefix=$(echo "${project_id}" | cut -d- -f1)
+    if [[ -n "${IMPERSONATE_SERVICE_ACCOUNT}" ]]; then
+      gsutil -i "${IMPERSONATE_SERVICE_ACCOUNT}" rm -rf "gs://terraform-neuralnetes/non-prod/global/${project_prefix}"
+      gsutil -i "${IMPERSONATE_SERVICE_ACCOUNT}" rm -rf "gs://terraform-neuralnetes/non-prod/us-central1/${project_prefix}"
+    else
+      gsutil rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/global/${project_prefix}"
+      gsutil rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/us-central1/${project_prefix}"
+    fi
   done
 
   HOST_PROJECTS=($(get_host_projects))
@@ -334,9 +342,15 @@ function projects_delete() {
     echo "${project_id}"
     resource_manager_liens_delete "${project_id}"
     gcloud projects delete "${project_id}" -q "${GCLOUD_FLAGS[@]}"
+    project_prefix=$(echo "${project_id}" | cut -d- -f1)
+    if [[ -n "${IMPERSONATE_SERVICE_ACCOUNT}" ]]; then
+      gsutil -i "${IMPERSONATE_SERVICE_ACCOUNT}" rm -rf "gs://terraform-neuralnetes/non-prod/global/${project_prefix}"
+      gsutil -i "${IMPERSONATE_SERVICE_ACCOUNT}" rm -rf "gs://terraform-neuralnetes/non-prod/us-central1/${project_prefix}"
+    else
+      gsutil rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/global/${project_prefix}"
+      gsutil rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/us-central1/${project_prefix}"
+    fi
   done
-
-  gsutil rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/**/*"
 }
 
 function organization_bootstrap() {
