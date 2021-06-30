@@ -33,7 +33,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       GITHUB_USERNAME: ${{ secrets.GH_USERNAME }}
       GITHUB_NAME: ${{ secrets.GH_NAME }}
-      GITHUB_EMAIL: ${{ secrets.GH_USER_EMAIL }}
+      GITHUB_EMAIL: ${{ secrets.GH_EMAIL }}
       GRAFANA_AUTH: ${{ secrets.GRAFANA_AUTH }}
       GRAFANA_ORG_ID: ${{ secrets.GRAFANA_ORG_ID }}
       GRAFANA_URL: ${{ secrets.GRAFANA_URL }}
