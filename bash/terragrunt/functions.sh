@@ -15,13 +15,11 @@ function update_terragrunt_version() {
 }
 
 function get_terragrunt_working_dir() {
-  echo "${GITHUB_WORKSPACE}/terragrunt/live/gcs/non-prod"
+  echo "terragrunt/live/gcs/non-prod"
 }
 
 function get_terragrunt_cli_flags() {
-  if [[ -z "${TERRAGRUNT_WORKING_DIR}" ]]; then
-    TERRAGRUNT_WORKING_DIR=$(get_terragrunt_working_dir)
-  fi
+  TERRAGRUNT_WORKING_DIR=$(get_terragrunt_working_dir)
   TERRAGRUNT_CLI_FLAGS=(
     "--terragrunt-working-dir ${TERRAGRUNT_WORKING_DIR}"
     "--terragrunt-include-dir global/terraform/**/**"

@@ -16,7 +16,8 @@ jobs:
     env:
       GITHUB_ACTIONS_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      GITHUB_NAME: ${{ secrets.GH_USERNAME }}
+      GITHUB_USERNAME: ${{ secrets.GH_USERNAME }}
+      GITHUB_NAME: ${{ secrets.GH_NAME }}
       GITHUB_EMAIL: ${{ secrets.GH_EMAIL }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       OS: linux

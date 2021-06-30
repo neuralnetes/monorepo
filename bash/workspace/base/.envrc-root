@@ -14,3 +14,6 @@ source "${GITHUB_WORKSPACE}/bash/workspace/base/.envrc-google"
 source "${GITHUB_WORKSPACE}/bash/workspace/base/.envrc-kubernetes"
 source "${GITHUB_WORKSPACE}/bash/workspace/base/.envrc-terragrunt"
 source "${GITHUB_WORKSPACE}/bash/workspace/base/.envrc-terraform"
+if [[ -f "${GITHUB_WORKSPACE}/bash/workspace/base/.envrc-secret" ]]; then
+  source "${GITHUB_WORKSPACE}/bash/workspace/base/.envrc-secret"
+fi

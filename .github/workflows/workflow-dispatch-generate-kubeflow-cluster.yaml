@@ -37,6 +37,8 @@ jobs:
       GITHUB_NAME: ${{ secrets.GH_NAME }}
       GITHUB_EMAIL: ${{ secrets.GH_EMAIL }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      OS: linux
+      ARCH: amd64
     steps:
       - id: run_checkout
         name: run checkout
@@ -45,10 +47,10 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
       - id: run_event_start
         name: run event start
-        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" &&  post_slack_event "start"
+        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" && post_slack_event "start"
       - id: run_setup_git
         name: run setup git
-        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" &&  setup_gitconfig
+        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" && setup_gitconfig
       - id: run_setup_github_path
         name: run setup github path
         run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH

@@ -45,6 +45,8 @@ jobs:
       TF_INPUT: false
       TF_LOG: JSON
       TF_LOG_PATH: ${{ github.workspace }}/logs.txt
+      OS: linux
+      ARCH: amd64
     steps:
     - id: checkout
       name: run checkout

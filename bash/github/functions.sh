@@ -2,9 +2,9 @@
 function setup_gitconfig() {
   cat <<EOF >"${HOME}/.gitconfig"
 [user]
-  email = ${GITHUB_EMAIL}
-  name = ${GITHUB_NAME}
-  username = ${GITHUB_USERNAME}
+  email = "${GITHUB_EMAIL}"
+  name = "${GITHUB_NAME}"
+  username = "${GITHUB_USERNAME}"
 [core]
   editor = \$EDITOR
 [init]
