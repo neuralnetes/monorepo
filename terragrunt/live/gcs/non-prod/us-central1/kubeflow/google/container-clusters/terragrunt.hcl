@@ -66,8 +66,8 @@ inputs = {
       node_pools = [
         {
           machine_type       = "e2-standard-4"
-          initial_node_count = 4
-          max_count          = 4
+          initial_node_count = 3
+          max_count          = 8
           min_count          = 3
           name               = "cluster-${dependency.random_string.outputs.result}-cpu-01"
           preemptible        = true
