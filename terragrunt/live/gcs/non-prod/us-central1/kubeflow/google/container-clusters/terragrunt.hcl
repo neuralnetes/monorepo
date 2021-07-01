@@ -52,7 +52,7 @@ inputs = {
       initial_node_count = 1
       ip_range_services  = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[0].range_name
       ip_range_pods      = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[1].range_name
-      kubernetes_version = "latest"
+      kubernetes_version = "1.20.7-gke.1800"
       master_authorized_networks = [
         {
           cidr_block   = "0.0.0.0/0"
@@ -65,11 +65,12 @@ inputs = {
       network_project_id     = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
       node_pools = [
         {
-          machine_type = "e2-standard-4"
-          max_count    = 5
-          min_count    = 3
-          name         = "cluster-${dependency.random_string.outputs.result}-cpu-01"
-          preemptible  = true
+          machine_type       = "e2-standard-4"
+          initial_node_count = 5
+          max_count          = 5
+          min_count          = 3
+          name               = "cluster-${dependency.random_string.outputs.result}-cpu-01"
+          preemptible        = true
         },
         {
           accelerator_count = 1
