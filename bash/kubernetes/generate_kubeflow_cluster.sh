@@ -61,10 +61,7 @@ metadata:
   name: istio-certs-letsencrypt-staging
 spec:
   dnsNames:
-  - '*.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
-#  - 'kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
-#  - 'www.kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
-#  - 'yfinance.default.kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
+  - '*.n9s.mx'
 ---
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
@@ -72,10 +69,7 @@ metadata:
   name: istio-certs-letsencrypt-prod
 spec:
   dnsNames:
-  - '*.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
-#  - 'kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
-#  - 'www.kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
-#  - 'yfinance.default.kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
+  - '*.n9s.mx'
 ---
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
@@ -83,10 +77,7 @@ metadata:
   name: istio-certs-self-signed
 spec:
   dnsNames:
-  - '*.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
-#  - 'kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
-#  - 'www.kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
-#  - 'yfinance.default.kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}'
+  - '*.n9s.mx'
 EOF
 
 cat <<EOF >"kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -314,7 +305,7 @@ metadata:
   name: istio-ingressgateway
   namespace: istio-system
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: '*.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}.'
+    external-dns.alpha.kubernetes.io/hostname: '*.n9s.mx.'
 spec:
   type: LoadBalancer
 EOF
@@ -368,7 +359,7 @@ metadata:
   namespace: istio-system
 data:
   OIDC_AUTH_URL: /dex/auth
-  OIDC_PROVIDER: https://kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}/dex
+  OIDC_PROVIDER: https://kubeflow.n9s.mx/dex
   OIDC_SCOPES: profile email groups
   PORT: '"8080"'
   REDIRECT_URL: /login/oidc
@@ -395,7 +386,7 @@ metadata:
   name: dex
 data:
   config.yaml: |
-    issuer: https://kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}/dex
+    issuer: https://kubeflow.n9s.mx/dex
     storage:
       type: kubernetes
       config:
@@ -424,7 +415,7 @@ data:
         clientSecret: \$GOOGLE_CLIENT_SECRET
 
         # Dex's issuer URL + "/callback"
-        redirectURI: https://kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
+        redirectURI: https://kubeflow.n9s.mx/dex/callback
         serviceAccountFilePath: /etc/dex/service-account-key/key.json
     - type: github
       id: github
@@ -433,7 +424,7 @@ data:
         # Connector config values starting with a "$" will read from the environment.
         clientID: \$GITHUB_CLIENT_ID
         clientSecret: \$GITHUB_CLIENT_SECRET
-        redirectURI: https://kubeflow.non-prod.${GCP_WORKSPACE_DOMAIN_NAME}/dex/callback
+        redirectURI: https://kubeflow.n9s.mx/dex/callback
 
 EOF
 
@@ -491,7 +482,7 @@ metadata:
   name: config-domain
   namespace: knative-serving
 data:
-  non-prod.${GCP_WORKSPACE_DOMAIN_NAME}: ""
+  n9s.mx: ""
 ---
 apiVersion: v1
 kind: ConfigMap
