@@ -30,36 +30,28 @@ inputs = {
         domain                             = "${domain}."
         private_visibility_config_networks = []
         recordsets = [
-          //          {
-          //            name = "www"
-          //            type = "CNAME"
-          //            ttl  = 300
-          //            records = [
-          //              "${domain}."
-          //            ]
-          //          },
-          //          {
-          //            name = ""
-          //            type = "CAA"
-          //            ttl  = 300
-          //            records = [
-          //              "0 issue \"letsencrypt.org\"",
-          //              "0 issue \"pki.goog\""
-          //            ]
-          //          },
-          //          {
-          //            name = "@"
-          //            type = "MX"
-          //            ttl  = 3600
-          //            records = [
-          //              "1 aspmx.l.google.com.",
-          //              "5 alt1.l.google.com.",
-          //              "5 alt2.l.google.com.",
-          //              "10 alt3.l.google.com.",
-          //              "10 alt4.l.google.com.",
-          //              "15 ${local.gcp_workspace_domain_name_mx_verification_code}"
-          //            ],
-          //          }
+          {
+            name = ""
+            type = "CAA"
+            ttl  = 300
+            records = [
+              "0 issue \"letsencrypt.org\"",
+              "0 issue \"pki.goog\""
+            ]
+          },
+          {
+            name = "@"
+            type = "MX"
+            ttl  = 3600
+            records = [
+              "1 aspmx.l.google.com.",
+              "5 alt1.l.google.com.",
+              "5 alt2.l.google.com.",
+              "10 alt3.l.google.com.",
+              "10 alt4.l.google.com.",
+              "15 ${local.gcp_workspace_domain_name_mx_verification_code}"
+            ],
+          }
         ]
       }
     ]
