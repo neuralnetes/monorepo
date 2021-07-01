@@ -4,7 +4,7 @@ metadata:
   name: config-domain
   namespace: knative-serving
 data:
-  non-prod.neuralnetes.com: ""
+  n9s.mx: ""
 ---
 apiVersion: v1
 kind: ConfigMap
