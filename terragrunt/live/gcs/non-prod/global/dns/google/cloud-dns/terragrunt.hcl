@@ -17,7 +17,8 @@ locals {
 inputs = {
   cloud_dns = flatten([
     for domain in [
-      "non-prod.${local.gcp_workspace_domain_name}"
+      "non-prod.${local.gcp_workspace_domain_name}",
+      "non-prod.n9s.mx"
     ] :
     [
       for type in ["public"] :
