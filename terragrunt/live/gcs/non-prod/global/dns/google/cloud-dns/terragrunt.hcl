@@ -44,6 +44,18 @@ inputs = {
               "0 issue \"letsencrypt.org\"",
               "0 issue \"pki.goog\""
             ]
+          },
+          {
+            name = "@"
+            type = "MX"
+            ttl  = 3600
+            records = [
+              "1 aspmx.l.google.com",
+              "5 alt1.l.google.com",
+              "5 alt2.l.google.com",
+              "10 alt3.l.google.com",
+              "10 alt4.l.google.com",
+            ]
           }
         ]
       }
