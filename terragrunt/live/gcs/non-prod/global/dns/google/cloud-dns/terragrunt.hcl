@@ -18,7 +18,6 @@ locals {
 inputs = {
   cloud_dns = flatten([
     for domain in [
-      local.gcp_workspace_domain_name,
       "n9s.mx"
     ] :
     [
@@ -49,7 +48,6 @@ inputs = {
               "5 alt2.l.google.com.",
               "10 alt3.l.google.com.",
               "10 alt4.l.google.com.",
-              "15 ${local.gcp_workspace_domain_name_mx_verification_code}"
             ],
           }
         ]
