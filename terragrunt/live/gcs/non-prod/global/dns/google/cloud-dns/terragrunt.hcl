@@ -53,18 +53,14 @@ inputs = {
             name = "@"
             type = "MX"
             ttl  = 3600
-            records = flatten([
-              [
-                "1 aspmx.l.google.com.",
-                "5 alt1.l.google.com.",
-                "5 alt2.l.google.com.",
-                "10 alt3.l.google.com.",
-                "10 alt4.l.google.com.",
-              ],
-              domain == "non-prod.${local.gcp_workspace_domain_name}" ? [
-                "15 ${local.gcp_workspace_domain_name_mx_verification_code}"
-              ] : []
-            ])
+            records = [
+              "1 aspmx.l.google.com.",
+              "5 alt1.l.google.com.",
+              "5 alt2.l.google.com.",
+              "10 alt3.l.google.com.",
+              "10 alt4.l.google.com.",
+              "15 ${local.gcp_workspace_domain_name_mx_verification_code}"
+            ],
           }
         ]
       }
