@@ -40,7 +40,7 @@ inputs = {
     {
       project       = dependency.kubeflow_project.outputs.project_id
       name          = "istio-ingressgateway"
-      prefix_length = ""
+      prefix_length = 0
       purpose       = ""
       address_type  = "EXTERNAL"
       network       = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network["id"]
