@@ -59,10 +59,14 @@ inputs = {
           display_name = "all-for-testing"
         }
       ]
-      master_ipv4_cidr_block = "10.0.0.0/28"
-      name                   = "management-${dependency.random_string.outputs.result}-nodes"
-      network                = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_name
-      network_project_id     = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
+      subnet_ip = cidrsubnet(
+        "10.0.0.0/16",
+        4,
+        2
+      )
+      name               = "management-${dependency.random_string.outputs.result}-nodes"
+      network            = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_name
+      network_project_id = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
       node_pools = [
         {
           machine_type       = "e2-medium"
