@@ -1,3 +1,0 @@
-namespace: kubeflow
-resources:
-- ../../../../../../kubeflow/base/common/oidc-authservice/base

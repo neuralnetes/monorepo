@@ -1,3 +1,0 @@
-namespace: istio-system
-resources:
-- ../../../../../../kubeflow/base/common/oidc-authservice/base
