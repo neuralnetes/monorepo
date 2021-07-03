@@ -59,7 +59,7 @@ inputs = {
           display_name = "all-for-testing"
         }
       ]
-      subnet_ip = cidrsubnet(
+      master_ipv4_cidr_block = cidrsubnet(
         "10.0.0.0/16",
         4,
         2
