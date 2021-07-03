@@ -66,13 +66,13 @@ inputs = {
       node_pools = [
         {
           machine_type       = "e2-standard-4"
-          initial_node_count = 3
+          initial_node_count = 5
           max_count          = 8
           min_count          = 3
           name               = "cpu-00"
           preemptible        = true
           image_type         = "COS"
-          auto_repair        = false
+          auto_repair        = true
           auto_upgrade       = false
         },
         {
@@ -84,7 +84,7 @@ inputs = {
           name              = "gpu-00"
           preemptible       = true
           image_type        = "COS"
-          auto_repair       = false
+          auto_repair       = true
           auto_upgrade      = false
         }
       ]
