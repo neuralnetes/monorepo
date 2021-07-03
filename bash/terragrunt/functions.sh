@@ -31,10 +31,12 @@ function get_terragrunt_cli_flags() {
     "--terragrunt-include-dir global/data/**/**"
     "--terragrunt-include-dir global/compute/**/**"
     "--terragrunt-include-dir global/kubeflow/**/**"
+    "--terragrunt-include-dir global/management/**/**"
     "--terragrunt-include-dir us-central1/network/**/**"
     "--terragrunt-include-dir us-central1/data/**/**"
     "--terragrunt-include-dir us-central1/compute/**/**"
     "--terragrunt-include-dir us-central1/kubeflow/**/**"
+    "--terragrunt-include-dir us-central1/management/**/**"
   )
   echo "${TERRAGRUNT_CLI_FLAGS[@]}"
 }
