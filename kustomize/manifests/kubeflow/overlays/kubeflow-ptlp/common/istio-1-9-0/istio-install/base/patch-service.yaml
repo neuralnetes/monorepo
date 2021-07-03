@@ -7,3 +7,4 @@ metadata:
     external-dns.alpha.kubernetes.io/hostname: '*.n9s.mx.'
 spec:
   type: LoadBalancer
+  loadBalancerIP: ''
