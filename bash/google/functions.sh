@@ -39,6 +39,7 @@ function get_impersonate_service_account() {
 
 function get_gcloud_flags() {
   GCLOUD_FLAGS=(
+    "-q"
     "--format=json"
     "--impersonate-service-account=$(get_impersonate_service_account)"
   )
@@ -235,6 +236,11 @@ function get_istio_ingressgateway_load_balancer_ip() {
 function get_cluster_location() {
   get_cluster \
     | jq -rc '.zone'
+}
+
+function get_latest_valid_cluster_master_version() {
+  gcloud container get-server-config --zone="${CLUSTER_LOCATION}" --format=json --project="${CLUSTER_PROJECT}" \
+    | jq -rc '.validMasterVersions | sort | last'
 }
 
 function get_dns_managed_zones() {

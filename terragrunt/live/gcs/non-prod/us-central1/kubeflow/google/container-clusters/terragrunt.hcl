@@ -69,9 +69,11 @@ inputs = {
           initial_node_count = 3
           max_count          = 8
           min_count          = 3
-          name               = "cluster-${dependency.random_string.outputs.result}-cpu-01"
+          name               = "cpu-00"
           preemptible        = true
           image_type         = "COS"
+          auto_repair        = false
+          auto_upgrade       = false
         },
         {
           accelerator_count = 1
@@ -79,9 +81,11 @@ inputs = {
           machine_type      = "n1-standard-4"
           max_count         = 1
           min_count         = 0
-          name              = "cluster-${dependency.random_string.outputs.result}-gpu-01"
+          name              = "gpu-00"
           preemptible       = true
           image_type        = "COS"
+          auto_repair       = false
+          auto_upgrade      = false
         }
       ]
       node_pools_tags = {
