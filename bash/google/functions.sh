@@ -245,7 +245,7 @@ function get_latest_valid_cluster_master_version() {
 
 function get_dns_managed_zones() {
   gcloud dns managed-zones list \
-    --project="${NETWORK_PROJECT}" \
+    --project="${DNS_PROJECT}" \
     --format=json \
     "${GCLOUD_FLAGS[@]}" \
     | jq

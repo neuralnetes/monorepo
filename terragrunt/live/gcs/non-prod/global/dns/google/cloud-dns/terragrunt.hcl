@@ -30,14 +30,6 @@ inputs = {
         private_visibility_config_networks = []
         recordsets = [
           {
-            name = "www"
-            type = "CNAME"
-            ttl  = 300
-            records = [
-              "${domain}."
-            ]
-          },
-          {
             name = ""
             type = "CAA"
             ttl  = 300
