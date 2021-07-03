@@ -23,15 +23,15 @@ locals {
 }
 
 inputs = {
-  regional_addresses = []
-  global_addresses = [
+  regional_addresses = [
     {
-      project       = dependency.kubeflow_project.outputs.project_id
-      name          = "istio-ingressgateway"
-      address_type  = "EXTERNAL"
-      prefix_length = 0
-      purpose       = ""
-      network       = ""
+      project      = dependency.kubeflow_project.outputs.project_id
+      name         = "istio-ingressgateway"
+      address_type = "EXTERNAL"
+      region       = local.region
+      purpose      = ""
+      subnetwork   = ""
     }
   ]
+  global_addresses = []
 }

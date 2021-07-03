@@ -3,10 +3,10 @@ resource "google_compute_address" "regional_addresses" {
   for_each     = local.regional_addresses_map
   project      = each.value["project"]
   name         = each.value["name"]
-  purpose      = each.value["purpose"]
   address_type = each.value["address_type"]
-  subnetwork   = each.value["subnetwork"]
   region       = each.value["region"]
+  purpose      = each.value["address_type"] == "EXTERNAL" ? null : each.value["purpose"]
+  subnetwork   = each.value["address_type"] == "EXTERNAL" ? null : each.value["subnetwork"]
 }
 
 resource "google_compute_global_address" "global_addresses" {
