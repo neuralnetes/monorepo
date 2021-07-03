@@ -25,8 +25,8 @@ on:
       secret_project:
         description: secret_project
         required: true
-      istio_ingressgateway_loadbalancer_ip:
-        description: istio_ingressgateway_loadbalancer_ip
+      istio_ingressgateway_load_balancer_ip:
+        description: istio_ingressgateway_load_balancer_ip
         required: true
 jobs:
   terragrunt:
@@ -67,7 +67,7 @@ jobs:
           NETWORK_PROJECT: ${{ github.event.inputs.network_project }}
           SECRET_PROJECT: ${{ github.event.inputs.secret_project }}
           DNS_PROJECT: ${{ github.event.inputs.dns_project }}
-          ISTIO_INGRESSGATEWAY_LOADBALANCER_IP: ${{ github.event.inputs.istio_ingressgateway_loadbalancer_ip }}
+          istio_ingressgateway_load_balancer_ip: ${{ github.event.inputs.istio_ingressgateway_load_balancer_ip }}
         run: bash bash/kubernetes/generate_kubeflow_cluster.sh
       - id: run_git_commit
         name: run git commit

@@ -45,7 +45,7 @@ function get_istio_ingressgateway_service_type() {
     jq -rc '.spec.type'
 }
 
-function get_istio_ingressgateway_loadbalancer_ip() {
+function get_istio_ingressgateway_load_balancer_ip() {
   get_istio_ingressgateway_service |
     jq -rc '.status.loadBalancer.ingress | first | .ip'
 }

@@ -308,7 +308,7 @@ metadata:
     external-dns.alpha.kubernetes.io/hostname: '*.n9s.mx.'
 spec:
   type: LoadBalancer
-  loadBalancerIP: '${ISTIO_INGRESSGATEWAY_LOADBALANCER_IP}'
+  loadBalancerIP: '${istio_ingressgateway_load_balancer_ip}'
 EOF
 
 cat <<EOF >"kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base/patch-gateway.yaml"
