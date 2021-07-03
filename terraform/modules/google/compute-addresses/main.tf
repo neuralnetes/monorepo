@@ -14,10 +14,10 @@ resource "google_compute_global_address" "global_addresses" {
   for_each      = local.global_addresses_map
   project       = each.value["project"]
   name          = each.value["name"]
-  purpose       = each.value["purpose"]
   address_type  = each.value["address_type"]
-  prefix_length = each.value["prefix_length"]
-  network       = each.value["network"]
+  purpose       = each.value["address_type"] == "EXTERNAL" ? null : each.value["purpose"]
+  prefix_length = each.value["address_type"] == "EXTERNAL" ? null : each.value["prefix_length"]
+  network       = each.value["address_type"] == "EXTERNAL" ? null : each.value["network"]
 }
 
 locals {
