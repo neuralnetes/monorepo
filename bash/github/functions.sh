@@ -154,6 +154,7 @@ function post_github_workflow_dispatch_generate_kubeflow_cluster() {
       --arg kubeflow_project "${KUBEFLOW_PROJECT}" \
       --arg network_project "${NETWORK_PROJECT}" \
       --arg secret_project "${SECRET_PROJECT}" \
+      --arg istio_ingressgateway_load_balancer_ip "${ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP}" \
       '
         {
           "ref": $ref,
@@ -165,7 +166,8 @@ function post_github_workflow_dispatch_generate_kubeflow_cluster() {
             "dns_project": $dns_project,
             "kubeflow_project": $kubeflow_project,
             "network_project": $network_project,
-            "secret_project": $secret_project
+            "secret_project": $secret_project,
+            "istio_ingressgateway_load_balancer_ip": $istio_ingressgateway_load_balancer_ip
           }
         }
       '
