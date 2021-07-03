@@ -60,6 +60,7 @@ kind: Certificate
 metadata:
   name: istio-certs-letsencrypt-staging
 spec:
+  renewBefore: 1440h
   dnsNames:
   - '*.n9s.mx'
 ---
@@ -68,6 +69,7 @@ kind: Certificate
 metadata:
   name: istio-certs-letsencrypt-prod
 spec:
+  renewBefore: 1440h
   dnsNames:
   - '*.n9s.mx'
 ---
@@ -76,6 +78,7 @@ kind: Certificate
 metadata:
   name: istio-certs-self-signed
 spec:
+  renewBefore: 1440h
   dnsNames:
   - '*.n9s.mx'
 EOF
