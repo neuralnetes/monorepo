@@ -53,5 +53,4 @@ jobs:
         GCS_TERRAFORM_REMOTE_STATE_BUCKET: ${{ secrets.GCS_TERRAFORM_REMOTE_STATE_BUCKET }}
       run: |
         source "${GITHUB_WORKSPACE}/bash/github/functions.sh"
-        post_github_workflow_dispatch_gcloud_projects_delete
-
+        projects_delete
