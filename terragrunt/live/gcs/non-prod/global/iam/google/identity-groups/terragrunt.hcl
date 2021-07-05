@@ -7,7 +7,7 @@ include {
 }
 
 dependency "terraform_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/project"
+  config_path = "${get_parent_terragrunt_dir()}/shared/global/shared/google/project"
 }
 
 generate "google_provider" {

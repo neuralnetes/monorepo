@@ -19,7 +19,7 @@ dependency "subnetworks" {
 }
 
 dependency "tags" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/tags"
+  config_path = "${get_parent_terragrunt_dir()}/shared/global/shared/google/tags"
 }
 
 inputs = {

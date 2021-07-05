@@ -1,4 +1,4 @@
-# github-actions
+# github
 
 * [actions-reference](https://docs.github.com/en/actions/reference)
 * [monorepo/actions](https://github.com/neuralnetes/monorepo/actions)

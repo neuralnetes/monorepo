@@ -6,12 +6,8 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "terraform_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/project"
-}
-
 dependency "random_string" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
+  config_path = "${get_parent_terragrunt_dir()}/shared/global/shared/random/random-string"
 }
 
 locals {
@@ -25,6 +21,5 @@ inputs = {
   activate_apis = [
     "dns.googleapis.com"
   ]
-  domain                         = local.gcp_workspace_domain_name
-  enable_shared_vpc_host_project = false
+  domain = local.gcp_workspace_domain_name
 }

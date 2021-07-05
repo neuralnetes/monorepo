@@ -6,10 +6,6 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "random_string" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
-}
-
 dependency "iam_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
 }
@@ -30,8 +26,8 @@ dependency "service_account_keys" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-account-keys"
 }
 
-dependency "project_iam_bindings" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project-iam-bindings"
+dependency "random_string" {
+  config_path = "${get_parent_terragrunt_dir()}/shared/global/shared/random/random-string"
 }
 
 generate "grafana_provider" {
@@ -42,7 +38,7 @@ generate "grafana_provider" {
       required_providers {
         grafana = {
           source = "grafana/grafana"
-          version = "1.9.0"
+          version = "1.13.0"
         }
       }
     }
@@ -82,5 +78,3 @@ inputs = {
     }
   ]
 }
-
-skip = true

@@ -1,4 +1,4 @@
-# gcp
+# google
 
 * [configure-a-service-account](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/tree/master/modules/beta-private-cluster#configure-a-service-account)
 * [prep-kubernetes-engine-for-prod](https://cloud.google.com/solutions/prep-kubernetes-engine-for-prod)

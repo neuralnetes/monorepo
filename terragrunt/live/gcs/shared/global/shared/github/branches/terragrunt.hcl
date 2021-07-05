@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/neuralnetes/monorepo.git//terraform/modules/github/repository-secrets?ref=main"
+  source = "github.com/neuralnetes/monorepo.git//terraform/modules/github/branches?ref=main"
 }
 
 include {
@@ -7,11 +7,7 @@ include {
 }
 
 dependency "repositories" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/github/repositories"
-}
-
-dependency "random_string" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
+  config_path = "${get_parent_terragrunt_dir()}/shared/global/shared/github/repositories"
 }
 
 generate "github_provider" {
@@ -31,5 +27,11 @@ EOF
 }
 
 inputs = {
-  secrets = flatten([])
+  branches = [
+    for repo_key, repo in dependency.repositories.outputs.repositories_map :
+    {
+      repository = reverse(split("/", repo.full_name))[0]
+      branch     = "main"
+    }
+  ]
 }

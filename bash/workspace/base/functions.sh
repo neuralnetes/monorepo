@@ -6,6 +6,7 @@ source "${GITHUB_WORKSPACE}/bash/python/functions.sh"
 source "${GITHUB_WORKSPACE}/bash/kubernetes/functions.sh"
 source "${GITHUB_WORKSPACE}/bash/terraform/functions.sh"
 source "${GITHUB_WORKSPACE}/bash/terragrunt/functions.sh"
+source "${GITHUB_WORKSPACE}/bash/grafana/functions.sh"
 
 function setup_workspace() {
   setup_gitconfig

@@ -35,7 +35,7 @@ dependency "secret_project" {
 }
 
 dependency "random_string" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
+  config_path = "${get_parent_terragrunt_dir()}/shared/global/shared/random/random-string"
 }
 
 dependency "container_clusters" {

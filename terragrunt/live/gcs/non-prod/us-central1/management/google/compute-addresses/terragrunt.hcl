@@ -6,16 +6,8 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "project_iam_bindings" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project-iam-bindings"
-}
-
 dependency "management_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/management/google/project"
-}
-
-dependency "random_string" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
 }
 
 locals {
@@ -33,5 +25,4 @@ inputs = {
       subnetwork   = ""
     }
   ]
-  global_addresses = []
 }

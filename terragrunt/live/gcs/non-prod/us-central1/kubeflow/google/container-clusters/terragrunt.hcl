@@ -14,16 +14,8 @@ dependency "kubeflow_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
 }
 
-dependency "iam_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
-}
-
-dependency "service_accounts" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
-}
-
-dependency "project_iam_bindings" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project-iam-bindings"
+dependency "service_project_subnetworks" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/kubeflow/google/service-project-subnetworks"
 }
 
 dependency "vpc" {
@@ -38,12 +30,13 @@ dependency "firewall_rules" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/google/firewall-rules"
 }
 
-dependency "random_string" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
+dependency "tags" {
+  config_path = "${get_parent_terragrunt_dir()}/shared/global/shared/google/tags"
 }
 
-dependency "tags" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/tags"
+locals {
+  region = "us-central1"
+  zone   = "us-central1-a"
 }
 
 inputs = {
@@ -61,7 +54,7 @@ inputs = {
           display_name = "all-for-testing"
         }
       ]
-      master_ipv4_cidr_block = "10.0.0.0/28"
+      master_ipv4_cidr_block = "10.7.0.0/28"
       name                   = dependency.kubeflow_project.outputs.project_id
       network                = dependency.vpc.outputs.vpc_map["vpc-01"].network_name
       network_project_id     = dependency.vpc.outputs.vpc_map["vpc-01"].project_id
@@ -101,15 +94,15 @@ inputs = {
         ]
       }
       project_id = dependency.kubeflow_project.outputs.project_id
-      region     = "us-central1"
+      region     = local.region
       regional   = false
       registry_project_ids = [
         dependency.artifact_project.outputs.project_id
       ]
       remove_default_node_pool = true
       service_account          = ""
-      subnetwork               = dependency.subnetworks.outputs.subnets["us-central1/${dependency.kubeflow_project.outputs.project_id}-nodes"].name
-      zones                    = ["us-central1-a"]
+      subnetwork               = dependency.subnetworks.outputs.subnets["${local.region}/${dependency.kubeflow_project.outputs.project_id}-nodes"].name
+      zones                    = [local.zone]
     }
   ]
 }

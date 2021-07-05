@@ -23,7 +23,7 @@ dependency "project_iam_bindings" {
 }
 
 dependency "auth" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/auth"
+  config_path = "${get_parent_terragrunt_dir()}/shared/global/shared/google/auth"
 }
 
 locals {

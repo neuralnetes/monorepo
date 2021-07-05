@@ -1,0 +1,4 @@
+#!/bin/bash
+export GRAFANA_AUTH=$(get_grafana_auth)
+export GRAFANA_URL=$(get_grafana_url)
+export GRAFANA_ORG_ID=$(get_grafana_org_id)

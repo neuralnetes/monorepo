@@ -10,24 +10,8 @@ dependency "data_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/google/project"
 }
 
-dependency "kubeflow_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
-}
-
-dependency "project_iam_bindings" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project-iam-bindings"
-}
-
 dependency "vpc" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/vpc"
-}
-
-dependency "subnetworks" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/google/subnetworks"
-}
-
-dependency "firewall_rules" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/google/firewall-rules"
 }
 
 dependency "compute_addresses" {
@@ -39,7 +23,7 @@ dependency "service_networking_connections" {
 }
 
 dependency "random_string" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
+  config_path = "${get_parent_terragrunt_dir()}/shared/global/shared/random/random-string"
 }
 
 locals {
@@ -51,8 +35,8 @@ inputs = {
   mysqls = [
     {
       database_version                     = "MYSQL_8_0"
-      name                                 = "${dependency.kubeflow_project.outputs.project_id}-mssql-01"
-      project_id                           = project_id
+      name                                 = "kubeflow-${dependency.random_string.outputs.result}-mssql-01"
+      project_id                           = dependency.data_project.outputs.project_id
       region                               = local.region
       tier                                 = "db-f1-micro"
       zone                                 = local.zone

@@ -366,7 +366,7 @@ function projects_delete() {
     fi
   done
 
-  gsutil -i "${IMPERSONATE_SERVICE_ACCOUNT}" -m rm -rf  'gs://terraform-neuralnetes/non-prod/global/terraform/**/*'
+  gsutil -i "${IMPERSONATE_SERVICE_ACCOUNT}" -m rm -rf  'gs://terraform-neuralnetes/shared/global/shared/**/*'
 }
 
 function organization_bootstrap() {
