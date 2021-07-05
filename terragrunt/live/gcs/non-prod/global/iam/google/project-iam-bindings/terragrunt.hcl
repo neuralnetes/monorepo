@@ -22,6 +22,10 @@ dependency "iam_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
 }
 
+dependency "management_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/management/google/project"
+}
+
 dependency "kubeflow_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
 }
@@ -98,7 +102,7 @@ inputs = {
       name = "${dependency.kubeflow_project.outputs.project_id}-03"
       bindings = {
         for project_role in [
-          "roles/monitoring.viewer"
+          "roles/viewer"
         ] :
         project_role => [
           "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["grafana-cloud"].email}"
@@ -122,19 +126,6 @@ inputs = {
         ]
       }
       project = dependency.kubeflow_project.outputs.project_id
-    },
-    # compute
-    {
-      name = "${dependency.compute_project.outputs.project_id}-02"
-      bindings = {
-        for project_role in [
-          "roles/monitoring.viewer"
-        ] :
-        project_role => [
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["grafana-cloud"].email}"
-        ]
-      }
-      project = dependency.compute_project.outputs.project_id
     },
     # data
     {
