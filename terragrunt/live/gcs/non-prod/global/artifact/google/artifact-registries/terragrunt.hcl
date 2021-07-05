@@ -15,7 +15,7 @@ dependency "kubeflow_project" {
 }
 
 dependency "management_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/management/google/project"
 }
 
 dependency "project_iam_bindings" {
@@ -35,7 +35,7 @@ inputs = {
     {
       location      = "us-central1"
       repository_id = project_id
-      description   = "cluster-${dependency.random_string.outputs.result}"
+      description   = project_id
       format        = "DOCKER"
       project       = dependency.artifact_project.outputs.project_id
     }
