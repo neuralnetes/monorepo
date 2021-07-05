@@ -1,4 +1,4 @@
-variable "artifact_registries" {
+variable "artifact_registry_repositories" {
   type = list(object({
     location      = string
     repository_id = string
