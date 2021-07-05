@@ -6,16 +6,8 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "iam_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
-}
-
 dependency "kubeflow_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
-}
-
-dependency "management_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/management/google/project"
 }
 
 dependency "service_accounts" {
@@ -54,20 +46,6 @@ inputs = {
         token_uri           = "https://oauth2.googleapis.com/token"
         authentication_type = "jwt"
         default_project     = dependency.kubeflow_project.outputs.project_id
-        client_email        = dependency.service_accounts.outputs.service_accounts_map["grafana-cloud"].email
-      }
-      secure_json_data = {
-        private_key = jsonencode(jsondecode(base64decode(
-          dependency.service_account_keys.outputs.service_account_keys_map["grafana-cloud"].private_key
-        )))
-      }
-    },
-    {
-      name = "stackdriver-${dependency.management_project.outputs.project_id}"
-      json_data = {
-        token_uri           = "https://oauth2.googleapis.com/token"
-        authentication_type = "jwt"
-        default_project     = dependency.management_project.outputs.project_id
         client_email        = dependency.service_accounts.outputs.service_accounts_map["grafana-cloud"].email
       }
       secure_json_data = {
