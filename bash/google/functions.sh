@@ -136,6 +136,10 @@ function get_secret_project() {
   get_project_id_by_prefix "secret"
 }
 
+function get_management_project() {
+  get_project_id_by_prefix "management"
+}
+
 function get_kubeflow_project() {
   get_project_id_by_prefix "kubeflow"
 }
