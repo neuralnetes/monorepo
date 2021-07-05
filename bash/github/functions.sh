@@ -227,25 +227,8 @@ function post_github_workflow_dispatch_terragrunt() {
 }
 
 function post_github_workflow_dispatch_terragrunt_non_prod() {
-    TERRAGRUNT_CLI_FLAGS=(
-      "--terragrunt-working-dir terragrunt/live/gcs/non-prod"
-      "--terragrunt-include-dir global/terraform/**/**"
-      "--terragrunt-include-dir global/dns/**/**"
-      "--terragrunt-include-dir global/iam/**/**"
-      "--terragrunt-include-dir global/secret/**/**"
-      "--terragrunt-include-dir global/artifact/**/**"
-      "--terragrunt-include-dir global/network/**/**"
-      "--terragrunt-include-dir global/data/**/**"
-      "--terragrunt-include-dir global/compute/**/**"
-      "--terragrunt-include-dir global/kubeflow/**/**"
-      "--terragrunt-include-dir global/management/**/**"
-      "--terragrunt-include-dir us-central1/network/**/**"
-      "--terragrunt-include-dir us-central1/data/**/**"
-      "--terragrunt-include-dir us-central1/compute/**/**"
-      "--terragrunt-include-dir us-central1/kubeflow/**/**"
-      "--terragrunt-include-dir us-central1/management/**/**"
-  )
-  TERRAGRUNT_WORKING_DIR="terragrunt/live/gcs/non-prod"
+  TERRAGRUNT_CLI_FLAGS=($(get_terragrunt_cli_flags))
+  TERRAGRUNT_WORKING_DIR=$(get_terragrunt_working_dir)
   TERRAGRUNT_COMMAND="run-all apply"
   post_github_workflow_dispatch_terragrunt
 }
