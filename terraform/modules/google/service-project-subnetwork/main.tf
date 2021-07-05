@@ -1,7 +1,5 @@
 locals {
-  api_service_account_email = format(
-    "${data.google_project.service_project.number}@cloudservices.gserviceaccount.com",
-  )
+  api_service_account_email     = "${data.google_project.service_project.number}@cloudservices.gserviceaccount.com"
   project_service_account_email = "project-service-account@${data.google_project.service_project.project_id}.iam.gserviceaccount.com"
 }
 
@@ -15,12 +13,6 @@ data "google_project" "host_project" {
 
 data "google_compute_subnetwork" "subnetwork" {
   self_link = var.subnetwork_self_link
-}
-
-resource "google_compute_shared_vpc_service_project" "service_project" {
-  provider        = google-beta
-  host_project    = data.google_project.host_project.project_id
-  service_project = data.google_project.service_project.project_id
 }
 
 resource "google_project_iam_member" "members" {
@@ -44,4 +36,20 @@ resource "google_compute_subnetwork_iam_member" "members" {
   region     = var.region
   project    = data.google_project.host_project.project_id
   member     = "serviceAccount:${each.value}"
+}
+
+module "shared_vpc_access" {
+  source             = "github.com/terraform-google-modules/terraform-google-project-factory.git//modules/shared_vpc_access?ref=v11.0.0"
+  host_project_id    = data.google_project.host_project.project_id
+  service_project_id = data.google_project.service_project.project_id
+  active_apis = [
+    "compute.googleapis.com",
+    "container.googleapis.com",
+    //    "dataproc.googleapis.com",
+    //    "dataflow.googleapis.com"
+  ]
+  shared_vpc_subnets = [
+    data.google_compute_subnetwork.subnetwork.self_link
+  ]
+  enable_shared_vpc_service_project = true
 }
