@@ -6,12 +6,8 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "kubeflow_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
-}
-
-dependency "management_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/management/google/project"
+dependency "random_string" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
 }
 
 dependency "vpc" {
@@ -19,11 +15,11 @@ dependency "vpc" {
 }
 
 locals {
-  cidr_block                  = "10.1.0.0/16"
+  cidr_block                  = "10.0.0.0/16"
   cidr_subnetwork_width_delta = 4
   cidr_subnetwork_spacing     = 0
 
-  secondary_cidr_block                  = "10.2.0.0/16"
+  secondary_cidr_block                  = "192.168.0.0/16"
   secondary_cidr_subnetwork_width_delta = 4
   secondary_cidr_subnetwork_spacing     = 0
 
@@ -35,7 +31,7 @@ inputs = {
   network_name = dependency.vpc.outputs.vpc_map["vpc-00"].network_name
   subnets = [
     {
-      subnet_name = "${dependency.management_project.outputs.project_id}-nodes"
+      subnet_name = "management-${dependency.random_string.outputs.result}-nodes"
       subnet_ip = cidrsubnet(
         local.cidr_block,
         local.cidr_subnetwork_width_delta,
@@ -48,7 +44,7 @@ inputs = {
       description               = dependency.management_project.outputs.project_id
     },
     {
-      subnet_name = "${dependency.kubeflow_project.outputs.project_id}-nodes"
+      subnet_name = "kubeflow-${dependency.random_string.outputs.result}-nodes"
       subnet_ip = cidrsubnet(
         local.cidr_block,
         local.cidr_subnetwork_width_delta,
@@ -62,9 +58,9 @@ inputs = {
     }
   ]
   secondary_ranges = {
-    "${dependency.management.outputs.project_id}-nodes" = [
+    "management-${dependency.random_string.outputs.result}-nodes" = [
       {
-        range_name = "${dependency.management.outputs.project_id}-pods"
+        range_name = "management-${dependency.random_string.outputs.result}-pods"
         ip_cidr_range = cidrsubnet(
           local.secondary_cidr_block,
           local.secondary_cidr_subnetwork_width_delta,
@@ -72,7 +68,7 @@ inputs = {
         )
       },
       {
-        range_name = "${dependency.management.outputs.project_id}-services"
+        range_name = "management-${dependency.random_string.outputs.result}-services"
         ip_cidr_range = cidrsubnet(
           local.secondary_cidr_block,
           local.secondary_cidr_subnetwork_width_delta,
@@ -81,9 +77,9 @@ inputs = {
       },
     ]
 
-    "${dependency.kubeflow_project.outputs.project_id}-nodes" = [
+    "kubeflow-${dependency.random_string.outputs.result}-nodes" = [
       {
-        range_name = "${dependency.kubeflow_project.outputs.project_id}-pods"
+        range_name = "kubeflow-${dependency.random_string.outputs.result}-pods"
         ip_cidr_range = cidrsubnet(
           local.secondary_cidr_block,
           local.secondary_cidr_subnetwork_width_delta,
@@ -91,7 +87,7 @@ inputs = {
         )
       },
       {
-        range_name = "${dependency.kubeflow_project.outputs.project_id}-services"
+        range_name = "kubeflow-${dependency.random_string.outputs.result}-services"
         ip_cidr_range = cidrsubnet(
           local.secondary_cidr_block,
           local.secondary_cidr_subnetwork_width_delta,
