@@ -18,17 +18,13 @@ dependency "subnetworks" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/network/google/subnetworks"
 }
 
-dependency "random_string" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
-}
-
 dependency "tags" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/google/tags"
 }
 
 inputs = {
-  project_id   = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
-  network_name = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_name
+  project_id   = dependency.vpc.outputs.vpc_map["vpc-00"].project_id
+  network_name = dependency.vpc.outputs.vpc_map["vpc-00"].network_name
   rules = [
     {
       name                    = "allow-ingress-public"
@@ -59,7 +55,8 @@ inputs = {
       direction   = "INGRESS"
       priority    = 1000
       ranges = [
-        "192.168.0.0/28"
+        "192.168.0.0/28",
+        "10.0.0.0/28"
       ]
       source_service_accounts = null
       source_tags             = null

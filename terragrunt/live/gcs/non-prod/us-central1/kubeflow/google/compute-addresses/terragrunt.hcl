@@ -33,5 +33,4 @@ inputs = {
       subnetwork   = ""
     }
   ]
-  global_addresses = []
 }

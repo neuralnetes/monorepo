@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/terraform-google-modules/terraform-google-project-factory.git//modules/svpc_service_project?ref=v10.3.1"
+  source = "github.com/terraform-google-modules/terraform-google-project-factory.git//modules/svpc_service_project?ref=v11.0.0"
 }
 
 include {
@@ -40,6 +40,6 @@ inputs = {
     "iam.googleapis.com"
   ]
   domain             = local.gcp_workspace_domain_name
-  shared_vpc         = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
+  shared_vpc         = dependency.vpc.outputs.vpc_map["vpc-00"].project_id
   shared_vpc_subnets = [for subnet in values(dependency.subnetworks.outputs.subnets) : subnet["self_link"]]
 }

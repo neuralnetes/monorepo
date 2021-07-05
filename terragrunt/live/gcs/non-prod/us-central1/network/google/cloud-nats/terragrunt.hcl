@@ -29,10 +29,10 @@ dependency "random_string" {
 inputs = {
   cloud_nats = [
     {
-      name                               = "us-central1-cluster-${dependency.random_string.outputs.result}"
+      name                               = "router-00"
       region                             = "us-central1"
-      project_id                         = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
-      router                             = dependency.cloud_routers.outputs.cloud_routers_map["us-central1-cluster-${dependency.random_string.outputs.result}"].router["name"]
+      project_id                         = dependency.vpc.outputs.vpc_map["vpc-00"].project_id
+      router                             = dependency.cloud_routers.outputs.cloud_routers_map["router-00"].router["name"]
       source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
       subnetworks = [
         {

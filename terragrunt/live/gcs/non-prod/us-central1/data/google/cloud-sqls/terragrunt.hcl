@@ -10,6 +10,10 @@ dependency "data_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/google/project"
 }
 
+dependency "kubeflow_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
+}
+
 dependency "project_iam_bindings" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project-iam-bindings"
 }
@@ -47,12 +51,12 @@ inputs = {
   mysqls = [
     {
       database_version                     = "MYSQL_8_0"
-      name                                 = "cloud-sql-${dependency.random_string.outputs.result}"
-      project_id                           = dependency.data_project.outputs.project_id
+      name                                 = "${dependency.kubeflow_project.outputs.project_id}-mssql-00"
+      project_id                           = project_id
       region                               = local.region
       tier                                 = "db-f1-micro"
       zone                                 = local.zone
-      ip_configuration_private_network     = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network["id"]
+      ip_configuration_private_network     = dependency.vpc.outputs.vpc_map["vpc-00"].network["id"]
       ip_configuration_ipv4_enabled        = true
       ip_configuration_authorized_networks = []
       ip_configuration_require_ssl         = false

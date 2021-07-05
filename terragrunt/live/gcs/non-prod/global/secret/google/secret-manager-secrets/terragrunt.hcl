@@ -1,4 +1,4 @@
-terraform {
+sssssterraform {
   source = "github.com/neuralnetes/monorepo.git//terraform/modules/google/secret-manager-secrets?ref=main"
 }
 
@@ -49,7 +49,7 @@ inputs = {
       secret_id  = "${dependency.kubeflow_project.outputs.project_id}-kubeflow-katib-mysql-secrets"
       secret_data = jsonencode({
         MYSQL_HOST          = dependency.cloud_sqls.outputs.mysqls_map["cloud-sql-${dependency.random_string.outputs.result}"].mysql.private_ip_address
-        MYSQL_PORT          = "5432"
+        MYSQL_PORT          = "3306"
         MYSQL_USER          = dependency.cloud_sqls.outputs.mysqls_map["cloud-sql-${dependency.random_string.outputs.result}"].default_user.name
         MYSQL_PASSWORD      = dependency.cloud_sqls.outputs.mysqls_map["cloud-sql-${dependency.random_string.outputs.result}"].default_user.password
         MYSQL_ROOT_PASSWORD = dependency.cloud_sqls.outputs.mysqls_map["cloud-sql-${dependency.random_string.outputs.result}"].default_user.password

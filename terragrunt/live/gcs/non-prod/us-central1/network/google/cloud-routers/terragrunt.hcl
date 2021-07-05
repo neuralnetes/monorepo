@@ -14,16 +14,12 @@ dependency "vpc" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/vpc"
 }
 
-dependency "random_string" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/terraform/random/random-string"
-}
-
 inputs = {
   cloud_routers = [
     {
-      project = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
-      network = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_name
-      name    = "us-central1-cluster-${dependency.random_string.outputs.result}"
+      project = dependency.vpc.outputs.vpc_map["vpc-00"].project_id
+      network = dependency.vpc.outputs.vpc_map["vpc-00"].network_name
+      name    = "router-00"
       bgp = {
         asn               = "64519"
         advertised_groups = ["ALL_SUBNETS"]

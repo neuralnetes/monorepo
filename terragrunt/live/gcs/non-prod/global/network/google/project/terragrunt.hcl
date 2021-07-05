@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/terraform-google-modules/terraform-google-project-factory.git//?ref=v10.3.1"
+  source = "github.com/terraform-google-modules/terraform-google-project-factory.git//?ref=v11.0.0"
 }
 
 include {

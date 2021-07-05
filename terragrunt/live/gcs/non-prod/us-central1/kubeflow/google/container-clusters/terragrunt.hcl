@@ -49,20 +49,22 @@ dependency "tags" {
 inputs = {
   container_clusters = [
     {
-      initial_node_count = 1
-      ip_range_services  = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[0].range_name
-      ip_range_pods      = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].secondary_ip_range[1].range_name
-      kubernetes_version = "1.20.7-gke.1800"
+      create_service_account = true
+      grant_registry_access  = true
+      initial_node_count     = 1
+      ip_range_pods          = "${dependency.kubeflow_project.outputs.project_id}-pods"
+      ip_range_services      = "${dependency.kubeflow_project.outputs.project_id}-services"
+      kubernetes_version     = "1.20.7-gke.1800"
       master_authorized_networks = [
         {
           cidr_block   = "0.0.0.0/0"
           display_name = "all-for-testing"
         }
       ]
-      master_ipv4_cidr_block = "192.168.0.0/28"
-      name                   = "cluster-${dependency.random_string.outputs.result}"
-      network                = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_name
-      network_project_id     = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
+      master_ipv4_cidr_block = "10.0.0.0/28"
+      name                   = dependency.kubeflow_project.outputs.project_id
+      network                = dependency.vpc.outputs.vpc_map["vpc-00"].network_name
+      network_project_id     = dependency.vpc.outputs.vpc_map["vpc-00"].project_id
       node_pools = [
         {
           machine_type       = "e2-standard-4"
@@ -98,18 +100,18 @@ inputs = {
           "https://www.googleapis.com/auth/cloud-platform"
         ]
       }
-      project_id               = dependency.kubeflow_project.outputs.project_id
-      region                   = "us-central1"
-      regional                 = false
-      remove_default_node_pool = true
-      subnetwork               = dependency.subnetworks.outputs.subnets["us-central1/cluster-${dependency.random_string.outputs.result}"].name
-      create_service_account   = true
-      service_account          = ""
-      zones                    = ["us-central1-a"]
-      grant_registry_access    = true
+      project_id = dependency.kubeflow_project.outputs.project_id
+      region     = "us-central1"
+      regional   = false
       registry_project_ids = [
         dependency.artifact_project.outputs.project_id
       ]
+      remove_default_node_pool = true
+      service_account          = ""
+      subnetwork               = dependency.subnetworks.outputs.subnets["us-central1/${dependency.kubeflow_project.outputs.project_id}-nodes"].name
+      zones                    = ["us-central1-a"]
     }
   ]
 }
+
+skip = true
