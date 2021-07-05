@@ -366,7 +366,7 @@ function projects_delete() {
     fi
   done
 
-  gsutil -m rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/global/terraform"
+  gsutil -i "${IMPERSONATE_SERVICE_ACCOUNT}" -m rm -rf  'gs://terraform-neuralnetes/non-prod/global/terraform/**/*'
 }
 
 function organization_bootstrap() {
