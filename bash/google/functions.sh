@@ -116,7 +116,7 @@ function get_projects() {
     | jq
 }
 
-function get_terraform_project() {
+function get_shared_project() {
   get_project_id_by_prefix "terraform"
 }
 

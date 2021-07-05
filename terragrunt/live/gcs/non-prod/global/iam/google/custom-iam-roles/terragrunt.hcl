@@ -6,36 +6,8 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "artifact_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/artifact/google/project"
-}
-
-dependency "iam_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
-}
-
-dependency "terraform_project" {
-  config_path = "${get_parent_terragrunt_dir()}/shared/global/shared/google/project"
-}
-
 dependency "kubeflow_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
-}
-
-dependency "data_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/google/project"
-}
-
-dependency "network_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/project"
-}
-
-dependency "secret_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/secret/google/project"
-}
-
-dependency "service_accounts" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
 }
 
 dependency "identity_groups" {

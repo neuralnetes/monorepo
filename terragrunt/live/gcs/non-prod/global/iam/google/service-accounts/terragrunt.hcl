@@ -10,12 +10,8 @@ dependency "iam_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
 }
 
-dependency "terraform_project" {
+dependency "shared_project" {
   config_path = "${get_parent_terragrunt_dir()}/shared/global/shared/google/project"
-}
-
-dependency "random_string" {
-  config_path = "${get_parent_terragrunt_dir()}/shared/global/shared/random/random-string"
 }
 
 locals {
@@ -63,7 +59,7 @@ inputs = {
       "terraform"
     ] :
     {
-      project    = dependency.terraform_project.outputs.project_id
+      project    = dependency.shared_project.outputs.project_id
       account_id = service_account_id
     }
   ]

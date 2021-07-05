@@ -25,4 +25,5 @@ jobs:
           source "${GITHUB_WORKSPACE}/bash/terragrunt/functions.sh"
           source "${GITHUB_WORKSPACE}/bash/github/functions.sh"
           post_github_workflow_dispatch_terragrunt_shared
+          sleep 120
           post_github_workflow_dispatch_terragrunt_non_prod

@@ -38,7 +38,7 @@ dependency "secret_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/secret/google/project"
 }
 
-dependency "terraform_project" {
+dependency "shared_project" {
   config_path = "${get_parent_terragrunt_dir()}/shared/global/shared/google/project"
 }
 

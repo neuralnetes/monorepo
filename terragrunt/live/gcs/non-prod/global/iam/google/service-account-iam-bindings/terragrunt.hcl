@@ -6,24 +6,12 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "kubeflow_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
-}
-
 dependency "iam_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project"
 }
 
 dependency "service_accounts" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/service-accounts"
-}
-
-dependency "project_iam_bindings" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project-iam-bindings"
-}
-
-dependency "auth" {
-  config_path = "${get_parent_terragrunt_dir()}/shared/global/shared/google/auth"
 }
 
 locals {
