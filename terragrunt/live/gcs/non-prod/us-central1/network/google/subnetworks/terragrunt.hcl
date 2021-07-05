@@ -45,21 +45,21 @@ inputs = {
     "management-${dependency.random_string.outputs.result}-nodes" = [
       {
         range_name    = "management-${dependency.random_string.outputs.result}-pods"
-        ip_cidr_range = "192.168.0.0/18"
+        ip_cidr_range = "192.168.1.0/18"
       },
       {
         range_name    = "management-${dependency.random_string.outputs.result}-services"
-        ip_cidr_range = "192.168.64.0/18"
+        ip_cidr_range = "192.168.11.0/18"
       },
     ]
     "kubeflow-${dependency.random_string.outputs.result}-nodes" = [
       {
         range_name    = "kubeflow-${dependency.random_string.outputs.result}-pods"
-        ip_cidr_range = "192.168.0.0/18"
+        ip_cidr_range = "192.168.21.0/18"
       },
       {
         range_name    = "kubeflow-${dependency.random_string.outputs.result}-services"
-        ip_cidr_range = "192.168.64.0/18"
+        ip_cidr_range = "192.168.31.0/18"
       },
     ]
   }
