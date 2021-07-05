@@ -51,6 +51,4 @@ jobs:
         NETWORK_PROJECT: ${{ github.event.inputs.network_project }}
         SECRET_PROJECT: ${{ github.event.inputs.secret_project }}
         GCS_TERRAFORM_REMOTE_STATE_BUCKET: ${{ secrets.GCS_TERRAFORM_REMOTE_STATE_BUCKET }}
-      run: |
-        source "${GITHUB_WORKSPACE}/bash/github/functions.sh"
-        projects_delete
+      run: source "${GITHUB_WORKSPACE}/bash/google/functions.sh" && projects_delete
