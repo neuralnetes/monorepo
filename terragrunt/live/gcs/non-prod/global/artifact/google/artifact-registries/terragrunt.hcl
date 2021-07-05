@@ -30,11 +30,11 @@ inputs = {
   artifact_registries = [
     for project_id in [
       dependency.kubeflow_project.outputs.project_id,
-      dependency.kubeflow_project.outputs.project_id,
+      dependency.management_project.outputs.project_id,
     ] :
     {
       location      = "us-central1"
-      repository_id = "cluster-${dependency.random_string.outputs.result}"
+      repository_id = project_id
       description   = "cluster-${dependency.random_string.outputs.result}"
       format        = "DOCKER"
       project       = dependency.artifact_project.outputs.project_id
