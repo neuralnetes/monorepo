@@ -171,7 +171,6 @@ inputs = {
       }
       project = dependency.data_project.outputs.project_id
     },
-    # iam
     # network
     {
       name = "${dependency.network_project.outputs.project_id}-01"

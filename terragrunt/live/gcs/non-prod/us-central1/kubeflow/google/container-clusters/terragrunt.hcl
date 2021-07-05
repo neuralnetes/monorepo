@@ -61,7 +61,7 @@ inputs = {
           display_name = "all-for-testing"
         }
       ]
-      master_ipv4_cidr_block = "192.168.0.0/28"
+      master_ipv4_cidr_block = "10.0.0.0/28"
       name                   = dependency.kubeflow_project.outputs.project_id
       network                = dependency.vpc.outputs.vpc_map["vpc-01"].network_name
       network_project_id     = dependency.vpc.outputs.vpc_map["vpc-01"].project_id
