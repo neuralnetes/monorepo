@@ -335,11 +335,11 @@ function projects_delete() {
     gcloud projects delete "${project_id}" -q "${GCLOUD_FLAGS[@]}"
     project_prefix=$(echo "${project_id}" | cut -d- -f1)
     if [[ -n "${IMPERSONATE_SERVICE_ACCOUNT}" ]]; then
-      gsutil -i "${IMPERSONATE_SERVICE_ACCOUNT}" rm -rf "gs://terraform-neuralnetes/non-prod/global/${project_prefix}"
-      gsutil -i "${IMPERSONATE_SERVICE_ACCOUNT}" rm -rf "gs://terraform-neuralnetes/non-prod/us-central1/${project_prefix}"
+      gsutil -i "${IMPERSONATE_SERVICE_ACCOUNT}" -m rm -rf "gs://terraform-neuralnetes/non-prod/global/${project_prefix}"
+      gsutil -i "${IMPERSONATE_SERVICE_ACCOUNT}" -m rm -rf "gs://terraform-neuralnetes/non-prod/us-central1/${project_prefix}"
     else
-      gsutil rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/global/${project_prefix}"
-      gsutil rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/us-central1/${project_prefix}"
+      gsutil -m rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/global/${project_prefix}"
+      gsutil -m rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/us-central1/${project_prefix}"
     fi
   done
 
@@ -350,11 +350,11 @@ function projects_delete() {
     gcloud projects delete "${project_id}" -q "${GCLOUD_FLAGS[@]}"
     project_prefix=$(echo "${project_id}" | cut -d- -f1)
     if [[ -n "${IMPERSONATE_SERVICE_ACCOUNT}" ]]; then
-      gsutil -i "${IMPERSONATE_SERVICE_ACCOUNT}" rm -rf "gs://terraform-neuralnetes/non-prod/global/${project_prefix}"
-      gsutil -i "${IMPERSONATE_SERVICE_ACCOUNT}" rm -rf "gs://terraform-neuralnetes/non-prod/us-central1/${project_prefix}"
+      gsutil -i "${IMPERSONATE_SERVICE_ACCOUNT}" -m rm -rf "gs://terraform-neuralnetes/non-prod/global/${project_prefix}"
+      gsutil -i "${IMPERSONATE_SERVICE_ACCOUNT}" -m rm -rf "gs://terraform-neuralnetes/non-prod/us-central1/${project_prefix}"
     else
-      gsutil rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/global/${project_prefix}"
-      gsutil rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/us-central1/${project_prefix}"
+      gsutil -m rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/global/${project_prefix}"
+      gsutil -m rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/us-central1/${project_prefix}"
     fi
   done
 }
