@@ -6,10 +6,6 @@ include {
   path = find_in_parent_folders()
 }
 
-locals {
-  gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
-}
-
 dependency "management_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/management/google/project"
 }
@@ -27,7 +23,8 @@ dependency "random_string" {
 }
 
 locals {
-  region = "us-central1"
+  region                    = "us-central1"
+  gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
 }
 
 inputs = {
