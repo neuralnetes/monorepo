@@ -7,7 +7,7 @@ include {
 }
 
 dependency "data_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/management/google/project"
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/google/project"
 }
 
 dependency "network_project" {

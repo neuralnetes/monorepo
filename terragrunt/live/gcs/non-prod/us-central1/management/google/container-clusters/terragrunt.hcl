@@ -94,5 +94,3 @@ inputs = {
     }
   ]
 }
-
-skip = true
