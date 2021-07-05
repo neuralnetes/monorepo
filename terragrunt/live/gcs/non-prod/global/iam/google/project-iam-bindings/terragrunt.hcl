@@ -58,7 +58,7 @@ inputs = {
   project_iam_bindings = [
     # dns
     {
-      name = "${dependency.dns_project.outputs.project_id}-02"
+      name = "${dependency.dns_project.outputs.project_id}-01"
       bindings = {
         for project_role in [
           "roles/dns.admin"
@@ -127,9 +127,39 @@ inputs = {
       }
       project = dependency.kubeflow_project.outputs.project_id
     },
+    # management
+    {
+      name = "${dependency.management_project.outputs.project_id}-01"
+      bindings = {
+        for project_role in [
+          "roles/viewer"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["grafana-cloud"].email}"
+        ]
+      }
+      project = dependency.management_project.outputs.project_id
+    },
+    {
+      name = "${dependency.management_project.outputs.project_id}-02"
+      bindings = {
+        for project_role in [
+          "roles/logging.logWriter",
+          "roles/monitoring.metricWriter",
+          "roles/monitoring.viewer",
+          "roles/stackdriver.resourceMetadata.writer",
+          "roles/storage.objectViewer",
+          "roles/artifactregistry.reader"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["container-cluster"].email}"
+        ]
+      }
+      project = dependency.management_project.outputs.project_id
+    },
     # data
     {
-      name = "${dependency.data_project.outputs.project_id}-02"
+      name = "${dependency.data_project.outputs.project_id}-01"
       bindings = {
         for project_role in [
           "roles/cloudsql.client",
@@ -144,7 +174,7 @@ inputs = {
     # iam
     # network
     {
-      name = "${dependency.network_project.outputs.project_id}-03"
+      name = "${dependency.network_project.outputs.project_id}-01"
       bindings = {
         for project_role in [
           "roles/dns.admin"
@@ -158,7 +188,7 @@ inputs = {
     },
     # secret
     {
-      name = "${dependency.secret_project.outputs.project_id}-02"
+      name = "${dependency.secret_project.outputs.project_id}-01"
       bindings = {
         for project_role in [
           "roles/secretmanager.admin"
