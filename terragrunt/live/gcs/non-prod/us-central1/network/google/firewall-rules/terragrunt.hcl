@@ -23,8 +23,8 @@ dependency "tags" {
 }
 
 inputs = {
-  project_id   = dependency.vpc.outputs.vpc_map["vpc-00"].project_id
-  network_name = dependency.vpc.outputs.vpc_map["vpc-00"].network_name
+  project_id   = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
+  network_name = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_name
   rules = [
     {
       name                    = "allow-ingress-public"

@@ -17,8 +17,8 @@ dependency "vpc" {
 inputs = {
   cloud_routers = [
     {
-      project = dependency.vpc.outputs.vpc_map["vpc-00"].project_id
-      network = dependency.vpc.outputs.vpc_map["vpc-00"].network_name
+      project = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
+      network = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_name
       name    = "router-00"
       bgp = {
         asn               = "64519"

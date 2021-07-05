@@ -30,7 +30,7 @@ inputs = {
       prefix_length = 16
       purpose       = "VPC_PEERING"
       address_type  = "INTERNAL"
-      network       = dependency.vpc.outputs.vpc_map["vpc-00"].network["id"]
+      network       = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network["id"]
     }
   ]
 }

@@ -25,7 +25,7 @@ dependency "random_string" {
 inputs = {
   service_networking_connections = [
     {
-      network = dependency.vpc.outputs.vpc_map["vpc-00"].network["id"]
+      network = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network["id"]
       service = "servicenetworking.googleapis.com"
       reserved_peering_ranges = [
         dependency.compute_addresses.outputs.global_addresses_map["global-google-managed-services"].name
