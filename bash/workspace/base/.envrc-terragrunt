@@ -1,5 +1,4 @@
 #!/bin/bash
-export TERRAGRUNT_WORKING_DIR="$(get_terragrunt_working_dir)"
 export TGENV_AUTO_INSTALL="true"
 if [[ "${ARCH}" == "arm64" ]]; then
   export TGENV_ARCH="arm"

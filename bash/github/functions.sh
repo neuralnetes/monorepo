@@ -226,9 +226,16 @@ function post_github_workflow_dispatch_terragrunt() {
   post_github_workflow_dispatch
 }
 
+function post_github_workflow_dispatch_terragrunt_shared() {
+  TERRAGRUNT_CLI_FLAGS=($(get_terragrunt_cli_flags_shared))
+  TERRAGRUNT_WORKING_DIR=$(get_terragrunt_working_dir_shared)
+  TERRAGRUNT_COMMAND="run-all apply"
+  post_github_workflow_dispatch_terragrunt
+}
+
 function post_github_workflow_dispatch_terragrunt_non_prod() {
-  TERRAGRUNT_CLI_FLAGS=($(get_terragrunt_cli_flags))
-  TERRAGRUNT_WORKING_DIR=$(get_terragrunt_working_dir)
+  TERRAGRUNT_CLI_FLAGS=($(get_terragrunt_cli_flags_non_prod))
+  TERRAGRUNT_WORKING_DIR=$(get_terragrunt_working_dir_non_prod)
   TERRAGRUNT_COMMAND="run-all apply"
   post_github_workflow_dispatch_terragrunt
 }
