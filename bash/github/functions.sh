@@ -114,25 +114,10 @@ function post_github_workflow_dispatch_gcloud_projects_delete() {
   GITHUB_WORKFLOW_DISPATCH=$(
     jq -n \
       --arg ref "${GITHUB_REF}" \
-      --arg artifact_project "${ARTIFACT_PROJECT}" \
-      --arg compute_project "${COMPUTE_PROJECT}" \
-      --arg data_project "${DATA_PROJECT}" \
-      --arg iam_project "${IAM_PROJECT}" \
-      --arg kubeflow_project "${KUBEFLOW_PROJECT}" \
-      --arg network_project "${NETWORK_PROJECT}" \
-      --arg secret_project "${SECRET_PROJECT}" \
       '
         {
           "ref": $ref,
-          "inputs": {
-            "artifact_project": $artifact_project,
-            "compute_project": $compute_project,
-            "data_project": $data_project,
-            "iam_project": $iam_project,
-            "kubeflow_project": $kubeflow_project,
-            "network_project": $network_project,
-            "secret_project": $secret_project
-          }
+          "inputs": {}
         }
       '
   )
