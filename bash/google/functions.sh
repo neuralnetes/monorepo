@@ -283,12 +283,14 @@ function get_artifact_registry_repository_url() {
 
 function get_service_projects() {
   SERVICE_PROJECTS=(
+    "${DNS_PROJECT}"
     "${ARTIFACT_PROJECT}"
     "${IAM_PROJECT}"
     "${SECRET_PROJECT}"
     "${DATA_PROJECT}"
     "${COMPUTE_PROJECT}"
     "${KUBEFLOW_PROJECT}"
+    "${MANAGEMENT_PROJECT}"
   )
   echo "${SERVICE_PROJECTS[@]}"
 }
