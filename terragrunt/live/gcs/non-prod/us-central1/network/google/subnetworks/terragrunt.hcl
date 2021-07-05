@@ -29,7 +29,7 @@ inputs = {
       subnet_private_access     = "true"
       subnet_flow_logs          = "true"
       subnet_flow_logs_metadata = "INCLUDE_ALL_METADATA"
-      description               = dependency.management_project.outputs.project_id
+      description               = "management-${dependency.random_string.outputs.result}-nodes"
     },
     {
       subnet_name               = "kubeflow-${dependency.random_string.outputs.result}-nodes"
@@ -38,7 +38,7 @@ inputs = {
       subnet_private_access     = "true"
       subnet_flow_logs          = "true"
       subnet_flow_logs_metadata = "INCLUDE_ALL_METADATA"
-      description               = dependency.kubeflow_project.outputs.project_id
+      description               = "kubeflow-${dependency.random_string.outputs.result}-nodes"
     }
   ]
   secondary_ranges = {
