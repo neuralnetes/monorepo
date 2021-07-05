@@ -110,6 +110,23 @@ function get_github_workflow_by_path() {
         '.workflows[] | select(.path == $path)'
 }
 
+function post_github_workflow_dispatch_push_terragrunt() {
+  GITHUB_WORKFLOW_DISPATCH=$(
+    jq -n \
+      --arg ref "${GITHUB_REF}" \
+      '
+        {
+          "ref": $ref,
+          "inputs": {}
+        }
+      '
+  )
+  GITHUB_WORKFLOW_PATH=".github/workflows/push-terragrunt.yaml"
+  GITHUB_WORKFLOW=$(get_github_workflow_by_path)
+  GITHUB_WORKFLOW_ID=$(echo "${GITHUB_WORKFLOW}" | jq '.id')
+  post_github_workflow_dispatch
+}
+
 function post_github_workflow_dispatch_gcloud_projects_delete() {
   GITHUB_WORKFLOW_DISPATCH=$(
     jq -n \
