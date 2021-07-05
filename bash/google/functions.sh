@@ -365,6 +365,8 @@ function projects_delete() {
       fi
     fi
   done
+
+  gsutil -m rm -rf "gs://${GCS_TERRAFORM_REMOTE_STATE_BUCKET}/non-prod/global/terraform"
 }
 
 function organization_bootstrap() {
