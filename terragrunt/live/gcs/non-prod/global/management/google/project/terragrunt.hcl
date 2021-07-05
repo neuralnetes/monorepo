@@ -40,6 +40,6 @@ inputs = {
     "iam.googleapis.com"
   ]
   domain             = local.gcp_workspace_domain_name
-  shared_vpc         = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
+  shared_vpc         = dependency.vpc.outputs.vpc_map["vpc-01"].project_id
   shared_vpc_subnets = [for subnet in values(dependency.subnetworks.outputs.subnets) : subnet["self_link"]]
 }

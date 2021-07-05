@@ -15,28 +15,16 @@ dependency "vpc" {
 }
 
 locals {
-  cidr_block                  = "10.0.0.0/16"
-  cidr_subnetwork_width_delta = 4
-  cidr_subnetwork_spacing     = 0
-
-  secondary_cidr_block                  = "192.168.0.0/16"
-  secondary_cidr_subnetwork_width_delta = 4
-  secondary_cidr_subnetwork_spacing     = 0
-
   subnet_region = "us-central1"
 }
 
 inputs = {
-  project_id   = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
-  network_name = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_name
+  project_id   = dependency.vpc.outputs.vpc_map["vpc-01"].project_id
+  network_name = dependency.vpc.outputs.vpc_map["vpc-01"].network_name
   subnets = [
     {
-      subnet_name = "management-${dependency.random_string.outputs.result}-nodes"
-      subnet_ip = cidrsubnet(
-        local.cidr_block,
-        local.cidr_subnetwork_width_delta,
-        0 * (1 + local.cidr_subnetwork_spacing)
-      )
+      subnet_name               = "management-${dependency.random_string.outputs.result}-nodes"
+      subnet_ip                 = "10.1.0.0/16"
       subnet_region             = local.subnet_region
       subnet_private_access     = "true"
       subnet_flow_logs          = "true"
@@ -44,12 +32,8 @@ inputs = {
       description               = dependency.management_project.outputs.project_id
     },
     {
-      subnet_name = "kubeflow-${dependency.random_string.outputs.result}-nodes"
-      subnet_ip = cidrsubnet(
-        local.cidr_block,
-        local.cidr_subnetwork_width_delta,
-        1 * (1 + local.cidr_subnetwork_spacing)
-      )
+      subnet_name               = "kubeflow-${dependency.random_string.outputs.result}-nodes"
+      subnet_ip                 = "10.2.0.0/16"
       subnet_region             = local.subnet_region
       subnet_private_access     = "true"
       subnet_flow_logs          = "true"
@@ -60,39 +44,22 @@ inputs = {
   secondary_ranges = {
     "management-${dependency.random_string.outputs.result}-nodes" = [
       {
-        range_name = "management-${dependency.random_string.outputs.result}-pods"
-        ip_cidr_range = cidrsubnet(
-          local.secondary_cidr_block,
-          local.secondary_cidr_subnetwork_width_delta,
-          0 * (1 + local.secondary_cidr_subnetwork_spacing)
-        )
+        range_name    = "management-${dependency.random_string.outputs.result}-pods"
+        ip_cidr_range = "192.168.0.0/18"
       },
       {
-        range_name = "management-${dependency.random_string.outputs.result}-services"
-        ip_cidr_range = cidrsubnet(
-          local.secondary_cidr_block,
-          local.secondary_cidr_subnetwork_width_delta,
-          1 * (1 + local.secondary_cidr_subnetwork_spacing)
-        )
+        range_name    = "management-${dependency.random_string.outputs.result}-services"
+        ip_cidr_range = "192.168.64.0/18"
       },
     ]
-
     "kubeflow-${dependency.random_string.outputs.result}-nodes" = [
       {
-        range_name = "kubeflow-${dependency.random_string.outputs.result}-pods"
-        ip_cidr_range = cidrsubnet(
-          local.secondary_cidr_block,
-          local.secondary_cidr_subnetwork_width_delta,
-          2 * (1 + local.secondary_cidr_subnetwork_spacing)
-        )
+        range_name    = "kubeflow-${dependency.random_string.outputs.result}-pods"
+        ip_cidr_range = "192.168.0.0/18"
       },
       {
-        range_name = "kubeflow-${dependency.random_string.outputs.result}-services"
-        ip_cidr_range = cidrsubnet(
-          local.secondary_cidr_block,
-          local.secondary_cidr_subnetwork_width_delta,
-          3 * (1 + local.secondary_cidr_subnetwork_spacing)
-        )
+        range_name    = "kubeflow-${dependency.random_string.outputs.result}-services"
+        ip_cidr_range = "192.168.64.0/18"
       },
     ]
   }

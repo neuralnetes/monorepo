@@ -18,7 +18,7 @@ inputs = {
   vpc = [
     {
       project_id                             = dependency.network_project.outputs.project_id
-      network_name                           = "vpc-${dependency.random_string.outputs.result}"
+      network_name                           = "vpc-01"
       shared_vpc_host                        = true
       routing_mode                           = "REGIONAL"
       delete_default_internet_gateway_routes = false

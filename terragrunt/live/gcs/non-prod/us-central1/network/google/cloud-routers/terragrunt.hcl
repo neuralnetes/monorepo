@@ -17,9 +17,9 @@ dependency "vpc" {
 inputs = {
   cloud_routers = [
     {
-      project = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
-      network = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_name
-      name    = "router-00"
+      project = dependency.vpc.outputs.vpc_map["vpc-01"].project_id
+      network = dependency.vpc.outputs.vpc_map["vpc-01"].network_name
+      name    = "router-01"
       bgp = {
         asn               = "64519"
         advertised_groups = ["ALL_SUBNETS"]

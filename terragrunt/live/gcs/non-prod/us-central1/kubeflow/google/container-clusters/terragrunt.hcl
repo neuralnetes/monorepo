@@ -61,17 +61,17 @@ inputs = {
           display_name = "all-for-testing"
         }
       ]
-      master_ipv4_cidr_block = "10.0.0.0/28"
+      master_ipv4_cidr_block = "192.168.0.0/28"
       name                   = dependency.kubeflow_project.outputs.project_id
-      network                = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].network_name
-      network_project_id     = dependency.vpc.outputs.vpc_map["vpc-${dependency.random_string.outputs.result}"].project_id
+      network                = dependency.vpc.outputs.vpc_map["vpc-01"].network_name
+      network_project_id     = dependency.vpc.outputs.vpc_map["vpc-01"].project_id
       node_pools = [
         {
           machine_type       = "e2-standard-4"
           initial_node_count = 5
           max_count          = 8
           min_count          = 3
-          name               = "cpu-00"
+          name               = "cpu-01"
           preemptible        = true
           image_type         = "COS"
           auto_repair        = true
@@ -83,7 +83,7 @@ inputs = {
           machine_type      = "n1-standard-4"
           max_count         = 1
           min_count         = 0
-          name              = "gpu-00"
+          name              = "gpu-01"
           preemptible       = true
           image_type        = "COS"
           auto_repair       = true

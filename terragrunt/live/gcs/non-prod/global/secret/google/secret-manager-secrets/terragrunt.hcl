@@ -44,11 +44,11 @@ inputs = {
       project_id = dependency.secret_project.outputs.project_id
       secret_id  = "${dependency.kubeflow_project.outputs.project_id}-kubeflow-katib-mysql-secrets"
       secret_data = jsonencode({
-        MYSQL_HOST          = dependency.cloud_sqls.outputs.mysqls_map["cloud-sql-${dependency.random_string.outputs.result}"].mysql.private_ip_address
+        MYSQL_HOST          = dependency.cloud_sqls.outputs.mysqls_map["kubeflow-${dependency.random_string.outputs.result}-mssql-01"].mysql.private_ip_address
         MYSQL_PORT          = "3306"
-        MYSQL_USER          = dependency.cloud_sqls.outputs.mysqls_map["cloud-sql-${dependency.random_string.outputs.result}"].default_user.name
-        MYSQL_PASSWORD      = dependency.cloud_sqls.outputs.mysqls_map["cloud-sql-${dependency.random_string.outputs.result}"].default_user.password
-        MYSQL_ROOT_PASSWORD = dependency.cloud_sqls.outputs.mysqls_map["cloud-sql-${dependency.random_string.outputs.result}"].default_user.password
+        MYSQL_USER          = dependency.cloud_sqls.outputs.mysqls_map["kubeflow-${dependency.random_string.outputs.result}-mssql-01"].default_user.name
+        MYSQL_PASSWORD      = dependency.cloud_sqls.outputs.mysqls_map["kubeflow-${dependency.random_string.outputs.result}-mssql-01"].default_user.password
+        MYSQL_ROOT_PASSWORD = dependency.cloud_sqls.outputs.mysqls_map["kubeflow-${dependency.random_string.outputs.result}-mssql-01"].default_user.password
       })
       replication = {
         automatic = true
