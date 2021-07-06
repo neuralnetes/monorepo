@@ -39,9 +39,10 @@ resource "google_compute_subnetwork_iam_member" "members" {
 }
 
 module "shared_vpc_access" {
-  source             = "github.com/terraform-google-modules/terraform-google-project-factory.git//modules/shared_vpc_access?ref=v11.0.0"
-  host_project_id    = data.google_project.host_project.project_id
-  service_project_id = data.google_project.service_project.project_id
+  source                 = "github.com/terraform-google-modules/terraform-google-project-factory.git//modules/shared_vpc_access?ref=v11.0.0"
+  host_project_id        = data.google_project.host_project.project_id
+  service_project_number = data.google_project.service_project.number
+  service_project_id     = data.google_project.service_project.project_id
   active_apis = [
     //    "compute.googleapis.com",
     "container.googleapis.com"
@@ -51,5 +52,6 @@ module "shared_vpc_access" {
   shared_vpc_subnets = [
     data.google_compute_subnetwork.subnetwork.self_link
   ]
+  lookup_project_numbers            = false
   enable_shared_vpc_service_project = true
 }
