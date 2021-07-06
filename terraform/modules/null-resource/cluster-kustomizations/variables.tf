@@ -5,7 +5,6 @@ variable "cluster_kustomizations" {
     github_owner                          = string
     github_workspace                      = string
     cluster_name                          = string
-    compute_project                       = string
     iam_project                           = string
     kubeflow_project                      = string
     secret_project                        = string

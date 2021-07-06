@@ -6,7 +6,6 @@ module "cluster-kustomizations" {
   github_owner                          = each.value["github_owner"]
   github_workspace                      = each.value["github_workspace"]
   cluster_name                          = each.value["cluster_name"]
-  compute_project                       = each.value["compute_project"]
   iam_project                           = each.value["iam_project"]
   kubeflow_project                      = each.value["kubeflow_project"]
   network_project                       = each.value["network_project"]

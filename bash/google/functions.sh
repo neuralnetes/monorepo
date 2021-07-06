@@ -144,10 +144,6 @@ function get_kubeflow_project() {
   get_project_id_by_prefix "kubeflow"
 }
 
-function get_compute_project() {
-  get_project_id_by_prefix "compute"
-}
-
 function get_data_project() {
   get_project_id_by_prefix "data"
 }
@@ -199,15 +195,6 @@ function get_subnetwork_name() {
 function get_subnetwork_self_link() {
   get_subnetwork \
     | jq -rc '.selfLink'
-}
-
-function get_compute_instance_by_name_prefix() {
-  PREFIX=$1
-  gcloud compute instances list --format=json \
-    --project="${COMPUTE_PROJECT}" \
-    --format=json \
-    "${GCLOUD_FLAGS[@]}" \
-    | jq --arg prefix "${PREFIX}" '.[] | select(.name | startswith($prefix)) | first'
 }
 
 function get_cluster_instance_groups() {
@@ -292,7 +279,6 @@ function get_service_projects() {
     "${IAM_PROJECT}"
     "${SECRET_PROJECT}"
     "${DATA_PROJECT}"
-    "${COMPUTE_PROJECT}"
     "${KUBEFLOW_PROJECT}"
     "${MANAGEMENT_PROJECT}"
   )

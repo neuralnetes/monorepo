@@ -150,7 +150,6 @@ function post_github_workflow_dispatch_generate_kubeflow_cluster() {
       --arg ref "${GITHUB_REF}" \
       --arg cluster_name "${CLUSTER_NAME}" \
       --arg cluster_location "${CLUSTER_LOCATION}" \
-      --arg compute_project "${COMPUTE_PROJECT}" \
       --arg iam_project "${IAM_PROJECT}" \
       --arg dns_project "${DNS_PROJECT}" \
       --arg kubeflow_project "${KUBEFLOW_PROJECT}" \
@@ -162,7 +161,6 @@ function post_github_workflow_dispatch_generate_kubeflow_cluster() {
           "ref": $ref,
           "inputs": {
             "cluster_name": $cluster_name,
-            "compute_project": $compute_project,
             "cluster_location": $cluster_location,
             "iam_project": $iam_project,
             "dns_project": $dns_project,
