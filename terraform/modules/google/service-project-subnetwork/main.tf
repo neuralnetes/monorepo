@@ -43,8 +43,8 @@ module "shared_vpc_access" {
   host_project_id    = data.google_project.host_project.project_id
   service_project_id = data.google_project.service_project.project_id
   active_apis = [
-    "compute.googleapis.com",
-    "container.googleapis.com",
+    //    "compute.googleapis.com",
+    "container.googleapis.com"
     //    "dataproc.googleapis.com",
     //    "dataflow.googleapis.com"
   ]
