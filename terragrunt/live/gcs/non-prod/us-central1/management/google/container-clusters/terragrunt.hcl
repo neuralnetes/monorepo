@@ -14,10 +14,6 @@ dependency "management_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/management/google/project"
 }
 
-dependency "service_project_subnetworks" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/management/google/service-project-subnetworks"
-}
-
 dependency "vpc" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/vpc"
 }

@@ -10,10 +10,6 @@ dependency "data_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/google/project"
 }
 
-dependency "service_project_subnetworks" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/us-central1/data/google/service-project-subnetworks"
-}
-
 dependency "vpc" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/vpc"
 }

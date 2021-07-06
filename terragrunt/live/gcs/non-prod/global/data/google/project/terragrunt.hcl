@@ -10,6 +10,10 @@ locals {
   gcp_workspace_domain_name = get_env("GCP_WORKSPACE_DOMAIN_NAME")
 }
 
+dependency "network_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/network/google/project"
+}
+
 dependency "random_string" {
   config_path = "${get_parent_terragrunt_dir()}/shared/global/shared/random/random-string"
 }
@@ -28,5 +32,6 @@ inputs = {
     "storage.googleapis.com",
     "storage-api.googleapis.com"
   ]
-  domain = local.gcp_workspace_domain_name
+  domain               = local.gcp_workspace_domain_name
+  svpc_host_project_id = dependency.network_project.outputs.project_id
 }
