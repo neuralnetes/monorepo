@@ -1,0 +1,14 @@
+namespace: flux-system
+resources:
+- ../../base
+- ../../../external-secrets/overlays/kubeflow-sbsc
+- ../../../external-dns/overlays/kubeflow-sbsc
+- ../../../secrets/auth/overlays/kubeflow-sbsc
+- ../../../secrets/cert-manager/overlays/kubeflow-sbsc
+- ../../../secrets/kubeflow/overlays/kubeflow-sbsc
+- ../../../secrets/istio-system/overlays/kubeflow-sbsc
+- ../../../kubeflow/overlays/kubeflow-sbsc
+- ../../../kubeflow-profiles/overlays/kubeflow-sbsc
+- ../../../cloud-sdk/overlays/kubeflow-sbsc
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml

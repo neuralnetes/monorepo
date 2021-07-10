@@ -1,0 +1,30 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    email: bot+letencrypt-staging@neuralnetes.com
+    solvers:
+      - dns01:
+          clouddns:
+            project: dns-sbsc
+            serviceAccountSecretRef:
+              name: service-account-key
+              key: key.json
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: bot+letencrypt-prod@neuralnetes.com
+    solvers:
+      - dns01:
+          clouddns:
+            project: dns-sbsc
+            serviceAccountSecretRef:
+              name: service-account-key
+              key: key.json
+
