@@ -178,6 +178,40 @@ function post_github_workflow_dispatch_generate_kubeflow_cluster() {
   post_github_workflow_dispatch
 }
 
+function post_github_workflow_dispatch_generate_management_cluster() {
+  GITHUB_WORKFLOW_DISPATCH=$(
+    jq -n \
+      --arg ref "${GITHUB_REF}" \
+      --arg cluster_name "${CLUSTER_NAME}" \
+      --arg cluster_location "${CLUSTER_LOCATION}" \
+      --arg iam_project "${IAM_PROJECT}" \
+      --arg dns_project "${DNS_PROJECT}" \
+      --arg management_project "${MANAGEMENT_PROJECT}" \
+      --arg network_project "${NETWORK_PROJECT}" \
+      --arg secret_project "${SECRET_PROJECT}" \
+      --arg istio_ingressgateway_load_balancer_ip "${ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP}" \
+      '
+        {
+          "ref": $ref,
+          "inputs": {
+            "cluster_name": $cluster_name,
+            "cluster_location": $cluster_location,
+            "iam_project": $iam_project,
+            "dns_project": $dns_project,
+            "management_project": $management_project,
+            "network_project": $network_project,
+            "secret_project": $secret_project,
+            "istio_ingressgateway_load_balancer_ip": $istio_ingressgateway_load_balancer_ip
+          }
+        }
+      '
+  )
+  GITHUB_WORKFLOW_PATH=".github/workflows/workflow-dispatch-generate-management-cluster.yaml"
+  GITHUB_WORKFLOW=$(get_github_workflow_by_path)
+  GITHUB_WORKFLOW_ID=$(echo "${GITHUB_WORKFLOW}" | jq '.id')
+  post_github_workflow_dispatch
+}
+
 function post_github_workflow_dispatch_kustomize_build_kubectl_apply() {
   GITHUB_WORKFLOW_DISPATCH=$(
     jq -n \

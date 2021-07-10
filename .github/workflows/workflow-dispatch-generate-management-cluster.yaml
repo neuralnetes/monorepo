@@ -1,0 +1,98 @@
+on:
+  workflow_dispatch:
+    inputs:
+      cluster_name:
+        description: cluster_name
+        required: true
+      cluster_location:
+        description: cluster_location
+        required: true
+      iam_project:
+        description: iam_project
+        required: true
+      dns_project:
+        description: dns_project
+        required: true
+      management_project:
+        description: management_project
+        required: true
+      network_project:
+        description: network_project
+        required: true
+      secret_project:
+        description: secret_project
+        required: true
+      istio_ingressgateway_load_balancer_ip:
+        description: istio_ingressgateway_load_balancer_ip
+        required: true
+jobs:
+  generate_management_cluster:
+    runs-on: ubuntu-latest
+    env:
+      GCP_WORKSPACE_DOMAIN_NAME: ${{ secrets.GCP_WORKSPACE_DOMAIN_NAME }}
+      GITHUB_ACTIONS_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      GITHUB_OWNER: ${{ github.repository_owner }}
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      GITHUB_USERNAME: ${{ secrets.GH_USERNAME }}
+      GITHUB_NAME: ${{ secrets.GH_NAME }}
+      GITHUB_EMAIL: ${{ secrets.GH_EMAIL }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      OS: linux
+      ARCH: amd64
+    steps:
+      - id: run_checkout
+        name: run checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+      - id: run_event_start
+        name: run event start
+        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" && post_slack_event "start"
+      - id: run_setup_git
+        name: run setup git
+        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" && setup_gitconfig
+      - id: run_setup_github_path
+        name: run setup github path
+        run: mkdir -p "${HOME}/.local/bin" && echo "${HOME}/.local/bin" >> $GITHUB_PATH
+      - id: run_generate_management_cluster
+        name: run generate management cluster
+        env:
+          CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}
+          IAM_PROJECT: ${{ github.event.inputs.iam_project }}
+          MANAGEMENT_PROJECT: ${{ github.event.inputs.management_project }}
+          NETWORK_PROJECT: ${{ github.event.inputs.network_project }}
+          SECRET_PROJECT: ${{ github.event.inputs.secret_project }}
+          DNS_PROJECT: ${{ github.event.inputs.dns_project }}
+          ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP: ${{ github.event.inputs.istio_ingressgateway_load_balancer_ip }}
+        run: bash bash/kubernetes/generate_management_cluster.sh
+      - id: run_git_commit
+        name: run git commit
+        env:
+          CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}
+        run: |
+          git pull
+          if [ -z "$(git status "${GITHUB_WORKSPACE}/kustomize" --porcelain)" ]; then
+            echo "${CLUSTER_NAME} is up to date."
+            echo "RUN_WORKFLOW_DISPATCH_KUSTOMIZE_BUILD_KUBECTL_APPLY=false" >> "${GITHUB_ENV}"
+          else
+            git add "${GITHUB_WORKSPACE}/kustomize"
+            git commit -m "generated management cluster ${CLUSTER_NAME}"
+            git push
+            echo "RUN_WORKFLOW_DISPATCH_KUSTOMIZE_BUILD_KUBECTL_APPLY=true" >> "${GITHUB_ENV}"
+          fi
+      - id: run_workflow_dispatch_kustomize_build_kubectl_apply
+        name: run workflow dispatch kustomize build kubectl apply
+        if: ${{ env.RUN_WORKFLOW_DISPATCH_KUSTOMIZE_BUILD_KUBECTL_APPLY == 'true' }}
+        env:
+          CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}
+          CLUSTER_LOCATION: ${{ github.event.inputs.cluster_location }}
+          CLUSTER_PROJECT: ${{ github.event.inputs.management_project }}
+        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" && post_github_workflow_dispatch_kustomize_build_kubectl_apply
+      - id: run_event_success
+        name: run event success
+        if: ${{ success() }}
+        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" &&  post_slack_event "success"
+      - id: run_event_failure
+        name: run event failure
+        if: ${{ failure() }}
+        run: source "${GITHUB_WORKSPACE}/bash/github/functions.sh" &&  post_slack_event "failure"
