@@ -14,23 +14,29 @@ function setup_gcloud() {
 }
 
 function get_container_cluster_credentials() {
-  if [[ -z "${CLUSTER_PROJECT}" ]]; then
-    CLUSTER_PROJECT="$(get_cluster_project)"
-  fi
-  if [[ -z "${CLUSTER_NAME}" ]]; then
-    CLUSTER_NAME="$(get_cluster_name)"
-  fi
-  if [[ -z "${CLUSTER_LOCATION}" ]]; then
-    CLUSTER_LOCATION="$(get_cluster_location)"
+  if [[ -z "${ZONE}" ]]; then
+    ZONE="us-central1-a"
   fi
   if [[ -z "${GCLOUD_FLAGS}" ]]; then
     GCLOUD_FLAGS=()
   fi
   gcloud container clusters get-credentials \
-    "${CLUSTER_NAME}" \
+    "${CLUSTER_PROJECT}" \
     --project="${CLUSTER_PROJECT}" \
-    --zone="${CLUSTER_LOCATION}" \
+    --zone="${ZONE}" \
     "${GCLOUD_FLAGS[@]}"
+}
+
+function get_container_cluster_credentials_kubeflow() {
+  ZONE="us-central1-a"
+  CLUSTER_PROJECT="$(get_kubeflow_project)"
+  get_container_cluster_credentials
+}
+
+function get_container_cluster_credentials_management() {
+  ZONE="us-central1-a"
+  CLUSTER_PROJECT="$(get_management_project)"
+  get_container_cluster_credentials
 }
 
 function get_impersonate_service_account() {
@@ -150,10 +156,6 @@ function get_data_project() {
 
 function get_artifact_project() {
   get_project_id_by_prefix "artifact"
-}
-
-function get_cluster_project() {
-  get_kubeflow_project
 }
 
 function get_cluster_location() {
