@@ -132,6 +132,33 @@ inputs = {
       name = "${dependency.management_project.outputs.project_id}-01"
       bindings = {
         for project_role in [
+          "roles/viewer",
+          "roles/container.admin"
+        ] :
+        project_role => [
+          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-admin"].group_key[0].id}"
+        ]
+      }
+      project = dependency.management_project.outputs.project_id
+    },
+    {
+      name = "${dependency.management_project.outputs.project_id}-02"
+      bindings = {
+        for project_role in [
+          "roles/viewer",
+          "roles/iap.httpsResourceAccessor",
+          "roles/container.clusterViewer"
+        ] :
+        project_role => [
+          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-user"].group_key[0].id}"
+        ]
+      }
+      project = dependency.management_project.outputs.project_id
+    },
+    {
+      name = "${dependency.management_project.outputs.project_id}-03"
+      bindings = {
+        for project_role in [
           "roles/viewer"
         ] :
         project_role => [
@@ -141,7 +168,7 @@ inputs = {
       project = dependency.management_project.outputs.project_id
     },
     {
-      name = "${dependency.management_project.outputs.project_id}-02"
+      name = "${dependency.management_project.outputs.project_id}-04"
       bindings = {
         for project_role in [
           "roles/logging.logWriter",
