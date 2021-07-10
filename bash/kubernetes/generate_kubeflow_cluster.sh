@@ -1,4 +1,38 @@
 #!/bin/bash
+PATHS=(
+  "kustomize/manifests/cloud-sdk/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/external-secrets/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/external-dns/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/secrets/auth/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/cert-manager"
+  "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/istio-install/base"
+  "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/oidc-authservice/base"
+  "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio"
+  "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base"
+  "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base"
+  "kustomize/manifests/profiles/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/deploy/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/cloud-sdk/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/external-secrets/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/external-dns/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/secrets/auth/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/secrets/cert-manager/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/kubeflow/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/profiles/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/deploy/overlays/${KUBEFLOW_PROJECT}"
+)
+
+for path in "${PATHS[@]}"; do
+  rm -rf "${path}"
+  mkdir -p "${path}"
+done
+
 # cloud-sdk
 cat <<EOF >"kustomize/manifests/cloud-sdk/overlays/${KUBEFLOW_PROJECT}/patch-service-account.yaml"
 apiVersion: v1
@@ -60,7 +94,6 @@ kind: Certificate
 metadata:
   name: istio-certs-letsencrypt-staging
 spec:
-  renewBefore: 10000h
   dnsNames:
   - '*.n9s.mx'
 ---
@@ -69,7 +102,6 @@ kind: Certificate
 metadata:
   name: istio-certs-letsencrypt-prod
 spec:
-  renewBefore: 10000h
   dnsNames:
   - '*.n9s.mx'
 ---
@@ -78,7 +110,6 @@ kind: Certificate
 metadata:
   name: istio-certs-self-signed
 spec:
-  renewBefore: 10000h
   dnsNames:
   - '*.n9s.mx'
 EOF
