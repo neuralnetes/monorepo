@@ -175,49 +175,33 @@ patchesStrategicMerge:
 - patch-cluster-issuer.yaml
 EOF
 
-# istio-install
-cat <<EOF >"kustomize/manifests/istio-system/overlays/${MANAGEMENT_PROJECT}/patch-service.yaml"
-apiVersion: v1
-kind: Service
-metadata:
-  name: istio-ingressgateway
-  namespace: istio-system
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: '*.n9s.mx.'
-spec:
-  type: LoadBalancer
-  loadBalancerIP: '${ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP}'
+# istio-operator
+cat <<EOF >"kustomize/manifests/istio-operator/overlays/${MANAGEMENT_PROJECT}/kustomization.yaml"
+namespace: istio-operator
+resources:
+- ../../base
 EOF
 
-cat <<EOF >"kustomize/manifests/istio-system/overlays/${MANAGEMENT_PROJECT}/patch-gateway.yaml"
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
+
+# istio-system
+cat <<EOF >"kustomize/manifests/istio-system/overlays/${MANAGEMENT_PROJECT}/patch-istio-operator.yaml"
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
 metadata:
-  name: istio-ingressgateway
-  labels:
-    release: istio
+  namespace: istio-system
+  name: default-istiocontrolplane
 spec:
-  selector:
-    app: istio-ingressgateway
-    istio: ingressgateway
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    tls:
-      httpsRedirect: true
-    hosts:
-    - '*'
-  - port:
-      number: 443
-      name: https
-      protocol: HTTPS
-    tls:
-      mode: SIMPLE
-      credentialName: istio-certs-letsencrypt-prod
-    hosts:
-    - '*'
+  profile: default
+meshConfig:
+  accessLogFile: /dev/stdout
+  enableTracing: true
+service:
+  type: LoadBalancer
+  loadBalancerIP: "${ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP}"
+components:
+  egressGateways:
+  - name: istio-egressgateway
+    enabled: true
 EOF
 
 cat <<EOF >"kustomize/manifests/istio-system/overlays/${MANAGEMENT_PROJECT}/kustomization.yaml"
@@ -225,8 +209,7 @@ namespace: istio-system
 resources:
 - ../../base
 patchesStrategicMerge:
-- patch-gateway.yaml
-- patch-service.yaml
+- patch-operator.yaml
 EOF
 
 # deploy
