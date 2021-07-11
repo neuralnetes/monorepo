@@ -6,9 +6,11 @@ function setup_gitconfig() {
   name = "${GITHUB_NAME}"
   username = "${GITHUB_USERNAME}"
 [core]
-  editor = \$EDITOR
+  editor = "${EDITOR}"
 [init]
   defaultBranch = main
+[pull]
+  rebase = true
 EOF
 }
 
