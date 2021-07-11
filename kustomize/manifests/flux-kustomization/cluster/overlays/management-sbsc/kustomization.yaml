@@ -6,7 +6,6 @@ resources:
 - ../../../external-dns/overlays/management-sbsc
 - ../../../istio-operator/overlays/management-sbsc
 - ../../../istio-system/overlays/management-sbsc
-- ../../../secrets/istio-system/overlays/management-sbsc
 - ../../../cloud-sdk/overlays/management-sbsc
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml

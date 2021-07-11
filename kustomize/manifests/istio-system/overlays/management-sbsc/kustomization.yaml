@@ -3,3 +3,4 @@ resources:
 - ../../base
 patchesStrategicMerge:
 - patch-istio-operator.yaml
+- patch-certificate.yaml
