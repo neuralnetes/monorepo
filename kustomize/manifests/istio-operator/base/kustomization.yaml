@@ -1,4 +1,5 @@
 resources:
+- crd-operator.yaml
 - clusterrole.yaml
 - clusterrole_binding.yaml
 - deployment.yaml
