@@ -170,6 +170,8 @@ components:
   - name: istio-ingressgateway
     enabled: true
     k8s:
+      serviceAnnotations:
+        external-dns.alpha.kubernetes.io/hostname: '*.n9s.mx.'
       service:
         type: LoadBalancer
         loadBalancerIP: '${ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP}'
