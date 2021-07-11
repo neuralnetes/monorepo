@@ -1,4 +1,4 @@
-sssssterraform {
+terraform {
   source = "github.com/neuralnetes/monorepo.git//terraform/modules/google/secret-manager-secrets?ref=main"
 }
 
@@ -8,14 +8,6 @@ include {
 
 dependency "secret_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/secret/google/project"
-}
-
-dependency "kubeflow_project" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
-}
-
-dependency "project_iam_bindings" {
-  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/iam/google/project-iam-bindings"
 }
 
 dependency "service_account_keys" {
@@ -33,16 +25,32 @@ dependency "random_string" {
 inputs = {
   secret_manager_secrets = [
     {
-      project_id  = dependency.secret_project.outputs.project_id
-      secret_id   = "random-${dependency.random_string.outputs.result}"
-      secret_data = dependency.random_string.outputs.result
+      project_id = dependency.secret_project.outputs.project_id
+      secret_id  = "env-${dependency.random_string.outputs.result}"
+      secret_data = jsonencode({
+        GOOGLE_CLIENT_ID      = get_env("GOOGLE_CLIENT_ID")
+        GOOGLE_CLIENT_SECRET  = get_env("GOOGLE_CLIENT_SECRET")
+        GITHUB_CLIENT_ID      = get_env("GITHUB_CLIENT_ID")
+        GITHUB_CLIENT_SECRET  = get_env("GITHUB_CLIENT_SECRET")
+        KUBEFLOW_USER_EMAILS  = get_env("KUBEFLOW_USER_EMAILS")
+        KUBEFLOW_ADMIN_EMAILS = get_env("KUBEFLOW_ADMIN_EMAILS")
+        SHARED_PROJECT        = get_env("GCP_PROJECT_ID")
+        IAM_PROJECT           = "iam-${dependency.random_string.outputs.result}"
+        DNS_PROJECT           = "dns-${dependency.random_string.outputs.result}"
+        SECRET_PROJECT        = "secret-${dependency.random_string.outputs.result}"
+        NETWORK_PROJECT       = "network-${dependency.random_string.outputs.result}"
+        DATA_PROJECT          = "data-${dependency.random_string.outputs.result}"
+        KUBEFLOW_PROJECT      = "kubeflow-${dependency.random_string.outputs.result}"
+        MANAGEMENT_PROJECT    = "management-${dependency.random_string.outputs.result}"
+        ARTIFACT_PROJECT      = "artifact-${dependency.random_string.outputs.result}"
+      })
       replication = {
         automatic = true
       }
     },
     {
       project_id = dependency.secret_project.outputs.project_id
-      secret_id  = "${dependency.kubeflow_project.outputs.project_id}-kubeflow-katib-mysql-secrets"
+      secret_id  = "kubeflow-${dependency.random_string.outputs.result}-kubeflow-katib-mysql-secrets"
       secret_data = jsonencode({
         MYSQL_HOST          = dependency.cloud_sqls.outputs.mysqls_map["kubeflow-${dependency.random_string.outputs.result}-mssql-01"].mysql.private_ip_address
         MYSQL_PORT          = "3306"
@@ -56,7 +64,7 @@ inputs = {
     },
     {
       project_id  = dependency.secret_project.outputs.project_id
-      secret_id   = "${dependency.kubeflow_project.outputs.project_id}-cert-manager-service-account-key"
+      secret_id   = "kubeflow-${dependency.random_string.outputs.result}-cert-manager-service-account-key"
       secret_data = dependency.service_account_keys.outputs.service_account_keys_map["cert-manager"].private_key
       replication = {
         automatic = true
@@ -64,7 +72,7 @@ inputs = {
     },
     {
       project_id = dependency.secret_project.outputs.project_id
-      secret_id  = "${dependency.kubeflow_project.outputs.project_id}-auth-dex-secrets"
+      secret_id  = "kubeflow-${dependency.random_string.outputs.result}-auth-dex-secrets"
       secret_data = jsonencode({
         GOOGLE_CLIENT_ID     = get_env("GOOGLE_CLIENT_ID")
         GOOGLE_CLIENT_SECRET = get_env("GOOGLE_CLIENT_SECRET")
@@ -77,8 +85,8 @@ inputs = {
     },
     {
       project_id  = dependency.secret_project.outputs.project_id
-      secret_id   = "${dependency.kubeflow_project.outputs.project_id}-auth-service-account-key"
-      secret_data = dependency.service_account_keys.outputs.service_account_keys_map["dex-auth"].private_key
+      secret_id   = "kubeflow-${dependency.random_string.outputs.result}-auth-service-account-key"
+      secret_data = dependency.service_account_keys.outputs.service_account_keys_map["auth"].private_key
       replication = {
         automatic = true
       }

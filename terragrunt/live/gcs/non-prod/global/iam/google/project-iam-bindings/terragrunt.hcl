@@ -105,7 +105,7 @@ inputs = {
           "roles/viewer"
         ] :
         project_role => [
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["grafana-cloud"].email}"
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["grafana"].email}"
         ]
       }
       project = dependency.kubeflow_project.outputs.project_id
@@ -162,7 +162,7 @@ inputs = {
           "roles/viewer"
         ] :
         project_role => [
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["grafana-cloud"].email}"
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["grafana"].email}"
         ]
       }
       project = dependency.management_project.outputs.project_id

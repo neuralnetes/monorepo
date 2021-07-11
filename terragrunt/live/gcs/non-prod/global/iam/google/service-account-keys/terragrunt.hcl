@@ -12,7 +12,7 @@ dependency "service_accounts" {
 
 inputs = {
   service_account_keys = [
-    for service_account_id in ["dex-auth", "cert-manager", "grafana-cloud"] :
+    for service_account_id in ["auth", "cert-manager", "grafana"] :
     {
       service_account_id = dependency.service_accounts.outputs.service_accounts_map[service_account_id].email
     }

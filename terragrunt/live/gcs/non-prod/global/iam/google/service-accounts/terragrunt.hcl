@@ -28,10 +28,10 @@ locals {
       "cloud-sdk",
       "compute-instance",
       "container-cluster",
-      "dex-auth",
+      "auth",
       "external-dns",
       "external-secrets",
-      "grafana-cloud",
+      "grafana",
       "kubeflow"
     ],
     [

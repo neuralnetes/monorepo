@@ -46,11 +46,11 @@ inputs = {
         token_uri           = "https://oauth2.googleapis.com/token"
         authentication_type = "jwt"
         default_project     = dependency.management_project.outputs.project_id
-        client_email        = dependency.service_accounts.outputs.service_accounts_map["grafana-cloud"].email
+        client_email        = dependency.service_accounts.outputs.service_accounts_map["grafana"].email
       }
       secure_json_data = {
         private_key = jsonencode(jsondecode(base64decode(
-          dependency.service_account_keys.outputs.service_account_keys_map["grafana-cloud"].private_key
+          dependency.service_account_keys.outputs.service_account_keys_map["grafana"].private_key
         )))
       }
     }
