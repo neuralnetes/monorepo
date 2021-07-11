@@ -9,6 +9,13 @@ meshConfig:
   accessLogFile: /dev/stdout
   enableTracing: true
 components:
+  ingressGateways:
+  - name: istio-ingressgateway
+    enabled: true
+    k8s:
+      service:
+        type: LoadBalancer
+        loadBalancerIP: '34.66.149.6'
   egressGateways:
   - name: istio-egressgateway
     enabled: true
