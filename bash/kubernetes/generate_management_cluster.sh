@@ -118,7 +118,7 @@ spec:
     email: bot+letencrypt-staging@${GCP_WORKSPACE_DOMAIN_NAME}
     solvers:
       - dns01:
-          clouddns:
+          cloudDNS:
             project: ${DNS_PROJECT}
 ---
 apiVersion: cert-manager.io/v1
@@ -130,7 +130,7 @@ spec:
     email: bot+letencrypt-prod@${GCP_WORKSPACE_DOMAIN_NAME}
     solvers:
       - dns01:
-          clouddns:
+          cloudDNS:
             project: ${DNS_PROJECT}
 EOF
 
