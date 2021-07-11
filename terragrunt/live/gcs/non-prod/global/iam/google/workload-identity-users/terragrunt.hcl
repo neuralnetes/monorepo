@@ -14,6 +14,10 @@ dependency "kubeflow_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/kubeflow/google/project"
 }
 
+dependency "management_project" {
+  config_path = "${get_parent_terragrunt_dir()}/non-prod/global/management/google/project"
+}
+
 dependency "data_project" {
   config_path = "${get_parent_terragrunt_dir()}/non-prod/global/data/google/project"
 }
@@ -131,9 +135,30 @@ inputs = {
       ]
     ],
     [
+      for service_account_id, workload_identity_user in local.workload_identity_users_map :
+      [
+        for kubernetes_service_account in workload_identity_user["kubernetes_service_accounts"] :
+        {
+          project_id                 = dependency.management_project.outputs.project_id
+          service_account_id         = dependency.service_accounts.outputs.service_accounts_map[service_account_id].email
+          kubernetes_namespace       = workload_identity_user["kubernetes_namespace"]
+          kubernetes_service_account = kubernetes_service_account
+        }
+      ]
+    ],
+    [
       for email, service_account_id in local.service_account_ids_map :
       {
         project_id                 = dependency.kubeflow_project.outputs.project_id
+        service_account_id         = dependency.service_accounts.outputs.service_accounts_map[service_account_id].email
+        kubernetes_namespace       = service_account_id
+        kubernetes_service_account = "default-editor"
+      }
+    ],
+    [
+      for email, service_account_id in local.service_account_ids_map :
+      {
+        project_id                 = dependency.management_project.outputs.project_id
         service_account_id         = dependency.service_accounts.outputs.service_accounts_map[service_account_id].email
         kubernetes_namespace       = service_account_id
         kubernetes_service_account = "default-editor"
