@@ -29,4 +29,11 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
+  labels:
+    istio-injection: disabled
+  name: cert-manager
+---
+apiVersion: v1
+kind: Namespace
+metadata:
   name: istio-system
