@@ -104,6 +104,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: cert-manager
+  namespace: cert-manager
   annotations:
     iam.gke.io/gcp-service-account: cert-manager@${IAM_PROJECT}.iam.gserviceaccount.com
 EOF
@@ -113,6 +114,7 @@ apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: letsencrypt-staging
+  namespace: cert-manager
 spec:
   acme:
     email: bot+letencrypt-staging@${GCP_WORKSPACE_DOMAIN_NAME}
@@ -125,6 +127,7 @@ apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: letsencrypt-prod
+  namespace: cert-manager
 spec:
   acme:
     email: bot+letencrypt-prod@${GCP_WORKSPACE_DOMAIN_NAME}
@@ -149,7 +152,6 @@ namespace: istio-operator
 resources:
 - ../../base
 EOF
-
 
 # istio-system
 cat <<EOF >"kustomize/manifests/istio-system/overlays/${MANAGEMENT_PROJECT}/patch-istio-operator.yaml"
