@@ -3,6 +3,7 @@ PATHS=(
   "kustomize/manifests/cloud-sdk/overlays/${MANAGEMENT_PROJECT}"
   "kustomize/manifests/cert-manager/overlays/${MANAGEMENT_PROJECT}"
   "kustomize/manifests/external-dns/overlays/${MANAGEMENT_PROJECT}"
+  "kustomize/manifests/istio-operator/overlays/${MANAGEMENT_PROJECT}"
   "kustomize/manifests/istio-system/overlays/${MANAGEMENT_PROJECT}"
   "kustomize/manifests/secrets/istio-system/overlays/${MANAGEMENT_PROJECT}"
   "kustomize/manifests/deploy/overlays/${MANAGEMENT_PROJECT}"
@@ -10,6 +11,7 @@ PATHS=(
   "kustomize/manifests/flux-kustomization/cert-manager/overlays/${MANAGEMENT_PROJECT}"
   "kustomize/manifests/flux-kustomization/external-secrets/overlays/${MANAGEMENT_PROJECT}"
   "kustomize/manifests/flux-kustomization/external-dns/overlays/${MANAGEMENT_PROJECT}"
+  "kustomize/manifests/flux-kustomization/istio-operator/overlays/${MANAGEMENT_PROJECT}"
   "kustomize/manifests/flux-kustomization/istio-system/overlays/${MANAGEMENT_PROJECT}"
   "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${MANAGEMENT_PROJECT}"
   "kustomize/manifests/flux-kustomization/deploy/overlays/${MANAGEMENT_PROJECT}"
@@ -209,7 +211,7 @@ namespace: istio-system
 resources:
 - ../../base
 patchesStrategicMerge:
-- patch-operator.yaml
+- patch-istio-operator.yaml
 EOF
 
 # deploy
@@ -350,6 +352,23 @@ patchesStrategicMerge:
 - patch-flux-kustomization.yaml
 EOF
 
+cat <<EOF >"kustomize/manifests/flux-kustomization/istio-operator/overlays/${MANAGEMENT_PROJECT}/patch-flux-kustomization.yaml"
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: istio-operator
+spec:
+  path: kustomize/manifests/istio-operator/overlays/${MANAGEMENT_PROJECT}
+EOF
+
+cat <<EOF >"kustomize/manifests/flux-kustomization/istio-operator/overlays/${MANAGEMENT_PROJECT}/kustomization.yaml"
+resources:
+- ../../base
+patchesStrategicMerge:
+- patch-flux-kustomization.yaml
+EOF
+
 cat <<EOF >"kustomize/manifests/flux-kustomization/cluster/overlays/${MANAGEMENT_PROJECT}/patch-flux-kustomization.yaml"
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
@@ -366,6 +385,7 @@ resources:
 - ../../../cert-manager/overlays/${MANAGEMENT_PROJECT}
 - ../../../external-secrets/overlays/${MANAGEMENT_PROJECT}
 - ../../../external-dns/overlays/${MANAGEMENT_PROJECT}
+- ../../../istio-operator/overlays/${MANAGEMENT_PROJECT}
 - ../../../istio-system/overlays/${MANAGEMENT_PROJECT}
 - ../../../secrets/istio-system/overlays/${MANAGEMENT_PROJECT}
 - ../../../cloud-sdk/overlays/${MANAGEMENT_PROJECT}
