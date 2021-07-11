@@ -13,7 +13,7 @@ PATHS=(
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/dex/overlays/istio"
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/knative/knative-serving-install/base"
   "kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/istio-1-9-0/kubeflow-istio-resources/base"
-  "kustomize/manifests/profiles/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/deploy/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/cloud-sdk/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/external-secrets/overlays/${KUBEFLOW_PROJECT}"
@@ -23,7 +23,7 @@ PATHS=(
   "kustomize/manifests/flux-kustomization/secrets/kubeflow/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/kubeflow/overlays/${KUBEFLOW_PROJECT}"
-  "kustomize/manifests/flux-kustomization/profiles/overlays/${KUBEFLOW_PROJECT}"
+  "kustomize/manifests/flux-kustomization/kubeflow-profiles/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/cluster/overlays/${KUBEFLOW_PROJECT}"
   "kustomize/manifests/flux-kustomization/deploy/overlays/${KUBEFLOW_PROJECT}"
 )
