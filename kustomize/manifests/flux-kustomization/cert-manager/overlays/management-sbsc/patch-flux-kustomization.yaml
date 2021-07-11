@@ -1,0 +1,7 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: cert-manager
+spec:
+  path: kustomize/manifests/cert-manager/overlays/management-sbsc

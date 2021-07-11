@@ -1,0 +1,17 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+  name: default-istiocontrolplane
+spec:
+  profile: default
+meshConfig:
+  accessLogFile: /dev/stdout
+  enableTracing: true
+service:
+  type: LoadBalancer
+  loadBalancerIP: "34.66.149.6"
+components:
+  egressGateways:
+  - name: istio-egressgateway
+    enabled: true

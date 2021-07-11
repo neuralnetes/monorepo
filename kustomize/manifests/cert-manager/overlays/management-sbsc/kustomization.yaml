@@ -1,0 +1,6 @@
+namespace: cert-manager
+resources:
+- ../../base
+patchesStrategicMerge:
+- patch-service-account.yaml
+- patch-cluster-issuer.yaml
