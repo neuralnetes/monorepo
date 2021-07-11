@@ -163,9 +163,6 @@ spec:
 meshConfig:
   accessLogFile: /dev/stdout
   enableTracing: true
-service:
-  type: LoadBalancer
-  loadBalancerIP: "${ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP}"
 components:
   egressGateways:
   - name: istio-egressgateway
