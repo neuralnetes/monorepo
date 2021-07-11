@@ -1,5 +1,0 @@
-namespace: cloud-sdk
-resources:
-- ../../base
-patchesStrategicMerge:
-- patch-service-account.yaml

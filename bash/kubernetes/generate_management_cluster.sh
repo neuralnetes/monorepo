@@ -43,7 +43,7 @@ EOF
 
 # secrets
 cat <<EOF >"kustomize/manifests/secrets/istio-system/overlays/${MANAGEMENT_PROJECT}/patch-certificate.yaml"
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: istio-certs-letsencrypt-staging
@@ -51,7 +51,7 @@ spec:
   dnsNames:
   - '*.n9s.mx'
 ---
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: istio-certs-letsencrypt-prod
@@ -59,7 +59,7 @@ spec:
   dnsNames:
   - '*.n9s.mx'
 ---
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: istio-certs-self-signed
