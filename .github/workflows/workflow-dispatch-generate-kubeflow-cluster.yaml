@@ -70,7 +70,6 @@ jobs:
         env:
           CLUSTER_NAME: ${{ github.event.inputs.cluster_name }}
         run: |
-          git pull
           if [ -z "$(git status "${GITHUB_WORKSPACE}/kustomize" --porcelain)" ]; then
             echo "${CLUSTER_NAME} is up to date."
             echo "RUN_WORKFLOW_DISPATCH_KUSTOMIZE_BUILD_KUBECTL_APPLY=false" >> "${GITHUB_ENV}"
