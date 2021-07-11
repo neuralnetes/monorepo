@@ -280,22 +280,6 @@ patchesStrategicMerge:
 - patch-flux-kustomization.yaml
 EOF
 
-cat <<EOF >"kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${MANAGEMENT_PROJECT}/patch-flux-kustomization.yaml"
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: istio-system-secrets
-spec:
-  path: kustomize/manifests/secrets/istio-system/overlays/${MANAGEMENT_PROJECT}
-EOF
-
-cat <<EOF >"kustomize/manifests/flux-kustomization/secrets/istio-system/overlays/${MANAGEMENT_PROJECT}/kustomization.yaml"
-resources:
-- ../../base
-patchesStrategicMerge:
-- patch-flux-kustomization.yaml
-EOF
-
 cat <<EOF >"kustomize/manifests/flux-kustomization/cloud-sdk/overlays/${MANAGEMENT_PROJECT}/patch-flux-kustomization.yaml"
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
@@ -381,7 +365,6 @@ resources:
 - ../../../external-dns/overlays/${MANAGEMENT_PROJECT}
 - ../../../istio-operator/overlays/${MANAGEMENT_PROJECT}
 - ../../../istio-system/overlays/${MANAGEMENT_PROJECT}
-- ../../../secrets/istio-system/overlays/${MANAGEMENT_PROJECT}
 - ../../../cloud-sdk/overlays/${MANAGEMENT_PROJECT}
 patchesStrategicMerge:
 - patch-flux-kustomization.yaml
