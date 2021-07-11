@@ -25,3 +25,8 @@ metadata:
   labels:
     istio-injection: enabled
   name: cloud-sdk
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: istio-system
