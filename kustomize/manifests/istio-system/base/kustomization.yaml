@@ -1,3 +1,4 @@
 namespace: istio-system
 resources:
 - istio-operator.yaml
+- certificate.yaml

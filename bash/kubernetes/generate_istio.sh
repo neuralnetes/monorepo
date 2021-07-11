@@ -34,10 +34,53 @@ spec:
   profile: default
 EOF
 
+cat <<EOF >"${OUTPUT_DIR}/istio-system/base/certificate.yaml"
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: istio-certs-letsencrypt-staging
+spec:
+  secretName: istio-certs-letsencrypt-staging
+  dnsNames:
+    - '*.example.com'
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: istio-certs-letsencrypt-prod
+spec:
+  secretName: istio-certs-letsencrypt-prod
+  dnsNames:
+    - '*.example.com'
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: istio-certs-self-signed
+spec:
+  secretName: istio-certs-self-signed
+  dnsNames:
+    - '*.example.com'
+  issuerRef:
+    name: kubeflow-self-signing-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+
+EOF
+
 cat <<EOF >"${OUTPUT_DIR}/istio-system/base/kustomization.yaml"
 namespace: istio-system
 resources:
 - istio-operator.yaml
+- certificate.yaml
 EOF
 
 rm -rf "${DOWNLOAD_DIR}"

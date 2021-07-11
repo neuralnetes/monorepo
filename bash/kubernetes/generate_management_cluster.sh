@@ -3,6 +3,7 @@ PATHS=(
   "kustomize/manifests/cloud-sdk/overlays/${MANAGEMENT_PROJECT}"
   "kustomize/manifests/cert-manager/overlays/${MANAGEMENT_PROJECT}"
   "kustomize/manifests/external-dns/overlays/${MANAGEMENT_PROJECT}"
+  "kustomize/manifests/external-secrets/overlays/${MANAGEMENT_PROJECT}"
   "kustomize/manifests/istio-operator/overlays/${MANAGEMENT_PROJECT}"
   "kustomize/manifests/istio-system/overlays/${MANAGEMENT_PROJECT}"
   "kustomize/manifests/secrets/istio-system/overlays/${MANAGEMENT_PROJECT}"
@@ -39,41 +40,6 @@ resources:
 - ../../base
 patchesStrategicMerge:
 - patch-service-account.yaml
-EOF
-
-# secrets
-cat <<EOF >"kustomize/manifests/secrets/istio-system/overlays/${MANAGEMENT_PROJECT}/patch-certificate.yaml"
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: istio-certs-letsencrypt-staging
-spec:
-  dnsNames:
-  - '*.n9s.mx'
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: istio-certs-letsencrypt-prod
-spec:
-  dnsNames:
-  - '*.n9s.mx'
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: istio-certs-self-signed
-spec:
-  dnsNames:
-  - '*.n9s.mx'
-EOF
-
-cat <<EOF >"kustomize/manifests/secrets/istio-system/overlays/${MANAGEMENT_PROJECT}/kustomization.yaml"
-namespace: istio-system
-resources:
-- ../../base
-patchesStrategicMerge:
-- patch-certificate.yaml
 EOF
 
 # external-secrets
@@ -206,12 +172,40 @@ components:
     enabled: true
 EOF
 
+cat <<EOF >"kustomize/manifests/istio-system/overlays/${MANAGEMENT_PROJECT}/patch-certificate.yaml"
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: istio-certs-letsencrypt-staging
+spec:
+  dnsNames:
+  - '*.n9s.mx'
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: istio-certs-letsencrypt-prod
+spec:
+  dnsNames:
+  - '*.n9s.mx'
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: istio-certs-self-signed
+spec:
+  dnsNames:
+  - '*.n9s.mx'
+EOF
+
+
 cat <<EOF >"kustomize/manifests/istio-system/overlays/${MANAGEMENT_PROJECT}/kustomization.yaml"
 namespace: istio-system
 resources:
 - ../../base
 patchesStrategicMerge:
 - patch-istio-operator.yaml
+- patch-certificate.yaml
 EOF
 
 # deploy
