@@ -1,0 +1,12 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: cert-manager-kube-system
+spec:
+  interval: 1m
+  path: kustomize/manifests/cert-manager-kube-system/base
+  prune: true
+  sourceRef:
+    name: monorepo
+    kind: GitRepository
+  targetNamespace: kube-system

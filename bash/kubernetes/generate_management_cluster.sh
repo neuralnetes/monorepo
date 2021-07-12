@@ -368,6 +368,7 @@ cat <<EOF >"kustomize/manifests/flux-kustomization/cluster/overlays/${MANAGEMENT
 namespace: flux-system
 resources:
 - ../../base
+- ../../../cert-manager-kube-system/base
 - ../../../cert-manager/overlays/${MANAGEMENT_PROJECT}
 - ../../../external-secrets/overlays/${MANAGEMENT_PROJECT}
 - ../../../external-dns/overlays/${MANAGEMENT_PROJECT}
