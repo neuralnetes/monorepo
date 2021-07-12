@@ -26,7 +26,6 @@ locals {
     [
       "cert-manager",
       "cloud-sdk",
-      "compute-instance",
       "container-cluster",
       "dex-auth",
       "external-dns",
