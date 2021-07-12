@@ -91,7 +91,7 @@ locals {
         "xgboost-operator-service-account"
       ]
     }
-    auth = {
+    dex-auth = {
       kubernetes_namespace = "auth"
       kubernetes_service_accounts = [
         "dex"

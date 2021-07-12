@@ -86,7 +86,7 @@ inputs = {
     {
       project_id  = dependency.secret_project.outputs.project_id
       secret_id   = "kubeflow-${dependency.random_string.outputs.result}-auth-service-account-key"
-      secret_data = dependency.service_account_keys.outputs.service_account_keys_map["auth"].private_key
+      secret_data = dependency.service_account_keys.outputs.service_account_keys_map["dex-auth"].private_key
       replication = {
         automatic = true
       }

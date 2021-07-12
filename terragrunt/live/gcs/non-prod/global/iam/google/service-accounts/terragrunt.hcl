@@ -28,7 +28,7 @@ locals {
       "cloud-sdk",
       "compute-instance",
       "container-cluster",
-      "auth",
+      "dex-auth",
       "external-dns",
       "external-secrets",
       "grafana",
