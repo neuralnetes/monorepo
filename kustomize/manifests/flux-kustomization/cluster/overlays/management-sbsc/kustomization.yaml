@@ -1,6 +1,7 @@
 namespace: flux-system
 resources:
 - ../../base
+- ../../../cert-manager-kube-system/base
 - ../../../cert-manager/overlays/management-sbsc
 - ../../../external-secrets/overlays/management-sbsc
 - ../../../external-dns/overlays/management-sbsc
