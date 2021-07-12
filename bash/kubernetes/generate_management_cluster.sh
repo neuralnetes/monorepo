@@ -165,6 +165,10 @@ spec:
 meshConfig:
   accessLogFile: /dev/stdout
   enableTracing: true
+values:
+  gateways.istio-ingressgateway.loadBalancerIP: '${ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP}'
+  gateways.istio-ingressgateway.serviceAnnotations:
+    external-dns.alpha.kubernetes.io/hostname: '*.n9s.mx.'
 components:
   ingressGateways:
   - name: istio-ingressgateway
