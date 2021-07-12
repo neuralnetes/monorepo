@@ -10,6 +10,6 @@ module "workload-identity-users" {
 locals {
   workload_identity_users_map = {
     for workload_identity_user in var.workload_identity_users :
-    "${workload_identity_user["service_account_id"]}/${workload_identity_user["kubernetes_namespace"]}/${workload_identity_user["kubernetes_service_account"]}" => workload_identity_user
+    "${workload_identity_user["service_account_id"]}/${workload_identity_user["project_id"]}/${workload_identity_user["kubernetes_namespace"]}/${workload_identity_user["kubernetes_service_account"]}" => workload_identity_user
   }
 }
