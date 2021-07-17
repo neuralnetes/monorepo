@@ -168,14 +168,14 @@ meshConfig:
 values:
   gateways.istio-ingressgateway.loadBalancerIP: '${ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP}'
   gateways.istio-ingressgateway.serviceAnnotations:
-    external-dns.alpha.kubernetes.io/hostname: '*.n9s.mx.'
+    external-dns.alpha.kubernetes.io/hostname: '*.non-prod.neuralnetes.com.'
 components:
   ingressGateways:
   - name: istio-ingressgateway
     enabled: true
     k8s:
       serviceAnnotations:
-        external-dns.alpha.kubernetes.io/hostname: '*.n9s.mx.'
+        external-dns.alpha.kubernetes.io/hostname: '*.non-prod.neuralnetes.com.'
       service:
         type: LoadBalancer
         loadBalancerIP: '${ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP}'
@@ -191,7 +191,7 @@ metadata:
   name: istio-certs-letsencrypt-staging
 spec:
   dnsNames:
-  - '*.n9s.mx'
+  - '*.non-prod.neuralnetes.com'
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -199,7 +199,7 @@ metadata:
   name: istio-certs-letsencrypt-prod
 spec:
   dnsNames:
-  - '*.n9s.mx'
+  - '*.non-prod.neuralnetes.com'
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -207,7 +207,7 @@ metadata:
   name: istio-certs-self-signed
 spec:
   dnsNames:
-  - '*.n9s.mx'
+  - '*.non-prod.neuralnetes.com'
 EOF
 
 
