@@ -11,14 +11,14 @@ meshConfig:
 values:
   gateways.istio-ingressgateway.loadBalancerIP: '34.66.149.6'
   gateways.istio-ingressgateway.serviceAnnotations:
-    external-dns.alpha.kubernetes.io/hostname: '*.n9s.mx.'
+    external-dns.alpha.kubernetes.io/hostname: '*.non-prod.neuralnetes.com.'
 components:
   ingressGateways:
   - name: istio-ingressgateway
     enabled: true
     k8s:
       serviceAnnotations:
-        external-dns.alpha.kubernetes.io/hostname: '*.n9s.mx.'
+        external-dns.alpha.kubernetes.io/hostname: '*.non-prod.neuralnetes.com.'
       service:
         type: LoadBalancer
         loadBalancerIP: '34.66.149.6'
