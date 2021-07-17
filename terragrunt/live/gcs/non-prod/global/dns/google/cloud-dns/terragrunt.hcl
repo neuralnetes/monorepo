@@ -17,11 +17,11 @@ locals {
 inputs = {
   cloud_dns = flatten([
     for domain in [
-      "n9s.mx",
+      "non-prod.n9s.mx",
       "non-prod.neuralnetes.com",
     ] :
     [
-      for type in ["public"] :
+      for type in ["private", "public"] :
       {
         project_id                         = dependency.dns_project.outputs.project_id
         type                               = type
@@ -37,18 +37,6 @@ inputs = {
               "0 issue \"letsencrypt.org\"",
               "0 issue \"pki.goog\""
             ]
-          },
-          {
-            name = "@"
-            type = "MX"
-            ttl  = 3600
-            records = [
-              "1 aspmx.l.google.com.",
-              "5 alt1.l.google.com.",
-              "5 alt2.l.google.com.",
-              "10 alt3.l.google.com.",
-              "10 alt4.l.google.com.",
-            ],
           }
         ]
       }
