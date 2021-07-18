@@ -21,7 +21,7 @@ inputs = {
       "non-prod.neuralnetes.com",
     ] :
     [
-      for type in ["private", "public"] :
+      for type in ["public"] :
       {
         project_id                         = dependency.dns_project.outputs.project_id
         type                               = type
