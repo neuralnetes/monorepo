@@ -294,7 +294,7 @@ function post_slack_event() {
       jq -n \
         --argjson text "${TEXT}" \
         '{
-          "text": ($text | tostring)
+          "text": ($text | tostring | "```" + . + "```")
         }'
     )
     post_slack_webhook
