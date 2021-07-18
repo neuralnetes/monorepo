@@ -30,6 +30,26 @@ generate "github_provider" {
 EOF
 }
 
+locals {
+  github_repository = get_env("GITHUB_REPOSITORY")
+}
+
 inputs = {
-  secrets = flatten([])
+  secrets = [
+    for project_prefix in [
+      "artifact",
+      "data",
+      "dns",
+      "iam",
+      "kubeflow",
+      "management",
+      "network",
+      "secret"
+    ] :
+    {
+      repository      = split("/", dependency.repositories.outputs.repositories_map[local.github_repository].full_name)[0]
+      secret_name     = "${upper(project_prefix)}_PROJECT"
+      plaintext_value = "${project-prefix}-${dependency.random_string.outputs.result}"
+    }
+  ]
 }

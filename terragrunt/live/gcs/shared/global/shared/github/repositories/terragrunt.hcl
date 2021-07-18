@@ -22,10 +22,14 @@ generate "github_provider" {
 EOF
 }
 
+locals {
+  github_repository = get_env("GITHUB_REPOSITORY")
+}
+
 inputs = {
   repositories = [
     {
-      full_name = "neuralnetes/monorepo"
+      full_name = local.github_repository
     }
   ]
 }
