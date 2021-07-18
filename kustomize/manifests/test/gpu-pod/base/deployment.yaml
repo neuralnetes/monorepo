@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gpu-pod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gpu-pod
+  template:
+    metadata:
+      labels:
+        app: gpu-pod
+    spec:
+      containers:
+        - name: nvidia-cuda
+          image: nvidia/cuda:10.0-runtime-ubuntu18.04
+          command: [ "/bin/bash", "-c", "--" ]
+          args: [ "while true; do sleep 600; done;" ]
+          resources:
+            limits:
+              nvidia.com/gpu: 1
