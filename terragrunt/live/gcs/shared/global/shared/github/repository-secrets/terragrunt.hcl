@@ -49,7 +49,7 @@ inputs = {
     {
       repository      = split("/", dependency.repositories.outputs.repositories_map[local.github_repository].full_name)[0]
       secret_name     = "${upper(project_prefix)}_PROJECT"
-      plaintext_value = "${project-prefix}-${dependency.random_string.outputs.result}"
+      plaintext_value = "${project_prefix}-${dependency.random_string.outputs.result}"
     }
   ]
 }
