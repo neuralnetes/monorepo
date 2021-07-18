@@ -70,6 +70,18 @@ inputs = {
       }
       project = dependency.dns_project.outputs.project_id
     },
+    {
+      name = "${dependency.dns_project.outputs.project_id}-02"
+      bindings = {
+        for project_role in [
+          "roles/viewer"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["grafana"].email}"
+        ]
+      }
+      project = dependency.kubeflow_project.outputs.project_id
+    },
     # kubeflow
     {
       name = "${dependency.kubeflow_project.outputs.project_id}-01"
@@ -199,6 +211,18 @@ inputs = {
       }
       project = dependency.data_project.outputs.project_id
     },
+    {
+      name = "${dependency.data_project.outputs.project_id}-02"
+      bindings = {
+        for project_role in [
+          "roles/viewer"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["grafana"].email}"
+        ]
+      }
+      project = dependency.data_project.outputs.project_id
+    },
     # network
     {
       name = "${dependency.network_project.outputs.project_id}-01"
@@ -209,6 +233,18 @@ inputs = {
         project_role => [
           "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["cert-manager"].email}",
           "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["external-dns"].email}"
+        ]
+      }
+      project = dependency.network_project.outputs.project_id
+    },
+    {
+      name = "${dependency.network_project.outputs.project_id}-02"
+      bindings = {
+        for project_role in [
+          "roles/viewer"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["grafana"].email}"
         ]
       }
       project = dependency.network_project.outputs.project_id
@@ -225,6 +261,18 @@ inputs = {
         ]
       }
       project = dependency.secret_project.outputs.project_id
-    }
+    },
+    {
+      name = "${dependency.secret_project.outputs.project_id}-02"
+      bindings = {
+        for project_role in [
+          "roles/viewer"
+        ] :
+        project_role => [
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["grafana"].email}"
+        ]
+      }
+      project = dependency.secret_project.outputs.project_id
+    },
   ]
 }
