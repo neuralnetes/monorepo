@@ -35,4 +35,4 @@ inputs = {
   svpc_host_project_id = dependency.network_project.outputs.project_id
 }
 
-skip = true
+skip = false
