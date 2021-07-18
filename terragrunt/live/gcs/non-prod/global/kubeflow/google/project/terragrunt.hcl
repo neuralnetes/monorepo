@@ -29,8 +29,10 @@ inputs = {
     "dataflow.googleapis.com",
     "iam.googleapis.com",
     "ml.googleapis.com",
-    "servicemanagement.googleapis.com"
+    "servicemanagement.googleapis.com",
   ]
   domain               = local.gcp_workspace_domain_name
   svpc_host_project_id = dependency.network_project.outputs.project_id
 }
+
+skip = true
