@@ -257,7 +257,8 @@ inputs = {
           "roles/secretmanager.admin"
         ] :
         project_role => [
-          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["external-secrets"].email}"
+          "serviceAccount:${dependency.service_accounts.outputs.service_accounts_map["external-secrets"].email}",
+          "group:${dependency.identity_groups.outputs.identity_groups_map["kubeflow-admin"].group_key[0].id}"
         ]
       }
       project = dependency.secret_project.outputs.project_id
