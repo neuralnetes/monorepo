@@ -56,7 +56,7 @@ inputs = {
       }
       secure_json_data = {
         private_key = jsonencode(jsondecode(base64decode(
-          dependency.service_account_keys.outputs.service_account_keys_map["grafana-cloud"].private_key
+          dependency.service_account_keys.outputs.service_account_keys_map["grafana"].private_key
         )))
       }
     }
