@@ -66,11 +66,12 @@ jobs:
         run: kustomize build --load-restrictor LoadRestrictionsNone "${KUSTOMIZATION_PATH}" | kubectl apply -f -
       - id: run_flux_reconcile
         name: run flux reconcile
+        env:
+          XARGS_MAXPROCS: 64
         run: |
-          pip install -r "${GITHUB_WORKSPACE}/python/kubernetes/requirements.txt"
-          python "${GITHUB_WORKSPACE}/python/kubernetes/main.py" \
-            --command "flux_reconcile" \
-            --args "{ \"github_sha\": \"${GITHUB_SHA}\" }"
+          kubectl get kustomization -A -o json \
+            | jq '.items[] | .metadata.name' \
+            | xargs -P "${XARGS_MAXPROCS}" -I {} flux reconcile kustomization {}
       - id: run_event_success
         name: run event success
         if: ${{ success() }}
