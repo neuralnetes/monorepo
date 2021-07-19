@@ -394,7 +394,7 @@ metadata:
   namespace: istio-system
 data:
   OIDC_AUTH_URL: /dex/auth
-  OIDC_PROVIDER: https://kubeflow.non-prod.n9s.mx/dex
+  OIDC_PROVIDER: https://kubeflow.n9s.mx/dex
   OIDC_SCOPES: profile email groups
   PORT: '"8080"'
   REDIRECT_URL: /login/oidc
@@ -421,7 +421,7 @@ metadata:
   name: dex
 data:
   config.yaml: |
-    issuer: https://kubeflow.non-prod.n9s.mx/dex
+    issuer: https://kubeflow.n9s.mx/dex
     storage:
       type: kubernetes
       config:
@@ -450,7 +450,7 @@ data:
         clientSecret: \$GOOGLE_CLIENT_SECRET
 
         # Dex's issuer URL + "/callback"
-        redirectURI: https://kubeflow.non-prod.n9s.mx/dex/callback
+        redirectURI: https://kubeflow.n9s.mx/dex/callback
         serviceAccountFilePath: /etc/dex/service-account-key/key.json
     - type: github
       id: github
@@ -459,7 +459,7 @@ data:
         # Connector config values starting with a "$" will read from the environment.
         clientID: \$GITHUB_CLIENT_ID
         clientSecret: \$GITHUB_CLIENT_SECRET
-        redirectURI: https://kubeflow.non-prod.n9s.mx/dex/callback
+        redirectURI: https://kubeflow.n9s.mx/dex/callback
 
 EOF
 
