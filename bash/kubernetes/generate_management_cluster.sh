@@ -162,26 +162,22 @@ metadata:
   name: default-istiocontrolplane
 spec:
   profile: default
-meshConfig:
-  accessLogFile: /dev/stdout
-  enableTracing: true
-values:
-  gateways.istio-ingressgateway.loadBalancerIP: '${ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP}'
-  gateways.istio-ingressgateway.serviceAnnotations:
-    external-dns.alpha.kubernetes.io/hostname: '*.non-prod.neuralnetes.com.'
-components:
-  ingressGateways:
-  - name: istio-ingressgateway
-    enabled: true
-    k8s:
-      serviceAnnotations:
-        external-dns.alpha.kubernetes.io/hostname: '*.non-prod.neuralnetes.com.'
-      service:
-        type: LoadBalancer
-        loadBalancerIP: '${ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP}'
-  egressGateways:
-  - name: istio-egressgateway
-    enabled: true
+  meshConfig:
+    accessLogFile: /dev/stdout
+    enableTracing: true
+  components:
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: true
+      k8s:
+        service:
+          type: LoadBalancer
+          loadBalancerIP: '${ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP}'
+        serviceAnnotations:
+          external-dns.alpha.kubernetes.io/hostname: '*.non-prod.n9s.mx.'
+    egressGateways:
+    - name: istio-egressgateway
+      enabled: true
 EOF
 
 cat <<EOF >"kustomize/manifests/istio-system/overlays/${MANAGEMENT_PROJECT}/patch-certificate.yaml"
@@ -191,7 +187,7 @@ metadata:
   name: istio-certs-letsencrypt-staging
 spec:
   dnsNames:
-  - '*.non-prod.neuralnetes.com'
+  - '*.non-prod.n9s.mx'
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -199,7 +195,7 @@ metadata:
   name: istio-certs-letsencrypt-prod
 spec:
   dnsNames:
-  - '*.non-prod.neuralnetes.com'
+  - '*.non-prod.n9s.mx'
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -207,7 +203,7 @@ metadata:
   name: istio-certs-self-signed
 spec:
   dnsNames:
-  - '*.non-prod.neuralnetes.com'
+  - '*.non-prod.n9s.mx'
 EOF
 
 
