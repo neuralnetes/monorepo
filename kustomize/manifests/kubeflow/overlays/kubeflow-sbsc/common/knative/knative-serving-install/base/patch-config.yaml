@@ -4,7 +4,7 @@ metadata:
   name: config-domain
   namespace: knative-serving
 data:
-  n9s.mx: ""
+  non-prod.n9s.mx: ""
 ---
 apiVersion: v1
 kind: ConfigMap
