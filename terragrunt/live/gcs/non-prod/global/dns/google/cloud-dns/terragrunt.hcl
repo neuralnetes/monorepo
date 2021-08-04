@@ -18,6 +18,7 @@ inputs = {
   cloud_dns = flatten([
     for domain in [
       "non-prod.n9s.mx",
+      "non-prod.neuralnetes.com",
     ] :
     [
       for type in ["public"] :
