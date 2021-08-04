@@ -9,7 +9,10 @@ function setup_tfenv() {
 }
 
 function update_terraform_version() {
-  tfenv list-remote |
-    head -n 1 \
-      >"${GITHUB_WORKSPACE}/.terraform-version"
+  tfenv list-remote \
+    | tail -n +2  \
+    | sed '/-alpha/d' \
+    | sed '/-beta/d' \
+    | head -n 1 \
+      > "${GITHUB_WORKSPACE}/.terraform-version"
 }

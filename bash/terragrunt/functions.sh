@@ -9,9 +9,12 @@ function setup_tgenv() {
 }
 
 function update_terragrunt_version() {
-  tgenv list-remote |
-    head -n 1 \
-      >"${GITHUB_WORKSPACE}/.terragrunt-version"
+  tgenv list-remote \
+    | tail -n +2  \
+    | sed '/-alpha/d' \
+    | sed '/-beta/d' \
+    | head -n 1 \
+      > "${GITHUB_WORKSPACE}/.terragrunt-version"
 }
 
 function get_terragrunt_working_dir_non_prod() {
