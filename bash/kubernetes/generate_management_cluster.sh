@@ -187,10 +187,7 @@ metadata:
   name: istio-certs-letsencrypt-staging
 spec:
   dnsNames:
-  - 'non-prod.n9s.mx'
   - '*.non-prod.n9s.mx'
-#  - 'non-prod.neuralnetes.com'
-#  - '*.neuralnetes.com'
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -198,10 +195,7 @@ metadata:
   name: istio-certs-letsencrypt-prod
 spec:
   dnsNames:
-  - 'non-prod.n9s.mx'
   - '*.non-prod.n9s.mx'
-#  - 'non-prod.neuralnetes.com'
-#  - '*.neuralnetes.com'
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -209,10 +203,7 @@ metadata:
   name: istio-certs-self-signed
 spec:
   dnsNames:
-  - 'non-prod.n9s.mx'
   - '*.non-prod.n9s.mx'
-#  - 'non-prod.neuralnetes.com'
-#  - '*.neuralnetes.com'
 EOF
 
 
