@@ -1,7 +1,3 @@
 #!/bin/bash
 export TGENV_AUTO_INSTALL="true"
-if [[ "${ARCH}" == "arm64" ]]; then
-  export TGENV_ARCH="arm"
-else
-  export TGENV_ARCH="${ARCH}"
-fi
+export TGENV_ARCH="${ARCH}"

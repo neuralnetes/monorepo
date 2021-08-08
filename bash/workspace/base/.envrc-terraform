@@ -3,8 +3,4 @@ export TF_INPUT="false"
 export TF_LOG="JSON"
 export TF_LOG_FILE="${GITHUB_WORKSPACE}/.log/terraform.txt"
 export TFENV_AUTO_INSTALL="true"
-if [[ "${ARCH}" == "arm64" ]]; then
-  export TFENV_ARCH="arm"
-else
-  export TFENV_ARCH="${ARCH}"
-fi
+export TFENV_ARCH="${ARCH}"
