@@ -17,8 +17,8 @@ locals {
 inputs = {
   cloud_dns = flatten([
     for domain in [
-      "n9s.mx"
-      //      "non-prod.n9s.mx",
+      "non-prod.n9s.mx",
+      "non-prod.neuralnetes.com"
       //      "non-prod.neuralnetes.com",
     ] :
     [
@@ -30,15 +30,15 @@ inputs = {
         domain                             = "${domain}."
         private_visibility_config_networks = []
         recordsets = [
-          {
-            name = ""
-            type = "CAA"
-            ttl  = 300
-            records = [
-              "0 issue \"letsencrypt.org\"",
-              "0 issue \"pki.goog\""
-            ]
-          }
+          //          {
+          //            name = ""
+          //            type = "CAA"
+          //            ttl  = 300
+          //            records = [
+          //              "0 issue \"letsencrypt.org\"",
+          //              "0 issue \"pki.goog\""
+          //            ]
+          //          }
         ]
       }
     ]
