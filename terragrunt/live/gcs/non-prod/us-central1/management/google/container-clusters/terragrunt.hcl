@@ -43,7 +43,7 @@ inputs = {
       initial_node_count     = 1
       ip_range_pods          = "${dependency.management_project.outputs.project_id}-pods"
       ip_range_services      = "${dependency.management_project.outputs.project_id}-services"
-      kubernetes_version     = "1.20.8-gke.900"
+      kubernetes_version     = "1.20.9-gke.700"
       master_authorized_networks = [
         {
           cidr_block   = "0.0.0.0/0"
@@ -91,4 +91,4 @@ inputs = {
   ]
 }
 
-skip = true
+skip = false
