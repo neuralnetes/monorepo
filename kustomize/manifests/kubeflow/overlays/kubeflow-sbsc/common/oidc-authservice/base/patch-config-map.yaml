@@ -5,7 +5,7 @@ metadata:
   namespace: istio-system
 data:
   OIDC_AUTH_URL: /dex/auth
-  OIDC_PROVIDER: https://kubeflow.non-prod.n9s.mx/dex
+  OIDC_PROVIDER: https://kubeflow.dev.n9s.mx/dex
   OIDC_SCOPES: profile email groups
   PORT: '"8080"'
   REDIRECT_URL: /login/oidc

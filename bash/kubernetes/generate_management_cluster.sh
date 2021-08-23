@@ -174,7 +174,7 @@ spec:
           type: LoadBalancer
           loadBalancerIP: '${ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP}'
         serviceAnnotations:
-          external-dns.alpha.kubernetes.io/hostname: '*.non-prod.n9s.mx.'
+          external-dns.alpha.kubernetes.io/hostname: '*.dev.n9s.mx.'
     egressGateways:
     - name: istio-egressgateway
       enabled: true
@@ -187,7 +187,7 @@ metadata:
   name: istio-certs-letsencrypt-staging
 spec:
   dnsNames:
-  - '*.non-prod.n9s.mx'
+  - '*.dev.n9s.mx'
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -195,7 +195,7 @@ metadata:
   name: istio-certs-letsencrypt-prod
 spec:
   dnsNames:
-  - '*.non-prod.n9s.mx'
+  - '*.dev.n9s.mx'
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -203,7 +203,7 @@ metadata:
   name: istio-certs-self-signed
 spec:
   dnsNames:
-  - '*.non-prod.n9s.mx'
+  - '*.dev.n9s.mx'
 EOF
 
 
