@@ -95,7 +95,7 @@ metadata:
   name: istio-certs-letsencrypt-staging
 spec:
   dnsNames:
-  - '*.dev.n9s.mx'
+  - '*.${KUBEFLOW_PROJECT}.n9s.mx'
 ---
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
@@ -103,7 +103,7 @@ metadata:
   name: istio-certs-letsencrypt-prod
 spec:
   dnsNames:
-  - '*.dev.n9s.mx'
+  - '*.${KUBEFLOW_PROJECT}.n9s.mx'
 ---
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
@@ -111,7 +111,7 @@ metadata:
   name: istio-certs-self-signed
 spec:
   dnsNames:
-  - '*.dev.n9s.mx'
+  - '*.${KUBEFLOW_PROJECT}.n9s.mx'
 EOF
 
 cat <<EOF >"kustomize/manifests/secrets/istio-system/overlays/${KUBEFLOW_PROJECT}/kustomization.yaml"
@@ -339,7 +339,7 @@ metadata:
   name: istio-ingressgateway
   namespace: istio-system
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: '*.dev.n9s.mx.'
+    external-dns.alpha.kubernetes.io/hostname: '*.${KUBEFLOW_PROJECT}.n9s.mx.'
 spec:
   type: LoadBalancer
   loadBalancerIP: '${ISTIO_INGRESSGATEWAY_LOAD_BALANCER_IP}'
@@ -394,7 +394,7 @@ metadata:
   namespace: istio-system
 data:
   OIDC_AUTH_URL: /dex/auth
-  OIDC_PROVIDER: https://kubeflow.dev.n9s.mx/dex
+  OIDC_PROVIDER: https://kubeflow.${KUBEFLOW_PROJECT}.n9s.mx/dex
   OIDC_SCOPES: profile email groups
   PORT: '"8080"'
   REDIRECT_URL: /login/oidc
@@ -421,7 +421,7 @@ metadata:
   name: dex
 data:
   config.yaml: |
-    issuer: https://kubeflow.dev.n9s.mx/dex
+    issuer: https://kubeflow.${KUBEFLOW_PROJECT}.n9s.mx/dex
     storage:
       type: kubernetes
       config:
@@ -450,7 +450,7 @@ data:
         clientSecret: \$GOOGLE_CLIENT_SECRET
 
         # Dex's issuer URL + "/callback"
-        redirectURI: https://kubeflow.dev.n9s.mx/dex/callback
+        redirectURI: https://kubeflow.${KUBEFLOW_PROJECT}.n9s.mx/dex/callback
         serviceAccountFilePath: /etc/dex/service-account-key/key.json
     - type: github
       id: github
@@ -459,7 +459,7 @@ data:
         # Connector config values starting with a "$" will read from the environment.
         clientID: \$GITHUB_CLIENT_ID
         clientSecret: \$GITHUB_CLIENT_SECRET
-        redirectURI: https://kubeflow.dev.n9s.mx/dex/callback
+        redirectURI: https://kubeflow.${KUBEFLOW_PROJECT}.n9s.mx/dex/callback
 
 EOF
 
@@ -517,7 +517,7 @@ metadata:
   name: config-domain
   namespace: knative-serving
 data:
-  dev.n9s.mx: ""
+  ${KUBEFLOW_PROJECT}.n9s.mx: ""
 ---
 apiVersion: v1
 kind: ConfigMap
