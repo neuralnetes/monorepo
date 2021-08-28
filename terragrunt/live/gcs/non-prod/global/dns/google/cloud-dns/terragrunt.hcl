@@ -24,8 +24,8 @@ inputs = {
       "dev.n9s.mx",
       "dev.neuralnetes.com",
       "kubeflow-${dependency.random_string.outputs.result}.n9s.mx",
-      "kubeflow-${dependency.random_string.outputs.result}.n9s.mx",
-      "management-${dependency.random_string.outputs.result}.neuralnetes.com",
+      "kubeflow-${dependency.random_string.outputs.result}.neuralnetes.com",
+      "management-${dependency.random_string.outputs.result}.n9s.mx",
       "management-${dependency.random_string.outputs.result}.neuralnetes.com",
     ] :
     [
