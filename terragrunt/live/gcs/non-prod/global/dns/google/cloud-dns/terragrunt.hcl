@@ -27,6 +27,7 @@ inputs = {
       "kubeflow-${dependency.random_string.outputs.result}.neuralnetes.com",
       "management-${dependency.random_string.outputs.result}.n9s.mx",
       "management-${dependency.random_string.outputs.result}.neuralnetes.com",
+      "staging.n9s.mx",
     ] :
     [
       for type in ["public"] :
