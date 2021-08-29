@@ -4,7 +4,7 @@ metadata:
   name: config-domain
   namespace: knative-serving
 data:
-  kubeflow-sbsc.n9s.mx: ""
+  staging.n9s.mx: ""
 ---
 apiVersion: v1
 kind: ConfigMap

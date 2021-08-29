@@ -4,7 +4,7 @@ metadata:
   name: dex
 data:
   config.yaml: |
-    issuer: https://kubeflow.kubeflow-sbsc.n9s.mx/dex
+    issuer: https://kubeflow.staging.n9s.mx/dex
     storage:
       type: kubernetes
       config:
@@ -33,7 +33,7 @@ data:
         clientSecret: $GOOGLE_CLIENT_SECRET
 
         # Dex's issuer URL + "/callback"
-        redirectURI: https://kubeflow.kubeflow-sbsc.n9s.mx/dex/callback
+        redirectURI: https://kubeflow.staging.n9s.mx/dex/callback
         serviceAccountFilePath: /etc/dex/service-account-key/key.json
     - type: github
       id: github
@@ -42,5 +42,5 @@ data:
         # Connector config values starting with a "$" will read from the environment.
         clientID: $GITHUB_CLIENT_ID
         clientSecret: $GITHUB_CLIENT_SECRET
-        redirectURI: https://kubeflow.kubeflow-sbsc.n9s.mx/dex/callback
+        redirectURI: https://kubeflow.staging.n9s.mx/dex/callback
 
