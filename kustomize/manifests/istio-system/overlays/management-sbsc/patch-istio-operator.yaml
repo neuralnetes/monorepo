@@ -17,7 +17,7 @@ spec:
           type: LoadBalancer
           loadBalancerIP: '34.66.149.6'
         serviceAnnotations:
-          external-dns.alpha.kubernetes.io/hostname: '*.dev.n9s.mx.'
+          external-dns.alpha.kubernetes.io/hostname: '*.management-sbsc.n9s.mx.'
     egressGateways:
     - name: istio-egressgateway
       enabled: true

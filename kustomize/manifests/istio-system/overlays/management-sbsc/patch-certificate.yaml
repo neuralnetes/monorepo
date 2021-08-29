@@ -4,7 +4,7 @@ metadata:
   name: istio-certs-letsencrypt-staging
 spec:
   dnsNames:
-  - '*.dev.n9s.mx'
+  - '*.management-sbsc.n9s.mx'
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -12,7 +12,7 @@ metadata:
   name: istio-certs-letsencrypt-prod
 spec:
   dnsNames:
-  - '*.dev.n9s.mx'
+  - '*.management-sbsc.n9s.mx'
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -20,4 +20,4 @@ metadata:
   name: istio-certs-self-signed
 spec:
   dnsNames:
-  - '*.dev.n9s.mx'
+  - '*.management-sbsc.n9s.mx'
