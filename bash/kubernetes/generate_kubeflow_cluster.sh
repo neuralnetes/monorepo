@@ -509,7 +509,7 @@ spec:
   template:
     spec:
       containers:
-      - image: quay.io/dexidp/dex:v2.22.0
+      - image: ghcr.io/dexidp/dex:v2.30.0
         name: dex
         command: ["dex", "serve", "/etc/dex/cfg/config.yaml"]
         ports:
