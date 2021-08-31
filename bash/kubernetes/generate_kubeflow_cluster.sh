@@ -405,12 +405,49 @@ data:
   USERID_PREFIX: ""
 EOF
 
+cat <<EOF >"kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/oidc-authservice/base/patch-stateful-set.yaml"
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: authservice
+  namespace: istio-system
+spec:
+  template:
+    spec:
+      containers:
+      - name: authservice
+        image: gcr.io/arrikto/kubeflow/oidc-authservice:6ac9400
+        imagePullPolicy: Always
+        ports:
+        - name: http-api
+          containerPort: 8080
+        envFrom:
+          - secretRef:
+              name: oidc-authservice-client
+          - configMapRef:
+              name: oidc-authservice-parameters
+        env:
+        - name: KUBERNETES_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        volumeMounts:
+          - name: data
+            mountPath: /var/lib/authservice
+        readinessProbe:
+            httpGet:
+              path: /
+              port: 8081
+
+EOF
+
 cat <<EOF >"kustomize/manifests/kubeflow/overlays/${KUBEFLOW_PROJECT}/common/oidc-authservice/base/kustomization.yaml"
 namespace: istio-system
 resources:
 - ../../../../../../kubeflow/base/common/oidc-authservice/base
 patchesStrategicMerge:
 - patch-config-map.yaml
+- patch-stateful-set.yaml
 EOF
 
 ## dex
