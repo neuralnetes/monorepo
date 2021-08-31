@@ -452,7 +452,7 @@ function organization_bootstrap() {
 }
 
 function watch_dns() {
-  url="https://dns.google/resolve?name=kubeflow.dev.${GCP_WORKSPACE_DOMAIN_NAME}&type=A"
+  url="https://dns.google/resolve?name=kubeflow.staging.n9s.mx&type=A"
   command="curl -s '${url}' | jq '.Answer'"
   watch -d -n 2 "${command}"
 }
