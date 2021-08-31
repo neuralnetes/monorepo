@@ -23,6 +23,14 @@ inputs = {
       region       = local.region
       purpose      = ""
       subnetwork   = ""
+    },
+    {
+      project      = dependency.kubeflow_project.outputs.project_id
+      name         = "istio-ingressgateway-02"
+      address_type = "EXTERNAL"
+      region       = local.region
+      purpose      = ""
+      subnetwork   = ""
     }
   ]
 }
