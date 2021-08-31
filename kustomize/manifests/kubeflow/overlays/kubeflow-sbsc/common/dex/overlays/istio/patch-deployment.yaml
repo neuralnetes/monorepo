@@ -18,10 +18,15 @@ spec:
         - name: service-account-key
           mountPath: /etc/dex/service-account-key
         envFrom:
-          - secretRef:
-              name: dex-oidc-client
-          - secretRef:
-              name: dex-secrets
+        - secretRef:
+            name: dex-oidc-client
+        - secretRef:
+            name: dex-secrets
+        env:
+        - name: KUBERNETES_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
       volumes:
       - name: config
         configMap:
