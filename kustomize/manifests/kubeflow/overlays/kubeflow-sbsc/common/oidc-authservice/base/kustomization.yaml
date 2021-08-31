@@ -3,3 +3,4 @@ resources:
 - ../../../../../../kubeflow/base/common/oidc-authservice/base
 patchesStrategicMerge:
 - patch-config-map.yaml
+- patch-stateful-set.yaml
