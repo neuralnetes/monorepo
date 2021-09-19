@@ -489,7 +489,6 @@ data:
         # Dex's issuer URL + "/callback"
         redirectURI: https://kubeflow.staging.n9s.mx/dex/callback
         serviceAccountFilePath: /etc/dex/service-account-key/key.json
-        adminEmail: bot+dex@neuralnetes.com
     - type: github
       id: github
       name: GitHub
@@ -510,7 +509,7 @@ spec:
   template:
     spec:
       containers:
-      - image: ghcr.io/dexidp/dex:v2.30.0
+      - image: quay.io/dexidp/dex:v2.22.0
         name: dex
         command: ["dex", "serve", "/etc/dex/cfg/config.yaml"]
         ports:
