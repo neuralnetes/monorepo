@@ -9,6 +9,7 @@ fi
 source "${GITHUB_WORKSPACE}/bash/workspace/base/functions.sh"
 source "${GITHUB_WORKSPACE}/bash/workspace/base/.envrc-go"
 source "${GITHUB_WORKSPACE}/bash/workspace/base/.envrc-python"
+source "${GITHUB_WORKSPACE}/bash/workspace/base/.envrc-java"
 source "${GITHUB_WORKSPACE}/bash/workspace/base/.envrc-github"
 source "${GITHUB_WORKSPACE}/bash/workspace/base/.envrc-google"
 source "${GITHUB_WORKSPACE}/bash/workspace/base/.envrc-kubernetes"

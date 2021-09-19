@@ -37,6 +37,7 @@ source "\${ZSH}/oh-my-zsh.sh"
 source "${GITHUB_WORKSPACE}/bash/workspace/${OS}-${ARCH}/.envrc-root"
 eval "\$(pyenv init -)"
 eval "\$(pyenv virtualenv-init -)"
+eval "\$(jenv init -)"
 EOF
 }
 
